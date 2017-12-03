@@ -14,15 +14,14 @@
         <module name="BTW-Simulation" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="BTW-DataBase" target="1.5" />
       <module name="BTW-GeoJson" target="1.5" />
       <module name="BTW-Graphics" target="1.5" />
       <module name="BTW-Navigation" target="1.5" />
       <module name="BTW-Objects" target="1.5" />
       <module name="BTW-Project" target="1.5" />
-      <module name="BTW-Simulation" target="1.5" />
-      <module name="btwdb" target="1.5" />
+      <module name="BTW-Simulation" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
