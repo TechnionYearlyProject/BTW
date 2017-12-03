@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BTW-DataBase/BTW-DataBase.iml" filepath="$PROJECT_DIR$/BTW-DataBase/BTW-DataBase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BTW-GeoJson/BTW-GeoJson.iml" filepath="$PROJECT_DIR$/BTW-GeoJson/BTW-GeoJson.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BTW-Graphics/BTW-Graphics.iml" filepath="$PROJECT_DIR$/BTW-Graphics/BTW-Graphics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BTW-Navigation/BTW-Navigation.iml" filepath="$PROJECT_DIR$/BTW-Navigation/BTW-Navigation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BTW-Objects/BTW-Objects.iml" filepath="$PROJECT_DIR$/BTW-Objects/BTW-Objects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BTW-Project.iml" filepath="$PROJECT_DIR$/BTW-Project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BTW-Simulation/BTW-Simulation.iml" filepath="$PROJECT_DIR$/BTW-Simulation/BTW-Simulation.iml" />
+    </modules>
+  </component>
+</project>
