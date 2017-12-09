@@ -11,6 +11,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
+    <orderEntry type="module" module-name="BTW-GeoJson" />
+    <orderEntry type="module" module-name="BTW-Simulation" />
     <orderEntry type="module" module-name="BTW-Objects" />
   </component>
 </module>
