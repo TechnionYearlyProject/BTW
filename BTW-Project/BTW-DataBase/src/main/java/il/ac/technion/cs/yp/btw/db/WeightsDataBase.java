@@ -1,7 +1,6 @@
 package il.ac.technion.cs.yp.btw.db;
 
 import AuxiliaryInformation;
-import il.ac.technion.cs.yp.btw.objects.Weight;
 
 import java.util.List;
 

@@ -1,5 +1,9 @@
 package il.ac.technion.cs.yp;
 
+import il.ac.technion.cs.yp.btw.classes.Crossroad;
+import il.ac.technion.cs.yp.btw.classes.Street;
+import il.ac.technion.cs.yp.btw.mapsimulation.MapSimulator;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
@@ -15,9 +19,23 @@ public class GridCityMapSimulator implements MapSimulator {
     private static final int DEFAULT_START_Y_COORDINATE = 0;
     private Set<TrafficLight> trafficLights;
     private Set<Road> roads;
-    private Set<CrossRoad> crossRoads;
+    private Set<Crossroad> crossRoads;
     private Set<CentralLocation> centralLocations;
+    Point avenueRoadAdvance(Point p){
+        return new Point(p.getCoordinateX(),p.getCoordinateY()+1);
+    }
 
+    Point avenueSectionAdvance(Point p){
+        return new Point(p.getCoordinateX()+1,p.getCoordinateY());
+    }
+
+    Point streetRoadAdvance(Point p){
+        return new Point(p.getCoordinateX()+1,p.getCoordinateY());
+    }
+
+    Point streetSectionAdvance(Point p){
+        return new Point(p.getCoordinateX(),p.getCoordinateY()+1);
+    }
     /**
      * by using the constructor, the city simulation
      * is taking place
@@ -39,7 +57,7 @@ public class GridCityMapSimulator implements MapSimulator {
      */
     GridCityMapSimulator() {
         this.roads = new HashSet<Road>();
-        this.crossRoads = new HashSet<CrossRoad>();
+        this.crossRoads = new HashSet<Crossroad>();
         int numOfStreets = DEFAULT_NUM_OF_STREETS;
         int numOfAvenues = DEFAULT_NUM_OF_AVENUES;
         int streetLength = DEFAULT_ROAD_LENGTH;
@@ -52,29 +70,15 @@ public class GridCityMapSimulator implements MapSimulator {
         addRoadsByDirection(numOfStreets, numOfAvenues
                 , streetLength, avenueLength
                 , roadBaseName, startXCoordinate, startYCoordinate
-        ,streetRoadAdvance,streetSectionAdvance);
+        ,this::streetRoadAdvance,this::streetSectionAdvance);
         roadBaseName = "avenue";
         addRoadsByDirection(numOfAvenues, numOfStreets
                 , avenueLength,streetLength
                 , roadBaseName, startXCoordinate, startYCoordinate
-                ,avenueRoadAdvance ,avenueSectionAdvance);
+                ,this::avenueRoadAdvance ,this::avenueSectionAdvance);
     }
 
-    Point avenueRoadAdvance(Point p){
-        return new Point(p.getCoordinateX(),p.getCoordinateY()+1);
-    }
 
-    Point avenueSectionAdvance(Point p){
-        return new Point(p.getCoordinateX()+1,p.getCoordinateY());
-    }
-
-    Point streetRoadAdvance(Point p){
-        return new Point(p.getCoordinateX()+1,p.getCoordinateY());
-    }
-
-    Point streetSectionAdvance(Point p){
-        return new Point(p.getCoordinateX(),p.getCoordinateY()+1);
-    }
 
     private void addRoadsByDirection(int numOfRoads, int numOfSections, int sectionLength, int roadsDistance
             , String roadBaseName, int startXCoordinate, int startYCoordinate
@@ -103,7 +107,7 @@ public class GridCityMapSimulator implements MapSimulator {
         int yCoordinate = 0;
         for (int streetNumber = 1; streetNumber <= numOfStreets; streetNumber++) {
             for (int streetSection = 1; streetSection <= numOfAvenues; streetSection++) {
-                CrossRoad currCrossRoad = new CrossRoad(xCoordinate, yCoordinate);
+                Crossroad currCrossRoad = new Crossroad(null, null);//TODO adjust to new objects
                 this.crossRoads.add(currCrossRoad);
                 xCoordinate += streetLength;
             }
@@ -131,7 +135,7 @@ public class GridCityMapSimulator implements MapSimulator {
      * @return Set of the simulated map's
      * cross roads
      */
-    public Set<CrossRoad> getCrossRoads() {
+    public Set<Crossroad> getCrossRoads() {
         return this.crossRoads;
     }
 
@@ -141,5 +145,14 @@ public class GridCityMapSimulator implements MapSimulator {
      */
     public Set<CentralLocation> getCentralLocations() {
         return this.centralLocations;
+    }
+
+    /**
+     * @return Set of the simulated map's
+     * central locations
+     */
+    @Override
+    public Set<Street> getStreets() {
+        return null;
     }
 }

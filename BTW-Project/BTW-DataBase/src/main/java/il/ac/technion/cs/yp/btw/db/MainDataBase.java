@@ -29,7 +29,7 @@ public class MainDataBase{
                                 "databaseName=BTW" +
                                 "integratedSecurity=true;";
 
-        // Declare the JDBC objects.
+        // Declare the JDBC classes.
         Connection con = null; //this variable is responsible for the connection to the server.
         Statement stmt = null;
         ResultSet rs = null;
