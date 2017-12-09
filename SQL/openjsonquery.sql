@@ -230,20 +230,35 @@ SET @json =
     } 
   ]
 }'
-
-SELECT * FROM OPENJSON(@json, '$.features')
+/* PLACE */
+SELECT nameId, placeAddress, pointx, pointy FROM OPENJSON(@json, '$.features')
 WITH (
 	typeoftoken varchar(20) '$.geometry.type',
-	nameoftoken varchar(30) '$.properties.name',
-	addressoftoken varchar(30) '$.properties.address'
-	) WHERE (typeoftoken = 'Point' and addressoftoken is not null);
+	nameId varchar(30) '$.properties.name',
+	placeAddress varchar(30) '$.properties.address',
+	pointx varchar(10) '$.geometry.coordinates[0]',
+	pointy varchar(10) '$.geometry.coordinates[1]'
+	 
+	) WHERE (typeoftoken = 'Point' and placeAddress is not null);
 
-	SELECT * FROM OPENJSON(@json, '$.features')
+/* ROAD	*/
+SELECT nameId,pointAx,pointAy,pointBx,pointBy FROM OPENJSON(@json, '$.features')
 WITH (
 	typeoftoken varchar(20) '$.geometry.type',
-	pointAx varchar(10) '$.geometry.coordinates[0][1]',
+	pointAx varchar(10) '$.geometry.coordinates[0][0]',
 	pointAy varchar(10) '$.geometry.coordinates[0][1]',
 	pointBx varchar(10) '$.geometry.coordinates[1][0]',
 	pointBy varchar(10) '$.geometry.coordinates[1][1]',
-	nameoftoken varchar(30) '$.properties.name'
+	nameId varchar(30) '$.properties.name'
 	) WHERE (typeoftoken = 'LineString');
+
+/* TrafficLight */
+SELECT nameId, pointx, pointy FROM OPENJSON(@json, '$.features')
+WITH (
+	typeoftoken varchar(20) '$.geometry.type',
+	nameId varchar(30) '$.properties.name',
+	placeAddress varchar(30) '$.properties.address',
+	pointx varchar(10) '$.geometry.coordinates[0]',
+	pointy varchar(10) '$.geometry.coordinates[1]'
+	 
+	) WHERE (typeoftoken = 'Point' and placeAddress is null);

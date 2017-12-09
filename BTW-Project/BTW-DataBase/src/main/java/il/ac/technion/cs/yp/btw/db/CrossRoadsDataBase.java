@@ -2,7 +2,7 @@ package il.ac.technion.cs.yp.btw.db;
 
 import java.lang.String;
 import java.util.List;
-import il.ac.technion.cs.yp.btw.objects.CrossRoad;
+
 import AuxiliaryInformation;
 
 /*cross roads is an intersection of roads*/
