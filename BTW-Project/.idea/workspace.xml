@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fe557bea-6c5c-4f8f-9ab5-b5f44cbe3f1f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-DataBase/BTW-DataBase.iml" afterPath="$PROJECT_DIR$/BTW-DataBase/BTW-DataBase.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-GeoJson/BTW-GeoJson.iml" afterPath="$PROJECT_DIR$/BTW-GeoJson/BTW-GeoJson.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Navigation/BTW-Navigation.iml" afterPath="$PROJECT_DIR$/BTW-Navigation/BTW-Navigation.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Simulation/BTW-Simulation.iml" afterPath="$PROJECT_DIR$/BTW-Simulation/BTW-Simulation.iml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -679,12 +675,20 @@
       <workItem from="1512240345832" duration="1340000" />
       <workItem from="1512252873847" duration="4881000" />
       <workItem from="1512263745260" duration="16164000" />
-      <workItem from="1512835852506" duration="476000" />
+      <workItem from="1512835852506" duration="598000" />
     </task>
+    <task id="LOCAL-00001" summary="Checking IntelliJ integration">
+      <created>1512836386915</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1512836386915</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22861000" />
+    <option name="totallyTimeSpent" value="22983000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -752,6 +756,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Checking IntelliJ integration" />
+    <option name="LAST_COMMIT_MESSAGE" value="Checking IntelliJ integration" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
