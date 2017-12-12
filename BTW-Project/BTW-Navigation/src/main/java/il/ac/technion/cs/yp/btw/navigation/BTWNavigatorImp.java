@@ -1,9 +1,9 @@
 package il.ac.technion.cs.yp.btw.navigation;
 
+import com.google.common.graph.MutableValueGraph;
+import com.google.common.graph.ValueGraphBuilder;
 import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.classes.Street;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
-import il.ac.technion.cs.yp.btw.db.BTWDataBase;
 
 import java.util.List;
 import java.util.Set;
@@ -11,38 +11,35 @@ import java.util.Set;
 /**
  * Created by orelk_000 on 10/12/2017.
  */
-public class BTWNavigatorImp extends BTWNavigator {
+public class BTWNavigatorImp implements BTWNavigator {
 
     private final BTWDataBase Database;
+    private MutableValueGraph<Road, Long> graph;
 
-    public BTWNavigatorImpl(BTWDataBase db) {
+    @Override
+    public long calculateRouteTime(List<Road> route, double ratioSourceRoad, double ratioTargetRoad) {
+        return 0;
+    }
+
+    public BTWNavigatorImp(BTWDataBase db) {
         this.Database = db;
+        initGraph();
     }
 
-    private int parseStringToStreetNumber(String str) {
-        //TODO: find out the format and parse accordingly
-        return str.length();
-    }
-
-    private Road getRoadFromString(String str) {
-        Street s = Database.getStreetByName(str);
-        return s.getRoadByStreetNumber(parseStringToStreetNumber(str));
+    private void initGraph() {
+        graph = ValueGraphBuilder.directed().build();
+        Set<TrafficLight> edges = Database.getAllTrafficLights();
+        for(TrafficLight edge : edges) {
+            graph.putEdgeValue(edge.getSourceRoad(), edge.getDestinationRoad(),
+                    edge.getCurrentWeight().getWeightValue());
+        }
     }
 
     @Override
-    public List<Road> navigate(String source, String target) {
-        Set<TrafficLight> edges = Database.getAllTrafficLights();
-        Road sourceRoad = getRoadFromString(source);
-        Road targetRoad = getRoadFromString(target);
-        MutableValueGraph<Road, Long> graph = ValueGraphBuilder.directed().build();
-        for(TrafficLight edge : edges) {
-            graph.putEdgeValue(edge.getSourceRoad(), edge.getDestinationRoad(), edge.getCurrentWeight().getWeight());
-        }
-        return navigationAlgorithm(MutableValueGraph graph, sourceRoad, targetRoad);
+    public List<Road> navigate(Road source, Road target) {
+        //TODO - maybe update the graph in some way
+        return null;
     }
 
-    private List<Road> navigationAlgorithm(MutableValueGraph graph, Road sourceRoad, Road targetRoad) {
-        //TODO: implement navigation algorithm
-    }
 
 }

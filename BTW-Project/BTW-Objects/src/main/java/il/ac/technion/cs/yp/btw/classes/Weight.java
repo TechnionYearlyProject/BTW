@@ -8,7 +8,7 @@ public interface Weight {
     /**
      * @return the weight value in long
      */
-    long getWeight();
+    long getWeightValue();
 
     /**
      * @param length - road length

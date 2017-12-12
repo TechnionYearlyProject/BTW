@@ -10,8 +10,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="btw-simulation" />
+    <orderEntry type="module" module-name="btw-objects" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
-    <orderEntry type="module" module-name="BTW-Simulation" />
-    <orderEntry type="module" module-name="BTW-Objects" />
+    <orderEntry type="module" module-name="btw-simulation" />
+    <orderEntry type="module" module-name="btw-objects" />
   </component>
 </module>

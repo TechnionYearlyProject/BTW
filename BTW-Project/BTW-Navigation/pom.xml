@@ -31,7 +31,7 @@
         </dependency>
         <dependency>
             <groupId>il.ac.technion.cs.yp</groupId>
-            <artifactId>btw-db</artifactId>
+            <artifactId>btw-objects</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

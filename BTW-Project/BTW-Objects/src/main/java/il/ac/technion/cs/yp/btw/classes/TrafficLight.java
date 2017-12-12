@@ -9,7 +9,7 @@ import java.sql.Time;
 public class TrafficLight extends PointAbstract {
     private Road sourceRoad;
     private Road destinationRoad;
-    TrafficLight(Point pos, Road sourceRoad,Road destinationRoad) {
+    public TrafficLight(Point pos, Road sourceRoad,Road destinationRoad) {
         super(pos);
         this.sourceRoad = sourceRoad;
         this.destinationRoad = destinationRoad;
@@ -20,7 +20,7 @@ public class TrafficLight extends PointAbstract {
      * in the format:
      * from:@getSourceRoad() to:@getDestinationRoad()
      */
-    String getName(){return
+    public String getName(){return
             "from:"+getSourceRoad().getRoadName()
                     +" to:"+getDestinationRoad().getRoadName();
     }
@@ -28,12 +28,12 @@ public class TrafficLight extends PointAbstract {
      * @return the Road you got from to this
      *         TrafficLight
      */
-    Road getSourceRoad(){return this.sourceRoad;}
+    public Road getSourceRoad(){return this.sourceRoad;}
     /**
      * @return the destination Road you
      *         go to from this TrafficLight
      */
-    Road getDestinationRoad(){return this.destinationRoad;}
+    public Road getDestinationRoad(){return this.destinationRoad;}
     /**
      * returns the right Weight for the given Time
      * @param time - Time we want to check the load
@@ -41,15 +41,15 @@ public class TrafficLight extends PointAbstract {
      * @return Weight of this TrafficLight according
      *         to the given Time
      */
-    Weight getWeightByTime(Time time){return null;}
+    public Weight getWeightByTime(Time time){return null;}
 
     /**
      * @return minimum possible Weight of TrafficLight
      */
-    Weight getMinimumWeight(){return null;}
+    public Weight getMinimumWeight(){return null;}
 
     /**
      * @return current Weight on this TrafficLight
      */
-    Weight getCurrentWeight(){return null;}
+    public Weight getCurrentWeight(){return null;}
 }
