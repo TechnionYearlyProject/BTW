@@ -1,0 +1,4 @@
+#ignore
+**/target/
+BTW-Project/.idea/
+**.iml
