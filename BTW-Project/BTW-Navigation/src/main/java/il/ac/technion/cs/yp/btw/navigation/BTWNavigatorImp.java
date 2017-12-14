@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by orelk_000 on 10/12/2017.
+ * The main navigation logic
  */
 public class BTWNavigatorImp implements BTWNavigator {
 
@@ -28,11 +28,13 @@ public class BTWNavigatorImp implements BTWNavigator {
 
     private void initGraph() {
         graph = ValueGraphBuilder.directed().build();
-        Set<TrafficLight> edges = Database.getAllTrafficLights();
-        for(TrafficLight edge : edges) {
-            graph.putEdgeValue(edge.getSourceRoad(), edge.getDestinationRoad(),
-                    edge.getCurrentWeight().getWeightValue());
-        }
+        Database.getAllTrafficLights()
+                .forEach(edge -> {
+                    Road src = edge.getSourceRoad();
+                    graph.putEdgeValue(src,
+                            edge.getDestinationRoad(),
+                            edge.getCurrentWeight().getWeightValue() + src.getRoadLength());
+                });
     }
 
     @Override
