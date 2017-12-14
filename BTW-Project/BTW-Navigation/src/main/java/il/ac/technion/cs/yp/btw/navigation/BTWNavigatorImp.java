@@ -1,5 +1,6 @@
 package il.ac.technion.cs.yp.btw.navigation;
 
+import com.google.common.graph.ImmutableValueGraph;
 import com.google.common.graph.MutableValueGraph;
 import com.google.common.graph.ValueGraphBuilder;
 import il.ac.technion.cs.yp.btw.classes.Road;
@@ -14,7 +15,7 @@ import java.util.Set;
 public class BTWNavigatorImp implements BTWNavigator {
 
     private final BTWDataBase Database;
-    private MutableValueGraph<Road, Long> graph;
+    private ImmutableValueGraph<Road, Long> graph;
 
     @Override
     public long calculateRouteTime(List<Road> route, double ratioSourceRoad, double ratioTargetRoad) {
@@ -27,14 +28,15 @@ public class BTWNavigatorImp implements BTWNavigator {
     }
 
     private void initGraph() {
-        graph = ValueGraphBuilder.directed().build();
+        MutableValueGraph<Road, Long> tmpGraph = ValueGraphBuilder.directed().build();
         Database.getAllTrafficLights()
                 .forEach(edge -> {
                     Road src = edge.getSourceRoad();
-                    graph.putEdgeValue(src,
+                    tmpGraph.putEdgeValue(src,
                             edge.getDestinationRoad(),
-                            edge.getCurrentWeight().getWeightValue() + src.getRoadLength());
+                            edge.getMinimumWeight().getWeightValue() + src.getRoadLength());
                 });
+        graph = ImmutableValueGraph.copyOf(tmpGraph);
     }
 
     @Override
