@@ -3,7 +3,7 @@ package il.ac.technion.cs.yp.btw.navigation;
 import il.ac.technion.cs.yp.btw.classes.CentralLocation;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.Street;
-import il.ac.technion.cs.yp.btw.classes.TrafficLight;
+import il.ac.technion.cs.yp.btw.classes.TrafficLightImpl;
 
 import java.util.Set;
 
@@ -15,7 +15,7 @@ public interface BTWDataBase {
     /**
      * @return Set of all TrafficLights in the system
      */
-    Set<TrafficLight> getAllTrafficLights();
+    Set<TrafficLightImpl> getAllTrafficLights();
 
     /**
      * @param streetName - name of a street

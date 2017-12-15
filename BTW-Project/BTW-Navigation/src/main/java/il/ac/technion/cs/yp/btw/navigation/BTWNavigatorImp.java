@@ -4,10 +4,8 @@ import com.google.common.graph.ImmutableValueGraph;
 import com.google.common.graph.MutableValueGraph;
 import com.google.common.graph.ValueGraphBuilder;
 import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * The main navigation logic

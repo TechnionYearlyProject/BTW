@@ -73,7 +73,15 @@ public class RoadImpl implements Road {
     }
 
     /**
-     * @return the Crossroad this Road starts in
+     * @return minimum possible Weight of Road
+     */
+    @Override
+    public Weight getMinimumWeight() {
+        return null;//TODO
+    }
+
+    /**
+     * @return the CrossroadImpl this Road starts in
      */
     @Override
     public Crossroad getSourceCrossroad() {
@@ -81,7 +89,7 @@ public class RoadImpl implements Road {
     }
 
     /**
-     * @return the Crossroad this Road ends
+     * @return the CrossroadImpl this Road ends
      */
     @Override
     public Crossroad getDestinationCrossroad() {

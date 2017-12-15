@@ -41,11 +41,16 @@ public interface Road {
     Weight getWeightByTime(Time time);
 
     /**
-     * @return the Crossroad this Road starts in
+     * @return minimum possible Weight of Road
+     */
+    Weight getMinimumWeight();
+
+    /**
+     * @return the CrossroadImpl this Road starts in
      */
     Crossroad getSourceCrossroad();
     /**
-     * @return the Crossroad this Road ends
+     * @return the CrossroadImpl this Road ends
      */
     Crossroad getDestinationCrossroad();
 }
