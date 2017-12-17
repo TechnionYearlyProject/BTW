@@ -94,4 +94,11 @@ public class RoadImpl implements Road {
     public Crossroad getDestinationCrossroad() {
         return null;
     }
+    /**
+     * @return the Range of this Road
+     */
+    @Override
+    public Range getRoadRange(){
+        return null;
+    }
 }

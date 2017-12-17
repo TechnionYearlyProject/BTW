@@ -53,4 +53,9 @@ public interface Road {
      * @return the CrossroadImpl this Road ends
      */
     Crossroad getDestinationCrossroad();
+
+    /**
+     * @return the Range of this Road
+     */
+    Range getRoadRange();
 }

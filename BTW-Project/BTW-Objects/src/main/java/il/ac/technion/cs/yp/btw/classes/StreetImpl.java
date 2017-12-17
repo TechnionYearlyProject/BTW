@@ -29,4 +29,11 @@ public class StreetImpl implements Street {
     public String getStreetName() {
         return this.name;
     }
+    /**
+     * @return the Range of this Street
+     */
+    @Override
+    public Range getStreetRange(){
+        return null;
+    }
 }

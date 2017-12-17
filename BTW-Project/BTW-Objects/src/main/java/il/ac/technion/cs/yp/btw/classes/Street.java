@@ -32,4 +32,8 @@ public interface Street {
      * @return this Street's unique name
      */
     String getStreetName();
+    /**
+     * @return the Range of this Street
+     */
+    Range getStreetRange();
 }
