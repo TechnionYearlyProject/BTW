@@ -6,13 +6,13 @@
   <artifactId>better-than-waze</artifactId>
   <version>1.0-SNAPSHOT</version>
   <modules>
-    <module>btwdb</module>
     <module>BTW-DataBase</module>
-      <module>BTW-Navigation</module>
-      <module>BTW-Objects</module>
+    <module>BTW-Navigation</module>
+    <module>BTW-Objects</module>
     <module>BTW-Graphics</module>
     <module>BTW-Simulation</module>
     <module>BTW-GeoJson</module>
+    <module>BTW-Application</module>
   </modules>
   <packaging>pom</packaging>
 
