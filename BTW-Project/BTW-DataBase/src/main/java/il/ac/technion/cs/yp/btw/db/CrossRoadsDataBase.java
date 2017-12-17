@@ -2,8 +2,7 @@ package il.ac.technion.cs.yp.btw.db;
 
 import java.lang.String;
 import java.util.List;
-
-import AuxiliaryInformation;
+import il.ac.technion.cs.yp.btw.classes.Crossroad;
 
 /*cross roads is an intersection of roads*/
 public class CrossRoadsDataBase {
@@ -13,19 +12,19 @@ public class CrossRoadsDataBase {
 
     }
 
-    public List<CrossRoad> getAllCrossRoads(){
-
+    public List<Crossroad> getAllCrossRoads(){
+        return null;
     }
 
-    public CrossRoad getCrossRoad(int id){
-
+    public Crossroad getCrossRoad(int id){
+        return null;
     }
 
-    public CrossRoad getCrossRoad(String name){
-
+    public Crossroad getCrossRoad(String name){
+        return null;
     }
 
-    public void addCrossRoad(CrossRoad crossRoad){
+    public void addCrossRoad(Crossroad crossRoad){
 
     }
 

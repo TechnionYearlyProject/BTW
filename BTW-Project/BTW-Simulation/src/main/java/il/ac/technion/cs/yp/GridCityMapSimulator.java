@@ -1,6 +1,8 @@
 package il.ac.technion.cs.yp;
 
 import il.ac.technion.cs.yp.btw.classes.Crossroad;
+import il.ac.technion.cs.yp.btw.classes.CrossroadImpl;
+import il.ac.technion.cs.yp.btw.classes.PointImpl;
 import il.ac.technion.cs.yp.btw.classes.Street;
 import il.ac.technion.cs.yp.btw.mapsimulation.MapSimulator;
 
@@ -107,7 +109,7 @@ public class GridCityMapSimulator implements MapSimulator {
         int yCoordinate = 0;
         for (int streetNumber = 1; streetNumber <= numOfStreets; streetNumber++) {
             for (int streetSection = 1; streetSection <= numOfAvenues; streetSection++) {
-                Crossroad currCrossRoad = new Crossroad(null, null);//TODO adjust to new objects
+                Crossroad currCrossRoad = new CrossroadImpl(new PointImpl(xCoordinate, yCoordinate));//TODO adjust to new objects
                 this.crossRoads.add(currCrossRoad);
                 xCoordinate += streetLength;
             }
