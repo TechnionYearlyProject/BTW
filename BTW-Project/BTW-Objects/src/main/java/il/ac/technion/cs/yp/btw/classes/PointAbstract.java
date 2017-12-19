@@ -6,7 +6,7 @@ package il.ac.technion.cs.yp.btw.classes;
 public abstract class PointAbstract implements Point {
     private int coordinateX;
     private int coordinateY;
-    PointAbstract(int coordinateX, int coordinateY){
+    public PointAbstract(int coordinateX, int coordinateY){
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
     }
