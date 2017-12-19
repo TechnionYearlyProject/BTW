@@ -7,12 +7,12 @@ import java.sql.Time;
  * transition between two different Roads
  */
 public class TrafficLightImpl extends PointAbstract implements TrafficLight {
-    private Road sourceRoad;
-    private Road destinationRoad;
+    private String sourceRoadId;
+    private String destinationRoadId;
     public TrafficLightImpl(Point pos, Road sourceRoad, Road destinationRoad) {
         super(pos);
-        this.sourceRoad = sourceRoad;
-        this.destinationRoad = destinationRoad;
+        this.sourceRoadId = sourceRoadId;
+        this.destinationRoadId = destinationRoadId;
     }
 
     /**
@@ -31,14 +31,14 @@ public class TrafficLightImpl extends PointAbstract implements TrafficLight {
      *         TrafficLightImpl
      */
     @Override
-    public Road getSourceRoad(){return this.sourceRoad;}
+    public Road getSourceRoad(){return null;}
 
     /**
      * @return the destination Road you
      *         go to from this TrafficLightImpl
      */
     @Override
-    public Road getDestinationRoad(){return this.destinationRoad;}
+    public Road getDestinationRoad(){return null;}
 
     /**
      * returns the right Weight for the given Time

@@ -4,8 +4,9 @@ import java.sql.ResultSet;
 
 public abstract class Query {
     static protected String query;
-    public Query(){
-
+    static protected String mapName = "";
+    public Query(String mapName){
+        this.mapName = mapName;
     }
     public String getQuery(){
         return query;

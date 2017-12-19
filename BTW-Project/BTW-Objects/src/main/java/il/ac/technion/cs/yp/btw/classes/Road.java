@@ -27,10 +27,10 @@ public interface Road {
     String getRoadName();
 
     /**
-     * @return the Street this Road is in
+     * @return the street this Road is in
      */
     Street getStreet();
-
+    
     /**
      * returns the right Weight for the given Time
      * @param time - Time we want to check the load

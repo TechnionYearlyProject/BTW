@@ -9,20 +9,20 @@ import java.util.Set;
  */
 public class StreetImpl implements Street {
     private String name;
-    private Set<Road> roads;
+    private Set<String> roadIds;
 
     public StreetImpl (String name){
-        this(name,new HashSet<Road>());
+        this(name,new HashSet<String>());
     }
 
-    public StreetImpl (String name, Set<Road> roads){
+    public StreetImpl (String name, Set<String> roadIds){
         this.name = name;
-        this.roads = roads;
+        this.roadIds = roadIds;
     }
 
     @Override
     public Set<Road> getAllRoadsInStreet() {
-        return this.roads;
+        return null;
     }
 
     @Override

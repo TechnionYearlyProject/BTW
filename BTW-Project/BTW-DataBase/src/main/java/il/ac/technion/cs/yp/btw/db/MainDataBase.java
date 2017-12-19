@@ -27,7 +27,7 @@ public class MainDataBase{
     */
 
     /*the return value must be closed after the use is done*/
-    private ResultSet connectToDataBaseServer(Query query){
+    private Object queryDataBaseServer(Query query){
 
         // Connect to database
         String url = String.format("jdbc:sqlserver://btwserver.database.windows.net:1433;" +
@@ -41,6 +41,7 @@ public class MainDataBase{
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
+        Object result = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url);
@@ -48,6 +49,7 @@ public class MainDataBase{
             statement = connection.createStatement();
             try {
                 resultSet = statement.executeQuery(query.getQuery());
+                result = query.arrangeRecievedData(resultSet);
             }catch(Exception e){
                 System.out.println("failed to to execute query" + query.getClass().getName());
             }
@@ -69,31 +71,39 @@ public class MainDataBase{
                     System.out.println("failed to close statement for query " + query.getClass().getName());
                 }
             }
-        }
-
-        return resultSet;
-    }
-
-    /*the sell for the query example*/
-    public Object queryDataBase(Query query){
-        ResultSet resultSet= null;
-        Object result = null;
-        //String query = "SELECT * FROM Production.Product;";
-        try{
-            resultSet = connectToDataBaseServer(query);
-            result = query.arrangeRecievedData(resultSet);
-
-        }catch (Exception e) {
-            e.printStackTrace();
-        }finally{
             if (resultSet != null){
                 try {
-                    resultSet.close();
+                    //  resultSet.close();
                 } catch(Exception e) {
                     System.out.println("failed to close result set for query " + query.getClass().getName());
                 }
             }
         }
+
+        return result;
+    }
+
+    /*the sell for the query example*/
+    public Object queryDataBase(Query query){
+       // ResultSet resultSet= null;
+        Object result = null;
+        //String query = "SELECT * FROM Production.Product;";
+        try{
+            //resultSet = connectToDataBaseServer(query);
+            //result = query.arrangeRecievedData(resultSet);
+            result = queryDataBaseServer(query);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }/*finally{
+            if (resultSet != null){
+                try {
+                  //  resultSet.close();
+                } catch(Exception e) {
+                    System.out.println("failed to close result set for query " + query.getClass().getName());
+                }
+            }
+        }*/
         return result;
     }
 

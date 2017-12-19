@@ -2,12 +2,14 @@ package il.ac.technion.cs.yp.btw.classes;
 
 import java.util.HashSet;
 import java.util.Set;
-
+import java.lang.Long;
 /**
  * Point on a road map which represents
  * all TrafficLights located at the same point
  */
 public class CrossroadImpl extends PointAbstract implements Crossroad {
+    private static Long recentID = new Long(0);
+    private String id;
     private Set<TrafficLight> trafficLights;
     public CrossroadImpl(Point position) {
         this(position,new HashSet<TrafficLight>());
@@ -16,6 +18,8 @@ public class CrossroadImpl extends PointAbstract implements Crossroad {
                          Set<TrafficLight> trafficLights) {
         super(position);
         this.trafficLights = trafficLights;
+        this.id = recentID.toString();
+        recentID++;
     }
 
     /**

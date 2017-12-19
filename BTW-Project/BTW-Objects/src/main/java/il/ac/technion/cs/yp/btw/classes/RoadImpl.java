@@ -8,19 +8,19 @@ import java.sql.Time;
 public class RoadImpl implements Road {
     private String name;
     private int roadLength;
-    private Street myStreet;
-    private Crossroad sourceCrossroad;
-    private Crossroad destinationCrossroad;
+    private String myStreet;
+    private String sourceCrossroadId;
+    private String destinationCrossroadId;
 
     public RoadImpl(String name, int roadLength,
-                    Street myStreet,
-                    Crossroad sourceCrossroad,
-                    Crossroad destinationCrossroad){
+                    String myStreet,
+                    String sourceCrossroadId,
+                    String destinationCrossroadId){
         this.name = name;
         this.roadLength = roadLength;
         this.myStreet = myStreet;
-        this.sourceCrossroad = sourceCrossroad;
-        this.destinationCrossroad = destinationCrossroad;
+        this.sourceCrossroadId = sourceCrossroadId;
+        this.destinationCrossroadId = destinationCrossroadId;
     }
     /**
      * returns true if the given street number is part
@@ -52,13 +52,12 @@ public class RoadImpl implements Road {
     }
 
     /**
-     * @return the Street this Road is in
+     * @return the street this Road is in
      */
-    @Override
+    @override
     public Street getStreet() {
-        return this.myStreet;
+        return null;
     }
-
     /**
      * returns the right Weight for the given Time
      *
@@ -85,7 +84,7 @@ public class RoadImpl implements Road {
      */
     @Override
     public Crossroad getSourceCrossroad() {
-        return this.sourceCrossroad;
+        return null;
     }
 
     /**
@@ -93,6 +92,6 @@ public class RoadImpl implements Road {
      */
     @Override
     public Crossroad getDestinationCrossroad() {
-        return this.destinationCrossroad;
+        return null;
     }
 }
