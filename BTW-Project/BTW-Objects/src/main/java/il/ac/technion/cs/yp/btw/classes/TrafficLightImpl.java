@@ -9,10 +9,12 @@ import java.sql.Time;
 public class TrafficLightImpl extends PointAbstract implements TrafficLight {
     private String sourceRoadId;
     private String destinationRoadId;
-    public TrafficLightImpl(Point pos, Road sourceRoad, Road destinationRoad) {
+    private String overload;
+    public TrafficLightImpl(Point pos, String sourceRoadId, String destinationRoadId, String overload) {
         super(pos);
         this.sourceRoadId = sourceRoadId;
         this.destinationRoadId = destinationRoadId;
+        this.overload = overload;
     }
 
     /**

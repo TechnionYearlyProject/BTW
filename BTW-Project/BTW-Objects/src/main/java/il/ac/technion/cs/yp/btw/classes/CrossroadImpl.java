@@ -9,17 +9,14 @@ import java.lang.Long;
  */
 public class CrossroadImpl extends PointAbstract implements Crossroad {
 
-    private String id;
     private Set<TrafficLight> trafficLights;
     public CrossroadImpl(Point position) {
         this(position,new HashSet<TrafficLight>());
-        this.id = "(" + position.getCoordinateX() + "," + position.getCoordinateY() + ")" ;
     }
     public CrossroadImpl(Point position,
                          Set<TrafficLight> trafficLights) {
         super(position);
         this.trafficLights = trafficLights;
-        this.id = "(" + position.getCoordinateX() + "," + position.getCoordinateY() + ")" ;
     }
 
     /**
@@ -43,4 +40,5 @@ public class CrossroadImpl extends PointAbstract implements Crossroad {
     public String toString() {
         return super.toString();
     }
+
 }

@@ -16,4 +16,5 @@ public interface Crossroad {
      * @param tl - the TrafficLightImpl being added
      */
     void addTrafficLight(TrafficLight tl);
+
 }

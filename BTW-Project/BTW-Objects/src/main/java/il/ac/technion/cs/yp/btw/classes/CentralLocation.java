@@ -13,7 +13,7 @@ public class CentralLocation extends PolygonAbstract {
         this(new HashSet<Point>(), name);
     }
 
-    CentralLocation(Set<Point> vertices, String name) {
+    public CentralLocation(Set<Point> vertices, String name) {
         super(vertices);
         this.name = name;
     }

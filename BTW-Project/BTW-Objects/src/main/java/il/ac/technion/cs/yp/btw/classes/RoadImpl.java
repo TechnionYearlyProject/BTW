@@ -9,13 +9,13 @@ public class RoadImpl implements Road {
     private String name;
     private int roadLength;
     private String myStreet;
-    private String sourceCrossroadId;
-    private String destinationCrossroadId;
+    private Point sourceCrossroadId;
+    private Point destinationCrossroadId;
 
     public RoadImpl(String name, int roadLength,
                     String myStreet,
-                    String sourceCrossroadId,
-                    String destinationCrossroadId){
+                    Point sourceCrossroadId,
+                    Point destinationCrossroadId){
         this.name = name;
         this.roadLength = roadLength;
         this.myStreet = myStreet;
