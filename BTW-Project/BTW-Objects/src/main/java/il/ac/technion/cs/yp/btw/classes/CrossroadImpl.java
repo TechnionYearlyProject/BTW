@@ -8,18 +8,18 @@ import java.lang.Long;
  * all TrafficLights located at the same point
  */
 public class CrossroadImpl extends PointAbstract implements Crossroad {
-    private static Long recentID = new Long(0);
+
     private String id;
     private Set<TrafficLight> trafficLights;
     public CrossroadImpl(Point position) {
         this(position,new HashSet<TrafficLight>());
+        this.id = "(" + position.getCoordinateX() + "," + position.getCoordinateY() + ")" ;
     }
     public CrossroadImpl(Point position,
                          Set<TrafficLight> trafficLights) {
         super(position);
         this.trafficLights = trafficLights;
-        this.id = recentID.toString();
-        recentID++;
+        this.id = "(" + position.getCoordinateX() + "," + position.getCoordinateY() + ")" ;
     }
 
     /**
