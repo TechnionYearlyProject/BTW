@@ -36,4 +36,14 @@ public class StreetImpl implements Street {
     public Range getStreetRange(){
         return null;
     }
+
+    /**
+     * adds a Road to this Street
+     *
+     * @param rd - the Road to add to the Street
+     */
+    @Override
+    public void addRoad(Road rd) {
+        this.roads.add(rd);
+    }
 }

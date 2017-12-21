@@ -7,20 +7,20 @@ import java.sql.Time;
  */
 public class RoadImpl implements Road {
     private String name;
-    private int roadLength;
-    private String myStreet;
-    private Point sourceCrossroadId;
-    private Point destinationCrossroadId;
+    private double roadLength;
+    private Street myStreet;
+    private Crossroad sourceCrossroad;
+    private Crossroad destinationCrossroad;
 
-    public RoadImpl(String name, int roadLength,
-                    String myStreet,
-                    Point sourceCrossroadId,
-                    Point destinationCrossroadId){
+    public RoadImpl(String name, double roadLength,
+                    Street myStreet,
+                    Crossroad sourceCrossroad,
+                    Crossroad destinationCrossroad){
         this.name = name;
         this.roadLength = roadLength;
         this.myStreet = myStreet;
-        this.sourceCrossroadId = sourceCrossroadId;
-        this.destinationCrossroadId = destinationCrossroadId;
+        this.sourceCrossroad = sourceCrossroad;
+        this.destinationCrossroad = destinationCrossroad;
     }
     /**
      * returns true if the given street number is part
@@ -39,7 +39,7 @@ public class RoadImpl implements Road {
      * @return the length in meters of the road
      */
     @Override
-    public int getRoadLength() {
+    public double getRoadLength() {
         return this.roadLength;
     }
 
@@ -52,12 +52,13 @@ public class RoadImpl implements Road {
     }
 
     /**
-     * @return the street this Road is in
+     * @return the Street this Road is in
      */
     @Override
     public Street getStreet() {
-        return null;
+        return this.myStreet;
     }
+
     /**
      * returns the right Weight for the given Time
      *
@@ -84,7 +85,7 @@ public class RoadImpl implements Road {
      */
     @Override
     public Crossroad getSourceCrossroad() {
-        return null;
+        return this.sourceCrossroad;
     }
 
     /**
@@ -92,7 +93,7 @@ public class RoadImpl implements Road {
      */
     @Override
     public Crossroad getDestinationCrossroad() {
-        return null;
+        return this.destinationCrossroad;
     }
     /**
      * @return the Range of this Road

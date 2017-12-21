@@ -36,4 +36,10 @@ public interface Street {
      * @return the Range of this Street
      */
     Range getStreetRange();
+
+    /**
+     * adds a Road to this Street
+     * @param rd - the Road to add to the Street
+     */
+    void addRoad(Road rd);
 }

@@ -4,9 +4,9 @@ package il.ac.technion.cs.yp.btw.classes;
  * default abstract implementation for the interface Point
  */
 public abstract class PointAbstract implements Point {
-    private int coordinateX;
-    private int coordinateY;
-    public PointAbstract(int coordinateX, int coordinateY){
+    private double coordinateX;
+    private double coordinateY;
+    public PointAbstract(double coordinateX, double coordinateY){
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
     }
@@ -14,11 +14,11 @@ public abstract class PointAbstract implements Point {
         this(p.getCoordinateX(),p.getCoordinateY());
     }
     @Override
-    public int getCoordinateX() {
+    public double getCoordinateX() {
         return coordinateX;
     }
     @Override
-    public int getCoordinateY() {
+    public double getCoordinateY() {
         return coordinateY;
     }
 }

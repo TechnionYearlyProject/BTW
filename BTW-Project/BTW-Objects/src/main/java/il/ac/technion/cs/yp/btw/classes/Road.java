@@ -19,7 +19,7 @@ public interface Road {
     /**
      * @return the length in meters of the road
      */
-    int getRoadLength();
+    double getRoadLength();
 
     /**
      * @return the unique name of the road
