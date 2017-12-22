@@ -1,26 +1,31 @@
-package il.ac.technion.cs.yp.btw.classes;
+package il.ac.technion.cs.yp.btw.mapsimulation.objects;
+
+import il.ac.technion.cs.yp.btw.classes.Crossroad;
+import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.Street;
+import il.ac.technion.cs.yp.btw.classes.Weight;
 
 import java.sql.Time;
 
 /**
  * default implementation for the interface Road
  */
-public class RoadImpl implements Road {
+public class MapSimulationRoadImpl implements Road {
     private String name;
     private int roadLength;
-    private String myStreet;
-    private Point sourceCrossroadId;
-    private Point destinationCrossroadId;
+    private Street myStreet;
+    private Crossroad sourceCrossroad;
+    private Crossroad destinationCrossroad;
 
-    public RoadImpl(String name, int roadLength,
-                    String myStreet,
-                    Point sourceCrossroadId,
-                    Point destinationCrossroadId){
+    public MapSimulationRoadImpl(String name, int roadLength,
+                                 Street myStreet,
+                                 Crossroad sourceCrossroad,
+                                 Crossroad destinationCrossroad){
         this.name = name;
         this.roadLength = roadLength;
         this.myStreet = myStreet;
-        this.sourceCrossroadId = sourceCrossroadId;
-        this.destinationCrossroadId = destinationCrossroadId;
+        this.sourceCrossroad = sourceCrossroad;
+        this.destinationCrossroad = destinationCrossroad;
     }
     /**
      * returns true if the given street number is part
@@ -52,12 +57,13 @@ public class RoadImpl implements Road {
     }
 
     /**
-     * @return the street this Road is in
+     * @return the Street this Road is in
      */
     @Override
     public Street getStreet() {
-        return null;
+        return this.myStreet;
     }
+
     /**
      * returns the right Weight for the given Time
      *
@@ -80,19 +86,19 @@ public class RoadImpl implements Road {
     }
 
     /**
-     * @return the CrossroadImpl this Road starts in
+     * @return the MapSimulationCrossroadImpl this Road starts in
      */
     @Override
     public Crossroad getSourceCrossroad() {
-        return null;
+        return this.sourceCrossroad;
     }
 
     /**
-     * @return the CrossroadImpl this Road ends
+     * @return the MapSimulationCrossroadImpl this Road ends
      */
     @Override
     public Crossroad getDestinationCrossroad() {
-        return null;
+        return this.destinationCrossroad;
     }
 
     //@Override

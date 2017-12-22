@@ -1,4 +1,6 @@
-package il.ac.technion.cs.yp.btw.classes;
+package il.ac.technion.cs.yp.btw.mapsimulation.objects;
+
+import il.ac.technion.cs.yp.btw.classes.*;
 
 import java.sql.Time;
 
@@ -6,19 +8,17 @@ import java.sql.Time;
  * Point on a road map which represents
  * transition between two different Roads
  */
-public class TrafficLightImpl extends PointAbstract implements TrafficLight {
-    private String sourceRoadId;
-    private String destinationRoadId;
-    private String overload;
-    public TrafficLightImpl(Point pos, String sourceRoadId, String destinationRoadId, String overload) {
+public class MapSimulationTrafficLightImpl extends PointAbstract implements TrafficLight {
+    private Road sourceRoad;
+    private Road destinationRoad;
+    public MapSimulationTrafficLightImpl(Point pos, Road sourceRoad, Road destinationRoad) {
         super(pos);
-        this.sourceRoadId = sourceRoadId;
-        this.destinationRoadId = destinationRoadId;
-        this.overload = overload;
+        this.sourceRoad = sourceRoad;
+        this.destinationRoad = destinationRoad;
     }
 
     /**
-     * @return the TrafficLightImpl's unique name
+     * @return the MapSimulationTrafficLightImpl's unique name
      * in the format:
      * from:@getSourceRoad() to:@getDestinationRoad()
      */
@@ -30,36 +30,36 @@ public class TrafficLightImpl extends PointAbstract implements TrafficLight {
 
     /**
      * @return the Road you got from to this
-     *         TrafficLightImpl
+     *         MapSimulationTrafficLightImpl
      */
     @Override
-    public Road getSourceRoad(){return null;}
+    public Road getSourceRoad(){return this.sourceRoad;}
 
     /**
      * @return the destination Road you
-     *         go to from this TrafficLightImpl
+     *         go to from this MapSimulationTrafficLightImpl
      */
     @Override
-    public Road getDestinationRoad(){return null;}
+    public Road getDestinationRoad(){return this.destinationRoad;}
 
     /**
      * returns the right Weight for the given Time
      * @param time - Time we want to check the load
      *             on the traffic light at
-     * @return Weight of this TrafficLightImpl according
+     * @return Weight of this MapSimulationTrafficLightImpl according
      *         to the given Time
      */
     @Override
     public Weight getWeightByTime(Time time){return null;}
 
     /**
-     * @return minimum possible Weight of TrafficLightImpl
+     * @return minimum possible Weight of MapSimulationTrafficLightImpl
      */
     @Override
     public Weight getMinimumWeight(){return null;}
 
     /**
-     * @return current Weight on this TrafficLightImpl
+     * @return current Weight on this MapSimulationTrafficLightImpl
      */
     @Override
     public Weight getCurrentWeight(){return null;}

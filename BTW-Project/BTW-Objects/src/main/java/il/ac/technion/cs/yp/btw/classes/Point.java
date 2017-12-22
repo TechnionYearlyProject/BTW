@@ -8,9 +8,9 @@ public interface Point {
     /**
      * @return the x coordinate of this Point
      */
-    int getCoordinateX();
+    double getCoordinateX();
     /**
      * @return the y coordinate of this Point
      */
-    int getCoordinateY();
+    double getCoordinateY();
 }

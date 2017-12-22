@@ -32,4 +32,10 @@ public interface Street {
      * @return this Street's unique name
      */
     String getStreetName();
+
+    /**
+     * adds the given Road to this Street
+     * @param rd - the added Road
+     */
+    void addRoad(Road rd);
 }

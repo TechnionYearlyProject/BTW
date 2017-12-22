@@ -1,9 +1,6 @@
 package il.ac.technion.cs.yp;
 
-import il.ac.technion.cs.yp.btw.classes.Crossroad;
-import il.ac.technion.cs.yp.btw.classes.CrossroadImpl;
-import il.ac.technion.cs.yp.btw.classes.PointImpl;
-import il.ac.technion.cs.yp.btw.classes.Street;
+import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.mapsimulation.MapSimulator;
 
 import java.util.HashSet;

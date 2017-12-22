@@ -1,1 +1,5 @@
 language: java
+sudo: false
+script:
+- cd BTW-Project
+- mvn clean verify

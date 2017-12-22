@@ -10,7 +10,7 @@ public class CentralLocation extends PolygonAbstract {
     private String name;
     private String street;
 
-    CentralLocation(String name) {
+    public CentralLocation(String name) {
         this(new HashSet<Point>(), name);
     }
 
