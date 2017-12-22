@@ -19,7 +19,7 @@ public interface Road {
     /**
      * @return the length in meters of the road
      */
-    double getRoadLength();
+    int getRoadLength();
 
     /**
      * @return the unique name of the road
@@ -27,10 +27,10 @@ public interface Road {
     String getRoadName();
 
     /**
-     * @return the street this Road is in
+     * @return the Street this Road is in
      */
     Street getStreet();
-    
+
     /**
      * returns the right Weight for the given Time
      * @param time - Time we want to check the load
@@ -53,9 +53,4 @@ public interface Road {
      * @return the CrossroadImpl this Road ends
      */
     Crossroad getDestinationCrossroad();
-
-    /**
-     * @return the Range of this Road
-     */
-    Range getRoadRange();
 }

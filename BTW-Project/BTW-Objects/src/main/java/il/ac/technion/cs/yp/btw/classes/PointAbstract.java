@@ -10,7 +10,7 @@ public abstract class PointAbstract implements Point {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
     }
-    PointAbstract(Point p){
+    public PointAbstract(Point p){
         this(p.getCoordinateX(),p.getCoordinateY());
     }
     @Override

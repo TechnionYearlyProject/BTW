@@ -1,21 +1,26 @@
-package il.ac.technion.cs.yp.btw.classes;
+package il.ac.technion.cs.yp.btw.mapsimulation.objects;
+
+import il.ac.technion.cs.yp.btw.classes.Crossroad;
+import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.Street;
+import il.ac.technion.cs.yp.btw.classes.Weight;
 
 import java.sql.Time;
 
 /**
  * default implementation for the interface Road
  */
-public class RoadImpl implements Road {
+public class MapSimulationRoadImpl implements Road {
     private String name;
-    private double roadLength;
+    private int roadLength;
     private Street myStreet;
     private Crossroad sourceCrossroad;
     private Crossroad destinationCrossroad;
 
-    public RoadImpl(String name, double roadLength,
-                    Street myStreet,
-                    Crossroad sourceCrossroad,
-                    Crossroad destinationCrossroad){
+    public MapSimulationRoadImpl(String name, int roadLength,
+                                 Street myStreet,
+                                 Crossroad sourceCrossroad,
+                                 Crossroad destinationCrossroad){
         this.name = name;
         this.roadLength = roadLength;
         this.myStreet = myStreet;
@@ -39,7 +44,7 @@ public class RoadImpl implements Road {
      * @return the length in meters of the road
      */
     @Override
-    public double getRoadLength() {
+    public int getRoadLength() {
         return this.roadLength;
     }
 
@@ -81,7 +86,7 @@ public class RoadImpl implements Road {
     }
 
     /**
-     * @return the CrossroadImpl this Road starts in
+     * @return the MapSimulationCrossroadImpl this Road starts in
      */
     @Override
     public Crossroad getSourceCrossroad() {
@@ -89,17 +94,10 @@ public class RoadImpl implements Road {
     }
 
     /**
-     * @return the CrossroadImpl this Road ends
+     * @return the MapSimulationCrossroadImpl this Road ends
      */
     @Override
     public Crossroad getDestinationCrossroad() {
         return this.destinationCrossroad;
-    }
-    /**
-     * @return the Range of this Road
-     */
-    @Override
-    public Range getRoadRange(){
-        return null;
     }
 }

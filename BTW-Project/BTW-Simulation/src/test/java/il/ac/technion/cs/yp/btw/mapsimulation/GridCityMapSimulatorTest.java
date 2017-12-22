@@ -1,5 +1,6 @@
 package il.ac.technion.cs.yp.btw.mapsimulation;
 
+import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.Street;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -17,6 +18,9 @@ import static org.junit.Assert.*;
 public class GridCityMapSimulatorTest {
 
     private static final int DEFAULT_NUM_OF_STREETS = 12;
+    private static final int DEFAULT_NUM_OF_ROADS_IN_STREET = 12;
+    private static final int DEFAULT_NUM_OF_ROADS = DEFAULT_NUM_OF_STREETS * DEFAULT_NUM_OF_ROADS_IN_STREET;
+    private static final int DEFAULT_NUM_OF_CROSSROADS = 49;
     private static Set<String> streetsNames;
     private static Set<String> roadsNames;
     @BeforeClass
@@ -63,5 +67,28 @@ public class GridCityMapSimulatorTest {
                         .map(Street::getStreetName)
                         .collect(Collectors.toSet())
                 ,streetsNames);
+        Set<Integer> setOfNumOfRoadsInEachStreet = sim.getStreets()
+                .stream()
+                .map(street -> street.getAllRoadsInStreet().size())
+                .collect(Collectors.toSet());
+        assertEquals(setOfNumOfRoadsInEachStreet.size(),1);
+        assertTrue(setOfNumOfRoadsInEachStreet.contains(DEFAULT_NUM_OF_ROADS_IN_STREET));
+    }
+    @Test
+    public void testDefaultSimulationRoads(){
+        GridCityMapSimulator sim = new GridCityMapSimulator();
+        sim.build();
+        assertEquals(sim.getRoads().size(), DEFAULT_NUM_OF_ROADS);
+        assertEquals(sim.getRoads()
+                        .stream()
+                        .map(Road::getRoadName)
+                        .collect(Collectors.toSet())
+                ,roadsNames);
+    }
+    @Test
+    public void testDefaultSimulationCrossroads(){
+        GridCityMapSimulator sim = new GridCityMapSimulator();
+        sim.build();
+        assertEquals(sim.getCrossRoads().size(), DEFAULT_NUM_OF_CROSSROADS);
     }
 }

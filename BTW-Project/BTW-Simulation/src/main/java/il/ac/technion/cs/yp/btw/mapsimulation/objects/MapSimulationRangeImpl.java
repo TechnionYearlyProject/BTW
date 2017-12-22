@@ -1,13 +1,15 @@
-package il.ac.technion.cs.yp.btw.classes;
+package il.ac.technion.cs.yp.btw.mapsimulation.objects;
+
+import il.ac.technion.cs.yp.btw.classes.Range;
 
 /**
  * Created by Adam on 13/12/2017.
  */
-public class RangeImpl implements Range {
+public class MapSimulationRangeImpl implements Range {
     private RangeType rangeType;
     private int upperBound;
     private int lowerBound;
-    public RangeImpl(RangeType rangeType, int upperBound, int lowerBound){
+    public MapSimulationRangeImpl(RangeType rangeType, int upperBound, int lowerBound){
         this.rangeType = rangeType;
         this.upperBound = upperBound;
         this.lowerBound = lowerBound;

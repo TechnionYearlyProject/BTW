@@ -1,6 +1,9 @@
 package il.ac.technion.cs.yp.btw.mapsimulation;
 
 import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationCrossroadImpl;
+import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationRoadImpl;
+import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationStreetImpl;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -144,7 +147,7 @@ public class GridCityMapSimulator implements MapSimulator {
         for (int roadNumber = 1; roadNumber <= numOfRoads; roadNumber++) {
             innerEndPoint = new PointImpl(endPoint);
             innerStartPoint = new PointImpl(startPoint);
-            currStreet = new StreetImpl(roadNumber + " " + roadBaseName);
+            currStreet = new MapSimulationStreetImpl(roadNumber + " " + roadBaseName);
             this.streets.add(currStreet);
             for (int roadSectionNumber = 1; roadSectionNumber <= numOfSections; roadSectionNumber++) {
                 innerEndPoint = sectionAdvance.apply(innerEndPoint);
@@ -160,8 +163,8 @@ public class GridCityMapSimulator implements MapSimulator {
     private void addRoad(Point startPoint, Point endPoint, String roadName, Street street) {
         Crossroad startCrossroad = getCrossroadByPosition(startPoint);
         Crossroad endCrossroad = getCrossroadByPosition(endPoint);
-        Road rd1 = new RoadImpl(roadName, calculateLengthBetween2Points(startPoint,endPoint),street,startCrossroad,endCrossroad);
-        Road rd2 = new RoadImpl(roadName+"'", calculateLengthBetween2Points(startPoint,endPoint),street,endCrossroad,startCrossroad);
+        Road rd1 = new MapSimulationRoadImpl(roadName, calculateLengthBetween2Points(startPoint,endPoint),street,startCrossroad,endCrossroad);
+        Road rd2 = new MapSimulationRoadImpl(roadName+"'", calculateLengthBetween2Points(startPoint,endPoint),street,endCrossroad,startCrossroad);
         this.roads.add(rd1);
         this.roads.add(rd2);
         street.addRoad(rd1);
@@ -198,8 +201,8 @@ public class GridCityMapSimulator implements MapSimulator {
     }
 
 
-    private double calculateLengthBetween2Points(Point p1, Point p2) {
-        return distanceBetween2PointsOnEarth(p1.getCoordinateX(),p2.getCoordinateX()
+    private int calculateLengthBetween2Points(Point p1, Point p2) {
+        return (int) distanceBetween2PointsOnEarth(p1.getCoordinateX(),p2.getCoordinateX()
                 ,p1.getCoordinateY(),p2.getCoordinateY(),0,0);
     }
 
@@ -219,7 +222,7 @@ public class GridCityMapSimulator implements MapSimulator {
             xCoordinate = this.startXCoordinate;
             for (int streetSection = 1; streetSection <= numOfAvenues + 1; streetSection++) {
                 p = new PointImpl(xCoordinate, yCoordinate);
-                Crossroad currCrossRoad = new CrossroadImpl(p);
+                Crossroad currCrossRoad = new MapSimulationCrossroadImpl(p);
                 this.crossRoads.add(currCrossRoad);
                 xCoordinate += streetLength;
             }

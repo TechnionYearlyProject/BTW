@@ -8,6 +8,6 @@ public class PointImpl extends PointAbstract {
         super(coordinateX, coordinateY);
     }
     public PointImpl(Point p) {
-        super(p.getCoordinateX(), p.getCoordinateY());
+        super(p);
     }
 }
