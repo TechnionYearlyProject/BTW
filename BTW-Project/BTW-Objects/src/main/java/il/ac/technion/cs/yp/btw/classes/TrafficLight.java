@@ -5,7 +5,7 @@ import java.sql.Time;
 /**
  * TrafficLight Interface
  */
-public interface TrafficLight {
+public interface TrafficLight extends Point {
     /**
      * @return the TrafficLight's unique name
      * in the format:

@@ -13,14 +13,14 @@ public interface MapSimulator {
      * @return Set of the simulated map's
      *          traffic Lights
      */
-    Set<il.ac.technion.cs.yp.TrafficLight> getTrafficLights();
+    Set<TrafficLight> getTrafficLights();
 
     /**
      *
      * @return Set of the simulated map's
      *          roads
      */
-    Set<il.ac.technion.cs.yp.Road> getRoads();
+    Set<Road> getRoads();
 
     /**
      *
@@ -34,7 +34,7 @@ public interface MapSimulator {
      * @return Set of the simulated map's
      *          central locations
      */
-    Set<il.ac.technion.cs.yp.CentralLocation> getCentralLocations();
+    Set<CentralLocation> getCentralLocations();
 
     /**
      *
