@@ -5,7 +5,7 @@ import java.util.Set;
 /**
  * Crossroad Interface
  */
-public interface Crossroad {
+public interface Crossroad extends Point {
      /**
      * @return Set of all TrafficLights in this CrossroadImpl
      */

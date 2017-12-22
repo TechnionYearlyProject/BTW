@@ -10,6 +10,7 @@ import java.lang.Long;
 public class CrossroadImpl extends PointAbstract implements Crossroad {
 
     private Set<TrafficLight> trafficLights;
+    String name;
     public CrossroadImpl(Point position) {
         this(position,new HashSet<TrafficLight>());
     }
@@ -40,5 +41,16 @@ public class CrossroadImpl extends PointAbstract implements Crossroad {
     public String toString() {
         return super.toString();
     }
+
+    public String getname() {
+        return this.name;
+    }
+
+    //@Override
+    public String toStringCrossRoad() {
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
+                "[["+this.getCoordinateX()+","+this.getCoordinateY()+"]},"+"\"properties\":{"+"\"name\":"+"\""+this.getname()+"\"},";
+    }
+
 
 }

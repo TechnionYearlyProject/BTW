@@ -29,4 +29,22 @@ public class StreetImpl implements Street {
     public String getStreetName() {
         return this.name;
     }
+
+    //@Override
+    public String toStringStreetFull() {
+        String roadsNames = "";
+        for(String roadName: roadIds){
+            roadsNames+=roadName;
+        }
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+
+                "\"properties\":{"+"\"name\":"+"\""+this.getStreetName()+"\","+
+                "\"included_streets\":"+"\""+roadsNames+"\"},";
+    }
+
+    //@Override
+    public String toStringStreet() {
+
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+
+                "\"properties\":{"+"\"name\":"+"\""+this.getStreetName()+"\"},";
+    }
 }

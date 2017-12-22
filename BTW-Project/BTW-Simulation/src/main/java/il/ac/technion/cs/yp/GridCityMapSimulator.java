@@ -60,6 +60,8 @@ public class GridCityMapSimulator implements MapSimulator {
     GridCityMapSimulator() {
         this.roads = new HashSet<Road>();
         this.crossRoads = new HashSet<Crossroad>();
+        this.trafficLights = new HashSet<TrafficLight>();
+        centralLocations = new HashSet<CentralLocation>();
         int numOfStreets = DEFAULT_NUM_OF_STREETS;
         int numOfAvenues = DEFAULT_NUM_OF_AVENUES;
         int streetLength = DEFAULT_ROAD_LENGTH;

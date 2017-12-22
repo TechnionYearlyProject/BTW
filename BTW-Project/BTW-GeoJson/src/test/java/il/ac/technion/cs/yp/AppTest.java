@@ -4,11 +4,14 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.io.File;
+
+import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
+
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-    extends TestCase
+public class AppTest extends TestCase
 {
     /**
      * Create the test case
@@ -18,6 +21,13 @@ public class AppTest
     public AppTest( String testName )
     {
         super( testName );
+        GridCityMapSimulator mapSimulator = new GridCityMapSimulator();
+
+        //setup the map simulator
+        //TraficLight trafficLight = new TrafficLight(1,1,"from Roza st 1-4 to Ela st 2-4",0,null);
+
+        GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
+        File emptyFile = geoJsonParser.buildGeoJsonFromSimulation(mapSimulator);
     }
 
     /**
@@ -33,6 +43,6 @@ public class AppTest
      */
     public void testApp()
     {
-        assertTrue( true );
+
     }
 }

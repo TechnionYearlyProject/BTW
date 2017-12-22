@@ -54,7 +54,7 @@ public class RoadImpl implements Road {
     /**
      * @return the street this Road is in
      */
-    @override
+    @Override
     public Street getStreet() {
         return null;
     }
@@ -94,4 +94,24 @@ public class RoadImpl implements Road {
     public Crossroad getDestinationCrossroad() {
         return null;
     }
+
+    //@Override
+    public String toStringRoadFull() {
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
+                "[["+this.getSourceCrossroad().getCoordinateX()+","+this.getSourceCrossroad().getCoordinateY()+"],"+
+                "["+this.getDestinationCrossroad().getCoordinateX()+","+this.getDestinationCrossroad().getCoordinateY()+"]]},"+
+                "\"properties\":{"+"\"name\":"+"\""+this.getRoadName()+"\","+
+                "\"length\":"+"\""+this.getRoadLength()+"\","+"\"overload\":"+"\""+this.getMinimumWeight()+"\"},";
+    }
+
+    //@Override
+    public String toStringRoad() {
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
+                "[["+this.getSourceCrossroad().getCoordinateX()+","+this.getSourceCrossroad().getCoordinateY()+"],"+
+                "["+this.getDestinationCrossroad().getCoordinateX()+","+this.getDestinationCrossroad().getCoordinateY()+"]]},"+
+                "\"properties\":{"+"\"name\":"+"\""+this.getRoadName()+"\"},";
+    }
 }
+
+/*for sector:
++"\"sector_start\":"+"\""+given_sector_start+"\","+ "\"sector_end\":"+"\""+given_sector_end+"\","*/
