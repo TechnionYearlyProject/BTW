@@ -18,8 +18,7 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
     private Set<TrafficLight> trafficLights;
     public DataCrossRoad(Point position, String mapName) {
         super(position);
-        TrafficLightsDataBase trafficLightsDataBase = new TrafficLightsDataBase(mapName);
-        this.trafficLights = trafficLightsDataBase.getAllTrafficLights(position);
+        this.trafficLights = TrafficLightsDataBase.getAllTrafficLights(position, mapName);
         this.mapName = mapName;
     }
     public DataCrossRoad(Point position, Set<TrafficLight> trafficLights, String mapName) {

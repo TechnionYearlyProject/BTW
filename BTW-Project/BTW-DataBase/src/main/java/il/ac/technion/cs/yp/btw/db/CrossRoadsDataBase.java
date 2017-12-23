@@ -15,30 +15,28 @@ import il.ac.technion.cs.yp.btw.db.queries.QueryCrossRoad;
 public class CrossRoadsDataBase {
 
 
-    private String mapName;
+    public CrossRoadsDataBase(){
 
-    public CrossRoadsDataBase(String mapName){
-        this.mapName = mapName;
     }
 
-    public Set<Crossroad> getAllCrossRoads(){
+    public static Set<Crossroad> getAllCrossRoads(String mapName){
         Query query = new QueryAllTrafficLightPositions(mapName);
         Set<Point> positions = (Set<Point>) MainDataBase.queryDataBase(query);
         Set<Crossroad> crossRoads = new HashSet();
         Iterator<Point> iterator = positions.iterator();
         while(iterator.hasNext()){
-            crossRoads.add(getCrossRoad(iterator.next()));
+            crossRoads.add(getCrossRoad(iterator.next(), mapName));
         }
         return crossRoads;
     }
 
-    public Crossroad getCrossRoad(Point position){
+    public static Crossroad getCrossRoad(Point position, String mapName){
 
         Query query = new QueryCrossRoad(mapName, position);
         return (Crossroad) MainDataBase.queryDataBase(query);
     }
 
-    public void addCrossRoad(Crossroad crossRoad){
+    public static void addCrossRoad(Crossroad crossRoad, String mapName){
 
     }
 

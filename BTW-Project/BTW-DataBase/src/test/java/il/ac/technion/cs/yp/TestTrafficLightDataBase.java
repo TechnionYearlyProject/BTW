@@ -12,8 +12,7 @@ import java.util.Set;
 public class TestTrafficLightDataBase  extends TestCase {
 
     public void testGetAllTrafficLights(){
-        TrafficLightsDataBase trafficLightsDataBase = new TrafficLightsDataBase("first");
-        Set<TrafficLight> allTrafficLights = trafficLightsDataBase.getAllTrafficLights();
+        Set<TrafficLight> allTrafficLights = TrafficLightsDataBase.getAllTrafficLights("first");
         Iterator<TrafficLight> iterator = allTrafficLights.iterator();
         System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
@@ -22,9 +21,8 @@ public class TestTrafficLightDataBase  extends TestCase {
     }
 
     public void testGetAllTrafficLightsInPosition(){
-        TrafficLightsDataBase trafficLightsDataBase = new TrafficLightsDataBase("first");
         Point position = new PointImpl(1,1);
-        Set<TrafficLight> allTrafficLights = trafficLightsDataBase.getAllTrafficLights(position);
+        Set<TrafficLight> allTrafficLights = TrafficLightsDataBase.getAllTrafficLights(position, "first");
         Iterator<TrafficLight> iterator = allTrafficLights.iterator();
         System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
@@ -32,10 +30,9 @@ public class TestTrafficLightDataBase  extends TestCase {
         }
     }
 
-    public void testGetRoad(){
+    public void testGetTrafficLight(){
 
-        TrafficLightsDataBase trafficLightsDataBase = new TrafficLightsDataBase("first");
-        TrafficLight trafficLight = trafficLightsDataBase.getTrafficLight("T1-Road4-Road6");
+        TrafficLight trafficLight = TrafficLightsDataBase.getTrafficLight("T1-Road4-Road6", "first");
         System.out.println(trafficLight.toString());
     }
 }

@@ -21,7 +21,6 @@ public class QueryAllTrafficLights extends Query{
         super(mapName);
         this.query = "SELECT * FROM dbo." + mapName + "TrafficLight"
                 +" WHERE cordx = " +  position.getCoordinateX() + " AND " + "cordy = " + position.getCoordinateY();
-        System.out.println(this.query);
     }
     @Override
     public Set<TrafficLight> arrangeRecievedData(ResultSet resultSet){

@@ -83,8 +83,7 @@ public class DataRoad implements Road {
      */
     @Override
     public Street getStreet() {
-        StreetsDataBase streetsDataBase = new StreetsDataBase(this.mapName);
-        return streetsDataBase.getStreet(this.myStreet);
+        return StreetsDataBase.getStreet(myStreet, mapName);
     }
     /**
      * returns the right Weight for the given Time
@@ -112,8 +111,8 @@ public class DataRoad implements Road {
      */
     @Override
     public Crossroad getSourceCrossroad() {
-        CrossRoadsDataBase crossRoadsDataBase = new CrossRoadsDataBase(mapName);
-        return crossRoadsDataBase.getCrossRoad(sourceCrossroadId);
+
+        return CrossRoadsDataBase.getCrossRoad(sourceCrossroadId, mapName);
     }
 
     /**
@@ -122,8 +121,7 @@ public class DataRoad implements Road {
     @Override
     public Crossroad getDestinationCrossroad() {
 
-        CrossRoadsDataBase crossRoadsDataBase = new CrossRoadsDataBase(mapName);
-        return crossRoadsDataBase.getCrossRoad(destinationCrossroadId);
+        return CrossRoadsDataBase.getCrossRoad(destinationCrossroadId, mapName);
     }
 
     @Override
@@ -134,8 +132,8 @@ public class DataRoad implements Road {
         road += "name = " + name +" ";
         road += "roadLength = " +roadLength + " ";
         road += "myStreet = " + myStreet + " ";
-        road += "sourceCrossroadId = " + sourceCrossroadId + " ";
-        road += "destinationCrossroadId = " + destinationCrossroadId + " ";
+        road += "sourceCrossroadId = (" + sourceCrossroadId.getCoordinateX() + "," + sourceCrossroadId.getCoordinateY() + ") ";
+        road += "destinationCrossroadId = (" + destinationCrossroadId.getCoordinateX() + "," + destinationCrossroadId.getCoordinateY() + ") ";
         return road;
 
     }

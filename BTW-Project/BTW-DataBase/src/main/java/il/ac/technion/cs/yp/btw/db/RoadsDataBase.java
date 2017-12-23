@@ -10,19 +10,18 @@ import il.ac.technion.cs.yp.btw.db.queries.Query;
 
 public class RoadsDataBase {
 
-    private String mapName;
 
-    public RoadsDataBase(String mapName){
-        this.mapName = mapName;
+    public RoadsDataBase(){
+
     }
 
-    public Set<Road> getAllRoads(){
+    public static Set<Road> getAllRoads(String mapName){
 
         Query query = new QueryAllRoads(mapName);
         return (Set<Road>) MainDataBase.queryDataBase(query);
     }
 
-    public Road getRoad(String nameID){
+    public static Road getRoad(String nameID, String mapName){
 
         Query query = new QueryRoad(mapName, nameID);
         return (Road) MainDataBase.queryDataBase(query);

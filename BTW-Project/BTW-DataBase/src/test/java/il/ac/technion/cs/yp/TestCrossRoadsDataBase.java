@@ -13,15 +13,12 @@ public class TestCrossRoadsDataBase  extends TestCase {
 
     public void testGetCrossRoad(){
         Point position = new PointImpl(1.0,1.0);
-        CrossRoadsDataBase crossRoadsDataBase = new CrossRoadsDataBase("first");
-        Crossroad crossRoad = crossRoadsDataBase.getCrossRoad(position);
+        Crossroad crossRoad = CrossRoadsDataBase.getCrossRoad(position, "first");
         System.out.println(crossRoad.toString());
     }
 
     public void testGetAllCrossRoads(){
-        CrossRoadsDataBase crossRoadsDataBase = new CrossRoadsDataBase("first");
-        //Set<Crossroad> getAllCrossRoads(){
-        Set<Crossroad> allCrossRoads = crossRoadsDataBase.getAllCrossRoads();
+        Set<Crossroad> allCrossRoads = CrossRoadsDataBase.getAllCrossRoads("first");
         Iterator<Crossroad> iterator = allCrossRoads.iterator();
         System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){

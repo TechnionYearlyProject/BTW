@@ -10,17 +10,9 @@ import java.util.Set;
 public class BTWDataBaseImpl implements BTWDataBase{
 
     private String mapName;
-    private CentralLocationsDataBase centralLocationsDataBase;
-    private RoadsDataBase roadsDataBase;
-    private TrafficLightsDataBase trafficLightsDataBase;
-    private StreetsDataBase streetsDataBase;
 
     public BTWDataBaseImpl(String mapName){
         this.mapName = mapName;
-        this.centralLocationsDataBase = new CentralLocationsDataBase(mapName);
-        this.roadsDataBase = new RoadsDataBase(mapName);
-        this.trafficLightsDataBase = new TrafficLightsDataBase(mapName);
-        this.streetsDataBase = new StreetsDataBase(mapName);
     }
 
     /**
@@ -28,7 +20,7 @@ public class BTWDataBaseImpl implements BTWDataBase{
      */
     @Override
     public Set<TrafficLight> getAllTrafficLights(){
-        return trafficLightsDataBase.getAllTrafficLights();
+        return TrafficLightsDataBase.getAllTrafficLights(mapName);
     }
 
     /**
@@ -38,7 +30,7 @@ public class BTWDataBaseImpl implements BTWDataBase{
      */
     @Override
     public Street getStreetByName(String streetName){
-        return streetsDataBase.getStreet(streetName);
+        return StreetsDataBase.getStreet(streetName, mapName);
     }
 
     /**
@@ -48,7 +40,7 @@ public class BTWDataBaseImpl implements BTWDataBase{
      */
     @Override
     public CentralLocation getCentralLocationByName(String locationName){
-        return centralLocationsDataBase.getCentralLocation(locationName);
+        return CentralLocationsDataBase.getCentralLocation(locationName, mapName);
     }
 
     /**
