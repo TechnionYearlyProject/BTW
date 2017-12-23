@@ -2,6 +2,8 @@ package il.ac.technion.cs.yp.btw.geojson;
 
 import il.ac.technion.cs.yp.btw.mapsimulation.MapSimulator;
 
+import java.io.File;
+
 /**
  * GeoJsonConverter layer interface for the BTW project
  */
@@ -13,5 +15,5 @@ public interface GeoJsonConverter {
      * @return filename of the saved geoJson generated
      *         for the given simulation
      */
-    String buildGeoJsonFromSimulation(MapSimulator simulator);
+    File buildGeoJsonFromSimulation(MapSimulator simulator);
 }

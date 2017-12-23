@@ -14,6 +14,7 @@ import java.util.Set;
  */
 public class MapSimulationCrossroadImpl extends PointAbstract implements Crossroad {
     private Set<TrafficLight> trafficLights;
+    private String name;
     public MapSimulationCrossroadImpl(Point position) {
         this(position,new HashSet<TrafficLight>());
     }
@@ -43,5 +44,12 @@ public class MapSimulationCrossroadImpl extends PointAbstract implements Crossro
     @Override
     public String toString() {
         return super.toString();
+    }
+
+    public String getName(){return name;}
+
+    public String toStringCrossRoad() {
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
+                "["+this.getCoordinateX()+","+this.getCoordinateY()+"]},"+"\"properties\":{"+"\"name\":"+"\""+this.getName()+"\"}},\n";
     }
 }
