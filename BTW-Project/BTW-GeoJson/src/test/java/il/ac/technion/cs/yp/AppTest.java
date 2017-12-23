@@ -7,6 +7,7 @@ import junit.framework.TestSuite;
 import java.io.File;
 
 import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
+import il.ac.technion.cs.yp.btw.mapsimulation.GridCityMapSimulator;
 
 /**
  * Unit test for simple App.
@@ -22,6 +23,7 @@ public class AppTest extends TestCase
     {
         super( testName );
         GridCityMapSimulator mapSimulator = new GridCityMapSimulator();
+        mapSimulator.build();
 
         //setup the map simulator
         //TraficLight trafficLight = new TrafficLight(1,1,"from Roza st 1-4 to Ela st 2-4",0,null);

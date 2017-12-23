@@ -101,23 +101,21 @@ public class MapSimulationRoadImpl implements Road {
         return this.destinationCrossroad;
     }
 
-    //@Override
     public String toStringRoadFull() {
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
                 "[["+this.getSourceCrossroad().getCoordinateX()+","+this.getSourceCrossroad().getCoordinateY()+"],"+
                 "["+this.getDestinationCrossroad().getCoordinateX()+","+this.getDestinationCrossroad().getCoordinateY()+"]]},"+
                 "\"properties\":{"+"\"name\":"+"\""+this.getRoadName()+"\","+
-                "\"length\":"+"\""+this.getRoadLength()+"\","+"\"overload\":"+"\""+this.getMinimumWeight()+"\"},";
+                "\"length\":"+"\""+this.getRoadLength()+"\","+"\"overload\":"+"\""+this.getMinimumWeight()+"\"}},\n";
     }
 
-    //@Override
     public String toStringRoad() {
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
                 "[["+this.getSourceCrossroad().getCoordinateX()+","+this.getSourceCrossroad().getCoordinateY()+"],"+
                 "["+this.getDestinationCrossroad().getCoordinateX()+","+this.getDestinationCrossroad().getCoordinateY()+"]]},"+
-                "\"properties\":{"+"\"name\":"+"\""+this.getRoadName()+"\"},";
+                "\"properties\":{"+"\"name\":"+"\""+this.getRoadName()+"\"}},\n";
     }
 }
 
-/*for sector:
-+"\"sector_start\":"+"\""+given_sector_start+"\","+ "\"sector_end\":"+"\""+given_sector_end+"\","*/
+//for sector
+// "\"sector_start\":"+"\""+given_sector_start+"\","+ "\"sector_end\":"+"\""+given_sector_end+"\","+
