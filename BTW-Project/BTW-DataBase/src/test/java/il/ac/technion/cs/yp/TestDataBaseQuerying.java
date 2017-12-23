@@ -1,12 +1,12 @@
 package il.ac.technion.cs.yp;
 
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
-import il.ac.technion.cs.yp.btw.classes.TrafficLightImpl;
+import il.ac.technion.cs.yp.btw.db.DataObjects.DataTrafficLight;
 import il.ac.technion.cs.yp.btw.classes.CentralLocation;
 import il.ac.technion.cs.yp.btw.classes.Point;
 import il.ac.technion.cs.yp.btw.classes.PointImpl;
 import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.classes.RoadImpl;
+import il.ac.technion.cs.yp.btw.db.DataObjects.DataRoad;
 import junit.framework.TestCase;
 import il.ac.technion.cs.yp.btw.db.queries.Query;
 import il.ac.technion.cs.yp.btw.db.MainDataBase;
@@ -21,13 +21,14 @@ import java.util.HashSet;
 
 public class TestDataBaseQuerying  extends TestCase {
     //the test method name needs to begin with the word 'test'
-    public void testGetAllRoadsList(){
+    public void testGetAllRoadsSet(){
         TestResult result = new TestResult();
         Query query = new QueryRoadExample("first");
-        MainDataBase database = new MainDataBase();
-        List<Road> roads = (List<Road>) database.queryDataBase(query);
+        //MainDataBase database = new MainDataBase();
+        //Set<Road> roads = (Set<Road>) database.queryDataBase(query);
+        Set<Road> roads = (Set<Road>) MainDataBase.queryDataBase(query);
         Iterator<Road> iterator = roads.iterator();
-        System.out.println("\n\n\nthe result list is:");
+        System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
             System.out.println(iterator.next().toString());
         }
@@ -38,10 +39,11 @@ public class TestDataBaseQuerying  extends TestCase {
     public void testGetAllCenteralLocations(){
         TestResult result = new TestResult();
         Query query = new QueryCenteralLocationExample("first");
-        MainDataBase database = new MainDataBase();
-        List<CentralLocation> centeralLocations = (List<CentralLocation>) database.queryDataBase(query);
+        //MainDataBase database = new MainDataBase();
+        //Set<CentralLocation> centeralLocations = (Set<CentralLocation>) database.queryDataBase(query);
+        Set<CentralLocation> centeralLocations = (Set<CentralLocation>) MainDataBase.queryDataBase(query);
         Iterator<CentralLocation> iterator = centeralLocations.iterator();
-        System.out.println("\n\n\nthe result list is:");
+        System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
             System.out.println(iterator.next().toString());
         }
@@ -50,10 +52,11 @@ public class TestDataBaseQuerying  extends TestCase {
     public void testGetAllTrafficLights(){
         TestResult result = new TestResult();
         Query query = new QueryTrafficLightExample("first");
-        MainDataBase database = new MainDataBase();
-        List<TrafficLight> trafficLights = (List<TrafficLight>) database.queryDataBase(query);
+        //MainDataBase database = new MainDataBase();
+        //Set<TrafficLight> trafficLights = (Set<TrafficLight>) database.queryDataBase(query);
+        Set<TrafficLight> trafficLights = (Set<TrafficLight>) MainDataBase.queryDataBase(query);
         Iterator<TrafficLight> iterator = trafficLights.iterator();
-        System.out.println("\n\n\nthe result list is:");
+        System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
             System.out.println(iterator.next().toString());
         }
@@ -69,8 +72,8 @@ class QueryRoadExample extends Query{
     }
 
     @Override
-    public List<Road> arrangeRecievedData(ResultSet resultSet){
-        List<Road> roads = new LinkedList();
+    public Set<Road> arrangeRecievedData(ResultSet resultSet){
+        Set<Road> roads = new HashSet();
         try{
             while (resultSet.next()){
                 String nameID = resultSet.getString("nameID");
@@ -99,7 +102,7 @@ class QueryRoadExample extends Query{
                 Point sourceCrossroadId  = new PointImpl(cord1x, cord1y);
                 Point destinationCrossroadId = new PointImpl(cord2x, cord2y);
 
-                Road road = new RoadImpl(nameID, length,myStreet, sourceCrossroadId, destinationCrossroadId);
+                Road road = new DataRoad(nameID, length,myStreet, sourceCrossroadId, destinationCrossroadId, mapName);
                 System.out.println(road.toString());
 
                 roads.add(road);
@@ -122,8 +125,8 @@ class QueryCenteralLocationExample extends Query{
     }
 
     @Override
-    public List<CentralLocation> arrangeRecievedData(ResultSet resultSet){
-        List<CentralLocation> centralLocations = new LinkedList();
+    public Set<CentralLocation> arrangeRecievedData(ResultSet resultSet){
+        Set<CentralLocation> centralLocations = new HashSet();
         try{
             while (resultSet.next()){
                 String nameID = resultSet.getString("nameID");
@@ -180,8 +183,8 @@ class QueryTrafficLightExample extends Query{
     }
 
     @Override
-    public List<TrafficLight> arrangeRecievedData(ResultSet resultSet){
-        List<TrafficLight> trafficLights = new LinkedList();
+    public Set<TrafficLight> arrangeRecievedData(ResultSet resultSet){
+        Set<TrafficLight> trafficLights = new HashSet();
         try{
             while (resultSet.next()){
 
@@ -189,11 +192,13 @@ class QueryTrafficLightExample extends Query{
                 String nameID = resultSet.getString("nameID");
                 int cordx =  resultSet.getInt("cordx");
                 int cordy =  resultSet.getInt("cordy");
-                String sourceRoadId = resultSet.getString("from");
-                String destinationRoadIf = resultSet.getString("to");
+                String sourceRoadId = nameID.split("-")[1];
+                //        resultSet.getString("from");
+                String destinationRoadIf = nameID.split("-")[2];
+                //        resultSet.getString("to");
                 String overload =  resultSet.getString("overload");
                 Point position = new PointImpl(cordx, cordy);
-                TrafficLight trafficLight  = new TrafficLightImpl(position, sourceRoadId,destinationRoadIf, overload);
+                TrafficLight trafficLight  = new DataTrafficLight(position, sourceRoadId,destinationRoadIf, overload, mapName);
 
                 System.out.println(trafficLight.toString());
 
@@ -216,8 +221,8 @@ class QueryCrossRoadExample extends Query{
     }
 
     @Override
-    public List<CrossRoad> arrangeRecievedData(ResultSet resultSet){
-        List<CrossRoad> crossRoads = new LinkedList();
+    public Set<CrossRoad> arrangeRecievedData(ResultSet resultSet){
+        Set<CrossRoad> crossRoads = new HashSet();
         try{
             while (resultSet.next()){
 
@@ -229,7 +234,7 @@ class QueryCrossRoadExample extends Query{
                 String destinationRoadIf = resultSet.getString("to");
                 String overload =  resultSet.getString("overload");
                 Point position = new PointImpl(cordx, cordy);
-                TrafficLight trafficLight  = new TrafficLightImpl(position, sourceRoadId,destinationRoadIf, overload);
+                TrafficLight trafficLight  = new DataTrafficLight(position, sourceRoadId,destinationRoadIf, overload);
 
                 System.out.println(trafficLight.toString());
 
