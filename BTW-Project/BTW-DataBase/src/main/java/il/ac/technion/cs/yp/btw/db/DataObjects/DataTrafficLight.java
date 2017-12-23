@@ -6,6 +6,7 @@ import il.ac.technion.cs.yp.btw.classes.PointAbstract;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.Weight;
+import il.ac.technion.cs.yp.btw.db.RoadsDataBase;
 
 
 /**
@@ -18,8 +19,10 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
     private String sourceRoadId;
     private String destinationRoadId;
     private String overload;
-    public DataTrafficLight(Point pos, String sourceRoadId, String destinationRoadId, String overload, String mapName) {
+    private String nameID;
+    public DataTrafficLight(String nameID, Point pos, String sourceRoadId, String destinationRoadId, String overload, String mapName) {
         super(pos);
+        this.nameID = nameID;
         this.sourceRoadId = sourceRoadId;
         this.destinationRoadId = destinationRoadId;
         this.overload = overload;
@@ -42,14 +45,20 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
      *         TrafficLightImpl
      */
     @Override
-    public Road getSourceRoad(){return null;}
+    public Road getSourceRoad() {
+        RoadsDataBase RoadsDataBase = new RoadsDataBase(mapName);
+        return RoadsDataBase.getRoad(sourceRoadId);
+    }
 
     /**
      * @return the destination Road you
      *         go to from this TrafficLightImpl
      */
     @Override
-    public Road getDestinationRoad(){return null;}
+    public Road getDestinationRoad(){
+        RoadsDataBase RoadsDataBase = new RoadsDataBase(mapName);
+        return RoadsDataBase.getRoad(sourceRoadId);
+    }
 
     /**
      * returns the right Weight for the given Time
@@ -77,9 +86,11 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
     public String toString(){
         String trafficLight = new String("");
         trafficLight += "traffic light: ";
+        trafficLight += "nameID = " + nameID + " ";
         trafficLight += "sourceRoadId = " + sourceRoadId + " ";
         trafficLight += "destinationRoadId = " + destinationRoadId + " ";
         trafficLight += "overload = " + overload +" ";
+        trafficLight += "position = (" + super.getCoordinateX() + "," + super.getCoordinateY() + ")";
         return trafficLight;
     }
 }

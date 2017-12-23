@@ -6,6 +6,8 @@ import il.ac.technion.cs.yp.btw.classes.Point;
 import il.ac.technion.cs.yp.btw.classes.Street;
 import il.ac.technion.cs.yp.btw.classes.Weight;
 import il.ac.technion.cs.yp.btw.classes.Crossroad;
+import il.ac.technion.cs.yp.btw.db.StreetsDataBase;
+import il.ac.technion.cs.yp.btw.db.CrossRoadsDataBase;
 /**
  * default implementation for the interface Road
  */
@@ -57,7 +59,7 @@ public class DataRoad implements Road {
      */
     @Override
     public boolean isStreetNumberInRange(int streetNumber) {
-        return true;//TODO
+        return (streetNumber>=this.secStart && streetNumber<=this.secEnd);
     }
 
     /**
@@ -81,7 +83,8 @@ public class DataRoad implements Road {
      */
     @Override
     public Street getStreet() {
-        return null;
+        StreetsDataBase streetsDataBase = new StreetsDataBase(this.mapName);
+        return streetsDataBase.getStreet(this.myStreet);
     }
     /**
      * returns the right Weight for the given Time
@@ -109,7 +112,8 @@ public class DataRoad implements Road {
      */
     @Override
     public Crossroad getSourceCrossroad() {
-        return null;
+        CrossRoadsDataBase crossRoadsDataBase = new CrossRoadsDataBase(mapName);
+        return crossRoadsDataBase.getCrossRoad(sourceCrossroadId);
     }
 
     /**
@@ -117,7 +121,9 @@ public class DataRoad implements Road {
      */
     @Override
     public Crossroad getDestinationCrossroad() {
-        return null;
+
+        CrossRoadsDataBase crossRoadsDataBase = new CrossRoadsDataBase(mapName);
+        return crossRoadsDataBase.getCrossRoad(destinationCrossroadId);
     }
 
     @Override

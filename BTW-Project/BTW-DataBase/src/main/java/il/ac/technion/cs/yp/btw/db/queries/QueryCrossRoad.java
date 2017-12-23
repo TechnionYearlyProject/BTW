@@ -4,27 +4,26 @@ import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataTrafficLight;
 import il.ac.technion.cs.yp.btw.classes.PointImpl;
 import il.ac.technion.cs.yp.btw.classes.Point;
+import il.ac.technion.cs.yp.btw.classes.Crossroad;
+import il.ac.technion.cs.yp.btw.db.DataObjects.DataCrossRoad;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Set;
 import java.util.HashSet;
 
-public class QueryAllTrafficLights extends Query{
+public class QueryCrossRoad extends Query{
 
-    public QueryAllTrafficLights(String mapName){
+    private Point position;
+
+    public QueryCrossRoad(String mapName, Point position){
         super(mapName);
-        this.query = "SELECT * FROM dbo."+ mapName + "TrafficLight";
+        this.query = "SELECT * FROM dbo."+ mapName + "TrafficLight WHERE cordx = " + position.getCoordinateX() + " AND cordy = " + position.getCoordinateY();
+        this.position = position;
     }
 
-    public QueryAllTrafficLights(String mapName, Point position){
-        super(mapName);
-        this.query = "SELECT * FROM dbo." + mapName + "TrafficLight"
-                +" WHERE cordx = " +  position.getCoordinateX() + " AND " + "cordy = " + position.getCoordinateY();
-        System.out.println(this.query);
-    }
     @Override
-    public Set<TrafficLight> arrangeRecievedData(ResultSet resultSet){
+    public Crossroad arrangeRecievedData(ResultSet resultSet){
         Set<TrafficLight> trafficLights = new HashSet();
         try{
             while (resultSet.next()){
@@ -40,14 +39,14 @@ public class QueryAllTrafficLights extends Query{
                 String overload =  resultSet.getString("overload");
                 Point position = new PointImpl(cordx, cordy);
                 TrafficLight trafficLight  = new DataTrafficLight(nameID, position, sourceRoadId,destinationRoadIf, overload, mapName);
-
                 trafficLights.add(trafficLight);
 
             }
         }catch(SQLException e){
             System.out.println("query has failed");
         }
-        return trafficLights;
+        Crossroad crossRoad = new DataCrossRoad(this.position, trafficLights, mapName);
+        return crossRoad;
 
     }
 }
