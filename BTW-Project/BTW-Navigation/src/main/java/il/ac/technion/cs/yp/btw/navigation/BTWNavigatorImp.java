@@ -18,7 +18,6 @@ import java.util.List;
  * The main navigation logic
  */
 public class BTWNavigatorImp implements BTWNavigator {
-
     private final BTWDataBase Database;
     private Graph<Road, DefaultWeightedEdge> heuristicGraph;
     private AStarAdmissibleHeuristic<Road> heuristics;

@@ -27,7 +27,7 @@ public class MainDataBase{
     */
 
     /*the return value must be closed after the use is done*/
-    private Object queryDataBaseServer(Query query){
+    private static Object queryDataBaseServer(Query query){
 
         // Connect to database
         String url = String.format("jdbc:sqlserver://btwserver.database.windows.net:1433;" +
@@ -84,7 +84,7 @@ public class MainDataBase{
     }
 
     /*the sell for the query example*/
-    public Object queryDataBase(Query query){
+    public static Object queryDataBase(Query query){
        // ResultSet resultSet= null;
         Object result = null;
         //String query = "SELECT * FROM Production.Product;";

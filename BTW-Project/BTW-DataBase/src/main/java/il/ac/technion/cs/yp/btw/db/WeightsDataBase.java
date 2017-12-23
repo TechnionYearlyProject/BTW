@@ -2,14 +2,14 @@ package il.ac.technion.cs.yp.btw.db;
 
 import il.ac.technion.cs.yp.btw.classes.Weight;
 
-import java.util.List;
+import java.util.Set;
 
 public class WeightsDataBase{
 
     public WeightsDataBase(){
 
     }
-    public List<Weight> getAllWieghts(){
+    public Set<Weight> getAllWieghts(){
         return null;
     }
 

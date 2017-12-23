@@ -2,12 +2,14 @@ package il.ac.technion.cs.yp.btw.classes;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Iterator;
 
 /**
  * default abstract implementation for the interface Polygon
  */
 public abstract class PolygonAbstract implements Polygon {
     private Set<Point> vertices;
+
     public PolygonAbstract(){
         this(new HashSet<Point>());
     }
@@ -17,4 +19,14 @@ public abstract class PolygonAbstract implements Polygon {
 
     @Override
     public Set<Point> getVertices(){return this.vertices;}
+
+    @Override
+    public String toString(){
+        String polygonAbstract = new String("");
+        Iterator<Point> iterator = vertices.iterator();
+        while(iterator.hasNext()){
+            polygonAbstract += iterator.next().toString() + " ";
+        }
+        return polygonAbstract;
+    }
 }
