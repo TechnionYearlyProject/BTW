@@ -1,18 +1,19 @@
-package il.ac.technion.cs.yp;
+package il.ac.technion.cs.yp.btw.db;
 
-import il.ac.technion.cs.yp.btw.db.RoadsDataBase;
-import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.db.TrafficLightsDataBase;
+import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import junit.framework.TestCase;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 
-public class TestRoadsDataBase  extends TestCase {
+public class TestTrafficLightDataBase  extends TestCase {
 
-    public void testGetAllRoads(){
-        RoadsDataBase roadsDataBase = new RoadsDataBase("first");
-        Set<Road> allRoads = roadsDataBase.getAllRoads();
-        Iterator<Road> iterator = allRoads.iterator();
+    public void testGetAllTrafficLights(){
+        TrafficLightsDataBase trafficLightsDataBase = new TrafficLightsDataBase("first");
+        Set<TrafficLight> allTrafficLights = trafficLightsDataBase.getAllTrafficLights();
+        Iterator<TrafficLight> iterator = allTrafficLights.iterator();
         System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
             System.out.println(iterator.next().toString());
@@ -20,7 +21,7 @@ public class TestRoadsDataBase  extends TestCase {
     }
 
     public void testGetRoad(){
-
+/*
         RoadsDataBase roadsDataBase = new RoadsDataBase("first");
         Road ayalonn = roadsDataBase.getRoad("Ayalonn");
         System.out.println(ayalonn.toString());
@@ -29,7 +30,7 @@ public class TestRoadsDataBase  extends TestCase {
         Road road4 = roadsDataBase.getRoad("Road4");
         System.out.println(road4.toString());
         Road road6 = roadsDataBase.getRoad("Road6");
-        System.out.println(road6.toString());
+        System.out.println(road6.toString());*/
 
     }
 }

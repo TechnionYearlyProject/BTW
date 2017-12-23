@@ -1,4 +1,4 @@
-package il.ac.technion.cs.yp;
+package il.ac.technion.cs.yp.btw.db;
 
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataTrafficLight;

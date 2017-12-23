@@ -1,4 +1,4 @@
-package il.ac.technion.cs.yp;
+package il.ac.technion.cs.yp.btw.db;
 
 import il.ac.technion.cs.yp.btw.db.CentralLocationsDataBase;
 import il.ac.technion.cs.yp.btw.classes.CentralLocation;
