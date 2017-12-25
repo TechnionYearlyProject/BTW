@@ -9,23 +9,22 @@ import il.ac.technion.cs.yp.btw.db.queries.Query;
 
 public class CentralLocationsDataBase {
 
-    String mapName;
-    public CentralLocationsDataBase(String mapName){
-        this.mapName = mapName;
+    public CentralLocationsDataBase(){
+
     }
 
-    public Set<CentralLocation> getAllCentralLocations()
+    public static Set<CentralLocation> getAllCentralLocations(String mapName)
     {
         Query query = new QueryAllCentralLocations(mapName);
         return (Set<CentralLocation>) MainDataBase.queryDataBase(query);
     }
 
-    public CentralLocation getCentralLocation(String nameID){
+    public static CentralLocation getCentralLocation(String nameID, String mapName){
         Query query = new QueryCentralLocation(mapName, nameID);
         return (CentralLocation) MainDataBase.queryDataBase(query);
     }
 
-    public void addCentralLocation(CentralLocation CentralLocation){
+    public static void addCentralLocation(CentralLocation CentralLocation, String mapName){
 
     }
 }

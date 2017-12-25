@@ -28,7 +28,7 @@ public class QueryTrafficLight extends Query {
             String destinationRoadIf = nameID.split("-")[2];
             String overload =  resultSet.getString("overload");
             Point position = new PointImpl(cordx, cordy);
-            trafficLight  = new DataTrafficLight(position, sourceRoadId,destinationRoadIf, overload, mapName);
+            trafficLight  = new DataTrafficLight(nameID, position, sourceRoadId,destinationRoadIf, overload, mapName);
 
         }catch(SQLException e){
             System.out.println("query has failed");

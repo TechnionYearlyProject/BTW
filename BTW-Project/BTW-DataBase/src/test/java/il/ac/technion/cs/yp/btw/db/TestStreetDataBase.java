@@ -10,8 +10,7 @@ import java.util.Set;
 public class TestStreetDataBase  extends TestCase {
 
     public void testGetAllStreets(){
-        StreetsDataBase streetsDataBase = new StreetsDataBase("first");
-        Set<Street> allStreets = streetsDataBase.getAllStreets();
+        Set<Street> allStreets = StreetsDataBase.getAllStreets("first");
         Iterator<Street> iterator = allStreets.iterator();
         System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
@@ -21,14 +20,14 @@ public class TestStreetDataBase  extends TestCase {
 
     public void testGetRoad(){
 
-        StreetsDataBase roadsDataBase = new StreetsDataBase("first");
-        Street ayalonn = roadsDataBase.getStreet("Ayalonn");
+        String mapName = "first";
+        Street ayalonn = StreetsDataBase.getStreet("Ayalonn", mapName);
         System.out.println(ayalonn.toString());
-        Street road1 = roadsDataBase.getStreet("Road1");
+        Street road1 = StreetsDataBase.getStreet("Road1", mapName);
         System.out.println(road1.toString());
-        Street road4 = roadsDataBase.getStreet("Road4");
+        Street road4 = StreetsDataBase.getStreet("Road4", mapName);
         System.out.println(road4.toString());
-        Street road6 = roadsDataBase.getStreet("Road6");
+        Street road6 = StreetsDataBase.getStreet("Road6", mapName);
         System.out.println(road6.toString());
 
     }

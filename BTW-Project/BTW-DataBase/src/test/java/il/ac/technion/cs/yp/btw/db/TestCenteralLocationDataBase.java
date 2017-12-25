@@ -9,8 +9,7 @@ import java.util.Set;
 public class TestCenteralLocationDataBase  extends TestCase {
 
     public void testGetAllCenteralLocations(){
-        CentralLocationsDataBase centralLocationsDataBase = new CentralLocationsDataBase("first");
-        Set<CentralLocation> allCentralLocations = centralLocationsDataBase.getAllCentralLocations();
+        Set<CentralLocation> allCentralLocations = CentralLocationsDataBase.getAllCentralLocations("first");
         Iterator<CentralLocation> iterator = allCentralLocations.iterator();
         System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
@@ -20,10 +19,9 @@ public class TestCenteralLocationDataBase  extends TestCase {
 
     public void testGetCentralLocation(){
         //SELECT * FROM dbo.firstPlace WHERE nameID = 'GasStation'
-        CentralLocationsDataBase centralLocationsDataBase = new CentralLocationsDataBase("first");
-        CentralLocation centralLocation = centralLocationsDataBase.getCentralLocation("GasStation Paz");
+        CentralLocation centralLocation = CentralLocationsDataBase.getCentralLocation("GasStation Paz", "first");
         System.out.println(centralLocation.toString());
-        CentralLocation centralLocation2 = centralLocationsDataBase.getCentralLocation("bankHapoalim");
+        CentralLocation centralLocation2 = CentralLocationsDataBase.getCentralLocation("bankHapoalim", "first");
         System.out.println(centralLocation2.toString());
     }
 }

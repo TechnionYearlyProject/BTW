@@ -11,24 +11,22 @@ import java.util.Iterator;
 
 public class StreetsDataBase {
 
-    private String mapName;
-
     public StreetsDataBase(String mapName){
-        this.mapName = mapName;
+
     }
 
-    public Set<Street> getAllStreets(){
+    public static Set<Street> getAllStreets(String mapName){
         Query query = new QueryAllStreetNames(mapName);
         Set<String> streetNames =  (Set<String>) MainDataBase.queryDataBase(query);
         Set<Street> streets = new HashSet();
         Iterator<String> iterator = streetNames.iterator();
         while(iterator.hasNext()){
-            streets.add(getStreet(iterator.next()));
+            streets.add(getStreet(iterator.next(), mapName));
         }
         return streets;
     }
 
-    public Street getStreet(String streetName){
+    public static Street getStreet(String streetName, String mapName){
         Query query = new QueryStreet(mapName, streetName);
         return (Street) MainDataBase.queryDataBase(query);
     }

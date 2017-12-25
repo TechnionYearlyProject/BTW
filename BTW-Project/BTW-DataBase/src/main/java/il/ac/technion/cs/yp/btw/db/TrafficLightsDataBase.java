@@ -10,24 +10,22 @@ import java.util.Set;
 
 public class TrafficLightsDataBase {
 
-    private String mapName;
-
     public TrafficLightsDataBase(String mapName){
-        this.mapName = mapName;
+
     }
 
-    public Set<TrafficLight>  getAllTrafficLights(){
+    public static Set<TrafficLight>  getAllTrafficLights(String mapName){
         Query query = new QueryAllTrafficLights(mapName);
         return (Set<TrafficLight>) MainDataBase.queryDataBase(query);
     }
 
 
-    public Set<TrafficLight> getAllTrafficLights(Point position){
+    public static Set<TrafficLight> getAllTrafficLights(Point position, String mapName){
         Query query = new QueryAllTrafficLights(mapName, position);
         return (Set<TrafficLight>) MainDataBase.queryDataBase(query);
     }
 
-    public TrafficLight getTrafficLight(String nameID){
+    public static TrafficLight getTrafficLight(String nameID, String mapName){
 
         Query query = new QueryTrafficLight(mapName, nameID);
         return (TrafficLight) MainDataBase.queryDataBase(query);

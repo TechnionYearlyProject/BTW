@@ -6,6 +6,8 @@ import il.ac.technion.cs.yp.btw.classes.Point;
 import il.ac.technion.cs.yp.btw.classes.Street;
 import il.ac.technion.cs.yp.btw.classes.Weight;
 import il.ac.technion.cs.yp.btw.classes.Crossroad;
+import il.ac.technion.cs.yp.btw.db.StreetsDataBase;
+import il.ac.technion.cs.yp.btw.db.CrossRoadsDataBase;
 /**
  * default implementation for the interface Road
  */
@@ -57,7 +59,7 @@ public class DataRoad implements Road {
      */
     @Override
     public boolean isStreetNumberInRange(int streetNumber) {
-        return true;//TODO
+        return (streetNumber>=this.secStart && streetNumber<=this.secEnd);
     }
 
     /**
@@ -81,7 +83,7 @@ public class DataRoad implements Road {
      */
     @Override
     public Street getStreet() {
-        return null;
+        return StreetsDataBase.getStreet(myStreet, mapName);
     }
     /**
      * returns the right Weight for the given Time
@@ -109,7 +111,8 @@ public class DataRoad implements Road {
      */
     @Override
     public Crossroad getSourceCrossroad() {
-        return null;
+
+        return CrossRoadsDataBase.getCrossRoad(sourceCrossroadId, mapName);
     }
 
     /**
@@ -117,7 +120,8 @@ public class DataRoad implements Road {
      */
     @Override
     public Crossroad getDestinationCrossroad() {
-        return null;
+
+        return CrossRoadsDataBase.getCrossRoad(destinationCrossroadId, mapName);
     }
 
     @Override
@@ -128,8 +132,8 @@ public class DataRoad implements Road {
         road += "name = " + name +" ";
         road += "roadLength = " +roadLength + " ";
         road += "myStreet = " + myStreet + " ";
-        road += "sourceCrossroadId = " + sourceCrossroadId + " ";
-        road += "destinationCrossroadId = " + destinationCrossroadId + " ";
+        road += "sourceCrossroadId = (" + sourceCrossroadId.getCoordinateX() + "," + sourceCrossroadId.getCoordinateY() + ") ";
+        road += "destinationCrossroadId = (" + destinationCrossroadId.getCoordinateX() + "," + destinationCrossroadId.getCoordinateY() + ") ";
         return road;
 
     }

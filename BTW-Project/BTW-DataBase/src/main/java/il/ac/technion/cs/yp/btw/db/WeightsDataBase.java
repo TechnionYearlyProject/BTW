@@ -9,11 +9,11 @@ public class WeightsDataBase{
     public WeightsDataBase(){
 
     }
-    public Set<Weight> getAllWieghts(){
+    public static Set<Weight> getAllWieghts(String mapName){
         return null;
     }
 
-    public Weight getWeight(int id){
+    public static Weight getWeight(int id, String mapName){
         return null;
     }
 
