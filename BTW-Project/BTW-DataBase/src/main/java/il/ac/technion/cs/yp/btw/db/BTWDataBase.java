@@ -49,6 +49,7 @@ public interface BTWDataBase {
     /**
      * save map from geoJson to DB tables
      * @param geoJson - string containing the map represented in Json
+     *        mapName - string representing the name of the map
      */
-    void saveMap(String geoJson);
+    void saveMap(String geoJson, String mapName);
 }

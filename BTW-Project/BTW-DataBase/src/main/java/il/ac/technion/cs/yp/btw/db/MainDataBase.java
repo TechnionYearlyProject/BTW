@@ -107,7 +107,7 @@ public class MainDataBase{
         return result;
     }
 
-    public static saveDataFromQuery(String sqlQuery) {
+    public static void saveDataFromQuery(String sqlQuery) {
         String url = String.format("jdbc:sqlserver://btwserver.database.windows.net:1433;" +
                 "database=BTW;" +
                 "user=shay@btwserver;" +
@@ -132,9 +132,6 @@ public class MainDataBase{
             e.printStackTrace();
         }
     }
-}
-    }
-
 }
 
 
