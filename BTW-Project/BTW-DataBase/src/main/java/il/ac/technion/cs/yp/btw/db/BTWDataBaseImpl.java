@@ -65,4 +65,7 @@ public class BTWDataBaseImpl implements BTWDataBase{
 
     }
 
+    public void saveMap() {
+
+    }
 }

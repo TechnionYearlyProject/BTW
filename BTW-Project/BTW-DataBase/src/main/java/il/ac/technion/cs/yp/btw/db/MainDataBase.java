@@ -107,6 +107,34 @@ public class MainDataBase{
         return result;
     }
 
+    public static saveDataFromQuery(String sqlQuery) {
+        String url = String.format("jdbc:sqlserver://btwserver.database.windows.net:1433;" +
+                "database=BTW;" +
+                "user=shay@btwserver;" +
+                "password=S123456!;" +
+                "encrypt=true;" +
+                "trustServerCertificate=false;" +
+                "hostNameInCertificate=*.database.windows.net;" +
+                "loginTimeout=30;");
+        Connection connection = null;
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(url);
+            String schema = connection.getSchema();
+
+            try (Statement statement = connection.createStatement();
+                 ResultSet resultSet = statement.executeQuery(sqlQuery)) {
+                connection.close();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+    }
+
 }
 
 

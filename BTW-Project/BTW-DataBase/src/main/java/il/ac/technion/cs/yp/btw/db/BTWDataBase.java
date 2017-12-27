@@ -45,4 +45,10 @@ public interface BTWDataBase {
      * for future use, implementation not yet decided
      */
     void updateWeight();
+
+    /**
+     * save map from geoJson to DB tables
+     * @param geoJson - string containing the map represented in Json
+     */
+    void saveMap(String geoJson);
 }
