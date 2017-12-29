@@ -12,6 +12,12 @@ public interface Crossroad extends Point {
     Set<TrafficLight> getTrafficLights();
 
     /**
+     * @return Set of all TrafficLights from a specific road
+     * @param road - the Road from which the TrafficLights are going
+     */
+    Set<TrafficLight> getTrafficLightsFromRoad(Road road);
+
+    /**
      * Adds the given TrafficLightImpl to this CrossroadImpl
      * @param tl - the TrafficLightImpl being added
      */
