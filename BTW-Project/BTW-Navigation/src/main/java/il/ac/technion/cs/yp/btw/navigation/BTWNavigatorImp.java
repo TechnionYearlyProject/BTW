@@ -5,6 +5,7 @@ import com.google.common.graph.MutableValueGraph;
 import com.google.common.graph.ValueGraph;
 import com.google.common.graph.ValueGraphBuilder;
 import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.db.BTWDataBase;
 import org.jgrapht.alg.interfaces.AStarAdmissibleHeuristic;
 import org.jgrapht.alg.shortestpath.ALTAdmissibleHeuristic;
 import org.jgrapht.alg.shortestpath.AStarShortestPath;
@@ -29,30 +30,9 @@ public class BTWNavigatorImp implements BTWNavigator {
 
     public BTWNavigatorImp(BTWDataBase db) {
         this.Database = db;
-        this.heuristicGraph = initMinimumGraph();
+        this.heuristicGraph = BTWGraph.calculateMinimumGraph(db);
         this.heuristics = new ALTAdmissibleHeuristic<>(this.heuristicGraph, this.heuristicGraph.vertexSet());
     }
-
-    private Graph<Road, DefaultWeightedEdge> initMinimumGraph() {
-        SimpleDirectedWeightedGraph<Road, DefaultWeightedEdge> tmpGraph
-                = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
-        Database.getAllTrafficLights()
-                .forEach(trafficLight -> {
-                    Road src = trafficLight.getSourceRoad();
-                    Road dst = trafficLight.getDestinationRoad();
-                    if (! tmpGraph.containsVertex(src)) {
-                        tmpGraph.addVertex(src);
-                    }
-                    if (! tmpGraph.containsVertex(dst)) {
-                        tmpGraph.addVertex(dst);
-                    }
-                    DefaultWeightedEdge edge = tmpGraph.addEdge(src, dst);
-                    tmpGraph.setEdgeWeight(edge,
-                            trafficLight.getMinimumWeight().getWeightValue() + src.getMinimumWeight().getWeightValue());
-                });
-        return tmpGraph;
-    }
-
 
     @Override
     public List<Road> navigate(Road src, Road dst) {

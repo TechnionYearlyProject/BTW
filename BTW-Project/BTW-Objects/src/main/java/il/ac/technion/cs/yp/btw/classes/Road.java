@@ -46,6 +46,11 @@ public interface Road {
     Weight getMinimumWeight();
 
     /**
+     * @return minimum possible Weight of Road
+     */
+    Weight getHeuristicDist(Road road);
+
+    /**
      * @return the CrossroadImpl this Road starts in
      */
     Crossroad getSourceCrossroad();
