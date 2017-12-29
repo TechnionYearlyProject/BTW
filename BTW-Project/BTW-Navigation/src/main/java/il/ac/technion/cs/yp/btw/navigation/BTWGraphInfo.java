@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * Graph Calculations
  */
-public class BTWGraph {
+public class BTWGraphInfo {
 
     static Graph<Road, DefaultWeightedEdge> calculateMinimumGraph(BTWDataBase db) {
         SimpleDirectedWeightedGraph<Road, DefaultWeightedEdge> minimunGraph
