@@ -137,4 +137,9 @@ public class DataRoad implements Road {
         return road;
 
     }
+
+    @Override
+    public Weight getHeuristicDist(Road road){
+        return null;
+    }
 }

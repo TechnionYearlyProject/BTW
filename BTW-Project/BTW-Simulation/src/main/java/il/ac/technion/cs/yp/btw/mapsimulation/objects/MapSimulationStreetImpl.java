@@ -42,19 +42,4 @@ public class MapSimulationStreetImpl implements Street {
         this.roads.add(rd);
     }
 
-    public String toStringStreetFull() {
-        String roadsNames = "";
-        for (Road road: this.getAllRoadsInStreet()) {
-            roadsNames+=road.getRoadName();
-        }
-
-        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\"},"+
-                "\"properties\":{"+"\"name\":"+"\""+this.getStreetName()+"\","+
-                "\"included_streets\":"+"\""+roadsNames+"\"}},\n";
-    }
-
-    public String toStringStreet(){
-        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\"},"+
-                "\"properties\":{"+"\"name\":"+"\""+this.getStreetName()+"\"}},\n";
-    }
 }

@@ -16,4 +16,6 @@ public interface Crossroad extends Point {
      * @param tl - the TrafficLightImpl being added
      */
     void addTrafficLight(TrafficLight tl);
+
+    public String getName();
 }

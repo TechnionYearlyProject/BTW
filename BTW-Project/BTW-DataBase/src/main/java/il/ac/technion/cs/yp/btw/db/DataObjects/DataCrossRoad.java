@@ -58,4 +58,7 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
         return crossRoad;
     }
 
+    @Override
+    public String getName(){return null;};
+
 }

@@ -101,21 +101,13 @@ public class MapSimulationRoadImpl implements Road {
         return this.destinationCrossroad;
     }
 
-    public String toStringRoadFull() {
-        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
-                "[["+this.getSourceCrossroad().getCoordinateX()+","+this.getSourceCrossroad().getCoordinateY()+"],"+
-                "["+this.getDestinationCrossroad().getCoordinateX()+","+this.getDestinationCrossroad().getCoordinateY()+"]]},"+
-                "\"properties\":{"+"\"name\":"+"\""+this.getRoadName()+"\","+
-                "\"length\":"+"\""+this.getRoadLength()+"\","+"\"overload\":"+"\""+this.getMinimumWeight()+"\"}},\n";
-    }
-
-    public String toStringRoad() {
-        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
-                "[["+this.getSourceCrossroad().getCoordinateX()+","+this.getSourceCrossroad().getCoordinateY()+"],"+
-                "["+this.getDestinationCrossroad().getCoordinateX()+","+this.getDestinationCrossroad().getCoordinateY()+"]]},"+
-                "\"properties\":{"+"\"name\":"+"\""+this.getRoadName()+"\"}},\n";
+    @Override
+    public Weight getHeuristicDist(Road road){
+        return null;
     }
 }
+
+
 
 //for sector
 // "\"sector_start\":"+"\""+given_sector_start+"\","+ "\"sector_end\":"+"\""+given_sector_end+"\","+
