@@ -1,8 +1,11 @@
 package il.ac.technion.cs.yp.btw.navigation;
 
+import com.sun.istack.internal.NotNull;
+import il.ac.technion.cs.yp.btw.classes.Crossroad;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import javafx.util.Pair;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -10,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * A wrapper for the Road class used for Priority Queue
  */
-public class RoadWrapper implements Comparable<RoadWrapper>{
+class RoadWrapper implements Comparable<RoadWrapper>{
     double dist;
     private double heuristics;
     private Road road;
@@ -21,13 +24,18 @@ public class RoadWrapper implements Comparable<RoadWrapper>{
         this.road = road;
         this.dist = dist;
         this.heuristics = road.getHeuristicDist(dst).getWeightValue();
-        this.distFromNeighbor = road.getSourceCrossroad().getTrafficLightsFromRoad(road)
-                .stream()
-                .map(trafficLight -> new Pair<>(trafficLight.getDestinationRoad(),
-                        trafficLight.getMinimumWeight().getWeightValue()))
-                .collect(Collectors.toMap(Pair::getKey,
-                        r -> r.getKey().getMinimumWeight().getWeightValue() + r.getValue() + 0.0));
         this.parent = parent;
+        Crossroad destinationCrossroad = road.getDestinationCrossroad();
+        if (destinationCrossroad == null) {
+            this.distFromNeighbor = new HashMap<>();
+        } else {
+            this.distFromNeighbor = destinationCrossroad.getTrafficLightsFromRoad(road)
+                    .stream()
+                    .map(trafficLight -> new Pair<>(trafficLight.getDestinationRoad(),
+                            trafficLight.getMinimumWeight().getWeightValue()))
+                    .collect(Collectors.toMap(Pair::getKey,
+                            r -> r.getKey().getMinimumWeight().getWeightValue() + r.getValue() + 0.0));
+        }
     }
 
     Road getRoad() {
@@ -47,7 +55,7 @@ public class RoadWrapper implements Comparable<RoadWrapper>{
     }
 
     @Override
-    public int compareTo(RoadWrapper o) {
+    public int compareTo(@NotNull RoadWrapper o) {
         Double sign = Math.signum((this.dist + this.heuristics) - (o.dist + o.heuristics));
         return sign.intValue();
     }

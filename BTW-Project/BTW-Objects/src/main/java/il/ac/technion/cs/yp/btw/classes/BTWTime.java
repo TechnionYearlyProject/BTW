@@ -1,24 +1,15 @@
 package il.ac.technion.cs.yp.btw.classes;
 
 /**
- * Created by Guy Rephaeli on 30-Dec-17.
+ * Proposed new time class
  */
-public class BTWTime {
-
-    private final double value;
+public class BTWTime extends BTWTimeUnit{
 
     private BTWTime(double value) throws BTWIllegalTimeException {
-        if (value < 0) {
-            throw new BTWIllegalTimeException("Time must be a positive number");
-        } else if (value >= 24.0){
+        super(value);
+        if (value >= 24.0) {
             throw new BTWIllegalTimeException("Time must be less than 24");
-        } else {
-            this.value = value;
         }
-    }
-
-    public double getValue() {
-        return value;
     }
 
     public BTWTime progressBy(double progress) throws BTWIllegalTimeException {
