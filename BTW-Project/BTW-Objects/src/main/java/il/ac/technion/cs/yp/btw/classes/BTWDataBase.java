@@ -1,11 +1,5 @@
-package il.ac.technion.cs.yp.btw.navigation;
+package il.ac.technion.cs.yp.btw.classes;
 
-import il.ac.technion.cs.yp.btw.classes.CentralLocation;
-import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.classes.Street;
-import il.ac.technion.cs.yp.btw.classes.TrafficLight;
-
-import java.util.Map;
 import java.util.Set;
 
 /**

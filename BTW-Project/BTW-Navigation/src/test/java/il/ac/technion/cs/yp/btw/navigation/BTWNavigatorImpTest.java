@@ -1,7 +1,5 @@
 package il.ac.technion.cs.yp.btw.navigation;
 import il.ac.technion.cs.yp.btw.classes.*;
-//import il.ac.technion.cs.yp.btw.db.BTWDataBase;
-import org.checkerframework.checker.units.qual.C;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
