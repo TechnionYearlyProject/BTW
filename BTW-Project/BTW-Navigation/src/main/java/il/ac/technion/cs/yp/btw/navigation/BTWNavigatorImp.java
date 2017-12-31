@@ -1,7 +1,7 @@
 package il.ac.technion.cs.yp.btw.navigation;
 
 import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.db.BTWDataBase;
+import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import org.jgrapht.alg.interfaces.AStarAdmissibleHeuristic;
 import org.jgrapht.alg.shortestpath.ALTAdmissibleHeuristic;
 import org.jgrapht.alg.shortestpath.AStarShortestPath;

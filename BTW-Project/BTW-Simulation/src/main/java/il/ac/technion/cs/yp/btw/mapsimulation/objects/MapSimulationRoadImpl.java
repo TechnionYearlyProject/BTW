@@ -115,6 +115,7 @@ public class MapSimulationRoadImpl implements Road {
                 "["+this.getDestinationCrossroad().getCoordinateX()+","+this.getDestinationCrossroad().getCoordinateY()+"]]},"+
                 "\"properties\":{"+"\"name\":"+"\""+this.getRoadName()+"\"}},\n";
     }
+
 }
 
 //for sector
