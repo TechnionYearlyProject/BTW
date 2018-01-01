@@ -86,6 +86,15 @@ public class MapSimulationRoadImpl implements Road {
     }
 
     /**
+     * @param road
+     * @return minimum possible Weight of Road
+     */
+    @Override
+    public Weight getHeuristicDist(Road road) {
+        return null;
+    }
+
+    /**
      * @return the MapSimulationCrossroadImpl this Road starts in
      */
     @Override
