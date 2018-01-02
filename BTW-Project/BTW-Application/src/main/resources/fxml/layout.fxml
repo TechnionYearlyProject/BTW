@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="il.ac.technion.cs.yp.btw.Controller"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Text layoutX="31.0" layoutY="69.0" text="By The Way" wrappingWidth="422.568359375">
+            <font>
+                <Font size="52.0" />
+            </font></Text>
+        <Separator fx:id="separator" layoutY="107.0" prefHeight="0.0" prefWidth="${separator.parent.width}" />
+        <Text layoutX="302.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Load Existing Map">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Text>
+        <JFXComboBox layoutX="249.0" layoutY="238.0" prefHeight="25.0" prefWidth="236.0" promptText="Choose Map" />
+        <JFXButton buttonType="RAISED" layoutX="238.0" layoutY="400.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Load" />
+        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="232.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="/icons8-map-50.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="691.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="/icons8-map-50.png" />
+            </image>
+        </ImageView>
+        <Text layoutX="761.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generate New Map">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Text>
+        <JFXButton buttonType="RAISED" layoutX="709.0" layoutY="400.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Generate" />
+        <JFXRadioButton layoutX="757.0" layoutY="250.0" prefHeight="36.0" prefWidth="143.0" text="Grid Road" />
+        <JFXRadioButton layoutX="757.0" layoutY="304.0" prefHeight="36.0" prefWidth="161.0" text="Free Form" />
+    </children>
 </AnchorPane>

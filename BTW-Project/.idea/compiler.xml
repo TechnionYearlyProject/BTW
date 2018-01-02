@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="btw-app" />
+        <module name="btw-db" />
+        <module name="btw-geojson" />
+        <module name="BTW-GeoJson" />
+        <module name="BTW-Graphics" />
+        <module name="btw-graphics" />
+        <module name="btw-navigate" />
+        <module name="BTW-Objects" />
+        <module name="btw-objects" />
+        <module name="BTW-Simulation" />
+        <module name="btw-simulation" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="better-than-waze" target="1.8" />
+      <module name="btw-app" target="1.8" />
+      <module name="btw-db" target="1.8" />
+      <module name="btw-geojson" target="1.8" />
+      <module name="BTW-GeoJson" target="1.8" />
+      <module name="BTW-Graphics" target="1.8" />
+      <module name="btw-graphics" target="1.8" />
+      <module name="btw-navigate" target="1.8" />
+      <module name="btw-objects" target="1.8" />
+      <module name="BTW-Objects" target="1.8" />
+      <module name="btw-simulation" target="1.8" />
+      <module name="BTW-Simulation" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
