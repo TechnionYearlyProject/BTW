@@ -1,52 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.ac.technion.cs.yp.btw.GenerateGridController">
     <children>
-        <Text layoutX="31.0" layoutY="69.0" text="Generate Grid" wrappingWidth="422.0">
+        <Text layoutX="31.0" layoutY="69.0" text="Generate Grid City" wrappingWidth="500.0">
             <font>
                 <Font size="52.0" />
             </font></Text>
         <Separator fx:id="separator" layoutY="107.0" prefHeight="0.0" prefWidth="${anchor.width}" />
-        <Text layoutX="302.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Load Existing Map">
-            <font>
-                <Font size="20.0" />
-            </font>
-        </Text>
-        <JFXComboBox layoutX="249.0" layoutY="238.0" prefHeight="25.0" prefWidth="236.0" promptText="Choose Map" />
-        <JFXButton fx:id="load_button" buttonType="RAISED" layoutX="238.0" layoutY="400.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Load" />
-        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="232.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="/icons8-map-50.png" />
-            </image>
-        </ImageView>
-        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="691.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="/icons8-map-50.png" />
-            </image>
-        </ImageView>
-        <Text layoutX="761.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generate New Map">
-            <font>
-                <Font size="20.0" />
-            </font>
-        </Text>
-        <JFXButton fx:id="generate_button" buttonType="RAISED" layoutX="709.0" layoutY="400.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Generate" />
-        <JFXRadioButton layoutX="757.0" layoutY="250.0" prefHeight="36.0" prefWidth="143.0" text="Grid Road" />
-        <JFXRadioButton layoutX="757.0" layoutY="304.0" prefHeight="36.0" prefWidth="161.0" text="Free Form" />
+       <VBox alignment="CENTER" layoutX="379.0" layoutY="125.0" prefHeight="360.0" prefWidth="442.0">
+           <children>
+               <HBox alignment="CENTER">
+                   <children>
+                       <JFXToggleButton />
+                       <JFXTextField prefWidth="210" promptText="Number Of Streets" />
+                   </children>
+               </HBox>
+               <HBox alignment="CENTER">
+                   <children>
+                       <JFXToggleButton />
+                       <JFXTextField prefWidth="210" promptText="Number Of Avenues" />
+                   </children>
+               </HBox>
+               <HBox alignment="CENTER">
+                   <children>
+                       <JFXToggleButton />
+                       <JFXTextField prefWidth="210" promptText="Length Of Street (meters)" />
+                   </children>
+               </HBox>
+               <HBox alignment="CENTER">
+                   <children>
+                       <JFXToggleButton />
+                       <JFXTextField prefWidth="210.0" promptText="Length Of Avenues (meters)" />
+                   </children>
+               </HBox>
+               <HBox alignment="CENTER">
+                   <children>
+                       <JFXToggleButton />
+                       <JFXTextField prefWidth="210" promptText="Start Longtitude" />
+                   </children>
+               </HBox>
+               <HBox alignment="CENTER">
+                   <children>
+                       <JFXToggleButton />
+                       <JFXTextField prefWidth="210" promptText="Start Latitude" />
+                   </children>
+               </HBox>
+           </children>
+       </VBox>
       <ImageView fx:id="logo" fitHeight="307.0" fitWidth="250.0" layoutX="461.0" layoutY="466.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="/BTWLogo.png" />
          </image>
       </ImageView>
       <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="45.0" layoutY="681.0" onAction="#BackClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
+      <JFXButton fx:id="generate_button" buttonType="RAISED" layoutX="887.0" layoutY="281.0" onAction="#GenerateClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Generate!" />
+      <Text layoutX="85.0" layoutY="285.0" text="If an option isn't selected a default value will be chosen" textAlignment="CENTER" wrappingWidth="278.0000231266022">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+
     </children>
 </AnchorPane>

@@ -29,4 +29,7 @@ public class GenerateGridController {
         }
     }
 
+    @FXML protected void GenerateClicked(ActionEvent event) {
+
+    }
 }

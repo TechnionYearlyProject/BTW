@@ -31,6 +31,7 @@ public class HomeController {
     @FXML
     protected void generateButtonClick(ActionEvent event) {
         RadioButton selectedRadioButton = (RadioButton) generate_city_toggle.getSelectedToggle();
+        if(selectedRadioButton == null) return;
         String switchTo;
         if (selectedRadioButton.equals(grid_radio)) {
             switchTo = "/fxml/generate_grid.fxml";
