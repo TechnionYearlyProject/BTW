@@ -8,13 +8,15 @@
 <?import com.jfoenix.controls.*?>
 <?import java.lang.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
+            prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" fx:id="anchor"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.ac.technion.cs.yp.btw.Controller">
     <children>
-        <Text layoutX="31.0" layoutY="69.0" text="By The Way" wrappingWidth="422.568359375">
+        <Text layoutX="31.0" layoutY="69.0" text="By The Way" wrappingWidth="422.0">
             <font>
                 <Font size="52.0" />
             </font></Text>
-        <Separator fx:id="separator" layoutY="107.0" prefHeight="0.0" prefWidth="${separator.parent.width}" />
+        <Separator fx:id="separator" layoutY="107.0" prefHeight="0.0" prefWidth="${anchor.width}" />
         <Text layoutX="302.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Load Existing Map">
             <font>
                 <Font size="20.0" />
