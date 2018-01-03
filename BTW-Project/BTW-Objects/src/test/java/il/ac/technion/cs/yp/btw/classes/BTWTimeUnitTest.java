@@ -54,4 +54,21 @@ public class BTWTimeUnitTest {
             Assert.assertEquals("Time must be less than 24 hours", e.getMessage());
         }
     }
+
+    @Test
+    public void testTimeProgress() {
+        try {
+            BTWTime time = BTWTime.of(0);
+            BTWWeight w1 = BTWWeight.of(1);
+            BTWWeight w2 = BTWWeight.of(86400);
+            BTWTime t1 = time.progressBy(w1);
+            BTWTime t2 = time.progressBy(w2);
+            BTWTime t3 = t1.progressBy(w2);
+            Assert.assertEquals(new Long(1), t1.seconds());
+            Assert.assertEquals(new Long(0), t2.seconds());
+            Assert.assertEquals(new Long(1), t3.seconds());
+        } catch (BTWIllegalTimeException e) {
+            Assert.fail();
+        }
+    }
 }
