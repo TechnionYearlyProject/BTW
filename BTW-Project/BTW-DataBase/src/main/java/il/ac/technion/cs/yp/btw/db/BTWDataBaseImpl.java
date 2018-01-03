@@ -163,7 +163,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                         + secondEntry.getValue().toString() + ");";
                 MainDataBase.saveDataFromQuery(sql3);
             }
-        }
+        } //test
         return this;
     }
 }
