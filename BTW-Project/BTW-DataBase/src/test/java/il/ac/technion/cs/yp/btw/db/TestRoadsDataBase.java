@@ -30,4 +30,16 @@ public class TestRoadsDataBase  extends TestCase {
         System.out.println(road6.toString());
 
     }
+
+    public void testGetOverload(){
+        String mapName = "first";
+        long ayalonnOverload = RoadsDataBase.getOverload("Ayalonn", mapName);
+        System.out.println("ayalonnOverload = " + ayalonnOverload);
+        long road1Overload = RoadsDataBase.getOverload("Ayalonn", mapName);
+        System.out.println("ayalonnOverload = " + road1Overload);
+        long road4Overload = RoadsDataBase.getOverload("Ayalonn", mapName);
+        System.out.println("ayalonnOverload = " + road4Overload);
+        long road6Overload = RoadsDataBase.getOverload("Ayalonn", mapName);
+        System.out.println("ayalonnOverload = " + road6Overload);
+    }
 }
