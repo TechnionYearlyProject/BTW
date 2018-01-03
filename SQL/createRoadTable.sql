@@ -8,5 +8,5 @@ cord2y smallint NOT NULL,
 length int,
 secStart smallint,
 secEnd smallint,
-overload long,
+overload bigint,
 PRIMARY KEY(nameID));
