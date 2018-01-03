@@ -14,7 +14,7 @@ public class MapSimulationStreetImpl implements Street {
     private Set<Road> roads;
 
     public MapSimulationStreetImpl(String name){
-        this(name,new HashSet<Road>());
+        this(name,new HashSet<>());
     }
 
     public MapSimulationStreetImpl(String name, Set<Road> roads){
@@ -38,8 +38,24 @@ public class MapSimulationStreetImpl implements Street {
      * @param rd - the added Road
      */
     @Override
-    public void addRoad(Road rd) {
+    public Street addRoad(Road rd) {
         this.roads.add(rd);
+        return this;
     }
 
+    public String toStringStreetFull() {
+        String roadsNames = "";
+        for (Road road: this.getAllRoadsInStreet()) {
+            roadsNames+=road.getRoadName();
+        }
+
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\"},"+
+                "\"properties\":{"+"\"name\":"+"\""+this.getStreetName()+"\","+
+                "\"included_streets\":"+"\""+roadsNames+"\"}},\n";
+    }
+
+    public String toStringStreet(){
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\"},"+
+                "\"properties\":{"+"\"name\":"+"\""+this.getStreetName()+"\"}},\n";
+    }
 }

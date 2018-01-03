@@ -18,7 +18,7 @@ public class QueryStreet extends Query{
 
     public QueryStreet(String mapName, String streetName) {
         super(mapName);
-        this.query = "SELECT * FROM dbo." + mapName + "Road WHERE nameID LIKE '" + streetName + "%'";
+        query = "SELECT * FROM dbo." + mapName + "Road WHERE nameID LIKE '" + streetName + "%'";
         this.streetName = streetName;
     }
 
@@ -36,7 +36,7 @@ public class QueryStreet extends Query{
                 int length =  resultSet.getInt("length");
                 int secStart =  resultSet.getInt("secStart");
                 int secEnd =  resultSet.getInt("secEnd");
-                String overload =  resultSet.getString("overload");
+                long overload =  resultSet.getLong("overload");
 
                 String myStreet = nameID.split("st")[0];
                 Point sourceCrossroadId  = new PointImpl(cord1x, cord1y);
@@ -48,7 +48,6 @@ public class QueryStreet extends Query{
         }catch(SQLException e){
             System.out.println("query has failed");
         }
-        Street street = new DataStreet(streetName, roads, mapName);
-        return street;
+        return new DataStreet(streetName, roads, mapName);
     }
 }

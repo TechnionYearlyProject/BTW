@@ -4,17 +4,19 @@ import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationCrossroadImpl;
 import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationRoadImpl;
 import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationStreetImpl;
+import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationTrafficLightImpl;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * map simulator of a grid shaped city
  */
 public class GridCityMapSimulator implements MapSimulator {
-    private static final int DEFAULT_NUM_OF_STREETS = 6;
-    private static final int DEFAULT_NUM_OF_AVENUES = 6;
+    private static final int DEFAULT_NUM_OF_STREETS = 7;
+    private static final int DEFAULT_NUM_OF_AVENUES = 7;
     private static final double DEFAULT_ROAD_LENGTH = 1;
     private static final double DEFAULT_START_X_COORDINATE = 0;
     private static final double DEFAULT_START_Y_COORDINATE = 0;
@@ -29,50 +31,6 @@ public class GridCityMapSimulator implements MapSimulator {
     private Set<Crossroad> crossRoads;
     private Set<CentralLocation> centralLocations;
     private Set<Street> streets;
-
-    private Point avenueRoadAdvance(Point p){
-        return new PointImpl(p.getCoordinateX()+1,p.getCoordinateY());
-    }
-
-    private Point avenueSectionAdvance(Point p){
-        return new PointImpl(p.getCoordinateX(),p.getCoordinateY()+1);
-    }
-
-    private Point streetRoadAdvance(Point p){
-        return new PointImpl(p.getCoordinateX(),p.getCoordinateY()+1);
-    }
-
-    private Point streetSectionAdvance(Point p){
-        return new PointImpl(p.getCoordinateX()+1,p.getCoordinateY());
-    }
-    public GridCityMapSimulator setNumOfStreets(int numOfStreets){
-        this.numOfStreets = numOfStreets;
-        return this;
-    }
-    public GridCityMapSimulator setNumOfAvenues(int numOfAvenues) {
-        this.numOfAvenues = numOfAvenues;
-        return this;
-    }
-
-    public GridCityMapSimulator setStreetLength(double streetLength) {
-        this.streetLength = streetLength;
-        return this;
-    }
-
-    public GridCityMapSimulator setAvenueLength(double avenueLength) {
-        this.avenueLength = avenueLength;
-        return this;
-    }
-
-    public GridCityMapSimulator setStartXCoordinate(double startXCoordinate) {
-        this.startXCoordinate = startXCoordinate;
-        return this;
-    }
-
-    public GridCityMapSimulator setStartYCoordinate(double startYCoordinate) {
-        this.startYCoordinate = startYCoordinate;
-        return this;
-    }
     /**
      * by using the constructor, the city simulation
      * is taking place
@@ -103,11 +61,11 @@ public class GridCityMapSimulator implements MapSimulator {
     }
 
     private void initializeAllSets() {
-        this.roads = new HashSet<Road>();
-        this.crossRoads = new HashSet<Crossroad>();
-        this.trafficLights = new HashSet<TrafficLight>();
-        this.centralLocations = new HashSet<CentralLocation>();
-        this.streets = new HashSet<Street>();
+        this.roads = new HashSet<>();
+        this.crossRoads = new HashSet<>();
+        this.trafficLights = new HashSet<>();
+        this.centralLocations = new HashSet<>();
+        this.streets = new HashSet<>();
     }
 
     public void build(){
@@ -133,7 +91,23 @@ public class GridCityMapSimulator implements MapSimulator {
     }
 
     private void addTrafficLights() {
-
+        for(Crossroad cr : getCrossRoads()){
+            Set<Road> roadsEndsInCurrCrossroad =
+                    getRoads().stream()
+                            .filter(road -> road.getDestinationCrossroad().equals(cr))
+                            .collect(Collectors.toSet());
+            Set<Road> roadsStartInCurrCrossroad =
+                    getRoads().stream()
+                            .filter(road -> road.getSourceCrossroad().equals(cr))
+                            .collect(Collectors.toSet());
+            for (Road sourceRoad : roadsEndsInCurrCrossroad){
+                for (Road destRoad : roadsStartInCurrCrossroad){
+                    TrafficLight tl = new MapSimulationTrafficLightImpl(cr, sourceRoad, destRoad);
+                    cr.addTrafficLight(tl);
+                    this.trafficLights.add(tl);
+                }
+            }
+        }
     }
 
     private void addRoadsByDirection(int numOfRoads, int numOfSections, double sectionLength, double roadsDistance
@@ -149,7 +123,7 @@ public class GridCityMapSimulator implements MapSimulator {
             innerStartPoint = new PointImpl(startPoint);
             currStreet = new MapSimulationStreetImpl(roadNumber + " " + roadBaseName);
             this.streets.add(currStreet);
-            for (int roadSectionNumber = 1; roadSectionNumber <= numOfSections; roadSectionNumber++) {
+            for (int roadSectionNumber = 1; roadSectionNumber < numOfSections; roadSectionNumber++) {
                 innerEndPoint = sectionAdvance.apply(innerEndPoint);
                 String roadName = currStreet.getStreetName() + " section " + roadSectionNumber;
                 addRoad(innerStartPoint, innerEndPoint, roadName,currStreet);
@@ -178,7 +152,7 @@ public class GridCityMapSimulator implements MapSimulator {
      *
      * lat1, lon1 Start point lat2, lon2 End point el1 Start altitude in meters
      * el2 End altitude in meters
-     * @returns Distance in Meters
+     * @return Distance in Meters
      */
     private static double distanceBetween2PointsOnEarth(double lat1, double lat2, double lon1,
                                   double lon2, double el1, double el2) {
@@ -218,9 +192,9 @@ public class GridCityMapSimulator implements MapSimulator {
         double xCoordinate;
         double yCoordinate = this.startYCoordinate;
         Point p;
-        for (int streetNumber = 1; streetNumber <= numOfStreets + 1; streetNumber++) {
+        for (int streetNumber = 1; streetNumber <= numOfStreets; streetNumber++) {
             xCoordinate = this.startXCoordinate;
-            for (int streetSection = 1; streetSection <= numOfAvenues + 1; streetSection++) {
+            for (int streetSection = 1; streetSection <= numOfAvenues; streetSection++) {
                 p = new PointImpl(xCoordinate, yCoordinate);
                 Crossroad currCrossRoad = new MapSimulationCrossroadImpl(p);
                 this.crossRoads.add(currCrossRoad);
@@ -269,5 +243,48 @@ public class GridCityMapSimulator implements MapSimulator {
     @Override
     public Set<Street> getStreets() {
         return this.streets;
+    }
+    private Point avenueRoadAdvance(Point p){
+        return new PointImpl(p.getCoordinateX()+this.streetLength,p.getCoordinateY());
+    }
+
+    private Point avenueSectionAdvance(Point p){
+        return new PointImpl(p.getCoordinateX(),p.getCoordinateY()+this.avenueLength);
+    }
+
+    private Point streetRoadAdvance(Point p){
+        return new PointImpl(p.getCoordinateX(),p.getCoordinateY()+this.avenueLength);
+    }
+
+    private Point streetSectionAdvance(Point p){
+        return new PointImpl(p.getCoordinateX()+this.streetLength,p.getCoordinateY());
+    }
+    public GridCityMapSimulator setNumOfStreets(int numOfStreets){
+        this.numOfStreets = numOfStreets;
+        return this;
+    }
+    public GridCityMapSimulator setNumOfAvenues(int numOfAvenues) {
+        this.numOfAvenues = numOfAvenues;
+        return this;
+    }
+
+    public GridCityMapSimulator setStreetLength(double streetLength) {
+        this.streetLength = streetLength;
+        return this;
+    }
+
+    public GridCityMapSimulator setAvenueLength(double avenueLength) {
+        this.avenueLength = avenueLength;
+        return this;
+    }
+
+    public GridCityMapSimulator setStartXCoordinate(double startXCoordinate) {
+        this.startXCoordinate = startXCoordinate;
+        return this;
+    }
+
+    public GridCityMapSimulator setStartYCoordinate(double startYCoordinate) {
+        this.startYCoordinate = startYCoordinate;
+        return this;
     }
 }

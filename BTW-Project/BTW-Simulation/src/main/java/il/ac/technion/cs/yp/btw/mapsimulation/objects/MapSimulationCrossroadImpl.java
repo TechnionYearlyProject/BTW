@@ -1,9 +1,6 @@
 package il.ac.technion.cs.yp.btw.mapsimulation.objects;
 
-import il.ac.technion.cs.yp.btw.classes.Crossroad;
-import il.ac.technion.cs.yp.btw.classes.Point;
-import il.ac.technion.cs.yp.btw.classes.PointAbstract;
-import il.ac.technion.cs.yp.btw.classes.TrafficLight;
+import il.ac.technion.cs.yp.btw.classes.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +13,7 @@ public class MapSimulationCrossroadImpl extends PointAbstract implements Crossro
     private Set<TrafficLight> trafficLights;
     private String name;
     public MapSimulationCrossroadImpl(Point position) {
-        this(position,new HashSet<TrafficLight>());
+        this(position,new HashSet<>());
     }
     public MapSimulationCrossroadImpl(Point position,
                                       Set<TrafficLight> trafficLights) {
@@ -33,12 +30,22 @@ public class MapSimulationCrossroadImpl extends PointAbstract implements Crossro
     }
 
     /**
+     * @param road - the Road from which the TrafficLights are going
+     * @return Set of all TrafficLights from a specific road
+     */
+    @Override
+    public Set<TrafficLight> getTrafficLightsFromRoad(Road road) {
+        return null;
+    }
+
+    /**
      * Adds the given MapSimulationTrafficLightImpl to this MapSimulationCrossroadImpl
      * @param tl - the MapSimulationTrafficLightImpl being added
      */
     @Override
-    public void addTrafficLight(TrafficLight tl){
+    public Crossroad addTrafficLight(TrafficLight tl){
         this.trafficLights.add(tl);
+        return this;
     }
 
     @Override
@@ -46,7 +53,10 @@ public class MapSimulationCrossroadImpl extends PointAbstract implements Crossro
         return super.toString();
     }
 
-    @Override
     public String getName(){return name;}
 
+    public String toStringCrossRoad() {
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
+                "["+this.getCoordinateX()+","+this.getCoordinateY()+"]},"+"\"properties\":{"+"\"name\":"+"\""+this.getName()+"\"}},\n";
+    }
 }

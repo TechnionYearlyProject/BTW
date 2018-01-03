@@ -16,7 +16,7 @@ public class DataStreet implements Street {
     private Set<Road> roads;
 
     public DataStreet (String name, String mapName){
-        this(name,new HashSet<Road>(), mapName);
+        this(name,new HashSet<>(), mapName);
     }
 
     public DataStreet (String name, Set<Road> roads, String mapName){
@@ -40,19 +40,19 @@ public class DataStreet implements Street {
      * adds the given Road to this Street
      * @param rd - the added Road
      */
-    public void addRoad(Road rd){
-
+    public Street addRoad(Road rd){
+        // TODO: Implement
+        return this;
     }
 
     @Override
     public String toString(){
-        String street = new String("");
+        String street = "";
         street += "street: ";
         street += "name = " + name;
         street += "\nthe roads are:\n";
-        Iterator<Road> iterator = roads.iterator();
-        while(iterator.hasNext()){
-            street += "\t" + iterator.next().toString() + "\n";
+        for (Road road : roads) {
+            street += "\t" + road.toString() + "\n";
         }
         return street;
     }

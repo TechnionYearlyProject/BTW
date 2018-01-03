@@ -23,6 +23,7 @@ public class TestDataBaseQuerying  extends TestCase {
     //the test method name needs to begin with the word 'test'
     public void testGetAllRoadsSet(){
         TestResult result = new TestResult();
+        MainDataBase.openConnection();
         Query query = new QueryRoadExample("first");
         //MainDataBase database = new MainDataBase();
         //Set<Road> roads = (Set<Road>) database.queryDataBase(query);
@@ -32,12 +33,13 @@ public class TestDataBaseQuerying  extends TestCase {
         while(iterator.hasNext()){
             System.out.println(iterator.next().toString());
         }
-
+        MainDataBase.closeConnection();
 
     }
 
     public void testGetAllCenteralLocations(){
         TestResult result = new TestResult();
+        MainDataBase.openConnection();
         Query query = new QueryCenteralLocationExample("first");
         //MainDataBase database = new MainDataBase();
         //Set<CentralLocation> centeralLocations = (Set<CentralLocation>) database.queryDataBase(query);
@@ -47,10 +49,12 @@ public class TestDataBaseQuerying  extends TestCase {
         while(iterator.hasNext()){
             System.out.println(iterator.next().toString());
         }
+        MainDataBase.closeConnection();
     }
 
     public void testGetAllTrafficLights(){
         TestResult result = new TestResult();
+        MainDataBase.openConnection();
         Query query = new QueryTrafficLightExample("first");
         //MainDataBase database = new MainDataBase();
         //Set<TrafficLight> trafficLights = (Set<TrafficLight>) database.queryDataBase(query);
@@ -60,6 +64,7 @@ public class TestDataBaseQuerying  extends TestCase {
         while(iterator.hasNext()){
             System.out.println(iterator.next().toString());
         }
+        MainDataBase.closeConnection();
     }
 }
 
@@ -68,7 +73,7 @@ class QueryRoadExample extends Query{
 
     public QueryRoadExample(String mapName){
         super(mapName);
-        this.query = "SELECT * FROM dbo."+ mapName + "Road";
+        query = "SELECT * FROM dbo."+ mapName + "Road";
     }
 
     @Override
@@ -121,7 +126,7 @@ class QueryCenteralLocationExample extends Query{
 
     public QueryCenteralLocationExample(String mapName){
         super(mapName);
-        this.query = "SELECT * FROM dbo."+ mapName + "Place";
+        query = "SELECT * FROM dbo."+ mapName + "Place";
     }
 
     @Override
@@ -140,7 +145,7 @@ class QueryCenteralLocationExample extends Query{
                 int cord3y =  resultSet.getInt("cord3y");
                 int cord4y =  resultSet.getInt("cord4y");
 
-                Set<Point> points = new HashSet<Point>();
+                Set<Point> points = new HashSet<>();
                 points.add(new PointImpl(cord1x, cord1y));
                 points.add(new PointImpl(cord2x, cord2y));
                 points.add(new PointImpl(cord3x, cord3y));
@@ -179,7 +184,7 @@ class QueryTrafficLightExample extends Query{
 
     public QueryTrafficLightExample(String mapName){
         super(mapName);
-        this.query = "SELECT * FROM dbo."+ mapName + "TrafficLight";
+        query = "SELECT * FROM dbo."+ mapName + "TrafficLight";
     }
 
     @Override

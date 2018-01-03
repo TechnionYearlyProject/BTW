@@ -1,9 +1,6 @@
 package il.ac.technion.cs.yp.btw.mapsimulation.objects;
 
-import il.ac.technion.cs.yp.btw.classes.Crossroad;
-import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.classes.Street;
-import il.ac.technion.cs.yp.btw.classes.Weight;
+import il.ac.technion.cs.yp.btw.classes.*;
 
 import java.sql.Time;
 
@@ -73,7 +70,7 @@ public class MapSimulationRoadImpl implements Road {
      * to the given Time
      */
     @Override
-    public Weight getWeightByTime(Time time) {
+    public BTWWeight getWeightByTime(BTWTime time) {
         return null;//TODO
     }
 
@@ -81,8 +78,17 @@ public class MapSimulationRoadImpl implements Road {
      * @return minimum possible Weight of Road
      */
     @Override
-    public Weight getMinimumWeight() {
+    public BTWWeight getMinimumWeight() {
         return null;//TODO
+    }
+
+    /**
+     * @param road - the road to which the heuristic distance is calculated
+     * @return minimum possible Weight of Road
+     */
+    @Override
+    public BTWWeight getHeuristicDist(Road road) {
+        return null;
     }
 
     /**
@@ -101,13 +107,22 @@ public class MapSimulationRoadImpl implements Road {
         return this.destinationCrossroad;
     }
 
-    @Override
-    public Weight getHeuristicDist(Road road){
-        return null;
+    public String toStringRoadFull() {
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
+                "[["+this.getSourceCrossroad().getCoordinateX()+","+this.getSourceCrossroad().getCoordinateY()+"],"+
+                "["+this.getDestinationCrossroad().getCoordinateX()+","+this.getDestinationCrossroad().getCoordinateY()+"]]},"+
+                "\"properties\":{"+"\"name\":"+"\""+this.getRoadName()+"\","+
+                "\"length\":"+"\""+this.getRoadLength()+"\","+"\"overload\":"+"\""+this.getMinimumWeight()+"\"}},\n";
     }
+
+    public String toStringRoad() {
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
+                "[["+this.getSourceCrossroad().getCoordinateX()+","+this.getSourceCrossroad().getCoordinateY()+"],"+
+                "["+this.getDestinationCrossroad().getCoordinateX()+","+this.getDestinationCrossroad().getCoordinateY()+"]]},"+
+                "\"properties\":{"+"\"name\":"+"\""+this.getRoadName()+"\"}},\n";
+    }
+
 }
-
-
 
 //for sector
 // "\"sector_start\":"+"\""+given_sector_start+"\","+ "\"sector_end\":"+"\""+given_sector_end+"\","+

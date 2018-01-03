@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: il.ac.technion.cs.yp.BTW
-

@@ -3,10 +3,8 @@ package il.ac.technion.cs.yp.btw.db.DataObjects;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Iterator;
-import il.ac.technion.cs.yp.btw.classes.Point;
-import il.ac.technion.cs.yp.btw.classes.PointAbstract;
-import il.ac.technion.cs.yp.btw.classes.Crossroad;
-import il.ac.technion.cs.yp.btw.classes.TrafficLight;
+
+import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.db.TrafficLightsDataBase;
 /**
  * Point on a road map which represents
@@ -35,30 +33,32 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
         return this.trafficLights;
     }
 
+    @Override
+    public Set<TrafficLight> getTrafficLightsFromRoad(Road road) {
+        // TODO: Implement
+        return null;
+    }
+
     /**
      * Adds the given TrafficLightImpl to this CrossroadImpl
      * @param tl - the TrafficLightImpl being added
      */
     @Override
-    public void addTrafficLight(TrafficLight tl){
+    public Crossroad addTrafficLight(TrafficLight tl){
         this.trafficLights.add(tl);
-
+        return this;
     }
 
     @Override
     public String toString() {
 
-        String crossRoad = new String("");
+        String crossRoad = "";
         crossRoad += "cross road: ";
         crossRoad += "position = (" + super.getCoordinateX() + "," + super.getCoordinateY() + ")\n";
-        Iterator<TrafficLight> iterator = trafficLights.iterator();
-        while(iterator.hasNext()){
-            crossRoad+= "\t" + iterator.next().toString() + "\n";
+        for (TrafficLight trafficLight : trafficLights) {
+            crossRoad += "\t" + trafficLight.toString() + "\n";
         }
         return crossRoad;
     }
-
-    @Override
-    public String getName(){return null;};
 
 }
