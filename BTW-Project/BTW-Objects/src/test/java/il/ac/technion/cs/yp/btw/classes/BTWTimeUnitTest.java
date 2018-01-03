@@ -48,10 +48,10 @@ public class BTWTimeUnitTest {
             Assert.assertEquals("Time must be positive", e.getMessage());
         }
         try {
-            BTWTime time = BTWTime.of(24);
+            BTWTime time = BTWTime.of(86400);
             Assert.fail();
         } catch (BTWIllegalTimeException e) {
-            Assert.assertEquals("Time must be less than 24", e.getMessage());
+            Assert.assertEquals("Time must be less than 24 hours", e.getMessage());
         }
     }
 }
