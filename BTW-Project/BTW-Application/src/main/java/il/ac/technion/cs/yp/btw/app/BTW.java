@@ -1,4 +1,4 @@
-package il.ac.technion.cs.yp.btw;
+package il.ac.technion.cs.yp.btw.app;
 
 /**
  * Hello world!
