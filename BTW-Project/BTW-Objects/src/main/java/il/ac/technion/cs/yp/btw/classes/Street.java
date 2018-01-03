@@ -37,5 +37,5 @@ public interface Street {
      * adds the given Road to this Street
      * @param rd - the added Road
      */
-    void addRoad(Road rd);
+    Street addRoad(Road rd);
 }

@@ -5,7 +5,9 @@ import java.util.Set;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.db.queries.QueryAllRoads;
 import il.ac.technion.cs.yp.btw.db.queries.QueryRoad;
+import il.ac.technion.cs.yp.btw.db.queries.QueryOverloadOfRoad;
 import il.ac.technion.cs.yp.btw.db.queries.Query;
+import il.ac.technion.cs.yp.btw.db.queries.UpdateOverloadOfRoad;
 
 
 public class RoadsDataBase {
@@ -25,6 +27,16 @@ public class RoadsDataBase {
 
         Query query = new QueryRoad(mapName, nameID);
         return (Road) MainDataBase.queryDataBase(query);
+    }
+
+    public static long getOverload(String nameID, String mapName){
+        Query query = new QueryOverloadOfRoad(mapName, nameID);
+        return (Long) MainDataBase.queryDataBase(query);
+    }
+
+    public static void updateOverload(long newOverload, String nameID, String mapName){
+        Query query = new UpdateOverloadOfRoad(mapName, nameID, newOverload);
+        MainDataBase.queryDataBase(query);
     }
 
 }

@@ -38,17 +38,17 @@ public interface Road {
      * @return Weight of this Road according
      *         to the given Time
      */
-    Weight getWeightByTime(Time time);
+    BTWWeight getWeightByTime(BTWTime time);
 
     /**
      * @return minimum possible Weight of Road
      */
-    Weight getMinimumWeight();
+    BTWWeight getMinimumWeight();
 
     /**
      * @return minimum possible Weight of Road
      */
-    Weight getHeuristicDist(Road road);
+    BTWWeight getHeuristicDist(Road road);
 
     /**
      * @return the CrossroadImpl this Road starts in

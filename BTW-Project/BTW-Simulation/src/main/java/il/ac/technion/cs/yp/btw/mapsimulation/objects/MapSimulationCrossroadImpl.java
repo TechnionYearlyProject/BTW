@@ -1,9 +1,6 @@
 package il.ac.technion.cs.yp.btw.mapsimulation.objects;
 
-import il.ac.technion.cs.yp.btw.classes.Crossroad;
-import il.ac.technion.cs.yp.btw.classes.Point;
-import il.ac.technion.cs.yp.btw.classes.PointAbstract;
-import il.ac.technion.cs.yp.btw.classes.TrafficLight;
+import il.ac.technion.cs.yp.btw.classes.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -33,12 +30,22 @@ public class MapSimulationCrossroadImpl extends PointAbstract implements Crossro
     }
 
     /**
+     * @param road - the Road from which the TrafficLights are going
+     * @return Set of all TrafficLights from a specific road
+     */
+    @Override
+    public Set<TrafficLight> getTrafficLightsFromRoad(Road road) {
+        return null;
+    }
+
+    /**
      * Adds the given MapSimulationTrafficLightImpl to this MapSimulationCrossroadImpl
      * @param tl - the MapSimulationTrafficLightImpl being added
      */
     @Override
-    public void addTrafficLight(TrafficLight tl){
+    public Crossroad addTrafficLight(TrafficLight tl){
         this.trafficLights.add(tl);
+        return this;
     }
 
     @Override
