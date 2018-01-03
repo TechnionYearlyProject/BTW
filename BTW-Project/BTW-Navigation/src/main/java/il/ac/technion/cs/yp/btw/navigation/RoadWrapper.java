@@ -15,15 +15,15 @@ import java.util.stream.Collectors;
  */
 class RoadWrapper implements Comparable<RoadWrapper>{
     double dist;
-    private double heuristics;
+    private long heuristics;
     private Road road;
-    private final Map<Road, Double> distFromNeighbor;
+    private final Map<Road, Long> distFromNeighbor;
     private RoadWrapper parent;
 
     RoadWrapper(Road road, Road dst, Double dist, RoadWrapper parent) {
         this.road = road;
         this.dist = dist;
-        this.heuristics = road.getHeuristicDist(dst).getWeightValue();
+        this.heuristics = road.getHeuristicDist(dst).seconds();
         this.parent = parent;
         Crossroad destinationCrossroad = road.getDestinationCrossroad();
         if (destinationCrossroad == null) {
@@ -32,9 +32,9 @@ class RoadWrapper implements Comparable<RoadWrapper>{
             this.distFromNeighbor = destinationCrossroad.getTrafficLightsFromRoad(road)
                     .stream()
                     .map(trafficLight -> new Pair<>(trafficLight.getDestinationRoad(),
-                            trafficLight.getMinimumWeight().getWeightValue()))
+                            trafficLight.getMinimumWeight().seconds()))
                     .collect(Collectors.toMap(Pair::getKey,
-                            r -> r.getKey().getMinimumWeight().getWeightValue() + r.getValue() + 0.0));
+                            r -> r.getKey().getMinimumWeight().seconds() + r.getValue()));
         }
     }
 

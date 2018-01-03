@@ -1,4 +1,4 @@
-package il.ac.technion.cs.yp;
+package il.ac.technion.cs.yp.btw.geojson;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

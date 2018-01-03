@@ -31,18 +31,19 @@ public class BTWGraphInfo {
                     }
                     DefaultWeightedEdge edge = minimunGraph.addEdge(src, dst);
                     minimunGraph.setEdgeWeight(edge,
-                            trafficLight.getMinimumWeight().getWeightValue() + src.getMinimumWeight().getWeightValue());
+                            trafficLight.getMinimumWeight().seconds() + src.getMinimumWeight().seconds());
                 });
         return minimunGraph;
     }
 
-    public static Map<String, Map<String, Double>> calculateHeuristics(BTWDataBase db) {
+    public static Map<String, Map<String, Long>> calculateHeuristics(BTWDataBase db) {
         Graph<Road, DefaultWeightedEdge> heuristicGraph = calculateMinimumGraph(db);
         FloydWarshallShortestPaths<Road, DefaultWeightedEdge> sp = new FloydWarshallShortestPaths<>(heuristicGraph);
         return heuristicGraph.vertexSet()
                 .stream()
                 .collect(Collectors.toMap(Road::getRoadName, src -> heuristicGraph.vertexSet()
                         .stream()
-                        .collect(Collectors.toMap(Road::getRoadName, dst -> sp.getPathWeight(src, dst)))));
+                        .collect(Collectors.toMap(Road::getRoadName,
+                                dst -> new Double(sp.getPathWeight(src, dst)).longValue()))));
     }
 }

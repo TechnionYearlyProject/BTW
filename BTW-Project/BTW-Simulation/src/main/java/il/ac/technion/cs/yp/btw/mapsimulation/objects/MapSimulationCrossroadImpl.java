@@ -43,8 +43,9 @@ public class MapSimulationCrossroadImpl extends PointAbstract implements Crossro
      * @param tl - the MapSimulationTrafficLightImpl being added
      */
     @Override
-    public void addTrafficLight(TrafficLight tl){
+    public Crossroad addTrafficLight(TrafficLight tl){
         this.trafficLights.add(tl);
+        return this;
     }
 
     @Override

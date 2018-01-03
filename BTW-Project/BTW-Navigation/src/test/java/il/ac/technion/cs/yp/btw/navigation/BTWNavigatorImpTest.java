@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class BTWNavigatorImpTest {
-    private Map<String, Map<String, Double>> heuristics;
+    private Map<String, Map<String, Long>> heuristics;
     private BTWNavigator navigator;
     private BTWDataBase db;
     private Road road1;
@@ -39,27 +39,6 @@ public class BTWNavigatorImpTest {
     private Crossroad crossroad2;
     private Crossroad crossroad3;
 
-    public static class TestingWeight implements Weight {
-        private Double value;
-
-        private TestingWeight(double value) {
-            this.value = value;
-        }
-
-        static TestingWeight of(double value) {
-            return new TestingWeight(value);
-        }
-
-        Weight update(double value) {
-            this.value = value;
-            return this;
-        }
-
-        @Override
-        public long getWeightValue() {
-            return value.longValue();
-        }
-    }
 
     class TestingDB implements BTWDataBase {
 
@@ -94,13 +73,13 @@ public class BTWNavigatorImpTest {
         }
 
         @Override
-        public void updateWeight() {
-
+        public BTWDataBase updateWeight() {
+            return this;
         }
 
         @Override
-        public void saveMap(String geoJson, String mapName) {
-
+        public BTWDataBase saveMap(String geoJson) {
+            return this;
         }
 
         @Override
@@ -114,16 +93,16 @@ public class BTWNavigatorImpTest {
         private String name;
         private Road src;
         private Road dst;
-        private Weight weight;
+        private BTWWeight weight;
 
-        TestingTrafficLight(String name, Road src, Road dst, Weight weight) {
+        TestingTrafficLight(String name, Road src, Road dst, BTWWeight weight) {
             this.name = name;
             this.src = src;
             this.dst = dst;
             this.weight = weight;
         }
 
-        TrafficLight update(Weight weight) {
+        TrafficLight update(BTWWeight weight) {
             this.weight = weight;
             return this;
         }
@@ -154,35 +133,35 @@ public class BTWNavigatorImpTest {
         }
 
         @Override
-        public Weight getWeightByTime(Time time) {
+        public BTWWeight getWeightByTime(BTWTime time) {
             return null;
         }
 
         @Override
-        public Weight getMinimumWeight() {
+        public BTWWeight getMinimumWeight() {
             return weight;
         }
 
         @Override
-        public Weight getCurrentWeight() {
+        public BTWWeight getCurrentWeight() {
             return null;
         }
     }
 
     class TestingRoad implements Road {
         private String name;
-        private Weight weight;
+        private BTWWeight weight;
         private Crossroad source;
         private Crossroad destination;
 
-        TestingRoad(String name, Weight weight, Crossroad src, Crossroad dst) {
+        TestingRoad(String name, BTWWeight weight, Crossroad src, Crossroad dst) {
             this.name = name;
             this.weight = weight;
             this.source = src;
             this.destination = dst;
         }
 
-        Road update(Weight weight) {
+        Road update(BTWWeight weight) {
             this.weight = weight;
             return this;
         }
@@ -208,18 +187,22 @@ public class BTWNavigatorImpTest {
         }
 
         @Override
-        public Weight getWeightByTime(Time time) {
+        public BTWWeight getWeightByTime(BTWTime time) {
             return null;
         }
 
         @Override
-        public Weight getMinimumWeight() {
+        public BTWWeight getMinimumWeight() {
             return weight;
         }
 
         @Override
-        public Weight getHeuristicDist(Road road) {
-            return TestingWeight.of(heuristics.get(name).get(road.getRoadName()));
+        public BTWWeight getHeuristicDist(Road road){
+            try {
+                return BTWWeight.of(heuristics.get(name).get(road.getRoadName()));
+            } catch (BTWIllegalTimeException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         @Override
@@ -234,11 +217,15 @@ public class BTWNavigatorImpTest {
     }
 
     public BTWNavigatorImpTest() {
-        configGraphMock();
+        try {
+            configGraphMock();
+        } catch (BTWIllegalTimeException e) {
+            throw new RuntimeException(e);
+        }
         heuristics = new HashMap<>();
     }
 
-    private void configGraphMock() {
+    private void configGraphMock() throws BTWIllegalTimeException {
         // Data Base
         db = new TestingDB();
 
@@ -248,26 +235,26 @@ public class BTWNavigatorImpTest {
         crossroad3 = Mockito.mock(Crossroad.class);
 
         //roads
-        road1 = new TestingRoad("1", TestingWeight.of(0.1), null, crossroad1);
-        road2 = new TestingRoad("2", TestingWeight.of(0.1), crossroad1, crossroad2);
-        road3 = new TestingRoad("3", TestingWeight.of(0.1), crossroad1, crossroad3);
-        road4 = new TestingRoad("4", TestingWeight.of(0.1), crossroad2, crossroad3);
-        road5 = new TestingRoad("5", TestingWeight.of(0.1), crossroad3, null);
-        road6 = new TestingRoad("6", TestingWeight.of(0.1), crossroad2, crossroad1);
-        road7 = new TestingRoad("7", TestingWeight.of(0.1), crossroad3, crossroad1);
-        road8 = new TestingRoad("8", TestingWeight.of(0.1), crossroad3, crossroad2);
+        road1 = new TestingRoad("1", BTWWeight.of(1), null, crossroad1);
+        road2 = new TestingRoad("2", BTWWeight.of(1), crossroad1, crossroad2);
+        road3 = new TestingRoad("3", BTWWeight.of(1), crossroad1, crossroad3);
+        road4 = new TestingRoad("4", BTWWeight.of(1), crossroad2, crossroad3);
+        road5 = new TestingRoad("5", BTWWeight.of(1), crossroad3, null);
+        road6 = new TestingRoad("6", BTWWeight.of(1), crossroad2, crossroad1);
+        road7 = new TestingRoad("7", BTWWeight.of(1), crossroad3, crossroad1);
+        road8 = new TestingRoad("8", BTWWeight.of(1), crossroad3, crossroad2);
 
         // traffic lights
-        trafficLight1_2 = new TestingTrafficLight("1_2", road1, road2, TestingWeight.of(0.1));
-        trafficLight1_3 = new TestingTrafficLight("1_3", road1, road3, TestingWeight.of(0.1));
-        trafficLight6_3 = new TestingTrafficLight("6_3", road6, road3, TestingWeight.of(0.1));
-        trafficLight7_2 = new TestingTrafficLight("7_2", road7, road2, TestingWeight.of(0.1));
-        trafficLight2_4 = new TestingTrafficLight("2_4", road2, road4, TestingWeight.of(0.1));
-        trafficLight8_6 = new TestingTrafficLight("8_6", road8, road6, TestingWeight.of(0.1));
-        trafficLight4_5 = new TestingTrafficLight("4_5", road4, road5, TestingWeight.of(0.1));
-        trafficLight3_5 = new TestingTrafficLight("3_5", road3, road5, TestingWeight.of(0.1));
-        trafficLight3_8 = new TestingTrafficLight("3_8", road3, road8, TestingWeight.of(0.1));
-        trafficLight4_7 = new TestingTrafficLight("4_7", road4, road7, TestingWeight.of(0.1));
+        trafficLight1_2 = new TestingTrafficLight("1_2", road1, road2, BTWWeight.of(1));
+        trafficLight1_3 = new TestingTrafficLight("1_3", road1, road3, BTWWeight.of(1));
+        trafficLight6_3 = new TestingTrafficLight("6_3", road6, road3, BTWWeight.of(1));
+        trafficLight7_2 = new TestingTrafficLight("7_2", road7, road2, BTWWeight.of(1));
+        trafficLight2_4 = new TestingTrafficLight("2_4", road2, road4, BTWWeight.of(1));
+        trafficLight8_6 = new TestingTrafficLight("8_6", road8, road6, BTWWeight.of(1));
+        trafficLight4_5 = new TestingTrafficLight("4_5", road4, road5, BTWWeight.of(1));
+        trafficLight3_5 = new TestingTrafficLight("3_5", road3, road5, BTWWeight.of(1));
+        trafficLight3_8 = new TestingTrafficLight("3_8", road3, road8, BTWWeight.of(1));
+        trafficLight4_7 = new TestingTrafficLight("4_7", road4, road7, BTWWeight.of(1));
 
         // crossroad1
         Mockito.when(crossroad1.getTrafficLightsFromRoad(road1))
@@ -349,17 +336,17 @@ public class BTWNavigatorImpTest {
 
     @Test
     public void testDifferentWeights() {
-        road3 = ((TestingRoad)road3).update(TestingWeight.of(2.0));
-        trafficLight1_3 = ((TestingTrafficLight)trafficLight1_3).update(TestingWeight.of(2.0));
-        trafficLight3_5 = ((TestingTrafficLight)trafficLight3_5).update(TestingWeight.of(2.0));
-        navigator = new BTWNavigatorImp(db);
         try {
+            road3 = ((TestingRoad)road3).update(BTWWeight.of(2));
+            trafficLight1_3 = ((TestingTrafficLight)trafficLight1_3).update(BTWWeight.of(2));
+            trafficLight3_5 = ((TestingTrafficLight)trafficLight3_5).update(BTWWeight.of(2));
+            navigator = new BTWNavigatorImp(db);
             List<String> path = navigator.navigate(road1, road5)
                     .stream()
                     .map(Road::getRoadName)
                     .collect(Collectors.toList());
             Assert.assertArrayEquals(new String[]{"1", "2", "4", "5"}, path.toArray());
-        } catch (PathNotFoundException e) {
+        } catch (PathNotFoundException | BTWIllegalTimeException e) {
             Assert.fail();
         }
     }

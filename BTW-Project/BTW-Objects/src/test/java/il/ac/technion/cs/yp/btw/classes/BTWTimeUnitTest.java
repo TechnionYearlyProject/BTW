@@ -11,7 +11,7 @@ public class BTWTimeUnitTest {
     public void testLegalWeight() {
         try {
             BTWWeight weight = BTWWeight.of(2);
-            Assert.assertEquals(weight.getValue().intValue(), 2);
+            Assert.assertEquals(weight.seconds().intValue(), 2);
 
         } catch (BTWIllegalTimeException e) {
             Assert.fail();
@@ -22,7 +22,7 @@ public class BTWTimeUnitTest {
     public void testLegalTime() {
         try {
             BTWTime time = BTWTime.of(2);
-            Assert.assertEquals(time.getValue().intValue(), 2);
+            Assert.assertEquals(time.seconds().intValue(), 2);
 
         } catch (BTWIllegalTimeException e) {
             Assert.fail();

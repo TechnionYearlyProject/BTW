@@ -61,8 +61,9 @@ public class BTWDataBaseImpl implements BTWDataBase {
      * for future use, implementation not yet decided
      */
     @Override
-    public void updateWeight(){
-
+    public BTWDataBase updateWeight(){
+        // TODO: ???
+        return this;
     }
 
     @Override
@@ -145,16 +146,16 @@ public class BTWDataBaseImpl implements BTWDataBase {
 
     @Override
     public BTWDataBase updateHeuristics() {
-        Map<String, Map<String,Double>> heuristics = BTWGraphInfo.calculateHeuristics(this);
+        Map<String, Map<String,Long>> heuristics = BTWGraphInfo.calculateHeuristics(this);
         String mapName = this.mapName;  // need to know the name of the map...
         String sql1 = "DROP TABLE IF EXISTS dbo." + mapName + "Heuristics;";
         String sql2 = "CREATE TABLE " + mapName + "Heuristics(sourceID varchar(50) NOT NULL, " +
                 "targetID varchar(50) NOT NULL, weight float, PRIMARY KEY(sourceID,targetID));";
         MainDataBase.saveDataFromQuery(sql1);
         MainDataBase.saveDataFromQuery(sql2);
-        for (Map.Entry<String,Map<String,Double>> firstEntry: heuristics.entrySet())
+        for (Map.Entry<String,Map<String,Long>> firstEntry: heuristics.entrySet())
         {
-            for (Map.Entry<String,Double> secondEntry: firstEntry.getValue().entrySet())
+            for (Map.Entry<String,Long> secondEntry: firstEntry.getValue().entrySet())
             {
                 System.out.println(firstEntry.getKey() + " " + secondEntry.getKey() + " " + secondEntry.getValue());
                 String sql3 = "INSERT INTO dbo." + mapName + "Heuristics(sourceID,targetID,weight)" +

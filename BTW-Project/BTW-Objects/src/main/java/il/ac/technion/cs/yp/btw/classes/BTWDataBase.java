@@ -39,7 +39,7 @@ public interface BTWDataBase {
     /**
      * for future use, implementation not yet decided
      */
-    void updateWeight();
+    BTWDataBase updateWeight();
 
     /**
      * save map from geoJson to DB tables
