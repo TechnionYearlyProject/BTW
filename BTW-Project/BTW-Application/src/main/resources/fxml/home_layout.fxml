@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.112"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.ac.technion.cs.yp.btw.HomeController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.ac.technion.cs.yp.btw.app.HomeController">
     <children>
         <Text layoutX="31.0" layoutY="69.0" text="By The Way" wrappingWidth="422.0">
             <font>
