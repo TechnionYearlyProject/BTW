@@ -23,6 +23,7 @@ public class TestDataBaseQuerying  extends TestCase {
     //the test method name needs to begin with the word 'test'
     public void testGetAllRoadsSet(){
         TestResult result = new TestResult();
+        MainDataBase.openConnection();
         Query query = new QueryRoadExample("first");
         //MainDataBase database = new MainDataBase();
         //Set<Road> roads = (Set<Road>) database.queryDataBase(query);
@@ -32,12 +33,13 @@ public class TestDataBaseQuerying  extends TestCase {
         while(iterator.hasNext()){
             System.out.println(iterator.next().toString());
         }
-
+        MainDataBase.closeConnection();
 
     }
 
     public void testGetAllCenteralLocations(){
         TestResult result = new TestResult();
+        MainDataBase.openConnection();
         Query query = new QueryCenteralLocationExample("first");
         //MainDataBase database = new MainDataBase();
         //Set<CentralLocation> centeralLocations = (Set<CentralLocation>) database.queryDataBase(query);
@@ -47,10 +49,12 @@ public class TestDataBaseQuerying  extends TestCase {
         while(iterator.hasNext()){
             System.out.println(iterator.next().toString());
         }
+        MainDataBase.closeConnection();
     }
 
     public void testGetAllTrafficLights(){
         TestResult result = new TestResult();
+        MainDataBase.openConnection();
         Query query = new QueryTrafficLightExample("first");
         //MainDataBase database = new MainDataBase();
         //Set<TrafficLight> trafficLights = (Set<TrafficLight>) database.queryDataBase(query);
@@ -60,6 +64,7 @@ public class TestDataBaseQuerying  extends TestCase {
         while(iterator.hasNext()){
             System.out.println(iterator.next().toString());
         }
+        MainDataBase.closeConnection();
     }
 }
 

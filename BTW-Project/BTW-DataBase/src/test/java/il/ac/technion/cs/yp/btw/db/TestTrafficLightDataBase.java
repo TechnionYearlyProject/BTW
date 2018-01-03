@@ -12,15 +12,18 @@ import java.util.Set;
 public class TestTrafficLightDataBase  extends TestCase {
 
     public void testGetAllTrafficLights(){
+        MainDataBase.openConnection();
         Set<TrafficLight> allTrafficLights = TrafficLightsDataBase.getAllTrafficLights("first");
         Iterator<TrafficLight> iterator = allTrafficLights.iterator();
         System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
             System.out.println(iterator.next().toString());
         }
+        MainDataBase.closeConnection();
     }
 
     public void testGetAllTrafficLightsInPosition(){
+        MainDataBase.openConnection();
         Point position = new PointImpl(1,1);
         Set<TrafficLight> allTrafficLights = TrafficLightsDataBase.getAllTrafficLights(position, "first");
         Iterator<TrafficLight> iterator = allTrafficLights.iterator();
@@ -28,11 +31,13 @@ public class TestTrafficLightDataBase  extends TestCase {
         while(iterator.hasNext()){
             System.out.println(iterator.next().toString());
         }
+        MainDataBase.closeConnection();
     }
 
     public void testGetTrafficLight(){
-
+        MainDataBase.openConnection();
         TrafficLight trafficLight = TrafficLightsDataBase.getTrafficLight("T1-Road4-Road6", "first");
         System.out.println(trafficLight.toString());
+        MainDataBase.closeConnection();
     }
 }
