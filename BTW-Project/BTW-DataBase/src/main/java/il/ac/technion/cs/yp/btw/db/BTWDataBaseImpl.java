@@ -72,7 +72,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 +"(nameID varchar(50) NOT NULL,\n" +
                 "cordx smallint NOT NULL,\n" +
                 "cordy smallint NOT NULL,\n" +
-                "overload varchar(50),\n" +
+                "overload bigint,\n" +
                 "PRIMARY KEY(nameID));\n";
         String createPlace = "CREATE TABLE " + mapName
                 + "Place(\n" +
@@ -97,7 +97,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "length int,\n" +
                 "secStart smallint,\n" +
                 "secEnd smallint,\n" +
-                "overload varchar(50),\n" +
+                "overload bigint,\n" +
                 "PRIMARY KEY(nameID));\n";
         String createJson = "DECLARE @json NVARCHAR(max)\n" +
                 "SET @json = \n'" + geoJson + "'\n"
