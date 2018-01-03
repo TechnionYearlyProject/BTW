@@ -7,9 +7,13 @@
       <module fileurl="file://$PROJECT_DIR$/BTW-Objects/BTW-Objects.iml" filepath="$PROJECT_DIR$/BTW-Objects/BTW-Objects.iml" />
       <module fileurl="file://$PROJECT_DIR$/BTW-Simulation/BTW-Simulation.iml" filepath="$PROJECT_DIR$/BTW-Simulation/BTW-Simulation.iml" />
       <module fileurl="file://$PROJECT_DIR$/better-than-waze.iml" filepath="$PROJECT_DIR$/better-than-waze.iml" />
+      <module fileurl="file://C:\MyProgs\YP\BTW\BTW-Project\better-than-waze.iml" filepath="C:\MyProgs\YP\BTW\BTW-Project\better-than-waze.iml" />
       <module fileurl="file://$PROJECT_DIR$/BTW-Application/btw-app.iml" filepath="$PROJECT_DIR$/BTW-Application/btw-app.iml" />
+      <module fileurl="file://C:\MyProgs\YP\BTW\BTW-Project\BTW-Application\btw-app.iml" filepath="C:\MyProgs\YP\BTW\BTW-Project\BTW-Application\btw-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/BTW-DataBase/btw-db.iml" filepath="$PROJECT_DIR$/BTW-DataBase/btw-db.iml" />
+      <module fileurl="file://C:\MyProgs\YP\BTW\BTW-Project\BTW-DataBase\btw-db.iml" filepath="C:\MyProgs\YP\BTW\BTW-Project\BTW-DataBase\btw-db.iml" />
       <module fileurl="file://$PROJECT_DIR$/BTW-Navigation/btw-navigate.iml" filepath="$PROJECT_DIR$/BTW-Navigation/btw-navigate.iml" />
+      <module fileurl="file://C:\MyProgs\YP\BTW\BTW-Project\BTW-Navigation\btw-navigate.iml" filepath="C:\MyProgs\YP\BTW\BTW-Project\BTW-Navigation\btw-navigate.iml" />
     </modules>
   </component>
 </project>

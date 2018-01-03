@@ -66,7 +66,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
     }
 
     @Override
-    public BTWDataBase saveMap(String geoJson, String mapName) {
+    public BTWDataBase saveMap(String geoJson) {
         String createTraffic = "CREATE TABLE " + mapName
                 +"(nameID varchar(50) NOT NULL,\n" +
                 "cordx smallint NOT NULL,\n" +
@@ -146,10 +146,10 @@ public class BTWDataBaseImpl implements BTWDataBase {
     @Override
     public BTWDataBase updateHeuristics() {
         Map<String, Map<String,Double>> heuristics = BTWGraphInfo.calculateHeuristics(this);
-        String mapName = "second";  // need to know the name of the map...
+        String mapName = this.mapName;  // need to know the name of the map...
         String sql1 = "DROP TABLE IF EXISTS dbo." + mapName + "Heuristics;";
         String sql2 = "CREATE TABLE " + mapName + "Heuristics(sourceID varchar(50) NOT NULL, " +
-                "targetID varchar(50) NOT NULL, weight double);";
+                "targetID varchar(50) NOT NULL, weight float, PRIMARY KEY(sourceID,targetID));";
         MainDataBase.saveDataFromQuery(sql1);
         MainDataBase.saveDataFromQuery(sql2);
         for (Map.Entry<String,Map<String,Double>> firstEntry: heuristics.entrySet())

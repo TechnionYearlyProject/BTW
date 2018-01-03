@@ -5,27 +5,22 @@ package il.ac.technion.cs.yp.btw.classes;
  */
 public class BTWTime extends BTWTimeUnit{
 
-    private BTWTime(double value) throws BTWIllegalTimeException {
+    private BTWTime(long value) throws BTWIllegalTimeException {
         super(value);
-        if (value >= 24.0) {
-            throw new BTWIllegalTimeException("Time must be less than 24");
+        if (value >= 86400) {
+            throw new BTWIllegalTimeException("Time must be less than 24 hours");
         }
     }
 
-    public BTWTime progressBy(double progress) throws BTWIllegalTimeException {
-        if (progress < 0.0) {
-            throw new BTWIllegalTimeException("Progress must be positive");
+    public BTWTime progressBy(BTWWeight progress) throws BTWIllegalTimeException {
+        Long secs = this.seconds + progress.seconds();
+        if (secs >= 86400) {
+            secs = secs % 86400;
         }
-        Double value = this.value + progress;
-        if (value >= 24.0) {
-            int intValue = value.intValue();
-            double gap = value - intValue;
-            value = (intValue % 24) + gap;
-        }
-        return new BTWTime(value);
+        return new BTWTime(secs);
     }
 
-    public static BTWTime of(double value) throws BTWIllegalTimeException {
+    public static BTWTime of(long value) throws BTWIllegalTimeException {
         return new BTWTime(value);
     }
 }

@@ -3,7 +3,6 @@ package il.ac.technion.cs.yp.btw.mapsimulation.objects;
 import il.ac.technion.cs.yp.btw.classes.Crossroad;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.Street;
-import il.ac.technion.cs.yp.btw.classes.Weight;
 
 import java.sql.Time;
 

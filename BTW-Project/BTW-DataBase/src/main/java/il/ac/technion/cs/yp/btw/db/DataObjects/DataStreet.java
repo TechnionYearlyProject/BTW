@@ -40,8 +40,9 @@ public class DataStreet implements Street {
      * adds the given Road to this Street
      * @param rd - the added Road
      */
-    public void addRoad(Road rd){
-
+    public Street addRoad(Road rd){
+        // TODO: Implement
+        return this;
     }
 
     @Override

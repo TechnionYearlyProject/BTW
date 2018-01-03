@@ -21,5 +21,5 @@ public interface Crossroad extends Point {
      * Adds the given TrafficLightImpl to this CrossroadImpl
      * @param tl - the TrafficLightImpl being added
      */
-    void addTrafficLight(TrafficLight tl);
+    Crossroad addTrafficLight(TrafficLight tl);
 }

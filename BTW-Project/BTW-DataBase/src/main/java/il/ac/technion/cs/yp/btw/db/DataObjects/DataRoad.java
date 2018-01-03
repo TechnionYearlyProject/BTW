@@ -1,11 +1,8 @@
 package il.ac.technion.cs.yp.btw.db.DataObjects;
 
 import java.sql.Time;
-import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.classes.Point;
-import il.ac.technion.cs.yp.btw.classes.Street;
-import il.ac.technion.cs.yp.btw.classes.Weight;
-import il.ac.technion.cs.yp.btw.classes.Crossroad;
+
+import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.db.StreetsDataBase;
 import il.ac.technion.cs.yp.btw.db.CrossRoadsDataBase;
 /**
@@ -94,7 +91,7 @@ public class DataRoad implements Road {
      * to the given Time
      */
     @Override
-    public Weight getWeightByTime(Time time) {
+    public BTWWeight getWeightByTime(BTWTime time) {
         return null;//TODO
     }
 
@@ -102,8 +99,14 @@ public class DataRoad implements Road {
      * @return minimum possible Weight of Road
      */
     @Override
-    public Weight getMinimumWeight() {
+    public BTWWeight getMinimumWeight() {
         return null;//TODO
+    }
+
+    @Override
+    public BTWWeight getHeuristicDist(Road road) {
+        // TODO: Implement
+        return null;
     }
 
     /**
