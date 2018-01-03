@@ -1,6 +1,9 @@
 package il.ac.technion.cs.yp.btw.mapsimulation.objects;
 
-import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.classes.Crossroad;
+import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.Street;
+import il.ac.technion.cs.yp.btw.classes.Weight;
 
 import java.sql.Time;
 
@@ -70,7 +73,7 @@ public class MapSimulationRoadImpl implements Road {
      * to the given Time
      */
     @Override
-    public BTWWeight getWeightByTime(BTWTime time) {
+    public Weight getWeightByTime(Time time) {
         return null;//TODO
     }
 
@@ -78,17 +81,8 @@ public class MapSimulationRoadImpl implements Road {
      * @return minimum possible Weight of Road
      */
     @Override
-    public BTWWeight getMinimumWeight() {
+    public Weight getMinimumWeight() {
         return null;//TODO
-    }
-
-    /**
-     * @param road
-     * @return minimum possible Weight of Road
-     */
-    @Override
-    public BTWWeight getHeuristicDist(Road road) {
-        return null;
     }
 
     /**
@@ -111,7 +105,6 @@ public class MapSimulationRoadImpl implements Road {
     public Weight getHeuristicDist(Road road){
         return null;
     }
-
 }
 
 

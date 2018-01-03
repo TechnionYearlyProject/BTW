@@ -14,52 +14,10 @@ import com.microsoft.sqlserver.jdbc.*;
 /*this class is responsible for the connection to ths SQL server*/
 public class MainDataBase{
 
-    private static Connection connection;
 
     /*making a connection is explained in the link: https://docs.microsoft.com/en-us/sql/connect/jdbc/retrieving-result-set-data-sample*/
     public MainDataBase() {
 
-
-    }
-
-    public static void openConnection(){
-        // Connect to database
-        String url = String.format("jdbc:sqlserver://btwserver.database.windows.net:1433;" +
-                "database=BTW;" +
-                "user=shay@btwserver;" +
-                "password=S123456!;" +
-                "encrypt=true;" +
-                "trustServerCertificate=false;" +
-                "hostNameInCertificate=*.database.windows.net;" +
-                "loginTimeout=30;");
-        //Connection connection = null;
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection(url);
-            System.out.println("successfuly connected to the server");
-        }catch (Exception e) {
-
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (Exception e1) {
-                    System.out.println("failed to connect the server ");
-                }
-            }
-            connection = null;
-        }
-    }
-
-    public static void closeConnection(){
-        if (connection != null) {
-            try {
-                connection.close();
-                System.out.println("successfuly closed connection to the server");
-                connection = null;
-            } catch (Exception e1) {
-                System.out.println("failed to close connection to the server");
-            }
-        }
 
     }
 
@@ -71,10 +29,23 @@ public class MainDataBase{
     /*the return value must be closed after the use is done*/
     private static Object queryDataBaseServer(Query query){
 
+        // Connect to database
+        String url = String.format("jdbc:sqlserver://btwserver.database.windows.net:1433;" +
+                                    "database=BTW;" +
+                                    "user=shay@btwserver;" +
+                                    "password=S123456!;" +
+                                    "encrypt=true;" +
+                                    "trustServerCertificate=false;" +
+                                    "hostNameInCertificate=*.database.windows.net;" +
+                                    "loginTimeout=30;");
+        Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
         Object result = null;
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection(url);
+            System.out.println("successfuly connected to the server");
             statement = connection.createStatement();
             try {
                 resultSet = statement.executeQuery(query.getQuery());
@@ -86,6 +57,13 @@ public class MainDataBase{
         catch (Exception e) {
             System.out.println("failed to connect the server for query " + query.getClass().getName());
         }finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) {
+                    System.out.println("failed to close connection for query " + query.getClass().getName());
+                }
+            }
             if (statement != null){
                 try {
                     statement.close();
@@ -95,6 +73,7 @@ public class MainDataBase{
             }
             if (resultSet != null){
                 try {
+                    //  resultSet.close();
                 } catch(Exception e) {
                     System.out.println("failed to close result set for query " + query.getClass().getName());
                 }

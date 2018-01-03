@@ -1,26 +1,21 @@
 package il.ac.technion.cs.yp.btw.db;
 
-import il.ac.technion.cs.yp.btw.classes.*;
-import il.ac.technion.cs.yp.btw.navigation.BTWGraphInfo;
-import sun.applet.Main;
+import il.ac.technion.cs.yp.btw.classes.CentralLocation;
+import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.Street;
+import il.ac.technion.cs.yp.btw.db.MainDataBase;
+import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 
-import java.sql.Connection;
-import java.util.Map;
 import java.util.Set;
 
-public class BTWDataBaseImpl implements BTWDataBase {
+public class BTWDataBaseImpl implements BTWDataBase{
 
     private String mapName;
-    private Connection connection;
 
     public BTWDataBaseImpl(String mapName){
         this.mapName = mapName;
-        MainDataBase.openConnection();
     }
 
-    public void closeDataBaseConnection(String mapName){
-        MainDataBase.closeConnection();
-    }
     /**
      * @return Set of all TrafficLights in the system
      */
@@ -67,13 +62,11 @@ public class BTWDataBaseImpl implements BTWDataBase {
      * for future use, implementation not yet decided
      */
     @Override
-    public BTWDataBase updateWeight(){
-        // TODO: ???
-        return this;
+    public void updateWeight(){
+
     }
 
-    @Override
-    public BTWDataBase saveMap(String geoJson) {
+    public void saveMap(String geoJson, String mapName) {
         String createTraffic = "CREATE TABLE " + mapName
                 +"(nameID varchar(50) NOT NULL,\n" +
                 "cordx smallint NOT NULL,\n" +
@@ -139,7 +132,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "\tcord1x smallint '$.geometry.coordinates[0][0]',\n" +
                 "\tcord1y smallint '$.geometry.coordinates[0][1]',\n" +
                 "\tcord2x smallint '$.geometry.coordinates[1][0]',\n" +
-                "\tcord2y smallint '$.geometry.coordinates[1][1]',\n" +
+                "\tcord2y smallint '$.geometry.coordinates[1][1]',\t\n" +
                 "\tlength int '$.properties.length',\n" +
                 "\tsecStart smallint '$.properties.secStart',\n" +
                 "\tsecEnd smallint '$.properties.secEnd',\n" +
@@ -147,29 +140,5 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "\t) WHERE (typeoftoken = 'LineString');\n";
         String sqlQuery = createTraffic + createPlace + createRoad + createJson;
         MainDataBase.saveDataFromQuery(sqlQuery);
-        return this;
-    }
-
-    @Override
-    public BTWDataBase updateHeuristics() {
-        Map<String, Map<String,Long>> heuristics = BTWGraphInfo.calculateHeuristics(this);
-        String mapName = this.mapName;  // need to know the name of the map...
-        String sql1 = "DROP TABLE IF EXISTS dbo." + mapName + "Heuristics;";
-        String sql2 = "CREATE TABLE " + mapName + "Heuristics(sourceID varchar(50) NOT NULL, " +
-                "targetID varchar(50) NOT NULL, weight float, PRIMARY KEY(sourceID,targetID));";
-        MainDataBase.saveDataFromQuery(sql1);
-        MainDataBase.saveDataFromQuery(sql2);
-        for (Map.Entry<String,Map<String,Long>> firstEntry: heuristics.entrySet())
-        {
-            for (Map.Entry<String,Long> secondEntry: firstEntry.getValue().entrySet())
-            {
-                System.out.println(firstEntry.getKey() + " " + secondEntry.getKey() + " " + secondEntry.getValue());
-                String sql3 = "INSERT INTO dbo." + mapName + "Heuristics(sourceID,targetID,weight)" +
-                        " VALUES (" + firstEntry.getKey()+ ", " + secondEntry.getKey() + ", "
-                        + secondEntry.getValue().toString() + ");";
-                MainDataBase.saveDataFromQuery(sql3);
-            }
-        } //test
-        return this;
     }
 }

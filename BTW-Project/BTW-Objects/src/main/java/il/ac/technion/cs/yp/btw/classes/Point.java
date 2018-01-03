@@ -13,11 +13,4 @@ public interface Point {
      * @return the y coordinate of this Point
      */
     double getCoordinateY();
-
-    /**
-     * @return this Point
-     */
-    default Point getLocation(){
-        return this;
-    }
 }

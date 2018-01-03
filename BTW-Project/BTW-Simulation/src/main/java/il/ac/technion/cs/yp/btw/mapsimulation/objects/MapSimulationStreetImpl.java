@@ -38,9 +38,8 @@ public class MapSimulationStreetImpl implements Street {
      * @param rd - the added Road
      */
     @Override
-    public Street addRoad(Road rd) {
+    public void addRoad(Road rd) {
         this.roads.add(rd);
-        return this;
     }
 
 }

@@ -1,4 +1,9 @@
-package il.ac.technion.cs.yp.btw.classes;
+package il.ac.technion.cs.yp.btw.db;
+
+import il.ac.technion.cs.yp.btw.classes.CentralLocation;
+import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.Street;
+import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 
 import java.util.Set;
 
@@ -39,17 +44,12 @@ public interface BTWDataBase {
     /**
      * for future use, implementation not yet decided
      */
-    BTWDataBase updateWeight();
+    void updateWeight();
 
     /**
      * save map from geoJson to DB tables
      * @param geoJson - string containing the map represented in Json
      *        mapName - string representing the name of the map
      */
-    BTWDataBase saveMap(String geoJson);
-
-    /**
-     * update the heuristics
-     */
-    BTWDataBase updateHeuristics();
+    void saveMap(String geoJson, String mapName);
 }

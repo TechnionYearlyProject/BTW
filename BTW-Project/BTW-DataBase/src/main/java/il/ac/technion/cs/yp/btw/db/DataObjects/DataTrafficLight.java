@@ -1,8 +1,11 @@
 package il.ac.technion.cs.yp.btw.db.DataObjects;
 
 import java.sql.Time;
-
-import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.classes.Point;
+import il.ac.technion.cs.yp.btw.classes.PointAbstract;
+import il.ac.technion.cs.yp.btw.classes.TrafficLight;
+import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.Weight;
 import il.ac.technion.cs.yp.btw.db.RoadsDataBase;
 
 
@@ -63,19 +66,19 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
      *         to the given Time
      */
     @Override
-    public BTWWeight getWeightByTime(BTWTime time){return null;}
+    public Weight getWeightByTime(Time time){return null;}
 
     /**
      * @return minimum possible Weight of TrafficLightImpl
      */
     @Override
-    public BTWWeight getMinimumWeight(){return null;}
+    public Weight getMinimumWeight(){return null;}
 
     /**
      * @return current Weight on this TrafficLightImpl
      */
     @Override
-    public BTWWeight getCurrentWeight(){return null;}
+    public Weight getCurrentWeight(){return null;}
 
     @Override
     public String toString(){

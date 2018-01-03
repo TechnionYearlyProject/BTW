@@ -1,8 +1,7 @@
 package il.ac.technion.cs.yp.btw.navigation;
 
-import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.classes.Road;
-//import il.ac.technion.cs.yp.btw.db.BTWDataBase;
+import il.ac.technion.cs.yp.btw.db.BTWDataBase;
 import org.jgrapht.alg.shortestpath.FloydWarshallShortestPaths;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 import org.jgrapht.Graph;
@@ -31,19 +30,18 @@ public class BTWGraphInfo {
                     }
                     DefaultWeightedEdge edge = minimunGraph.addEdge(src, dst);
                     minimunGraph.setEdgeWeight(edge,
-                            trafficLight.getMinimumWeight().seconds() + src.getMinimumWeight().seconds());
+                            trafficLight.getMinimumWeight().getWeightValue() + src.getMinimumWeight().getWeightValue());
                 });
         return minimunGraph;
     }
 
-    public static Map<String, Map<String, Long>> calculateHeuristics(BTWDataBase db) {
+    public static Map<String, Map<String, Double>> calculateHeuristics(BTWDataBase db) {
         Graph<Road, DefaultWeightedEdge> heuristicGraph = calculateMinimumGraph(db);
         FloydWarshallShortestPaths<Road, DefaultWeightedEdge> sp = new FloydWarshallShortestPaths<>(heuristicGraph);
         return heuristicGraph.vertexSet()
                 .stream()
                 .collect(Collectors.toMap(Road::getRoadName, src -> heuristicGraph.vertexSet()
                         .stream()
-                        .collect(Collectors.toMap(Road::getRoadName,
-                                dst -> new Double(sp.getPathWeight(src, dst)).longValue()))));
+                        .collect(Collectors.toMap(Road::getRoadName, dst -> sp.getPathWeight(src, dst)))));
     }
 }

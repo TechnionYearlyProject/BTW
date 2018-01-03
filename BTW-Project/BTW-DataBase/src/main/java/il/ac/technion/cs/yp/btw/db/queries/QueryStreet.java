@@ -36,7 +36,7 @@ public class QueryStreet extends Query{
                 int length =  resultSet.getInt("length");
                 int secStart =  resultSet.getInt("secStart");
                 int secEnd =  resultSet.getInt("secEnd");
-                long overload =  resultSet.getLong("overload");
+                String overload =  resultSet.getString("overload");
 
                 String myStreet = nameID.split("st")[0];
                 Point sourceCrossroadId  = new PointImpl(cord1x, cord1y);

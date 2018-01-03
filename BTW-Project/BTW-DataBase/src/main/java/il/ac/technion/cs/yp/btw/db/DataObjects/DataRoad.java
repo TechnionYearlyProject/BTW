@@ -1,12 +1,13 @@
 package il.ac.technion.cs.yp.btw.db.DataObjects;
 
 import java.sql.Time;
-
-import il.ac.technion.cs.yp.btw.classes.*;
-import il.ac.technion.cs.yp.btw.db.RoadsDataBase;
+import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.Point;
+import il.ac.technion.cs.yp.btw.classes.Street;
+import il.ac.technion.cs.yp.btw.classes.Weight;
+import il.ac.technion.cs.yp.btw.classes.Crossroad;
 import il.ac.technion.cs.yp.btw.db.StreetsDataBase;
 import il.ac.technion.cs.yp.btw.db.CrossRoadsDataBase;
-import il.ac.technion.cs.yp.btw.classes.BTWTime;
 /**
  * default implementation for the interface Road
  */
@@ -19,7 +20,7 @@ public class DataRoad implements Road {
     private Point destinationCrossroadId;
     private int secStart;
     private int secEnd;
-    private long overload;
+    private String overload;
 
     public DataRoad(String name, int roadLength,
                     String myStreet,
@@ -40,7 +41,7 @@ public class DataRoad implements Road {
                     Point destinationCrossroadId,
                     int secStart,
                     int secEnd,
-                    long overload,
+                    String overload,
                     String mapName){
         this(name,roadLength, myStreet,sourceCrossroadId,destinationCrossroadId,mapName);
         this.secStart = secStart;
@@ -93,38 +94,16 @@ public class DataRoad implements Road {
      * to the given Time
      */
     @Override
-    public BTWWeight getWeightByTime(BTWTime time) {
-
-        overload = RoadsDataBase.getOverload(name, mapName);
-        BTWWeight roadOverload = null;
-        try{
-            roadOverload = BTWWeight.of(overload);
-        }catch(BTWIllegalTimeException e){
-
-        }
-        return roadOverload;
+    public Weight getWeightByTime(Time time) {
+        return null;//TODO
     }
 
     /**
      * @return minimum possible Weight of Road
      */
     @Override
-    public BTWWeight getMinimumWeight() {
-
-        overload = RoadsDataBase.getOverload(name, mapName);
-        BTWWeight roadOverload = null;
-        try{
-            roadOverload = BTWWeight.of(overload);
-        }catch(BTWIllegalTimeException e){
-
-        }
-        return roadOverload;
-    }
-
-    @Override
-    public BTWWeight getHeuristicDist(Road road) {
-        // TODO: Implement
-        return null;
+    public Weight getMinimumWeight() {
+        return null;//TODO
     }
 
     /**

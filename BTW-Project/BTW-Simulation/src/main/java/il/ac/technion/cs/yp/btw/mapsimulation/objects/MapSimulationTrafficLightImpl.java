@@ -50,18 +50,18 @@ public class MapSimulationTrafficLightImpl extends PointAbstract implements Traf
      *         to the given Time
      */
     @Override
-    public BTWWeight getWeightByTime(BTWTime time){return null;}
+    public Weight getWeightByTime(Time time){return null;}
 
     /**
      * @return minimum possible Weight of MapSimulationTrafficLightImpl
      */
     @Override
-    public BTWWeight getMinimumWeight(){return null;}
+    public Weight getMinimumWeight(){return null;}
 
     /**
      * @return current Weight on this MapSimulationTrafficLightImpl
      */
     @Override
-    public BTWWeight getCurrentWeight(){return null;}
+    public Weight getCurrentWeight(){return null;}
 
 }

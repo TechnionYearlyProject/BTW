@@ -31,15 +31,15 @@ public interface TrafficLight extends Point {
      * @return Weight of this TrafficLight according
      *         to the given Time
      */
-    BTWWeight getWeightByTime(BTWTime time);
+    Weight getWeightByTime(Time time);
 
     /**
      * @return minimum possible Weight of TrafficLight
      */
-    BTWWeight getMinimumWeight();
+    Weight getMinimumWeight();
 
     /**
      * @return current Weight on this TrafficLight
      */
-    BTWWeight getCurrentWeight();
+    Weight getCurrentWeight();
 }

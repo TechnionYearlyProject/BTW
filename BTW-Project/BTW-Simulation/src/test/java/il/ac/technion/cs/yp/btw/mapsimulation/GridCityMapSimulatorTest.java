@@ -1,6 +1,8 @@
 package il.ac.technion.cs.yp.btw.mapsimulation;
 
-import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.Street;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -15,50 +17,43 @@ import static org.junit.Assert.*;
  */
 public class GridCityMapSimulatorTest {
 
-    private static final int DEFAULT_NUM_OF_STREETS = 14;
+    private static final int DEFAULT_NUM_OF_STREETS = 12;
     private static final int DEFAULT_NUM_OF_ROADS_IN_STREET = 12;
     private static final int DEFAULT_NUM_OF_ROADS = DEFAULT_NUM_OF_STREETS * DEFAULT_NUM_OF_ROADS_IN_STREET;
-    private static final int DEFAULT_NUM_OF_CROSSROADS = (DEFAULT_NUM_OF_STREETS/2)*(DEFAULT_NUM_OF_STREETS/2);
-    private static final int DEFAULT_NUM_OF_TRAFFICLIGHTS = ((DEFAULT_NUM_OF_STREETS/2)-2)*((DEFAULT_NUM_OF_STREETS/2)-2)*4*4 + 4*((DEFAULT_NUM_OF_STREETS/2)-2)*3*3 + 4*2*2;
-    private static Set<String> defaultStreetsNames;
-    private static Set<String> defaultRoadsNames;
-    private static Set<Point> defaultCrossRoadsPoints;
+    private static final int DEFAULT_NUM_OF_CROSSROADS = 49;
+    private static Set<String> streetsNames;
+    private static Set<String> roadsNames;
     @BeforeClass
     public static void setDefaultStreetsNames() throws Exception {
-        defaultStreetsNames = new HashSet<>();
-        String streetBaseName = "street";
-        for (int i = 1 ; i <= DEFAULT_NUM_OF_STREETS/2 ; i++){
-            defaultStreetsNames.add(i+" "+streetBaseName);
-        }
-        streetBaseName = "avenue";
-        for (int i = 1 ; i <= DEFAULT_NUM_OF_STREETS/2 ; i++){
-            defaultStreetsNames.add(i+" "+streetBaseName);
-        }
+        streetsNames = new HashSet<>();
+        streetsNames.add("1 street");
+        streetsNames.add("2 street");
+        streetsNames.add("3 street");
+        streetsNames.add("4 street");
+        streetsNames.add("5 street");
+        streetsNames.add("6 street");
+        streetsNames.add("1 avenue");
+        streetsNames.add("2 avenue");
+        streetsNames.add("3 avenue");
+        streetsNames.add("4 avenue");
+        streetsNames.add("5 avenue");
+        streetsNames.add("6 avenue");
     }
     @BeforeClass
     public static void setDefaultRoadsNames() throws Exception {
-        defaultRoadsNames = new HashSet<>();
+        roadsNames = new HashSet<>();
         String streetBaseName = "street";
-        for (int i = 1 ; i <= DEFAULT_NUM_OF_STREETS/2 ; i++){
-            for (int j = 1 ; j <= DEFAULT_NUM_OF_ROADS_IN_STREET/2 ; j++){
-                defaultRoadsNames.add(i+" "+streetBaseName+" section "+j);
-                defaultRoadsNames.add(i+" "+streetBaseName+" section "+j+"'");
+        for (int i = 1 ; i <= 6 ; i++){
+            for (int j = 1 ; j <= 6 ; j++){
+                roadsNames.add(i+" "+streetBaseName+" section "+j);
+                roadsNames.add(i+" "+streetBaseName+" section "+j+"'");
             }
         }
         streetBaseName = "avenue";
-        for (int i = 1 ; i <= DEFAULT_NUM_OF_STREETS/2 ; i++){
-            for (int j = 1 ; j <= DEFAULT_NUM_OF_ROADS_IN_STREET/2 ; j++){
-                defaultRoadsNames.add(i+" "+streetBaseName+" section "+j);
-                defaultRoadsNames.add(i+" "+streetBaseName+" section "+j+"'");
-            }
-        }
-    }
-    @BeforeClass
-    public static void setDefaultCrossRoadsPoints() throws Exception {
-        defaultCrossRoadsPoints = new HashSet<>();
-        for (double x = 0 ; x < DEFAULT_NUM_OF_STREETS/2 ; x++){
-            for (double y = 0 ; y < DEFAULT_NUM_OF_STREETS/2 ; y++){
-                defaultCrossRoadsPoints.add(new PointImpl(x,y));
+        for (int i = 1 ; i <= 6 ; i++){
+            for (int j = 1 ; j <= 6 ; j++){
+                roadsNames.add(i+" "+streetBaseName+" section "+j);
+                roadsNames.add(i+" "+streetBaseName+" section "+j+"'");
             }
         }
     }
@@ -71,7 +66,7 @@ public class GridCityMapSimulatorTest {
                         .stream()
                         .map(Street::getStreetName)
                         .collect(Collectors.toSet())
-                , defaultStreetsNames);
+                ,streetsNames);
         Set<Integer> setOfNumOfRoadsInEachStreet = sim.getStreets()
                 .stream()
                 .map(street -> street.getAllRoadsInStreet().size())
@@ -88,31 +83,12 @@ public class GridCityMapSimulatorTest {
                         .stream()
                         .map(Road::getRoadName)
                         .collect(Collectors.toSet())
-                , defaultRoadsNames);
+                ,roadsNames);
     }
     @Test
     public void testDefaultSimulationCrossroads(){
         GridCityMapSimulator sim = new GridCityMapSimulator();
         sim.build();
         assertEquals(sim.getCrossRoads().size(), DEFAULT_NUM_OF_CROSSROADS);
-        assertEquals(sim.getCrossRoads()
-                        .stream()
-                        .map(Crossroad::getLocation)
-                        .map(PointImpl::new)
-                        .collect(Collectors.toSet())
-                , defaultCrossRoadsPoints);
-    }
-
-    @Test
-    public void testDefaultSimulationTrafficLights(){
-        GridCityMapSimulator sim = new GridCityMapSimulator();
-        sim.build();
-        assertEquals(sim.getTrafficLights().size(), DEFAULT_NUM_OF_TRAFFICLIGHTS);
-        assertEquals(sim.getTrafficLights()
-                        .stream()
-                        .map(TrafficLight::getLocation)
-                        .map(PointImpl::new)
-                        .collect(Collectors.toSet())
-                , defaultCrossRoadsPoints);
     }
 }
