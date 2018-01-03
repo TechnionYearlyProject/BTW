@@ -99,7 +99,7 @@ public class DataRoad implements Road {
         BTWWeight roadOverload = null;
         try{
             roadOverload = BTWWeight.of(overload);
-        }catch(Exception e){
+        }catch(BTWIllegalTimeException e){
 
         }
         return roadOverload;
@@ -111,7 +111,14 @@ public class DataRoad implements Road {
     @Override
     public BTWWeight getMinimumWeight() {
 
-        return null;//TODO
+        overload = RoadsDataBase.getOverload(name, mapName);
+        BTWWeight roadOverload = null;
+        try{
+            roadOverload = BTWWeight.of(overload);
+        }catch(BTWIllegalTimeException e){
+
+        }
+        return roadOverload;
     }
 
     @Override

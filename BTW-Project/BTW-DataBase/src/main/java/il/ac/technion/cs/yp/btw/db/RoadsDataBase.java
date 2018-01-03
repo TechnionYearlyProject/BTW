@@ -7,6 +7,7 @@ import il.ac.technion.cs.yp.btw.db.queries.QueryAllRoads;
 import il.ac.technion.cs.yp.btw.db.queries.QueryRoad;
 import il.ac.technion.cs.yp.btw.db.queries.QueryOverloadOfRoad;
 import il.ac.technion.cs.yp.btw.db.queries.Query;
+import il.ac.technion.cs.yp.btw.db.queries.UpdateOverloadOfRoad;
 
 
 public class RoadsDataBase {
@@ -34,7 +35,8 @@ public class RoadsDataBase {
     }
 
     public static void updateOverload(long newOverload, String nameID, String mapName){
-
+        Query query = new UpdateOverloadOfRoad(mapName, nameID, newOverload);
+        MainDataBase.queryDataBase(query);
     }
 
 }
