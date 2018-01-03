@@ -3,6 +3,5 @@ sudo: false
 script:
 - cd BTW-Project
 - mvn cobertura:cobertura
-- mvn clean verify
 after_success:
   - bash <(curl -s https://codecov.io/bash)
