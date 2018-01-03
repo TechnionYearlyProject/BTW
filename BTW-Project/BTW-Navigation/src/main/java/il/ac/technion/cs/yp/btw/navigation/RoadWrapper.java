@@ -1,6 +1,5 @@
 package il.ac.technion.cs.yp.btw.navigation;
 
-import com.sun.istack.internal.NotNull;
 import il.ac.technion.cs.yp.btw.classes.Crossroad;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import javafx.util.Pair;
@@ -55,7 +54,7 @@ class RoadWrapper implements Comparable<RoadWrapper>{
     }
 
     @Override
-    public int compareTo(@NotNull RoadWrapper o) {
+    public int compareTo(RoadWrapper o) {
         Double sign = Math.signum((this.dist + this.heuristics) - (o.dist + o.heuristics));
         return sign.intValue();
     }

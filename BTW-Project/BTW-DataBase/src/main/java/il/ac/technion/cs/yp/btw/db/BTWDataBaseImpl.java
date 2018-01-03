@@ -4,17 +4,23 @@ import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.navigation.BTWGraphInfo;
 import sun.applet.Main;
 
+import java.sql.Connection;
 import java.util.Map;
 import java.util.Set;
 
 public class BTWDataBaseImpl implements BTWDataBase {
 
     private String mapName;
+    private Connection connection;
 
     public BTWDataBaseImpl(String mapName){
         this.mapName = mapName;
+        MainDataBase.openConnection();
     }
 
+    public void closeDataBaseConnection(String mapName){
+        MainDataBase.closeConnection();
+    }
     /**
      * @return Set of all TrafficLights in the system
      */
