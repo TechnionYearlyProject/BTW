@@ -3,8 +3,10 @@ package il.ac.technion.cs.yp.btw.db.DataObjects;
 import java.sql.Time;
 
 import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.db.RoadsDataBase;
 import il.ac.technion.cs.yp.btw.db.StreetsDataBase;
 import il.ac.technion.cs.yp.btw.db.CrossRoadsDataBase;
+import il.ac.technion.cs.yp.btw.classes.BTWTime;
 /**
  * default implementation for the interface Road
  */
@@ -17,7 +19,7 @@ public class DataRoad implements Road {
     private Point destinationCrossroadId;
     private int secStart;
     private int secEnd;
-    private String overload;
+    private long overload;
 
     public DataRoad(String name, int roadLength,
                     String myStreet,
@@ -38,7 +40,7 @@ public class DataRoad implements Road {
                     Point destinationCrossroadId,
                     int secStart,
                     int secEnd,
-                    String overload,
+                    long overload,
                     String mapName){
         this(name,roadLength, myStreet,sourceCrossroadId,destinationCrossroadId,mapName);
         this.secStart = secStart;
@@ -92,7 +94,15 @@ public class DataRoad implements Road {
      */
     @Override
     public BTWWeight getWeightByTime(BTWTime time) {
-        return null;//TODO
+
+        overload = RoadsDataBase.getOverload(name, mapName);
+        BTWWeight roadOverload = null;
+        try{
+            roadOverload = BTWWeight.of(overload);
+        }catch(BTWIllegalTimeException e){
+
+        }
+        return roadOverload;
     }
 
     /**
@@ -100,7 +110,15 @@ public class DataRoad implements Road {
      */
     @Override
     public BTWWeight getMinimumWeight() {
-        return null;//TODO
+
+        overload = RoadsDataBase.getOverload(name, mapName);
+        BTWWeight roadOverload = null;
+        try{
+            roadOverload = BTWWeight.of(overload);
+        }catch(BTWIllegalTimeException e){
+
+        }
+        return roadOverload;
     }
 
     @Override
