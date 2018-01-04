@@ -63,15 +63,5 @@ public class MapSimulationTrafficLightImpl extends PointAbstract implements Traf
      */
     @Override
     public BTWWeight getCurrentWeight(){return null;}
-
-    public String toStringTrafficLightFull() {
-        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
-               "[["+this.getCoordinateX()+","+this.getCoordinateY()+"]},"+"\"properties\":{"+"\"name\":"+"\""+this.getName()+"\","+
-                "\"overload\":"+"\""+this.getMinimumWeight()+"\"}},\n";
-    }
-
-    public String toStringTrafficLight() {
-        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
-                "[["+this.getCoordinateX()+","+this.getCoordinateY()+"]},"+"\"properties\":{"+"\"name\":"+"\""+this.getName()+"\"}},\n";
-    }
+    
 }

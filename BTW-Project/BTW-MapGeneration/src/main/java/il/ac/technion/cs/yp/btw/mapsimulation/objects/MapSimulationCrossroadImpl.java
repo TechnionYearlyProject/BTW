@@ -54,9 +54,4 @@ public class MapSimulationCrossroadImpl extends PointAbstract implements Crossro
     }
 
     public String getName(){return name;}
-
-    public String toStringCrossRoad() {
-        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
-                "["+this.getCoordinateX()+","+this.getCoordinateY()+"]},"+"\"properties\":{"+"\"name\":"+"\""+this.getName()+"\"}},\n";
-    }
 }
