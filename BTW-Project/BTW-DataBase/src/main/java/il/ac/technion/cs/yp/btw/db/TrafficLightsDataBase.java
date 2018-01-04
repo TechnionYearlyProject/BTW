@@ -3,6 +3,7 @@ package il.ac.technion.cs.yp.btw.db;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import il.ac.technion.cs.yp.btw.db.queries.Query;
 import il.ac.technion.cs.yp.btw.db.queries.QueryAllTrafficLights;
+import il.ac.technion.cs.yp.btw.db.queries.QueryOverloadOfTrafficLight;
 import il.ac.technion.cs.yp.btw.db.queries.QueryTrafficLight;
 import il.ac.technion.cs.yp.btw.classes.Point;
 
@@ -29,6 +30,11 @@ public class TrafficLightsDataBase {
 
         Query query = new QueryTrafficLight(mapName, nameID);
         return (TrafficLight) MainDataBase.queryDataBase(query);
+    }
+
+    public static long getOverload(String nameID, String mapName) {
+        Query query = new QueryOverloadOfTrafficLight(mapName, nameID);
+        return (Long) MainDataBase.queryDataBase(query);
     }
 
 }
