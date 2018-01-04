@@ -25,6 +25,11 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
         this.mapName = mapName;
     }
 
+    @Override
+    public String getName() {
+        return null;
+    }
+
     /**
      * @return Set of all TrafficLights in this CrossroadImpl
      */
