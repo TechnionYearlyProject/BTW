@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Navigator layer interface for the BTW project
  */
-public interface BTWNavigator {
+public interface Navigator {
 
     //returns a list of roads that represents the route.
     //the source and target road are fetched from the database

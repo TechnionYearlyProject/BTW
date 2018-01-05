@@ -1,21 +1,16 @@
 package il.ac.technion.cs.yp.btw.navigation;
 import il.ac.technion.cs.yp.btw.classes.*;
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import java.sql.Time;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class BTWNavigatorImpTest {
+public class NavigatorImplTest {
     private Map<String, Map<String, Long>> heuristics;
-    private BTWNavigator navigator;
+    private Navigator navigator;
     private BTWDataBase db;
     private Road road1;
     private Road road2;
@@ -216,7 +211,7 @@ public class BTWNavigatorImpTest {
         }
     }
 
-    public BTWNavigatorImpTest() {
+    public NavigatorImplTest() {
         try {
             configGraphMock();
         } catch (BTWIllegalTimeException e) {
@@ -321,7 +316,7 @@ public class BTWNavigatorImpTest {
 
     @Test
     public void testUniformWeights() {
-        navigator = new BTWNavigatorImp(db);
+        navigator = new NavigatorImpl(db);
         try {
             List<String> path = navigator.navigate(road1, road5)
                     .stream()
@@ -340,7 +335,7 @@ public class BTWNavigatorImpTest {
             road3 = ((TestingRoad)road3).update(BTWWeight.of(2));
             trafficLight1_3 = ((TestingTrafficLight)trafficLight1_3).update(BTWWeight.of(2));
             trafficLight3_5 = ((TestingTrafficLight)trafficLight3_5).update(BTWWeight.of(2));
-            navigator = new BTWNavigatorImp(db);
+            navigator = new NavigatorImpl(db);
             List<String> path = navigator.navigate(road1, road5)
                     .stream()
                     .map(Road::getRoadName)

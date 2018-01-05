@@ -4,7 +4,6 @@ import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.classes.Road;
 //import il.ac.technion.cs.yp.btw.db.BTWDataBase;
 
-import java.sql.Wrapper;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -13,20 +12,16 @@ import java.util.stream.Collectors;
 /**
  * The main navigation logic
  */
-public class BTWNavigatorImp implements BTWNavigator {
+public class NavigatorImpl implements Navigator {
     private final BTWDataBase database;
-//    private Graph<Road, DefaultWeightedEdge> heuristicGraph;
-//    private AStarAdmissibleHeuristic<Road> heuristics;
 
     @Override
     public long calculateRouteTime(List<Road> route, double ratioSourceRoad, double ratioTargetRoad) {
         return 0;
     }
 
-    public BTWNavigatorImp(BTWDataBase db) {
+    NavigatorImpl(BTWDataBase db) {
         this.database = db.updateHeuristics();
-//        this.heuristicGraph = BTWGraphInfo.calculateMinimumGraph(database);
-//        this.heuristics = new ALTAdmissibleHeuristic<>(this.heuristicGraph, this.heuristicGraph.vertexSet());
     }
 
     private List<Road> staticAStar(Road src, Road dst) throws PathNotFoundException{
