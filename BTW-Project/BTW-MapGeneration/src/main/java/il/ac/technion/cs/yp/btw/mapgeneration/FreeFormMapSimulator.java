@@ -1,11 +1,11 @@
-package il.ac.technion.cs.yp.btw.mapsimulation;
+package il.ac.technion.cs.yp.btw.mapgeneration;
 
 import il.ac.technion.cs.yp.btw.classes.*;
-import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationCrossroadImpl;
-import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationRoadImpl;
-import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationStreetImpl;
-import il.ac.technion.cs.yp.btw.mapsimulation.voronoi.Voronoi;
-import il.ac.technion.cs.yp.btw.mapsimulation.voronoi.VoronoiEdge;
+import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationCrossroadImpl;
+import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationRoadImpl;
+import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationStreetImpl;
+import il.ac.technion.cs.yp.btw.mapgeneration.voronoi.Voronoi;
+import il.ac.technion.cs.yp.btw.mapgeneration.voronoi.VoronoiEdge;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,7 +17,7 @@ public class FreeFormMapSimulator implements MapSimulator {
     private Set<Crossroad> crossRoads;
     private Set<CentralLocation> centralLocations;
     private Set<Street> streets;
-    private Point cityCenter;
+    private il.ac.technion.cs.yp.btw.classes.Point cityCenter;
     private int cityRadius;
 
     public FreeFormMapSimulator(){
@@ -29,12 +29,12 @@ public class FreeFormMapSimulator implements MapSimulator {
     }
     public void build() {
         int N = NUM_OF_CITY_BLOCKS;
-        ArrayList<il.ac.technion.cs.yp.btw.mapsimulation.voronoi.Point> sites = new ArrayList<il.ac.technion.cs.yp.btw.mapsimulation.voronoi.Point>();
+        ArrayList<il.ac.technion.cs.yp.btw.mapgeneration.voronoi.Point> sites = new ArrayList<il.ac.technion.cs.yp.btw.mapgeneration.voronoi.Point>();
         Random rnd = new Random();
         for (int i = 0; i < N; i++) {
             double x = rnd.nextDouble() + rnd.nextInt(5);
             double y = rnd.nextDouble() + rnd.nextInt(5);
-            sites.add(new il.ac.technion.cs.yp.btw.mapsimulation.voronoi.Point(x, y));
+            sites.add(new il.ac.technion.cs.yp.btw.mapgeneration.voronoi.Point(x, y));
         }
         Voronoi v = new Voronoi(sites);
         List<VoronoiEdge> edgeList = v.getEdgeList();
@@ -43,7 +43,7 @@ public class FreeFormMapSimulator implements MapSimulator {
     }
 
     private void declareAllCrossRoads(List<VoronoiEdge> edgeList) {
-        Set<Point> locationSet = new HashSet<>();
+        Set<il.ac.technion.cs.yp.btw.classes.Point> locationSet = new HashSet<>();
         for (VoronoiEdge voronoiEdge : edgeList) {
             locationSet.add(new PointImpl(voronoiEdge.p1.x, voronoiEdge.p1.y));
             locationSet.add(new PointImpl(voronoiEdge.p2.x, voronoiEdge.p2.y));
@@ -57,7 +57,7 @@ public class FreeFormMapSimulator implements MapSimulator {
         buildRoadsOnCrossRoads(edgeList);
     }
 
-    private Crossroad getCrossroadByLocation(Point location) {
+    private Crossroad getCrossroadByLocation(il.ac.technion.cs.yp.btw.classes.Point location) {
         return this.crossRoads
                 .stream()
                 .filter(crossroad -> crossroad.getCoordinateX()==(location.getCoordinateX())
@@ -71,8 +71,8 @@ public class FreeFormMapSimulator implements MapSimulator {
         this.streets.add(myStreet);
         int roadNum = 1;
         for (VoronoiEdge voronoiEdge : edgeList) {
-            Point p1 = (new PointImpl(voronoiEdge.p1.x, voronoiEdge.p1.y));
-            Point p2 = (new PointImpl(voronoiEdge.p2.x, voronoiEdge.p2.y));
+            il.ac.technion.cs.yp.btw.classes.Point p1 = (new PointImpl(voronoiEdge.p1.x, voronoiEdge.p1.y));
+            il.ac.technion.cs.yp.btw.classes.Point p2 = (new PointImpl(voronoiEdge.p2.x, voronoiEdge.p2.y));
             Crossroad cr1 = getCrossroadByLocation(p1);
             Crossroad cr2 = getCrossroadByLocation(p2);
             Road rd1 = new MapSimulationRoadImpl(myStreet.getStreetName() +" " +roadNum
@@ -119,7 +119,7 @@ public class FreeFormMapSimulator implements MapSimulator {
     }
 
 
-    private static int calculateLengthBetween2Points(Point p1, Point p2) {
+    private static int calculateLengthBetween2Points(il.ac.technion.cs.yp.btw.classes.Point p1, il.ac.technion.cs.yp.btw.classes.Point p2) {
         return (int) distanceBetween2PointsOnEarth(p1.getCoordinateX(), p2.getCoordinateX()
                 , p1.getCoordinateY(), p2.getCoordinateY(), 0, 0);
     }

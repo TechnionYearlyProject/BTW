@@ -1,4 +1,4 @@
-package il.ac.technion.cs.yp.btw.mapsimulation.voronoi;
+package il.ac.technion.cs.yp.btw.mapgeneration.voronoi;
 /**
  * Point for Voronoi calculations
  */
