@@ -34,4 +34,12 @@ public class PointTest {
         p2 = new PointImpl(5.0,7.0);
         assertEquals(p1.hashCode(),p2.hashCode());
     }
+    @Test
+    public void testEquals(){
+        Point p1 = new PointImpl(1.0,2.0);
+        Point p2 = new PointImpl(2.0,1.0);
+        assertEquals(true,p1.equals(p1));
+        assertEquals(false,p2.equals(p1));
+        assertEquals(p1.equals(p2),p2.equals(p1));
+    }
 }
