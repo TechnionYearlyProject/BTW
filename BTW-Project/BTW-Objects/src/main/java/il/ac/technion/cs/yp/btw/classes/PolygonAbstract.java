@@ -22,11 +22,10 @@ public abstract class PolygonAbstract implements Polygon {
 
     @Override
     public String toString(){
-        String polygonAbstract = new String("");
-        Iterator<Point> iterator = vertices.iterator();
-        while(iterator.hasNext()){
-            polygonAbstract += iterator.next().toString() + " ";
+        StringBuilder polygonAbstract = new StringBuilder("");
+        for (Point vertice : vertices) {
+            polygonAbstract.append(vertice.toString()).append(" ");
         }
-        return polygonAbstract;
+        return polygonAbstract.toString();
     }
 }

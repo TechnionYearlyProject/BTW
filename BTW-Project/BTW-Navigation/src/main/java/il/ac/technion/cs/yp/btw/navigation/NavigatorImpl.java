@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 
 /**
  * The main navigation logic
+ * TODO put this class in NaiveNavigator
  */
 public class NavigatorImpl implements Navigator {
     private final BTWDataBase database;
 
-    @Override
     public long calculateRouteTime(List<Road> route, double ratioSourceRoad, double ratioTargetRoad) {
         return 0;
     }
@@ -77,12 +77,20 @@ public class NavigatorImpl implements Navigator {
         throw new PathNotFoundException("No path from " + src.getRoadName() + " to " + dst.getRoadName());
     }
 
-    @Override
     public List<Road> navigate(Road src, Road dst) throws PathNotFoundException{
         //TODO - maybe update the graph in some way
         // naive implementation
 //        return new AStarShortestPath<>(this.heuristicGraph,
 //                this.heuristics).getPath(src, dst).getVertexList();
         return staticAStar(src, dst);
+    }
+
+    /**
+     * @return the next Road for the Vehicle currently
+     * using this Navigator
+     */
+    @Override
+    public Road getNextRoad() {
+        return null;
     }
 }

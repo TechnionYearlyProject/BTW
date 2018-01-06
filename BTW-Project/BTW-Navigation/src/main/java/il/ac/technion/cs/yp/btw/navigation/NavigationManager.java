@@ -1,8 +1,15 @@
 package il.ac.technion.cs.yp.btw.navigation;
 
+import il.ac.technion.cs.yp.btw.classes.Point;
+import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.VehicleDescriptor;
+
 /**
- * Created by Guy Rephaeli on 05-Jan-18.
+ * Navigation Manager interface
  */
 public interface NavigationManager {
-    Navigator getNavigator();
+
+    Navigator getNavigator(VehicleDescriptor vehicleDescriptor,
+                           Road source,double ratioSource,
+                           Road destination,double ratioDestination);
 }
