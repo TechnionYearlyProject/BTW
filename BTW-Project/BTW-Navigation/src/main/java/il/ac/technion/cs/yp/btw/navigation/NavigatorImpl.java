@@ -2,7 +2,6 @@ package il.ac.technion.cs.yp.btw.navigation;
 
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.classes.Road;
-//import il.ac.technion.cs.yp.btw.db.BTWDataBase;
 
 import java.util.LinkedList;
 import java.util.List;
