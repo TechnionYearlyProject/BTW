@@ -63,5 +63,5 @@ public class MapSimulationTrafficLightImpl extends PointAbstract implements Traf
      */
     @Override
     public BTWWeight getCurrentWeight(){return null;}
-    
+
 }
