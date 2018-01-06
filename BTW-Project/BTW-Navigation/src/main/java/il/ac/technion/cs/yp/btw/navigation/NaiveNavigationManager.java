@@ -1,25 +1,23 @@
 package il.ac.technion.cs.yp.btw.navigation;
 
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
+import il.ac.technion.cs.yp.btw.classes.Point;
 import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.VehicleDescriptor;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
+
 /**
- * The main navigation logic
- * TODO put this class in NaiveNavigator
+ * Implementation of the navigation manager
  */
-public class NavigatorImpl implements Navigator {
+public class NaiveNavigationManager implements NavigationManager {
     private final BTWDataBase database;
 
-    public long calculateRouteTime(List<Road> route, double ratioSourceRoad, double ratioTargetRoad) {
-        return 0;
-    }
-
-    NavigatorImpl(BTWDataBase db) {
+    public NaiveNavigationManager(BTWDataBase db) {
         this.database = db.updateHeuristics();
     }
 
@@ -76,20 +74,8 @@ public class NavigatorImpl implements Navigator {
         throw new PathNotFoundException("No path from " + src.getRoadName() + " to " + dst.getRoadName());
     }
 
-    public List<Road> navigate(Road src, Road dst) throws PathNotFoundException{
-        //TODO - maybe update the graph in some way
-        // naive implementation
-//        return new AStarShortestPath<>(this.heuristicGraph,
-//                this.heuristics).getPath(src, dst).getVertexList();
-        return staticAStar(src, dst);
-    }
-
-    /**
-     * @return the next Road for the Vehicle currently
-     * using this Navigator
-     */
     @Override
-    public Road getNextRoad() {
-        return null;
+    public Navigator getNavigator(VehicleDescriptor vehicleDescriptor, Road source, double ratioSource, Road destination, double ratioDestination) throws PathNotFoundException{
+        return new NaiveNavigator(staticAStar(source, destination));
     }
 }

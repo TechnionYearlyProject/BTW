@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class BTWGraphInfo {
 
-    static Graph<Road, DefaultWeightedEdge> calculateMinimumGraph(BTWDataBase db) {
+    private static Graph<Road, DefaultWeightedEdge> calculateMinimumGraph(BTWDataBase db) {
         SimpleDirectedWeightedGraph<Road, DefaultWeightedEdge> minimunGraph
                 = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
         db.getAllTrafficLights()

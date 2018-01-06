@@ -11,5 +11,5 @@ public interface NavigationManager {
 
     Navigator getNavigator(VehicleDescriptor vehicleDescriptor,
                            Road source,double ratioSource,
-                           Road destination,double ratioDestination);
+                           Road destination,double ratioDestination) throws PathNotFoundException;
 }

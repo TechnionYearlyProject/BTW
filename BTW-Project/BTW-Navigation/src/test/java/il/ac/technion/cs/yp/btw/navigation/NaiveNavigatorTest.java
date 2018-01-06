@@ -1,4 +1,5 @@
 package il.ac.technion.cs.yp.btw.navigation;
+
 import il.ac.technion.cs.yp.btw.classes.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -7,11 +8,12 @@ import org.mockito.Mockito;
 
 import java.util.*;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-public class NavigatorImplTest {
+/**
+ * Testing the implementation of NaiveNavigationManager and NaiveNavigator
+ */
+public class NaiveNavigatorTest {
     private Map<String, Map<String, Long>> heuristics;
-    private Navigator navigator;
     private BTWDataBase db;
     private Road road1;
     private Road road2;
@@ -212,7 +214,7 @@ public class NavigatorImplTest {
         }
     }
 
-    public NavigatorImplTest() {
+    public NaiveNavigatorTest() {
         try {
             configGraphMock();
         } catch (BTWIllegalTimeException e) {
@@ -223,7 +225,7 @@ public class NavigatorImplTest {
 
     private void configGraphMock() throws BTWIllegalTimeException {
         // Data Base
-        db = new TestingDB();
+        db = new NaiveNavigatorTest.TestingDB();
 
         //Crossroads
         crossroad1 = Mockito.mock(Crossroad.class);
@@ -231,26 +233,26 @@ public class NavigatorImplTest {
         crossroad3 = Mockito.mock(Crossroad.class);
 
         //roads
-        road1 = new TestingRoad("1", BTWWeight.of(1), null, crossroad1);
-        road2 = new TestingRoad("2", BTWWeight.of(1), crossroad1, crossroad2);
-        road3 = new TestingRoad("3", BTWWeight.of(1), crossroad1, crossroad3);
-        road4 = new TestingRoad("4", BTWWeight.of(1), crossroad2, crossroad3);
-        road5 = new TestingRoad("5", BTWWeight.of(1), crossroad3, null);
-        road6 = new TestingRoad("6", BTWWeight.of(1), crossroad2, crossroad1);
-        road7 = new TestingRoad("7", BTWWeight.of(1), crossroad3, crossroad1);
-        road8 = new TestingRoad("8", BTWWeight.of(1), crossroad3, crossroad2);
+        road1 = new NaiveNavigatorTest.TestingRoad("1", BTWWeight.of(1), null, crossroad1);
+        road2 = new NaiveNavigatorTest.TestingRoad("2", BTWWeight.of(1), crossroad1, crossroad2);
+        road3 = new NaiveNavigatorTest.TestingRoad("3", BTWWeight.of(1), crossroad1, crossroad3);
+        road4 = new NaiveNavigatorTest.TestingRoad("4", BTWWeight.of(1), crossroad2, crossroad3);
+        road5 = new NaiveNavigatorTest.TestingRoad("5", BTWWeight.of(1), crossroad3, null);
+        road6 = new NaiveNavigatorTest.TestingRoad("6", BTWWeight.of(1), crossroad2, crossroad1);
+        road7 = new NaiveNavigatorTest.TestingRoad("7", BTWWeight.of(1), crossroad3, crossroad1);
+        road8 = new NaiveNavigatorTest.TestingRoad("8", BTWWeight.of(1), crossroad3, crossroad2);
 
         // traffic lights
-        trafficLight1_2 = new TestingTrafficLight("1_2", road1, road2, BTWWeight.of(1));
-        trafficLight1_3 = new TestingTrafficLight("1_3", road1, road3, BTWWeight.of(1));
-        trafficLight6_3 = new TestingTrafficLight("6_3", road6, road3, BTWWeight.of(1));
-        trafficLight7_2 = new TestingTrafficLight("7_2", road7, road2, BTWWeight.of(1));
-        trafficLight2_4 = new TestingTrafficLight("2_4", road2, road4, BTWWeight.of(1));
-        trafficLight8_6 = new TestingTrafficLight("8_6", road8, road6, BTWWeight.of(1));
-        trafficLight4_5 = new TestingTrafficLight("4_5", road4, road5, BTWWeight.of(1));
-        trafficLight3_5 = new TestingTrafficLight("3_5", road3, road5, BTWWeight.of(1));
-        trafficLight3_8 = new TestingTrafficLight("3_8", road3, road8, BTWWeight.of(1));
-        trafficLight4_7 = new TestingTrafficLight("4_7", road4, road7, BTWWeight.of(1));
+        trafficLight1_2 = new NaiveNavigatorTest.TestingTrafficLight("1_2", road1, road2, BTWWeight.of(1));
+        trafficLight1_3 = new NaiveNavigatorTest.TestingTrafficLight("1_3", road1, road3, BTWWeight.of(1));
+        trafficLight6_3 = new NaiveNavigatorTest.TestingTrafficLight("6_3", road6, road3, BTWWeight.of(1));
+        trafficLight7_2 = new NaiveNavigatorTest.TestingTrafficLight("7_2", road7, road2, BTWWeight.of(1));
+        trafficLight2_4 = new NaiveNavigatorTest.TestingTrafficLight("2_4", road2, road4, BTWWeight.of(1));
+        trafficLight8_6 = new NaiveNavigatorTest.TestingTrafficLight("8_6", road8, road6, BTWWeight.of(1));
+        trafficLight4_5 = new NaiveNavigatorTest.TestingTrafficLight("4_5", road4, road5, BTWWeight.of(1));
+        trafficLight3_5 = new NaiveNavigatorTest.TestingTrafficLight("3_5", road3, road5, BTWWeight.of(1));
+        trafficLight3_8 = new NaiveNavigatorTest.TestingTrafficLight("3_8", road3, road8, BTWWeight.of(1));
+        trafficLight4_7 = new NaiveNavigatorTest.TestingTrafficLight("4_7", road4, road7, BTWWeight.of(1));
 
         // crossroad1
         Mockito.when(crossroad1.getTrafficLightsFromRoad(road1))
@@ -317,32 +319,45 @@ public class NavigatorImplTest {
 
     @Test
     public void testUniformWeights() {
-        navigator = new NavigatorImpl(db);
+        NavigationManager manager = new NaiveNavigationManager(db);
+        List<String> expectedRoute = new ArrayList<>();
+        expectedRoute.add("1");
+        expectedRoute.add("3");
+        expectedRoute.add("5");
         try {
-            List<String> path = navigator.navigate(road1, road5)
-                    .stream()
-                    .map(Road::getRoadName)
-                    .collect(Collectors.toList());
-            Assert.assertArrayEquals(new String[]{"1", "3", "5"}, path.toArray());
-        } catch (PathNotFoundException e) {
+            Navigator navigator = manager.getNavigator(null, road1, 0.0, road5, 0.0);
+            Iterator<String> expectedRoad = expectedRoute.iterator();
+            while (! navigator.hasArrived()) {
+                Road nextRoad = navigator.getNextRoad();
+                Assert.assertEquals(expectedRoad.next(), nextRoad.getRoadName());
+            }
+            Assert.assertFalse(expectedRoad.hasNext());
+        } catch (PathNotFoundException | NullPointerException e) {
             Assert.fail();
         }
-
     }
 
     @Test
     public void testDifferentWeights() {
         try {
-            road3 = ((TestingRoad)road3).update(BTWWeight.of(2));
-            trafficLight1_3 = ((TestingTrafficLight)trafficLight1_3).update(BTWWeight.of(2));
-            trafficLight3_5 = ((TestingTrafficLight)trafficLight3_5).update(BTWWeight.of(2));
-            navigator = new NavigatorImpl(db);
-            List<String> path = navigator.navigate(road1, road5)
-                    .stream()
-                    .map(Road::getRoadName)
-                    .collect(Collectors.toList());
-            Assert.assertArrayEquals(new String[]{"1", "2", "4", "5"}, path.toArray());
-        } catch (PathNotFoundException | BTWIllegalTimeException e) {
+            road3 = ((NaiveNavigatorTest.TestingRoad)road3).update(BTWWeight.of(2));
+            trafficLight1_3 = ((NaiveNavigatorTest.TestingTrafficLight)trafficLight1_3).update(BTWWeight.of(2));
+            trafficLight3_5 = ((NaiveNavigatorTest.TestingTrafficLight)trafficLight3_5).update(BTWWeight.of(2));
+            NavigationManager manager = new NaiveNavigationManager(db);
+            List<String> expectedRoute = new ArrayList<>();
+            expectedRoute.add("1");
+            expectedRoute.add("2");
+            expectedRoute.add("4");
+            expectedRoute.add("5");
+            Navigator navigator = manager.getNavigator(null, road1, 0.0, road5, 0.0);
+            Iterator<String> expectedRoad = expectedRoute.iterator();
+            while (! navigator.hasArrived()) {
+                Road nextRoad = navigator.getNextRoad();
+                String expected = expectedRoad.next();
+                Assert.assertEquals(expected, nextRoad.getRoadName());
+            }
+            Assert.assertFalse(expectedRoad.hasNext());
+        } catch (PathNotFoundException | NullPointerException | BTWIllegalTimeException e) {
             Assert.fail();
         }
     }

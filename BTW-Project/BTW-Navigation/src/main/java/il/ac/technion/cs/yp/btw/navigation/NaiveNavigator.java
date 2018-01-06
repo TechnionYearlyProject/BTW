@@ -2,6 +2,7 @@ package il.ac.technion.cs.yp.btw.navigation;
 
 import il.ac.technion.cs.yp.btw.classes.Road;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -9,7 +10,12 @@ import java.util.List;
  * used today by drivers
  */
 public class NaiveNavigator implements Navigator {
-    public NaiveNavigator() {
+    private final List<Road> route;
+    private Iterator<Road> routeIterator;
+
+    NaiveNavigator(List<Road> route) {
+        this.route = route;
+        this.routeIterator = route.iterator();
     }
 
     /**
@@ -21,19 +27,16 @@ public class NaiveNavigator implements Navigator {
      */
     @Override
     public Road getNextRoad() {
-        //TODO
-        return null;
+        return routeIterator.next();
     }
 
-    //TODO delete as an overridden method
     @Override
-    public List<Road> navigate(Road source, Road target) throws PathNotFoundException {
-        return null;
+    public Road getDestination() {
+        return route.get(route.size() - 1);
     }
 
-    //TODO delete as an overridden method
     @Override
-    public long calculateRouteTime(List<Road> route, double ratioSourceRoad, double ratioTargetRoad) {
-        return 0;
+    public boolean hasArrived() {
+        return ! routeIterator.hasNext();
     }
 }
