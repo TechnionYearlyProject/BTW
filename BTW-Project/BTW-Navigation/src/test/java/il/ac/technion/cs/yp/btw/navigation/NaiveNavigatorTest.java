@@ -338,6 +338,17 @@ public class NaiveNavigatorTest {
     }
 
     @Test
+    public void testNoPath() {
+        NavigationManager manager = new NaiveNavigationManager(db);
+        try {
+            Navigator navigator = manager.getNavigator(null, road2, 0.0, road3, 0.0);
+            Assert.fail();
+        } catch (PathNotFoundException e) {
+            Assert.assertEquals("No path from 2 to 3", e.getMessage());
+        }
+    }
+
+    @Test
     public void testDifferentWeights() {
         try {
             road3 = ((NaiveNavigatorTest.TestingRoad)road3).update(BTWWeight.of(2));
