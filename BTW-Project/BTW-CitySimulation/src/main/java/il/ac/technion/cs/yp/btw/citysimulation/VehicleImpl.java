@@ -1,15 +1,29 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
 import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
+import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 
 public class VehicleImpl implements Vehicle {
 
-    public VehicleImpl(VehicleDescriptor vehicleDescriptor,
-                       Road source,double ratioSource,
-                       Road destination,double ratioDestination,
-                       Navigator navigator){
+    private VehicleDescriptor descriptor;
+    private Road currentRoad;
+    private Road destination;
+    private Double sourceRoadRatio;
+    private Double destinationRoadRatio;
+    private Navigator navigator;
 
+    public VehicleImpl(VehicleDescriptor descriptor,
+                       Road source, double sourceRoadRatio,
+                       Road destination, double destinationRoadRatio,
+                       NavigationManager manager) throws PathNotFoundException{
+        this.descriptor = descriptor;
+        this.destination = destination;
+        this.sourceRoadRatio = sourceRoadRatio;
+        this.destinationRoadRatio = destinationRoadRatio;
+        this.navigator = manager.getNavigator(descriptor, source, sourceRoadRatio, destination, destinationRoadRatio);
+        this.currentRoad = null;
     }
     /**
      * @return VehicleDescriptor of this Vehicle,
@@ -18,7 +32,7 @@ public class VehicleImpl implements Vehicle {
      */
     @Override
     public VehicleDescriptor getVehicleDescriptor() {
-        return null;
+        return this.descriptor;
     }
 
     /**
@@ -26,7 +40,7 @@ public class VehicleImpl implements Vehicle {
      */
     @Override
     public Road getCurrentRoad() {
-        return null;
+        return this.currentRoad;
     }
 
     /**
@@ -34,7 +48,7 @@ public class VehicleImpl implements Vehicle {
      */
     @Override
     public Road getDestinationRoad() {
-        return null;
+        return this.destination;
     }
 
     /**

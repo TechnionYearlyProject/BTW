@@ -21,10 +21,10 @@ public class NaiveNavigationManager implements NavigationManager {
         this.database = db.updateHeuristics();
     }
 
-    private List<Road> staticAStar(Road src, Road dst) throws PathNotFoundException{
+    private List<Road> staticAStar(Road src, Road dst, double sourceRoadRatio) throws PathNotFoundException{
         PriorityQueue<RoadWrapper> open = new PriorityQueue<>();
         PriorityQueue<RoadWrapper> closed = new PriorityQueue<>();
-        open.add(new RoadWrapper(src, dst, 0.0, null));
+        open.add(RoadWrapper.buildSourceRoad(src, dst, sourceRoadRatio));
         while (! open.isEmpty()) {
             RoadWrapper next = open.poll();
             closed.add(next);
@@ -41,7 +41,7 @@ public class NaiveNavigationManager implements NavigationManager {
             }
             for (Road r : next.getNeighbors()) {
                 double dist = next.dist + next.getDistFromNeighbor(r);
-                RoadWrapper newWrapper = new RoadWrapper(r, dst, dist, next);
+                RoadWrapper newWrapper = RoadWrapper.buildRouteRoad(r, dst, dist, next);
                 if (open.contains(newWrapper)) {
                     RoadWrapper oldWrapper = null;
                     for (RoadWrapper w : open) {
@@ -75,7 +75,7 @@ public class NaiveNavigationManager implements NavigationManager {
     }
 
     @Override
-    public Navigator getNavigator(VehicleDescriptor vehicleDescriptor, Road source, double ratioSource, Road destination, double ratioDestination) throws PathNotFoundException{
-        return new NaiveNavigator(staticAStar(source, destination));
+    public synchronized Navigator getNavigator(VehicleDescriptor vehicleDescriptor, Road source, double sourceRoadRatio, Road destination, double destinationRoadRatio) throws PathNotFoundException{
+        return new NaiveNavigator(staticAStar(source, destination, sourceRoadRatio));
     }
 }

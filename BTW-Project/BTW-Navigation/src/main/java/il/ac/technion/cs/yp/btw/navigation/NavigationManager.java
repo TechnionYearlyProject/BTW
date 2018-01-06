@@ -10,6 +10,6 @@ import il.ac.technion.cs.yp.btw.classes.VehicleDescriptor;
 public interface NavigationManager {
 
     Navigator getNavigator(VehicleDescriptor vehicleDescriptor,
-                           Road source,double ratioSource,
-                           Road destination,double ratioDestination) throws PathNotFoundException;
+                           Road source,double sourceRoadRatio,
+                           Road destination,double destinationRoadRatio) throws PathNotFoundException;
 }
