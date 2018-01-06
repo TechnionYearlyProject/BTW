@@ -175,7 +175,7 @@ public class GridCityMapSimulator implements MapSimulator {
     }
 
 
-    private int calculateLengthBetween2Points(Point p1, Point p2) {
+    private static int calculateLengthBetween2Points(Point p1, Point p2) {
         return (int) distanceBetween2PointsOnEarth(p1.getCoordinateX(),p2.getCoordinateX()
                 ,p1.getCoordinateY(),p2.getCoordinateY(),0,0);
     }
