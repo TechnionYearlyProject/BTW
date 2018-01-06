@@ -1,8 +1,6 @@
-package il.ac.technion.cs.yp.btw.mapsimulation.objects;
+package il.ac.technion.cs.yp.btw.mapgeneration.objects;
 
 import il.ac.technion.cs.yp.btw.classes.*;
-
-import java.sql.Time;
 
 /**
  * Point on a road map which represents

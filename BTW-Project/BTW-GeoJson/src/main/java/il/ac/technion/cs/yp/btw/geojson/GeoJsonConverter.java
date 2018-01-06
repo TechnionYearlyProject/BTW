@@ -1,7 +1,7 @@
 package il.ac.technion.cs.yp.btw.geojson;
 
 import il.ac.technion.cs.yp.btw.classes.*;
-import il.ac.technion.cs.yp.btw.mapsimulation.MapSimulator;
+import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 
 import java.io.File;
 

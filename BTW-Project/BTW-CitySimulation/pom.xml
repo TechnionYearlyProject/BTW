@@ -7,10 +7,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>btw-city-simulation</artifactId>
+    <artifactId>btw-citysimulation</artifactId>
     <packaging>jar</packaging>
 
-    <name>btw-city-simulation</name>
+    <name>btw-citysimulation</name>
     <url>http://maven.apache.org</url>
 
     <properties>

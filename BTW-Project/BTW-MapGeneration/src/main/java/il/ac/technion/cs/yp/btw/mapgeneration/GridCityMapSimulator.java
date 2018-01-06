@@ -1,10 +1,10 @@
-package il.ac.technion.cs.yp.btw.mapsimulation;
+package il.ac.technion.cs.yp.btw.mapgeneration;
 
 import il.ac.technion.cs.yp.btw.classes.*;
-import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationCrossroadImpl;
-import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationRoadImpl;
-import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationStreetImpl;
-import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationTrafficLightImpl;
+import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationCrossroadImpl;
+import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationRoadImpl;
+import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationStreetImpl;
+import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationTrafficLightImpl;
 
 import java.util.HashSet;
 import java.util.Set;

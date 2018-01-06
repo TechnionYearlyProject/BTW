@@ -7,10 +7,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>btw-simulation</artifactId>
+    <artifactId>btw-mapgeneration</artifactId>
     <packaging>jar</packaging>
 
-    <name>btw-simulation</name>
+    <name>btw-mapgeneration</name>
     <url>http://maven.apache.org</url>
 
     <properties>

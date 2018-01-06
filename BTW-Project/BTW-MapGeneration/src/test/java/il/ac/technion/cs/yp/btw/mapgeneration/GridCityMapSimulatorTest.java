@@ -1,4 +1,4 @@
-package il.ac.technion.cs.yp.btw.mapsimulation;
+package il.ac.technion.cs.yp.btw.mapgeneration;
 
 import il.ac.technion.cs.yp.btw.classes.*;
 import org.junit.BeforeClass;
