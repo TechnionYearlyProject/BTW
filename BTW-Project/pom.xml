@@ -10,9 +10,10 @@
     <module>BTW-Navigation</module>
     <module>BTW-Objects</module>
     <module>BTW-Graphics</module>
-    <module>BTW-Simulation</module>
+    <module>BTW-MapGeneration</module>
     <module>BTW-GeoJson</module>
     <module>BTW-Application</module>
+    <module>BTW-CitySimulation</module>
   </modules>
   <packaging>pom</packaging>
 

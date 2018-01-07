@@ -1,15 +1,7 @@
 package il.ac.technion.cs.yp.btw.geojson;
 
-import il.ac.technion.cs.yp.btw.classes.CentralLocation;
-import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.classes.TrafficLight;
-import il.ac.technion.cs.yp.btw.classes.Crossroad;
-import il.ac.technion.cs.yp.btw.classes.Street;
-import il.ac.technion.cs.yp.btw.mapsimulation.MapSimulator;
-import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationCrossroadImpl;
-import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationRoadImpl;
-import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationStreetImpl;
-import il.ac.technion.cs.yp.btw.mapsimulation.objects.MapSimulationTrafficLightImpl;
+import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -45,7 +37,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
 
             if(trafficLights!=null) {
                 for (TrafficLight tl : trafficLights) {
-                    String jsonData = ((MapSimulationTrafficLightImpl)tl).toStringTrafficLight();
+                    String jsonData =this.toStringTrafficLightFull(tl);
                     //write the data to json file
                     fileWriter.write(jsonData);
                 }
@@ -53,7 +45,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
             fileWriter.flush();
             if(roads!=null) {
                 for (Road rd : roads) {
-                    String jsonData = ((MapSimulationRoadImpl)rd).toStringRoad();
+                    String jsonData = this.toStringRoadFull(rd);
                     //write the data to json file
                     fileWriter.write(jsonData);
                 }
@@ -61,7 +53,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
             fileWriter.flush();
             /*if(streets!=null) {
                 for (Street st : streets) {
-                    String jsonData = ((MapSimulationStreetImpl)st).toStringStreet();
+                    String jsonData = this.toStringStreetFull(st);
                     //write the data to json file
                     fileWriter.write(jsonData);
                 }
@@ -69,7 +61,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
             //fileWriter.flush();
             if(crossRoads!=null) {
                 for (Crossroad cr : crossRoads) {
-                    String jsonData = ((MapSimulationCrossroadImpl)cr).toStringCrossRoad();
+                    String jsonData = this.toStringCrossRoad(cr);
                     //write the data to json file
                     fileWriter.write(jsonData);
                 }
@@ -77,7 +69,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
             fileWriter.flush();
             if(centralLocations!=null) {
                 for (CentralLocation cl : centralLocations) {
-                    String jsonData = cl.toStringLocation();
+                    String jsonData = this.toStringLocation(cl);
                     //write the data to json file
                     fileWriter.write(jsonData);
                 }
@@ -93,6 +85,78 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
             e.printStackTrace();
         }
         return  file;
+    }
+
+    @Override
+    public String toStringLocation(CentralLocation centralLocation) {
+        Point p1,p2,p3,p4;
+        Set<Point> vertices = centralLocation.getVertices();
+        p1 = (Point)vertices.toArray()[0];
+        p2 = (Point)vertices.toArray()[1];
+        p3 = (Point)vertices.toArray()[2];
+        p4 = (Point)vertices.toArray()[3];
+
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
+                "[["+p1.getCoordinateX()+","+p1.getCoordinateY()+"],"+"["+p2.getCoordinateX()+","+p2.getCoordinateY()+"],"+
+                "["+p3.getCoordinateX()+","+p3.getCoordinateY()+"],"+"["+p4.getCoordinateX()+","+p4.getCoordinateY()+"]]},"+
+                "\"properties\":{"+"\"name\":"+"\""+centralLocation.getName()+"\"},\n";
+    }
+
+    @Override
+    public String toStringRoadFull(Road road) {
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
+                "[["+road.getSourceCrossroad().getCoordinateX()+","+road.getSourceCrossroad().getCoordinateY()+"],"+
+                "["+road.getDestinationCrossroad().getCoordinateX()+","+road.getDestinationCrossroad().getCoordinateY()+"]]},"+
+                "\"properties\":{"+"\"name\":"+"\""+road.getRoadName()+"\","+
+                "\"length\":"+"\""+road.getRoadLength()+"\","+"\"overload\":"+"\""+road.getMinimumWeight()+"\"}},\n";
+    }
+
+    @Override
+    public String toStringRoad(Road road) {
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
+                "[["+road.getSourceCrossroad().getCoordinateX()+","+road.getSourceCrossroad().getCoordinateY()+"],"+
+                "["+road.getDestinationCrossroad().getCoordinateX()+","+road.getDestinationCrossroad().getCoordinateY()+"]]},"+
+                "\"properties\":{"+"\"name\":"+"\""+road.getRoadName()+"\"}},\n";
+    }
+
+    @Override
+    public String toStringTrafficLightFull(TrafficLight trafficLight) {
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
+                "[["+trafficLight.getCoordinateX()+","+trafficLight.getCoordinateY()+"]},"+
+                "\"properties\":{"+"\"name\":"+"\""+trafficLight.getName()+"\","+
+                "\"overload\":"+"\""+trafficLight.getMinimumWeight()+"\"}},\n";
+    }
+
+    @Override
+    public String toStringTrafficLight(TrafficLight trafficLight) {
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
+                "[["+trafficLight.getCoordinateX()+","+trafficLight.getCoordinateY()+"]},"+
+                "\"properties\":{"+"\"name\":"+"\""+trafficLight.getName()+"\"}},\n";
+    }
+
+    @Override
+    public String toStringCrossRoad(Crossroad crossroad) {
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
+                "["+crossroad.getCoordinateX()+","+crossroad.getCoordinateY()+"]},"+
+                "\"properties\":{"+"\"name\":"+"\""+crossroad.getName()+"\"}},\n";
+    }
+
+    @Override
+    public String toStringStreetFull(Street street) {
+        String roadsNames = "";
+        for (Road road: street.getAllRoadsInStreet()) {
+            roadsNames+=road.getRoadName();
+        }
+
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\"},"+
+                "\"properties\":{"+"\"name\":"+"\""+street.getStreetName()+"\","+
+                "\"included_streets\":"+"\""+roadsNames+"\"}},\n";
+    }
+
+    @Override
+    public String toStringStreet(Street street){
+        return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\"},"+
+                "\"properties\":{"+"\"name\":"+"\""+street.getStreetName()+"\"}},\n";
     }
 }
 //return file name- full path

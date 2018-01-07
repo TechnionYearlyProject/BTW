@@ -4,6 +4,7 @@ import java.sql.Time;
 
 import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.db.RoadsDataBase;
+import il.ac.technion.cs.yp.btw.db.TrafficLightsDataBase;
 
 
 /**
@@ -15,9 +16,9 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
     private String mapName;
     private String sourceRoadId;
     private String destinationRoadId;
-    private String overload;
+    private long overload;
     private String nameID;
-    public DataTrafficLight(String nameID, Point pos, String sourceRoadId, String destinationRoadId, String overload, String mapName) {
+    public DataTrafficLight(String nameID, Point pos, String sourceRoadId, String destinationRoadId, long overload, String mapName) {
         super(pos);
         this.nameID = nameID;
         this.sourceRoadId = sourceRoadId;
@@ -63,13 +64,31 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
      *         to the given Time
      */
     @Override
-    public BTWWeight getWeightByTime(BTWTime time){return null;}
+    public BTWWeight getWeightByTime(BTWTime time){
+        overload = TrafficLightsDataBase.getOverload(nameID, mapName);
+        BTWWeight roadOverload = null;
+        try{
+            roadOverload = BTWWeight.of(overload);
+        }catch(BTWIllegalTimeException e){
+
+        }
+        return roadOverload;
+    }
 
     /**
      * @return minimum possible Weight of TrafficLightImpl
      */
     @Override
-    public BTWWeight getMinimumWeight(){return null;}
+    public BTWWeight getMinimumWeight(){
+        overload = TrafficLightsDataBase.getOverload(nameID, mapName);
+        BTWWeight roadOverload = null;
+        try{
+            roadOverload = BTWWeight.of(overload);
+        }catch(BTWIllegalTimeException e){
+
+        }
+        return roadOverload;
+    }
 
     /**
      * @return current Weight on this TrafficLightImpl

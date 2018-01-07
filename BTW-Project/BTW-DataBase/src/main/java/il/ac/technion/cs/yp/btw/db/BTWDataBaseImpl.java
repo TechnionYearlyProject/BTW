@@ -74,13 +74,15 @@ public class BTWDataBaseImpl implements BTWDataBase {
 
     @Override
     public BTWDataBase saveMap(String geoJson) {
-        String createTraffic = "CREATE TABLE " + mapName
+        String createTraffic = "DROP TABLE IF EXISTS "+ mapName + "TrafficLight;\n"+
+                "CREATE TABLE " + mapName + "TrafficLight"
                 +"(nameID varchar(50) NOT NULL,\n" +
                 "cordx smallint NOT NULL,\n" +
                 "cordy smallint NOT NULL,\n" +
-                "overload varchar(50),\n" +
+                "overload bigint,\n" +
                 "PRIMARY KEY(nameID));\n";
-        String createPlace = "CREATE TABLE " + mapName
+        String createPlace = "DROP TABLE IF EXISTS "+ mapName + "Place;\n"+
+                "CREATE TABLE " + mapName
                 + "Place(\n" +
                 "nameID varchar(50) NOT NULL,\n" +
                 "street varchar(50) NOT NULL,\n" +
@@ -93,7 +95,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "cord3y smallint NOT NULL,\n" +
                 "cord4y smallint NOT NULL,\n" +
                 "PRIMARY KEY(nameID));\n";
-        String createRoad = "CREATE TABLE " + mapName
+        String createRoad = "DROP TABLE IF EXISTS "+ mapName + "Road;\n"+
+                "CREATE TABLE " + mapName
                 + "Road(\n" +
                 "nameID varchar(50) NOT NULL,\n" +
                 "cord1x smallint NOT NULL,\n" +
@@ -103,7 +106,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "length int,\n" +
                 "secStart smallint,\n" +
                 "secEnd smallint,\n" +
-                "overload varchar(50),\n" +
+                "overload bigint,\n" +
                 "PRIMARY KEY(nameID));\n";
         String createJson = "DECLARE @json NVARCHAR(max)\n" +
                 "SET @json = \n'" + geoJson + "'\n"
@@ -114,7 +117,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "\tnameID varchar(50) '$.geometry.name',\n" +
                 "\tcordx smallint '$.geometry.coordinates[0]',\n" +
                 "\tcordy smallint '$.geometry.coordinates[1]',\n" +
-                "\toverload varchar(5) '$.geometry.overload'\n" +
+                "\toverload bigint '$.geometry.overload'\n" +
                 "\t) WHERE (typeoftoken = 'Point');\n"
                 + "INSERT INTO dbo." + mapName
                 + "Place (nameID, street, cord1x, cord2x, cord3x, cord4x, cord1y, cord2y, cord3y, cord4y) SELECT nameID, street, cord1x, cord2x, cord3x, cord4x, cord1y, cord2y, cord3y, cord4y FROM OPENJSON(@json, '$.features')\n" +
@@ -143,7 +146,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "\tlength int '$.properties.length',\n" +
                 "\tsecStart smallint '$.properties.secStart',\n" +
                 "\tsecEnd smallint '$.properties.secEnd',\n" +
-                "\toverload varchar(50) '$.properties.overload'\n" +
+                "\toverload bigint '$.properties.overload'\n" +
                 "\t) WHERE (typeoftoken = 'LineString');\n";
         String sqlQuery = createTraffic + createPlace + createRoad + createJson;
         MainDataBase.saveDataFromQuery(sqlQuery);

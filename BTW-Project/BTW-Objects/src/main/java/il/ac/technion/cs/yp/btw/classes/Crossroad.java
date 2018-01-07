@@ -6,7 +6,12 @@ import java.util.Set;
  * Crossroad Interface
  */
 public interface Crossroad extends Point {
-     /**
+    /**
+     * @return the name of the crossroad
+     */
+    String getName();
+
+    /**
      * @return Set of all TrafficLights in this CrossroadImpl
      */
     Set<TrafficLight> getTrafficLights();

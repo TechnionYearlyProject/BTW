@@ -201,7 +201,7 @@ class QueryTrafficLightExample extends Query{
                 //        resultSet.getString("from");
                 String destinationRoadIf = nameID.split("-")[2];
                 //        resultSet.getString("to");
-                String overload =  resultSet.getString("overload");
+                long overload =  resultSet.getLong("overload");
                 Point position = new PointImpl(cordx, cordy);
                 TrafficLight trafficLight  = new DataTrafficLight(nameID, position, sourceRoadId,destinationRoadIf, overload, mapName);
 

@@ -26,7 +26,7 @@ public class QueryTrafficLight extends Query {
             int cordy =  resultSet.getInt("cordy");
             String sourceRoadId = nameID.split("-")[1];
             String destinationRoadIf = nameID.split("-")[2];
-            String overload =  resultSet.getString("overload");
+            long overload =  resultSet.getLong("overload");
             Point position = new PointImpl(cordx, cordy);
             trafficLight  = new DataTrafficLight(nameID, position, sourceRoadId,destinationRoadIf, overload, mapName);
 

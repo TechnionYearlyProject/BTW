@@ -6,8 +6,7 @@ import junit.framework.TestSuite;
 
 import java.io.File;
 
-import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
-import il.ac.technion.cs.yp.btw.mapsimulation.GridCityMapSimulator;
+import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
 
 /**
  * Unit test for simple App.
