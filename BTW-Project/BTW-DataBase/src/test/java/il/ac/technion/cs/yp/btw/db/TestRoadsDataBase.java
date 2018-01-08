@@ -5,12 +5,15 @@ import il.ac.technion.cs.yp.btw.classes.BTWWeight;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataRoad;
 import junit.framework.TestCase;
+import org.junit.Test;
+
 import java.util.Iterator;
 import java.util.Set;
 
 
-public class TestRoadsDataBase  extends TestCase {
+public class TestRoadsDataBase {
 
+    @Test
     public void testGetAllRoads(){
         MainDataBase.openConnection();
         Set<Road> allRoads = RoadsDataBase.getAllRoads("first");
@@ -22,6 +25,7 @@ public class TestRoadsDataBase  extends TestCase {
         MainDataBase.closeConnection();
     }
 
+    @Test
     public void testGetRoad(){
         String mapName = "first";
         MainDataBase.openConnection();
@@ -37,6 +41,7 @@ public class TestRoadsDataBase  extends TestCase {
 
     }
 
+    @Test
     public void testGetOverload(){
         String mapName = "first";
         MainDataBase.openConnection();
@@ -51,6 +56,7 @@ public class TestRoadsDataBase  extends TestCase {
         MainDataBase.closeConnection();
     }
 
+    @Test
     public void testGetHeuristicDist(){
         String mapName = "test";
         MainDataBase.openConnection();

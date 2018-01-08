@@ -11,6 +11,8 @@ import junit.framework.TestCase;
 import il.ac.technion.cs.yp.btw.db.queries.Query;
 import il.ac.technion.cs.yp.btw.db.MainDataBase;
 import junit.framework.TestResult;
+import org.junit.Test;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -19,8 +21,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 
-public class TestDataBaseQuerying  extends TestCase {
+public class TestDataBaseQuerying {
     //the test method name needs to begin with the word 'test'
+    @Test
     public void testGetAllRoadsSet(){
         TestResult result = new TestResult();
         MainDataBase.openConnection();
@@ -37,6 +40,7 @@ public class TestDataBaseQuerying  extends TestCase {
 
     }
 
+    @Test
     public void testGetAllCenteralLocations(){
         TestResult result = new TestResult();
         MainDataBase.openConnection();
@@ -52,6 +56,7 @@ public class TestDataBaseQuerying  extends TestCase {
         MainDataBase.closeConnection();
     }
 
+    @Test
     public void testGetAllTrafficLights(){
         TestResult result = new TestResult();
         MainDataBase.openConnection();

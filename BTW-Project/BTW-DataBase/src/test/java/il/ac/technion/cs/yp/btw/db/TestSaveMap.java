@@ -1,10 +1,14 @@
 package il.ac.technion.cs.yp.btw.db;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
+
 /**
  * Created by shay on 04/01/2018.
  */
-public class TestSaveMap extends TestCase {
+public class TestSaveMap {
+    @Test
     public void testSaveMap() {
         BTWDataBase btw = new BTWDataBaseImpl("test1");
         String json = "{\n" +
@@ -126,7 +130,7 @@ public class TestSaveMap extends TestCase {
                 "  ]\n" +
                 "}";
         btw.saveMap(json);
-        assert(true); // if we reach here it mean no errors in map saving
+        Assert.assertTrue(true); // if we reach here it mean no errors in map saving
 
     }
 }
