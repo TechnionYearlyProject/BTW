@@ -23,6 +23,8 @@ public class BTWGraphInfo {
                 .forEach(trafficLight -> {
                     Road src = trafficLight.getSourceRoad();
                     Road dst = trafficLight.getDestinationRoad();
+                    System.out.println(src.getRoadName());
+                    System.out.println(dst.getRoadName());
                     if (! minimunGraph.containsVertex(src)) {
                         minimunGraph.addVertex(src);
                     }

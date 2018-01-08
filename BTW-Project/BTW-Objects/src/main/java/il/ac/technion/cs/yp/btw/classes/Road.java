@@ -58,4 +58,8 @@ public interface Road {
      * @return the CrossroadImpl this Road ends
      */
     Crossroad getDestinationCrossroad();
+
+    default boolean equals(Road r){
+        return this.getRoadName() == r.getRoadName();
+    }
 }
