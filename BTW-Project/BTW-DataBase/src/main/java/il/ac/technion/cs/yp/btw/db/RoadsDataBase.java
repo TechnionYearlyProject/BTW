@@ -3,11 +3,7 @@ package il.ac.technion.cs.yp.btw.db;
 
 import java.util.Set;
 import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.db.queries.QueryAllRoads;
-import il.ac.technion.cs.yp.btw.db.queries.QueryRoad;
-import il.ac.technion.cs.yp.btw.db.queries.QueryOverloadOfRoad;
-import il.ac.technion.cs.yp.btw.db.queries.Query;
-import il.ac.technion.cs.yp.btw.db.queries.UpdateOverloadOfRoad;
+import il.ac.technion.cs.yp.btw.db.queries.*;
 
 
 public class RoadsDataBase {
@@ -32,6 +28,11 @@ public class RoadsDataBase {
     public static long getOverload(String nameID, String mapName){
         Query query = new QueryOverloadOfRoad(mapName, nameID);
         return (Long) MainDataBase.queryDataBase(query);
+    }
+
+    public static long getHeuristicDist(String srcID, String dstID, String mapName) {
+        Query query = new QueryHeuristicDist(mapName,srcID, dstID);
+        return (long) MainDataBase.queryDataBase(query);
     }
 
     public static void updateOverload(long newOverload, String nameID, String mapName){

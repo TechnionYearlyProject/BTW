@@ -123,8 +123,14 @@ public class DataRoad implements Road {
 
     @Override
     public BTWWeight getHeuristicDist(Road road) {
-        // TODO: Implement
-        return null;
+        Long dist = RoadsDataBase.getHeuristicDist(name,road.getRoadName(),mapName);
+        BTWWeight roadOverload = null;
+        try{
+            roadOverload = BTWWeight.of(dist);
+        }catch(BTWIllegalTimeException e){
+
+        }
+        return roadOverload;
     }
 
     /**

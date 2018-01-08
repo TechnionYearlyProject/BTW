@@ -159,7 +159,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
         String mapName = this.mapName;  // need to know the name of the map...
         String sql1 = "DROP TABLE IF EXISTS dbo." + mapName + "Heuristics;";
         String sql2 = "CREATE TABLE " + mapName + "Heuristics(sourceID varchar(50) NOT NULL, " +
-                "targetID varchar(50) NOT NULL, weight float, PRIMARY KEY(sourceID,targetID));";
+                "targetID varchar(50) NOT NULL, overload bigint, PRIMARY KEY(sourceID,targetID));";
         MainDataBase.saveDataFromQuery(sql1);
         MainDataBase.saveDataFromQuery(sql2);
         for (Map.Entry<String,Map<String,Long>> firstEntry: heuristics.entrySet())
@@ -167,7 +167,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
             for (Map.Entry<String,Long> secondEntry: firstEntry.getValue().entrySet())
             {
                 System.out.println(firstEntry.getKey() + " " + secondEntry.getKey() + " " + secondEntry.getValue());
-                String sql3 = "INSERT INTO dbo." + mapName + "Heuristics(sourceID,targetID,weight)" +
+                String sql3 = "INSERT INTO dbo." + mapName + "Heuristics(sourceID,targetID,overload)" +
                         " VALUES (" + firstEntry.getKey()+ ", " + secondEntry.getKey() + ", "
                         + secondEntry.getValue().toString() + ");";
                 MainDataBase.saveDataFromQuery(sql3);
