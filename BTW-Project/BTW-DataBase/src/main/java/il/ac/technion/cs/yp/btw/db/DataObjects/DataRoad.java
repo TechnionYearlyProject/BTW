@@ -164,4 +164,18 @@ public class DataRoad implements Road {
         return road;
 
     }
+
+    @Override
+    public int hashCode(){
+        return this.getRoadName().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (! (o instanceof Road)) {
+            return false;
+        }
+        Road r = (Road)o;
+        return this.getRoadName().equals(r.getRoadName());
+    }
 }
