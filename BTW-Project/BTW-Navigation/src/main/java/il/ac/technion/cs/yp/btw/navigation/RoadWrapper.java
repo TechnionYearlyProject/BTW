@@ -76,4 +76,9 @@ class RoadWrapper implements Comparable<RoadWrapper>{
         RoadWrapper wrapper = (RoadWrapper)o;
         return this.road.equals(wrapper.road);
     }
+
+    @Override
+    public int hashCode() {
+        return this.road.hashCode();
+    }
 }
