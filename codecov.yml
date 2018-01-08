@@ -1,0 +1,2 @@
+ignore:
+  - "BTW-Project/BTW-Application/*"  #ignore user UI code
