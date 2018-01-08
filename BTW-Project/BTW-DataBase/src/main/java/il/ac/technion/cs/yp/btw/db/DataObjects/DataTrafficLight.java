@@ -53,7 +53,7 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
      */
     @Override
     public Road getDestinationRoad(){
-        return RoadsDataBase.getRoad(sourceRoadId, mapName);
+        return RoadsDataBase.getRoad(destinationRoadId, mapName);
     }
 
     /**
