@@ -6,7 +6,7 @@ import junit.framework.TestCase;
  */
 public class TestSaveMap extends TestCase {
     public void testSaveMap() {
-        BTWDataBase btw = new BTWDataBaseImpl("test");
+        BTWDataBase btw = new BTWDataBaseImpl("test1");
         String json = "{\n" +
                 "  \"type\": \"FeatureCollection\",\n" +
                 "  \"features\": [\n" +

@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 public class TestHeuristics extends TestCase {
 
     public void testHeuristics() {
-        BTWDataBase btw = new BTWDataBaseImpl("test");
-        btw.updateHeuristics();
+        BTWDataBase btw = new BTWDataBaseImpl("test1");
+        assert(btw.updateHeuristics()!=null);
     }
 }

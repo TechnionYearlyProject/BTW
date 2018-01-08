@@ -168,7 +168,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
             {
                 System.out.println(firstEntry.getKey() + " " + secondEntry.getKey() + " " + secondEntry.getValue());
                 String sql3 = "INSERT INTO dbo." + mapName + "Heuristics(sourceID,targetID,overload)" +
-                        " VALUES (" + firstEntry.getKey()+ ", " + secondEntry.getKey() + ", "
+                        " VALUES (" + "'" + firstEntry.getKey()+ "', " + "'" +secondEntry.getKey() + "', "
                         + secondEntry.getValue().toString() + ");";
                 MainDataBase.saveDataFromQuery(sql3);
             }
