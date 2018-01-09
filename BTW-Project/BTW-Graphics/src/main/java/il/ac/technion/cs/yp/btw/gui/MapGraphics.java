@@ -32,7 +32,21 @@ public class MapGraphics {
      * @param trafficLights - trafficlights in the map
      */
     private void createCircles(Set<TrafficLight> trafficLights) {
+        HashSet<TrafficLight> l_trafficLights = new HashSet<TrafficLight>();
+        // insert into l_trafficLights one trafficLight for each source road
         for (TrafficLight currTrafficLight: trafficLights) {
+            boolean existsFlag = false;
+            for (TrafficLight innerTrafficLight: l_trafficLights) {
+                if (currTrafficLight.getSourceRoad().getRoadName() == innerTrafficLight.getSourceRoad().getRoadName()){
+                    existsFlag = true;
+                    break;
+                }
+            }
+            if (!existsFlag)
+                l_trafficLights.add(currTrafficLight);
+        }
+        // create circle for each of the traffic lights in l_trafficLights
+        for (TrafficLight currTrafficLight: l_trafficLights) {
             Circle circle = new Circle(currTrafficLight.getCoordinateX(),currTrafficLight.getCoordinateY(),5);
             circle.setFill(Color.RED);
             circles.add(circle);
@@ -44,7 +58,22 @@ public class MapGraphics {
      * @param roads - roads in the map
      */
     private void createLines(Set<Road> roads) {
+
+        HashSet<Road> l_roads = new HashSet<Road>();
+        // insert into l_roads only one road with the same name
         for (Road currRoad: roads) {
+            boolean existsFlag = false;
+            for (Road innerRoad: l_roads) {
+                if (currRoad.getRoadName() == innerRoad.getRoadName()){
+                    existsFlag = true;
+                    break;
+                }
+            }
+            if (!existsFlag)
+                l_roads.add(currRoad);
+        }
+
+        for (Road currRoad: l_roads) {
             double x1 = currRoad.getSourceCrossroad().getCoordinateX();
             double y1 = currRoad.getSourceCrossroad().getCoordinateY();
             double x2 = currRoad.getDestinationCrossroad().getCoordinateX();
