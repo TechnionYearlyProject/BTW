@@ -8,10 +8,11 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
+import java.util.HashSet;
+import java.util.Set;
 
 public class DrawMap extends Application {
     public static void main(String[] args) {
@@ -26,17 +27,17 @@ public class DrawMap extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         root.getChildren().add(canvas); // add plain canvas
 
-        ArrayList<TrafficLight> trafficLights = getTrafficLights();
-        ArrayList<Road> roads = getRoads();
+        Set<TrafficLight> trafficLights = getTrafficLights();
+        Set<Road> roads = getRoads();
         MapGraphics map = new MapGraphics(trafficLights,roads);
 
         // add all circles
-        for (int i = 0; i < map.getCircles().size(); i++) {
-            root.getChildren().add( map.getCircles().get(i));
+        for (Circle circle: map.getCircles()) {
+            root.getChildren().add(circle);
         }
         // add all lines
-        for (int i = 0; i < map.getLines().size(); i++) {
-            root.getChildren().add( map.getLines().get(i));
+        for (Line line: map.getLines()) {
+            root.getChildren().add(line);
         }
 
         primaryStage.setScene(new Scene(root, 640, 640, Color.GREY));
@@ -44,11 +45,11 @@ public class DrawMap extends Application {
     }
 
     // should be implemented outside
-    public ArrayList<TrafficLight> getTrafficLights() {
-        return new ArrayList<TrafficLight>();
+    public Set<TrafficLight> getTrafficLights() {
+        return new HashSet<TrafficLight>();
     }
     // should be implemented outside
-    public ArrayList<Road> getRoads() {
-        return new ArrayList<Road>();
+    public Set<Road> getRoads() {
+        return new HashSet<Road>();
     }
 }
