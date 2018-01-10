@@ -5,13 +5,14 @@ package il.ac.technion.cs.yp.btw.db;
  */
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import junit.framework.TestCase;
+import org.junit.Test;
 
 
+public class TestHeuristics {
 
-public class TestHeuristics extends TestCase {
-
+    @Test
     public void testHeuristics() {
-        BTWDataBase btw = new BTWDataBaseImpl("first");
-        btw.updateHeuristics();
+        BTWDataBase btw = new BTWDataBaseImpl("test1");
+        assert(btw.updateHeuristics()!=null);
     }
 }

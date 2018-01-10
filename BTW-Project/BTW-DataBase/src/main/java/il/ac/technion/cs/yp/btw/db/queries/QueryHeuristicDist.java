@@ -3,11 +3,14 @@ package il.ac.technion.cs.yp.btw.db.queries;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class QueryOverloadOfRoad extends Query {
-
-    public QueryOverloadOfRoad(String mapName, String nameID) {
+/**
+ * Created by shay on 08/01/2018.
+ */
+public class QueryHeuristicDist extends Query{
+    public QueryHeuristicDist(String mapName, String srcID, String dstID) {
         super(mapName);
-        query = "SELECT * FROM dbo." + mapName + "Road WHERE nameID = '" + nameID + "'";
+        this.query = "SELECT * FROM dbo." + mapName + "Heuristics WHERE sourceID = '" + srcID + "'"
+                + " AND targetID = '"  + dstID + "';";
     }
 
     @Override

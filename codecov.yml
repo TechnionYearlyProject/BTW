@@ -1,0 +1,3 @@
+ignore:
+  - "BTW-Project/BTW-Application/*"  #ignore user UI code
+  - "BTW-Project/BTW-Graphics/*" #ignore map gui code

@@ -123,8 +123,14 @@ public class DataRoad implements Road {
 
     @Override
     public BTWWeight getHeuristicDist(Road road) {
-        // TODO: Implement
-        return null;
+        Long dist = RoadsDataBase.getHeuristicDist(name,road.getRoadName(),mapName);
+        BTWWeight roadOverload = null;
+        try{
+            roadOverload = BTWWeight.of(dist);
+        }catch(BTWIllegalTimeException e){
+
+        }
+        return roadOverload;
     }
 
     /**
@@ -157,5 +163,19 @@ public class DataRoad implements Road {
         road += "destinationCrossroadId = (" + destinationCrossroadId.getCoordinateX() + "," + destinationCrossroadId.getCoordinateY() + ") ";
         return road;
 
+    }
+
+    @Override
+    public int hashCode(){
+        return this.getRoadName().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (! (o instanceof Road)) {
+            return false;
+        }
+        Road r = (Road)o;
+        return this.getRoadName().equals(r.getRoadName());
     }
 }

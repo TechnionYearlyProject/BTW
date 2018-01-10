@@ -3,12 +3,15 @@ package il.ac.technion.cs.yp.btw.db;
 import il.ac.technion.cs.yp.btw.db.StreetsDataBase;
 import il.ac.technion.cs.yp.btw.classes.Street;
 import junit.framework.TestCase;
+import org.junit.Test;
+
 import java.util.Iterator;
 import java.util.Set;
 
 
-public class TestStreetDataBase  extends TestCase {
+public class TestStreetDataBase {
 
+    @Test
     public void testGetAllStreets(){
         MainDataBase.openConnection();
         Set<Street> allStreets = StreetsDataBase.getAllStreets("first");
@@ -20,6 +23,7 @@ public class TestStreetDataBase  extends TestCase {
         MainDataBase.closeConnection();
     }
 
+    @Test
     public void testGetRoad(){
 
         String mapName = "first";

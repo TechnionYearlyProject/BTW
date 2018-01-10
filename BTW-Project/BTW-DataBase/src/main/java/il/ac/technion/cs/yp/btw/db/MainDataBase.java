@@ -106,12 +106,9 @@ public class MainDataBase{
 
     /*the sell for the query example*/
     public static Object queryDataBase(Query query){
-       // ResultSet resultSet= null;
+
         Object result = null;
-        //String query = "SELECT * FROM Production.Product;";
         try{
-            //resultSet = connectToDataBaseServer(query);
-            //result = query.arrangeRecievedData(resultSet);
             result = queryDataBaseServer(query);
 
         }catch (Exception e) {

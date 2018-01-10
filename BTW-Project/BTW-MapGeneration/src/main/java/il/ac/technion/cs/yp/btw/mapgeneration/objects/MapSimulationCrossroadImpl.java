@@ -45,6 +45,9 @@ public class MapSimulationCrossroadImpl extends PointAbstract implements Crossro
     @Override
     public Crossroad addTrafficLight(TrafficLight tl){
         this.trafficLights.add(tl);
+        StringBuilder stb = new StringBuilder();
+        this.trafficLights.stream().forEachOrdered(trafficLight -> stb.append(trafficLight.getName()));
+        this.name = stb.toString();
         return this;
     }
 
@@ -53,5 +56,7 @@ public class MapSimulationCrossroadImpl extends PointAbstract implements Crossro
         return super.toString();
     }
 
-    public String getName(){return name;}
+    public String getName(){
+    return this.name;
+    }
 }

@@ -1,14 +1,19 @@
 package il.ac.technion.cs.yp.btw.db;
 
-import il.ac.technion.cs.yp.btw.db.RoadsDataBase;
+
+import il.ac.technion.cs.yp.btw.classes.BTWWeight;
 import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.db.DataObjects.DataRoad;
 import junit.framework.TestCase;
+import org.junit.Test;
+
 import java.util.Iterator;
 import java.util.Set;
 
 
-public class TestRoadsDataBase  extends TestCase {
+public class TestRoadsDataBase {
 
+    @Test
     public void testGetAllRoads(){
         MainDataBase.openConnection();
         Set<Road> allRoads = RoadsDataBase.getAllRoads("first");
@@ -20,6 +25,7 @@ public class TestRoadsDataBase  extends TestCase {
         MainDataBase.closeConnection();
     }
 
+    @Test
     public void testGetRoad(){
         String mapName = "first";
         MainDataBase.openConnection();
@@ -35,6 +41,7 @@ public class TestRoadsDataBase  extends TestCase {
 
     }
 
+    @Test
     public void testGetOverload(){
         String mapName = "first";
         MainDataBase.openConnection();
@@ -48,4 +55,16 @@ public class TestRoadsDataBase  extends TestCase {
         System.out.println("road6Overload = " + road6Overload);
         MainDataBase.closeConnection();
     }
+
+    @Test
+    public void testGetHeuristicDist(){
+        String mapName = "test";
+        MainDataBase.openConnection();
+        Road aaRoad = RoadsDataBase.getRoad("aa",mapName);
+        Road bbRoad = RoadsDataBase.getRoad("bb",mapName);
+        BTWWeight dist = aaRoad.getHeuristicDist(bbRoad);
+        assert(dist.seconds() == 123123);
+        MainDataBase.closeConnection();
+    }
+
 }

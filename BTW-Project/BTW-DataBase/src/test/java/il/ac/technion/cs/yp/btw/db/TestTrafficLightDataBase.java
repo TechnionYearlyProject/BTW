@@ -5,12 +5,15 @@ import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import il.ac.technion.cs.yp.btw.classes.Point;
 import il.ac.technion.cs.yp.btw.classes.PointImpl;
 import junit.framework.TestCase;
+import org.junit.Test;
+
 import java.util.Iterator;
 import java.util.Set;
 
 
-public class TestTrafficLightDataBase  extends TestCase {
+public class TestTrafficLightDataBase {
 
+    @Test
     public void testGetAllTrafficLights(){
         MainDataBase.openConnection();
         Set<TrafficLight> allTrafficLights = TrafficLightsDataBase.getAllTrafficLights("first");
@@ -22,6 +25,7 @@ public class TestTrafficLightDataBase  extends TestCase {
         MainDataBase.closeConnection();
     }
 
+    @Test
     public void testGetAllTrafficLightsInPosition(){
         MainDataBase.openConnection();
         Point position = new PointImpl(1,1);
@@ -34,6 +38,7 @@ public class TestTrafficLightDataBase  extends TestCase {
         MainDataBase.closeConnection();
     }
 
+    @Test
     public void testGetTrafficLight(){
         MainDataBase.openConnection();
         TrafficLight trafficLight = TrafficLightsDataBase.getTrafficLight("T1-Road4-Road6", "first");

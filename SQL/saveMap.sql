@@ -1,10 +1,12 @@
+DROP TABLE IF EXISTS dbo.mapNameTrafficLight;
 CREATE TABLE mapNameTrafficLight(
 nameID varchar(50) NOT NULL,
 cordx smallint NOT NULL,
 cordy smallint NOT NULL,
-overload varchar(50),
+overload long,
 PRIMARY KEY(nameID));
 
+DROP TABLE IF EXISTS dbo.mapNamePlace;
 CREATE TABLE mapNamePlace(
 nameID varchar(50) NOT NULL,
 street varchar(50) NOT NULL,
@@ -18,6 +20,7 @@ cord3y smallint NOT NULL,
 cord4y smallint NOT NULL,
 PRIMARY KEY(nameID));
 
+DROP TABLE IF EXISTS dbo.mapNameRoad;
 CREATE TABLE mapNameRoad(
 nameID varchar(50) NOT NULL,
 cord1x smallint NOT NULL,
@@ -27,7 +30,7 @@ cord2y smallint NOT NULL,
 length int,
 secStart smallint,
 secEnd smallint,
-overload varchar(50),
+overload long,
 PRIMARY KEY(nameID));
 
 DECLARE @json NVARCHAR(max)
@@ -41,7 +44,7 @@ SET @json =
         "type": "Point",
         "coordinates": [0,0],
 		"name": "T245-bb-aa",
-		"overload": "b45"
+		"overload": 435345445
       }
     },
 		
@@ -51,7 +54,7 @@ SET @json =
         "type": "Point",
         "coordinates": [3,0],
 		"name": "T246-cc-bb",
-		"overload": "b47"
+		"overload": 4647
       }
     },
 	
@@ -66,7 +69,7 @@ SET @json =
 		"sector_start": "1",
 		"sector_end": "10",
 		"length": 3,
-		"overload": "a56"
+		"overload": 68
       }
     },
 	
@@ -81,7 +84,7 @@ SET @json =
 		"sector_start": "1",
 		"sector_end": "10",
 		"length": 3,
-		"overload": "a57"
+		"overload": 957
       }
     },  
     {
@@ -95,7 +98,7 @@ SET @json =
 		"sector_start": "1",
 		"sector_end": "10",
 		"length": 3,
-		"overload": "a56"
+		"overload": 856
       }
     },	
     {

@@ -23,12 +23,10 @@ public class BTWGraphInfo {
                 .forEach(trafficLight -> {
                     Road src = trafficLight.getSourceRoad();
                     Road dst = trafficLight.getDestinationRoad();
-                    if (! minimunGraph.containsVertex(src)) {
-                        minimunGraph.addVertex(src);
-                    }
-                    if (! minimunGraph.containsVertex(dst)) {
-                        minimunGraph.addVertex(dst);
-                    }
+//                    System.out.println(src.getRoadName());
+//                    System.out.println(dst.getRoadName());
+                    minimunGraph.addVertex(src);
+                    minimunGraph.addVertex(dst);
                     DefaultWeightedEdge edge = minimunGraph.addEdge(src, dst);
                     minimunGraph.setEdgeWeight(edge,
                             trafficLight.getMinimumWeight().seconds() + src.getMinimumWeight().seconds());

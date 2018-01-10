@@ -4,6 +4,7 @@ import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationCrossroadImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationRoadImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationStreetImpl;
+import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationTrafficLightImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.voronoi.Voronoi;
 import il.ac.technion.cs.yp.btw.mapgeneration.voronoi.VoronoiEdge;
 
@@ -11,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class FreeFormMapSimulator implements MapSimulator {
-    private static final int NUM_OF_CITY_BLOCKS = 150;
+    private static final int NUM_OF_CITY_BLOCKS = 200;
     private Set<TrafficLight> trafficLights;
     private Set<Road> roads;
     private Set<Crossroad> crossRoads;
@@ -32,16 +33,35 @@ public class FreeFormMapSimulator implements MapSimulator {
         ArrayList<il.ac.technion.cs.yp.btw.mapgeneration.voronoi.Point> sites = new ArrayList<il.ac.technion.cs.yp.btw.mapgeneration.voronoi.Point>();
         Random rnd = new Random();
         for (int i = 0; i < N; i++) {
-            double x = rnd.nextDouble() + rnd.nextInt(5);
-            double y = rnd.nextDouble() + rnd.nextInt(5);
+            double x = rnd.nextDouble() + rnd.nextInt(8);
+            double y = rnd.nextDouble() + rnd.nextInt(8);
             sites.add(new il.ac.technion.cs.yp.btw.mapgeneration.voronoi.Point(x, y));
         }
         Voronoi v = new Voronoi(sites);
         List<VoronoiEdge> edgeList = v.getEdgeList();
         declareAllCrossRoads(edgeList);
         buildRoadsOnCrossRoads(edgeList);
+        addTrafficLights();
     }
-
+    private void addTrafficLights() {
+        for(Crossroad cr : getCrossRoads()){
+            Set<Road> roadsEndsInCurrCrossroad =
+                    getRoads().stream()
+                            .filter(road -> road.getDestinationCrossroad().equals(cr))
+                            .collect(Collectors.toSet());
+            Set<Road> roadsStartInCurrCrossroad =
+                    getRoads().stream()
+                            .filter(road -> road.getSourceCrossroad().equals(cr))
+                            .collect(Collectors.toSet());
+            for (Road sourceRoad : roadsEndsInCurrCrossroad){
+                for (Road destRoad : roadsStartInCurrCrossroad){
+                    TrafficLight tl = new MapSimulationTrafficLightImpl(cr, sourceRoad, destRoad);
+                    cr.addTrafficLight(tl);
+                    this.trafficLights.add(tl);
+                }
+            }
+        }
+    }
     private void declareAllCrossRoads(List<VoronoiEdge> edgeList) {
         Set<il.ac.technion.cs.yp.btw.classes.Point> locationSet = new HashSet<>();
         for (VoronoiEdge voronoiEdge : edgeList) {
@@ -75,10 +95,10 @@ public class FreeFormMapSimulator implements MapSimulator {
             il.ac.technion.cs.yp.btw.classes.Point p2 = (new PointImpl(voronoiEdge.p2.x, voronoiEdge.p2.y));
             Crossroad cr1 = getCrossroadByLocation(p1);
             Crossroad cr2 = getCrossroadByLocation(p2);
-            Road rd1 = new MapSimulationRoadImpl(myStreet.getStreetName() +" " +roadNum
+            Road rd1 = new MapSimulationRoadImpl(myStreet.getStreetName() +" " + Integer.toString(roadNum)
                     , calculateLengthBetween2Points(p1, p2)
                     , myStreet, cr1, cr2);
-            Road rd2 = new MapSimulationRoadImpl(myStreet.getStreetName() +" " +roadNum+"'"
+            Road rd2 = new MapSimulationRoadImpl(myStreet.getStreetName() +" " +Integer.toString(roadNum)+"'"
                     , calculateLengthBetween2Points(p1, p2)
                     , myStreet, cr2, cr1);
             this.roads.add(rd1);
