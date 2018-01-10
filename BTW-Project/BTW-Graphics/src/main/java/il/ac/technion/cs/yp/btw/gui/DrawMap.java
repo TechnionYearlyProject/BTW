@@ -1,20 +1,31 @@
 package il.ac.technion.cs.yp.btw.gui;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
+import il.ac.technion.cs.yp.btw.mapgeneration.FreeFormMapSimulator;
+import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
+import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.transform.Affine;
 import javafx.stage.Stage;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class DrawMap extends Application {
+    private static final double MAX_SCALE = 10.0d;
+    private static final double MIN_SCALE = .1d;
+    Canvas canvas;
+    Group root;
     public static void main(String[] args) {
         launch(args);
     }
@@ -22,25 +33,33 @@ public class DrawMap extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Drawing Operations Test");
-        Group root = new Group();
-        Canvas canvas = new Canvas(640, 640);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        root = new Group();
+        canvas = new Canvas(640, 640);
         root.getChildren().add(canvas); // add plain canvas
-
-        Set<TrafficLight> trafficLights = getTrafficLights();
-        Set<Road> roads = getRoads();
+        FreeFormMapSimulator k = new FreeFormMapSimulator();
+        k.build();
+        Set<TrafficLight> trafficLights = k.getTrafficLights();
+        Set<Road> roads = k.getRoads();
         MapGraphics map = new MapGraphics(trafficLights,roads);
-
-        // add all circles
-        for (Circle circle: map.getCircles()) {
-            root.getChildren().add(circle);
-        }
         // add all lines
         for (Line line: map.getLines()) {
             root.getChildren().add(line);
         }
+        // add all circles
+        for (Circle circle: map.getCircles()) {
+            root.getChildren().add(circle);
+        }
+        final Affine accumulatedScales = new Affine();
+        root.getTransforms().add(accumulatedScales);
 
-        primaryStage.setScene(new Scene(root, 640, 640, Color.GREY));
+        root.setOnScroll(event -> {
+            double dy = event.getDeltaY();
+            double delta = dy>0.0 ? 1.1 : 0.9;
+            accumulatedScales.appendScale(delta,delta
+                    ,event.getX(), event.getY());
+        });
+        Scene scene = new Scene(root, 640, 640, Color.GREY);
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
