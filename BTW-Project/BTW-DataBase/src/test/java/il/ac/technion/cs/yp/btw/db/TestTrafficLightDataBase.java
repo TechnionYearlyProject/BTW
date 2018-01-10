@@ -10,6 +10,8 @@ import org.junit.Test;
 import java.util.Iterator;
 import java.util.Set;
 
+import static org.junit.Assert.assertNotNull;
+
 
 public class TestTrafficLightDataBase {
 
@@ -18,9 +20,10 @@ public class TestTrafficLightDataBase {
         MainDataBase.openConnection();
         Set<TrafficLight> allTrafficLights = TrafficLightsDataBase.getAllTrafficLights("first");
         Iterator<TrafficLight> iterator = allTrafficLights.iterator();
-        System.out.println("\n\n\nthe result set is:");
+        //System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
-            System.out.println(iterator.next().toString());
+            assertNotNull(iterator.next());
+            //System.out.println(iterator.next().toString());
         }
         MainDataBase.closeConnection();
     }
@@ -31,9 +34,10 @@ public class TestTrafficLightDataBase {
         Point position = new PointImpl(1,1);
         Set<TrafficLight> allTrafficLights = TrafficLightsDataBase.getAllTrafficLights(position, "first");
         Iterator<TrafficLight> iterator = allTrafficLights.iterator();
-        System.out.println("\n\n\nthe result set is:");
+        //System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
-            System.out.println(iterator.next().toString());
+            assertNotNull(iterator.next());
+            //System.out.println(iterator.next().toString());
         }
         MainDataBase.closeConnection();
     }
@@ -42,7 +46,8 @@ public class TestTrafficLightDataBase {
     public void testGetTrafficLight(){
         MainDataBase.openConnection();
         TrafficLight trafficLight = TrafficLightsDataBase.getTrafficLight("T1-Road4-Road6", "first");
-        System.out.println(trafficLight.toString());
+        assertNotNull(trafficLight);
+        //System.out.println(trafficLight.toString());
         MainDataBase.closeConnection();
     }
 }

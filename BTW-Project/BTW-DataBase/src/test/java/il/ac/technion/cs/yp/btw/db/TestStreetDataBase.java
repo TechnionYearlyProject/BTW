@@ -8,6 +8,8 @@ import org.junit.Test;
 import java.util.Iterator;
 import java.util.Set;
 
+import static org.junit.Assert.assertNotNull;
+
 
 public class TestStreetDataBase {
 
@@ -16,9 +18,10 @@ public class TestStreetDataBase {
         MainDataBase.openConnection();
         Set<Street> allStreets = StreetsDataBase.getAllStreets("first");
         Iterator<Street> iterator = allStreets.iterator();
-        System.out.println("\n\n\nthe result set is:");
+        //System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
-            System.out.println(iterator.next().toString());
+            assertNotNull(iterator.next());
+            //System.out.println(iterator.next().toString());
         }
         MainDataBase.closeConnection();
     }
@@ -29,13 +32,17 @@ public class TestStreetDataBase {
         String mapName = "first";
         MainDataBase.openConnection();
         Street ayalonn = StreetsDataBase.getStreet("Ayalonn", mapName);
-        System.out.println(ayalonn.toString());
+        assertNotNull(ayalonn);
+        //System.out.println(ayalonn.toString());
         Street road1 = StreetsDataBase.getStreet("Road1", mapName);
-        System.out.println(road1.toString());
+        assertNotNull(road1);
+        //System.out.println(road1.toString());
         Street road4 = StreetsDataBase.getStreet("Road4", mapName);
-        System.out.println(road4.toString());
+        assertNotNull(road4);
+        //System.out.println(road4.toString());
         Street road6 = StreetsDataBase.getStreet("Road6", mapName);
-        System.out.println(road6.toString());
+        assertNotNull(road6);
+        //System.out.println(road6.toString());
         MainDataBase.closeConnection();
 
     }

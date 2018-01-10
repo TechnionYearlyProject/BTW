@@ -10,6 +10,8 @@ import org.junit.Test;
 import java.util.Iterator;
 import java.util.Set;
 
+import static org.junit.Assert.assertNotNull;
+
 
 public class TestRoadsDataBase {
 
@@ -18,9 +20,10 @@ public class TestRoadsDataBase {
         MainDataBase.openConnection();
         Set<Road> allRoads = RoadsDataBase.getAllRoads("first");
         Iterator<Road> iterator = allRoads.iterator();
-        System.out.println("\n\n\nthe result set is:");
+        //System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
-            System.out.println(iterator.next().toString());
+            assertNotNull(iterator.next());
+            //System.out.println(iterator.next().toString());
         }
         MainDataBase.closeConnection();
     }
@@ -30,13 +33,17 @@ public class TestRoadsDataBase {
         String mapName = "first";
         MainDataBase.openConnection();
         Road ayalonn = RoadsDataBase.getRoad("Ayalonn", mapName);
-        System.out.println(ayalonn.toString());
+        assertNotNull(ayalonn);
+        //System.out.println(ayalonn.toString());
         Road road1 = RoadsDataBase.getRoad("Road1", mapName);
-        System.out.println(road1.toString());
+        assertNotNull(road1);
+        //System.out.println(road1.toString());
         Road road4 = RoadsDataBase.getRoad("Road4", mapName);
-        System.out.println(road4.toString());
+        assertNotNull(road4);
+        //System.out.println(road4.toString());
         Road road6 = RoadsDataBase.getRoad("Road6", mapName);
-        System.out.println(road6.toString());
+        assertNotNull(road6);
+        //System.out.println(road6.toString());
         MainDataBase.closeConnection();
 
     }
@@ -46,13 +53,13 @@ public class TestRoadsDataBase {
         String mapName = "first";
         MainDataBase.openConnection();
         long ayalonnOverload = RoadsDataBase.getOverload("Ayalonn", mapName);
-        System.out.println("ayalonnOverload = " + ayalonnOverload);
+        //System.out.println("ayalonnOverload = " + ayalonnOverload);
         long road1Overload = RoadsDataBase.getOverload("Road1", mapName);
-        System.out.println("road1Overload = " + road1Overload);
+        //System.out.println("road1Overload = " + road1Overload);
         long road4Overload = RoadsDataBase.getOverload("Road4", mapName);
-        System.out.println("road4Overload = " + road4Overload);
+        //System.out.println("road4Overload = " + road4Overload);
         long road6Overload = RoadsDataBase.getOverload("Road6", mapName);
-        System.out.println("road6Overload = " + road6Overload);
+        //System.out.println("road6Overload = " + road6Overload);
         MainDataBase.closeConnection();
     }
 

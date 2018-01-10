@@ -7,9 +7,9 @@ import il.ac.technion.cs.yp.btw.classes.Point;
 import il.ac.technion.cs.yp.btw.classes.PointImpl;
 import junit.framework.TestCase;
 import org.junit.Test;
-
 import java.util.Iterator;
 import java.util.Set;
+import static org.junit.Assert.assertNotNull;
 
 public class TestCrossRoadsDataBase {
 
@@ -18,7 +18,8 @@ public class TestCrossRoadsDataBase {
         Point position = new PointImpl(1.0,1.0);
         MainDataBase.openConnection();
         Crossroad crossRoad = CrossRoadsDataBase.getCrossRoad(position, "first");
-        System.out.println(crossRoad.toString());
+        assertNotNull(crossRoad);
+        //System.out.println(crossRoad.toString());
         MainDataBase.closeConnection();
     }
 
@@ -27,9 +28,10 @@ public class TestCrossRoadsDataBase {
         MainDataBase.openConnection();
         Set<Crossroad> allCrossRoads = CrossRoadsDataBase.getAllCrossRoads("first");
         Iterator<Crossroad> iterator = allCrossRoads.iterator();
-        System.out.println("\n\n\nthe result set is:");
+        //System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
-            System.out.println(iterator.next().toString());
+            assertNotNull(iterator.next());
+            //System.out.println(iterator.next().toString());
         }
         MainDataBase.closeConnection();
     }

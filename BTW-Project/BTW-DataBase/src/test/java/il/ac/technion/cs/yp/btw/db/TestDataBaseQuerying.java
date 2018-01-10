@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 
+import static org.junit.Assert.assertNotNull;
+
 public class TestDataBaseQuerying {
     //the test method name needs to begin with the word 'test'
     @Test
@@ -32,9 +34,10 @@ public class TestDataBaseQuerying {
         //Set<Road> roads = (Set<Road>) database.queryDataBase(query);
         Set<Road> roads = (Set<Road>) MainDataBase.queryDataBase(query);
         Iterator<Road> iterator = roads.iterator();
-        System.out.println("\n\n\nthe result set is:");
+        //System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
-            System.out.println(iterator.next().toString());
+            assertNotNull(iterator.next());
+            //System.out.println(iterator.next().toString());
         }
         MainDataBase.closeConnection();
 
@@ -49,9 +52,10 @@ public class TestDataBaseQuerying {
         //Set<CentralLocation> centeralLocations = (Set<CentralLocation>) database.queryDataBase(query);
         Set<CentralLocation> centeralLocations = (Set<CentralLocation>) MainDataBase.queryDataBase(query);
         Iterator<CentralLocation> iterator = centeralLocations.iterator();
-        System.out.println("\n\n\nthe result set is:");
+        //System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
-            System.out.println(iterator.next().toString());
+            assertNotNull(iterator.next());
+            //System.out.println(iterator.next().toString());
         }
         MainDataBase.closeConnection();
     }
@@ -65,9 +69,10 @@ public class TestDataBaseQuerying {
         //Set<TrafficLight> trafficLights = (Set<TrafficLight>) database.queryDataBase(query);
         Set<TrafficLight> trafficLights = (Set<TrafficLight>) MainDataBase.queryDataBase(query);
         Iterator<TrafficLight> iterator = trafficLights.iterator();
-        System.out.println("\n\n\nthe result set is:");
+        //System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
-            System.out.println(iterator.next().toString());
+            assertNotNull(iterator.next());
+            //System.out.println(iterator.next().toString());
         }
         MainDataBase.closeConnection();
     }
