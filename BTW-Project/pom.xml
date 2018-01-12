@@ -14,6 +14,7 @@
     <module>BTW-GeoJson</module>
     <module>BTW-Application</module>
     <module>BTW-CitySimulation</module>
+      <module>BTW-TrafficLightManagement</module>
   </modules>
   <packaging>pom</packaging>
 
