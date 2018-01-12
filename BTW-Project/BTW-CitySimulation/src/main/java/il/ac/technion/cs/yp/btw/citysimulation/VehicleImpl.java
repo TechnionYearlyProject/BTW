@@ -10,8 +10,8 @@ public class VehicleImpl implements Vehicle {
     private VehicleDescriptor descriptor;
     private Road currentRoad;
     private Road destination;
-    private Double sourceRoadRatio;
-    private Double destinationRoadRatio;
+//    private Double sourceRoadRatio;
+//    private Double destinationRoadRatio;
     private Navigator navigator;
 
     public VehicleImpl(VehicleDescriptor descriptor,
@@ -20,8 +20,8 @@ public class VehicleImpl implements Vehicle {
                        NavigationManager manager) throws PathNotFoundException{
         this.descriptor = descriptor;
         this.destination = destination;
-        this.sourceRoadRatio = sourceRoadRatio;
-        this.destinationRoadRatio = destinationRoadRatio;
+//        this.sourceRoadRatio = sourceRoadRatio;
+//        this.destinationRoadRatio = destinationRoadRatio;
         this.navigator = manager.getNavigator(descriptor, source, sourceRoadRatio, destination, destinationRoadRatio);
         this.currentRoad = null;
     }
@@ -62,7 +62,9 @@ public class VehicleImpl implements Vehicle {
      */
     @Override
     public void driveOnRoad(Road rd, double ratioStart, double ratioEnd) {
-
+        this.currentRoad = rd;
+        LiveCity.LiveRoad realRoad = LiveCity.getRealRoad(rd);
+        // TODO
     }
 
     /**
@@ -117,6 +119,11 @@ public class VehicleImpl implements Vehicle {
         and you are at the top of the lane.
         and back to the beginning of this pseudo - code
          */
+        Road currRoad = this.navigator.getNextRoad();
+        while (! currRoad.equals(destination)) {
+            driveOnRoad(currRoad);
+            // TODO: more...
 
+        }
     }
 }
