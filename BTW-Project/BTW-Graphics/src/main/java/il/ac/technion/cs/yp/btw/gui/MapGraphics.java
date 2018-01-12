@@ -111,6 +111,10 @@ public class MapGraphics {
 
         double degree = Math.atan(slope)+Math.PI/2;
 
+        if((x2<x1)||((x2==x1)&&(y2<y1))){
+            degree = degree + Math.PI;
+        }
+
         if ((degree > Math.PI/2) || (degree < -Math.PI/2)) {
             degree = Math.atan(slope)-Math.PI/2;
         }
