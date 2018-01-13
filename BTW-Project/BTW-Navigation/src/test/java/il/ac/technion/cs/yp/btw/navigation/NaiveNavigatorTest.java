@@ -139,11 +139,6 @@ public class NaiveNavigatorTest {
         public BTWWeight getMinimumWeight() {
             return weight;
         }
-
-        @Override
-        public BTWWeight getCurrentWeight() {
-            return null;
-        }
     }
 
     class TestingRoad implements Road {

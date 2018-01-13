@@ -30,7 +30,7 @@ public class LiveCity {
         return trafficLights.get(trafficLightName);
     }
 
-    static class LiveRoad implements Road {
+    static class LiveRoad implements CityRoad {
         private final String name;
         private final int length;
         private final Street street;
@@ -93,13 +93,27 @@ public class LiveCity {
             return this.destination;
         }
 
+        @Override
+        public synchronized BTWWeight addVehicle(Vehicle vehicle) {
+            this.vehicles.add(vehicle);
+            return getCurrentWeight();
+        }
+
+
+        @Override
+        public synchronized CityRoad removeVehicle(Vehicle vehicle) {
+            this.vehicles.remove(vehicle);
+            return this;
+        }
+
+        @Override
         public BTWWeight getCurrentWeight() {
             // TODO
             return null;
         }
     }
 
-    static class LiveTrafficLight implements TrafficLight {
+    static class LiveTrafficLight implements CityTrafficLight {
 
         private final double xCoord;
         private final double yCoord;
@@ -153,9 +167,21 @@ public class LiveCity {
         }
 
         @Override
-        public BTWWeight getCurrentWeight() {
+        public CityTrafficLight open() {
             // TODO
-            return null;
+            return this;
+        }
+
+        @Override
+        public CityTrafficLight close() {
+            // TODO
+            return this;
+        }
+
+        @Override
+        public CityTrafficLight addVehicle(Vehicle vehicle) {
+            // TODO
+            return this;
         }
     }
 }

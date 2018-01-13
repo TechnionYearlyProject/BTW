@@ -112,11 +112,6 @@ public class MapNaiveTest {
         public BTWWeight getMinimumWeight() {
             return null;
         }
-
-        @Override
-        public BTWWeight getCurrentWeight() {
-            return null;
-        }
     }
 
     class TestingCrossRoad implements Crossroad {

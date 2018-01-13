@@ -1,4 +1,7 @@
-package il.ac.technion.cs.yp.btw.classes;
+package il.ac.technion.cs.yp.btw.citysimulation;
+
+import il.ac.technion.cs.yp.btw.classes.Crossroad;
+import il.ac.technion.cs.yp.btw.classes.Road;
 
 public interface Vehicle extends Runnable{
     /**
@@ -6,7 +9,7 @@ public interface Vehicle extends Runnable{
      *         which contain technical information
      *         about the driven Vehicle
      */
-    VehicleDescriptor getVehicleDescriptor();
+    il.ac.technion.cs.yp.btw.citysimulation.VehicleDescriptor getVehicleDescriptor();
     /**
      * @return the Road this Vehicle is currently located in
      */
@@ -44,9 +47,9 @@ public interface Vehicle extends Runnable{
      * TODO another approach can be an interface like the
      * TODO     Navigator for each Vehicle to do the TrafficLight
      * TODO     talking
-     * @param tl - the TrafficLight this Vehicle is waiting on
+     * @param crossroad - the Crossroad containing the TrafficLight this Vehicle is waiting on
      */
-    void waitOnTrafficLight(TrafficLight tl);
+    void waitOnTrafficLight(Crossroad crossroad);
     /**
      * not sure if possible because it is a single thread
      */

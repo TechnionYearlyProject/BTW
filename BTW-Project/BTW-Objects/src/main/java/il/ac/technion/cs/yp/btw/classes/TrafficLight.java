@@ -37,9 +37,4 @@ public interface TrafficLight extends Point {
      * @return minimum possible Weight of TrafficLight
      */
     BTWWeight getMinimumWeight();
-
-    /**
-     * @return current Weight on this TrafficLight
-     */
-    BTWWeight getCurrentWeight();
 }

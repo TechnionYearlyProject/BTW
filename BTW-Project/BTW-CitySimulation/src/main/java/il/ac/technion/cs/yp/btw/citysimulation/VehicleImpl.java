@@ -1,7 +1,6 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
 import il.ac.technion.cs.yp.btw.classes.*;
-import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 
@@ -17,12 +16,12 @@ public class VehicleImpl implements Vehicle {
     public VehicleImpl(VehicleDescriptor descriptor,
                        Road source, double sourceRoadRatio,
                        Road destination, double destinationRoadRatio,
-                       NavigationManager manager) throws PathNotFoundException{
+                       Navigator navigator) throws PathNotFoundException{
         this.descriptor = descriptor;
         this.destination = destination;
 //        this.sourceRoadRatio = sourceRoadRatio;
 //        this.destinationRoadRatio = destinationRoadRatio;
-        this.navigator = manager.getNavigator(descriptor, source, sourceRoadRatio, destination, destinationRoadRatio);
+        this.navigator = navigator;
         this.currentRoad = null;
     }
     /**
@@ -79,10 +78,10 @@ public class VehicleImpl implements Vehicle {
      * TODO     Navigator for each Vehicle to do the TrafficLight
      * TODO     talking
      *
-     * @param tl - the TrafficLight this Vehicle is waiting on
+     * @param crossroad - the Crossroad containing the TrafficLight this Vehicle is waiting on
      */
     @Override
-    public void waitOnTrafficLight(TrafficLight tl) {
+    public void waitOnTrafficLight(Crossroad crossroad) {
 
     }
 
