@@ -11,6 +11,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import il.ac.technion.cs.yp.btw.classes.*;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,12 +19,12 @@ import java.util.List;
 import java.util.Set;
 
 public class MapGraphics {
-    private List<Circle> circles;
-    private List<Line> lines;
+    private List<Pair<Circle,String>> circles;
+    private List<Pair<Line,String>> lines;
 
     MapGraphics(Set<TrafficLight> trafficLights, Set<Road> roads) {
         this.circles = new ArrayList<>();
-        this.lines = new ArrayList<Line>();
+        this.lines = new ArrayList<>();
 
         createCircles(trafficLights);
         createLines(roads);
@@ -48,7 +49,7 @@ public class MapGraphics {
                 circle.setFill(Color.GREEN);
             }
             circle.setFill(Color.RED);
-            circles.add(circle);
+            circles.add(new Pair(circle,currTrafficLight.getName()));
             x++;
         }
     }
@@ -72,16 +73,16 @@ public class MapGraphics {
             Line separateline = new Line(x1,y1,x2,y2);
             separateline.setStroke(Color.WHITE);
             separateline.setStrokeWidth(0.005);
-            lines.add(roadLine);
-            lines.add(separateline);
+            lines.add(new Pair(roadLine,currRoad.getRoadName()));
+            lines.add(new Pair(separateline,currRoad.getRoadName()));
         }
     }
 
-    public List<Circle> getCircles() {
+    public List<Pair<Circle,String>> getCircles() {
         return circles;
     }
 
-    public List<Line> getLines() {
+    public List<Pair<Line,String>> getLines() {
         return lines;
     }
 
@@ -146,5 +147,35 @@ public class MapGraphics {
                 return new PointImpl(newX,newY);
             }
         }*/
+    }
+
+    /**
+     * changes the color of the traffic light in the map to RED
+     * @param trafficlight - the traffic light we want to turn red
+     * @return
+     */
+    public MapGraphics TurnTrafficLightRed(TrafficLight trafficlight) {
+        for (Pair<Circle,String> currCircle: circles) {
+            if (currCircle.getValue() == trafficlight.getName()) {
+                currCircle.getKey().setFill(Color.RED);
+                return this;
+            }
+        }
+        return this;
+    }
+
+    /**
+     * changes the color of the traffic light in the map to GREEN
+     * @param trafficlight - the traffic light we want to turn green
+     * @return
+     */
+    public MapGraphics TurnTrafficLightGreen(TrafficLight trafficlight) {
+        for (Pair<Circle,String> currCircle: circles) {
+            if (currCircle.getValue() == trafficlight.getName()) {
+                currCircle.getKey().setFill(Color.GREEN);
+                return this;
+            }
+        }
+        return this;
     }
 }
