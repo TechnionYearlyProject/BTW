@@ -29,6 +29,15 @@ public class LiveCity {
         }
         return trafficLights.get(trafficLightName);
     }
+    public void tick() {
+        // TODO: handle traffic-light opening and closing using the manager
+        for (CityRoad road : roads.values()) {
+            road.tick();
+        }
+        for (CityTrafficLight trafficLight : trafficLights.values()) {
+            trafficLight.tick();
+        }
+    }
 
     static class LiveRoad implements CityRoad {
         private final String name;
@@ -94,15 +103,23 @@ public class LiveCity {
         }
 
         @Override
-        public synchronized BTWWeight addVehicle(Vehicle vehicle) {
+        public CityRoad addVehicle(Vehicle vehicle) {
             this.vehicles.add(vehicle);
-            return getCurrentWeight();
+            vehicle.setRemainingTimeOnRoad(getCurrentWeight());
+            return this;
         }
 
+        @Override
+        public CityRoad removeVehicle(Vehicle vehicle) {
+            this.vehicles.remove(vehicle);
+            return this;
+        }
 
         @Override
-        public synchronized CityRoad removeVehicle(Vehicle vehicle) {
-            this.vehicles.remove(vehicle);
+        public CityRoad tick() {
+            for (Vehicle vehicle : vehicles) {
+                vehicle.progressRoad();
+            }
             return this;
         }
 
@@ -121,6 +138,7 @@ public class LiveCity {
         private final Road source;
         private final Road destination;
         private Queue<Vehicle> vehicles;
+        private boolean isOpen;
 
         private LiveTrafficLight(TrafficLight trafficLight) {
             this.xCoord = trafficLight.getCoordinateX();
@@ -129,6 +147,7 @@ public class LiveCity {
             this.source = trafficLight.getSourceRoad();
             this.destination = trafficLight.getDestinationRoad();
             this.vehicles = new LinkedList<>();
+            this.isOpen = false;
         }
 
         @Override
@@ -168,19 +187,29 @@ public class LiveCity {
 
         @Override
         public CityTrafficLight open() {
-            // TODO
+            isOpen = true;
             return this;
         }
 
         @Override
         public CityTrafficLight close() {
-            // TODO
+            isOpen = false;
             return this;
         }
 
         @Override
         public CityTrafficLight addVehicle(Vehicle vehicle) {
-            // TODO
+            vehicles.add(vehicle);
+            return this;
+        }
+
+        @Override
+        public CityTrafficLight tick() {
+            // TODO: something more flexible
+            if (isOpen && (! vehicles.isEmpty())) {
+                Vehicle vehicle = vehicles.poll();
+                vehicle.progressRoad();
+            }
             return this;
         }
     }

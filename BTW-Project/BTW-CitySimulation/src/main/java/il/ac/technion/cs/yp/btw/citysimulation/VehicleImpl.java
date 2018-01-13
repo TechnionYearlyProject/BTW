@@ -4,14 +4,19 @@ import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 
+import java.util.Set;
+
 public class VehicleImpl implements Vehicle {
 
     private VehicleDescriptor descriptor;
     private Road currentRoad;
+    private Road nextRoad;
     private Road destination;
 //    private Double sourceRoadRatio;
 //    private Double destinationRoadRatio;
     private Navigator navigator;
+    private Long remainingTimeOnRoad;
+    private boolean isWaitingOnTrafficLight;
 
     public VehicleImpl(VehicleDescriptor descriptor,
                        Road source, double sourceRoadRatio,
@@ -23,7 +28,17 @@ public class VehicleImpl implements Vehicle {
 //        this.destinationRoadRatio = destinationRoadRatio;
         this.navigator = navigator;
         this.currentRoad = null;
+        this.nextRoad = navigator.getNextRoad();
+        this.remainingTimeOnRoad = 0L;
+        this.isWaitingOnTrafficLight = false;
     }
+
+    private Vehicle leaveRoad(Road rd) {
+        CityRoad realRoad = LiveCity.getRealRoad(rd);
+        realRoad.removeVehicle(this);
+        return this;
+    }
+
     /**
      * @return VehicleDescriptor of this Vehicle,
      * which contain technical information
@@ -60,10 +75,10 @@ public class VehicleImpl implements Vehicle {
      * @param ratioEnd   - the ratio from the the beginning
      */
     @Override
-    public void driveOnRoad(Road rd, double ratioStart, double ratioEnd) {
-        this.currentRoad = rd;
-        LiveCity.LiveRoad realRoad = LiveCity.getRealRoad(rd);
-        // TODO
+    public Vehicle driveOnRoad(Road rd, double ratioStart, double ratioEnd) {
+        CityRoad realRoad = LiveCity.getRealRoad(rd);
+        realRoad.addVehicle(this);
+        return this;
     }
 
     /**
@@ -81,8 +96,19 @@ public class VehicleImpl implements Vehicle {
      * @param crossroad - the Crossroad containing the TrafficLight this Vehicle is waiting on
      */
     @Override
-    public void waitOnTrafficLight(Crossroad crossroad) {
-
+    public Vehicle waitOnTrafficLight(Crossroad crossroad) {
+        Set<TrafficLight> possibleTrafficLights = crossroad.getTrafficLightsFromRoad(this.currentRoad);
+        TrafficLight toWaitOn = null;
+        for (TrafficLight trafficLight : possibleTrafficLights) {
+            if (trafficLight.getDestinationRoad().equals(this.nextRoad)) {
+                toWaitOn = trafficLight;
+                break;
+            }
+        }
+        this.isWaitingOnTrafficLight = true;
+        CityTrafficLight realTL = LiveCity.getRealTrafficLight(toWaitOn);
+        realTL.addVehicle(this);
+        return this;
     }
 
     /**
@@ -90,7 +116,37 @@ public class VehicleImpl implements Vehicle {
      */
     @Override
     public boolean isWaitingForTrafficLight() {
-        return false;
+        return this.isWaitingOnTrafficLight;
+    }
+
+    @Override
+    public Vehicle progressRoad() {
+        Road prev = this.currentRoad;
+        this.currentRoad = this.nextRoad;
+        if (this.currentRoad.equals(this.destination)) {
+            this.nextRoad = null;
+        } else {
+            this.nextRoad = this.navigator.getNextRoad();
+        }
+        this.leaveRoad(prev);
+        this.isWaitingOnTrafficLight = false;
+        this.driveOnRoad(this.currentRoad);
+        return this;
+    }
+
+    @Override
+    public Vehicle setRemainingTimeOnRoad(BTWWeight timeOnRoad) {
+        this.remainingTimeOnRoad = timeOnRoad.seconds();
+        return this;
+    }
+
+    @Override
+    public Vehicle progressOnRoad() {
+        this.remainingTimeOnRoad--;
+        if (this.remainingTimeOnRoad == 0L) {
+            waitOnTrafficLight(currentRoad.getDestinationCrossroad());
+        }
+        return this;
     }
 
     /**
@@ -104,9 +160,10 @@ public class VehicleImpl implements Vehicle {
      *
      * @see Thread#run()
      */
+
     @Override
     public void run() {
-
+        // may not be useful anymore
         /*TODO
         at the beginning of driving every Road, check if
         it is the destination Road, if not, drive from the location

@@ -10,17 +10,23 @@ public interface CityRoad extends Road {
     /**
      * @return current Weight on this Road
      */
-    public BTWWeight getCurrentWeight();
+    BTWWeight getCurrentWeight();
 
     /**
      * @param vehicle - vehicle to enter the road
-     * @return current Weight on this Road
+     * @return self
      */
-    public BTWWeight addVehicle(Vehicle vehicle);
+    CityRoad addVehicle(Vehicle vehicle);
 
     /**
      * @param vehicle - vehicle to leave the road
      * @return self
      */
-    public CityRoad removeVehicle(Vehicle vehicle);
+    CityRoad removeVehicle(Vehicle vehicle);
+
+    /**
+     * progress everything by a clock progressOnRoad
+     * @return self
+     */
+    CityRoad tick();
 }

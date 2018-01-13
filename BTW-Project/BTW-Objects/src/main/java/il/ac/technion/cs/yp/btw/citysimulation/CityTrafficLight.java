@@ -24,5 +24,11 @@ public interface CityTrafficLight extends TrafficLight {
      * @param vehicle - vehicle to wait on traffic-light
      * @return self
      */
-    public CityTrafficLight addVehicle(Vehicle vehicle);
+    CityTrafficLight addVehicle(Vehicle vehicle);
+
+    /**
+     * progress everything by a clock progressOnRoad
+     * @return self
+     */
+    CityTrafficLight tick();
 }
