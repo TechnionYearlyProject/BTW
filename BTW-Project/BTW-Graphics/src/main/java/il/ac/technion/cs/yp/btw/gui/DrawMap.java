@@ -37,7 +37,8 @@ public class DrawMap extends Application {
         root = new Group();
         canvas = new Canvas(640, 640);
         root.getChildren().add(canvas); // add plain canvas
-        GridCityMapSimulator k = new GridCityMapSimulator();
+        //GridCityMapSimulator k = new GridCityMapSimulator();
+        FreeFormMapSimulator k = new FreeFormMapSimulator();
         k.build();
         Set<TrafficLight> trafficLights = k.getTrafficLights();
         Set<Road> roads = k.getRoads();

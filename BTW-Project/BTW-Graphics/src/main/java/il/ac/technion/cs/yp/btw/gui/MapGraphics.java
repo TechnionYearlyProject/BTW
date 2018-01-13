@@ -62,10 +62,16 @@ public class MapGraphics {
 
         HashSet<Road> l_roads = new HashSet<Road>();
         for (Road currRoad: roads) {
-            double x1 = currRoad.getSourceCrossroad().getCoordinateX();
-            double y1 = currRoad.getSourceCrossroad().getCoordinateY();
-            double x2 = currRoad.getDestinationCrossroad().getCoordinateX();
-            double y2 = currRoad.getDestinationCrossroad().getCoordinateY();
+
+            double deviationAngle = 0.0;
+            double deviationDistance = -0.03;
+            Point newSource = getDeviationFromVectorEnd(currRoad.getDestinationCrossroad(), currRoad.getSourceCrossroad(),deviationAngle , deviationDistance);
+            Point newDestination = getDeviationFromVectorEnd(currRoad.getSourceCrossroad(), currRoad.getDestinationCrossroad(), deviationAngle , deviationDistance);
+            double x1 = newSource.getCoordinateX();
+            double y1 = newSource.getCoordinateY();
+            double x2 = newDestination.getCoordinateX();
+            double y2 = newDestination.getCoordinateY();
+
             Line roadLine = new Line(x1,y1,x2,y2);
             roadLine.setStroke(Color.BLACK);
             roadLine.setStrokeWidth(0.05);
@@ -97,7 +103,7 @@ public class MapGraphics {
      *         y2 = -(1/a)*x+b2
      */
     private Point calculateTrafficLightLocation(Road road) {
-        
+
         double deviationAngle = 0.85;
         double deviationDistance = 0.035;
         return getDeviationFromVectorEnd(road.getSourceCrossroad(), road.getDestinationCrossroad(), deviationAngle , deviationDistance);
@@ -140,19 +146,24 @@ public class MapGraphics {
         double x2 = destination.getCoordinateX();
         double y2 = destination.getCoordinateY();
 
-        double slope = (y2 - y1) / (x2 - x1);
-        double vectorAngle = Math.atan(slope);
+        double vectorAngle = 0;
+        if(x2==x1){
+            if(y2>y1){
+                vectorAngle = (Math.PI)/2;
+            }else{
+                vectorAngle = -(Math.PI)/2;
+            }
 
-        if((x2<x1)||((x2==x1)&&(y2>y1))){
-            vectorAngle +=  Math.PI;
+        }else {
+            double slope = (y2 - y1) / (x2 - x1);
+            vectorAngle = Math.atan(slope);
+            if (x2 < x1) {
+                vectorAngle += Math.PI;
+            }
         }
-        //degree += (Math.PI)*0.85;
         vectorAngle += (Math.PI)*deviationAngle;
-        //double movement = 0.035;
-
         double newX = x2+deviationDistance*Math.cos(vectorAngle);
         double newY = y2+deviationDistance*Math.sin(vectorAngle);
-
         return new PointImpl(newX,newY);
     }
 }
