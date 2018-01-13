@@ -3,8 +3,8 @@ package il.ac.technion.cs.yp.btw.classes;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * Testing CentralLocation
@@ -33,7 +33,11 @@ public class CentralLocationTest {
         CentralLocation tested = new CentralLocation("Tested");
         Assert.assertEquals("", tested.toString());
         tested = new CentralLocation(this.vertices, "Tested");
-        Assert.assertEquals("il.ac.technion.cs.yp.btw.classes.PointImpl@bff00000 il.ac.technion.cs.yp.btw.classes.PointImpl@f82a6e9d ", tested.toString());
+        String[] verticesNames = tested.toString().split(" ");
+        List<String> verticeslist = new ArrayList<>(Arrays.asList(verticesNames));
+        Assert.assertEquals(2, verticeslist.size());
+        Assert.assertTrue(verticeslist.contains("il.ac.technion.cs.yp.btw.classes.PointImpl@bff00000"));
+        Assert.assertTrue(verticeslist.contains("il.ac.technion.cs.yp.btw.classes.PointImpl@f82a6e9d"));
     }
 
     @Test
