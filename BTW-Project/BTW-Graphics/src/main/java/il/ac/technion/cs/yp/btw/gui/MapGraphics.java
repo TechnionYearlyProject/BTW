@@ -97,56 +97,10 @@ public class MapGraphics {
      *         y2 = -(1/a)*x+b2
      */
     private Point calculateTrafficLightLocation(Road road) {
-        double x1 = road.getSourceCrossroad().getCoordinateX();
-        double y1 = road.getSourceCrossroad().getCoordinateY();
-        double x2 = road.getDestinationCrossroad().getCoordinateX();
-        double y2 = road.getDestinationCrossroad().getCoordinateY();
 
-        double movement = 0.02;
-
-        if (road.getSourceCrossroad().getCoordinateX() == road.getDestinationCrossroad().getCoordinateX())
-            return new PointImpl(x1, y1);
-
-        double slope = (y2 - y1) / (x2 - x1);
-        double verticalSlope = -1 / slope;
-
-        double degree = Math.atan(slope)+Math.PI/2;
-
-        if((x2<x1)||((x2==x1)&&(y2<y1))){
-            degree = degree + Math.PI;
-        }
-
-        if ((degree > Math.PI/2) || (degree < -Math.PI/2)) {
-            degree = Math.atan(slope)-Math.PI/2;
-        }
-
-        double newX = x2+movement*Math.cos(degree);
-        double newY = y2+movement*Math.sin(degree);
-
-        return new PointImpl(newX,newY);
-
-
-        /*double b1 = y2 - slope * x2;
-        double b2 = y2 - verticalSlope * x2;
-        double b3 = slope * x2 + b1;
-        double movement = 0.03;
-        if (y1 == y2) {
-            if (x1 < x2) {
-                return new PointImpl(x2, y2 + movement);
-            } else {
-                return new PointImpl(x2, y2 - movement);
-            }
-        } else {
-            if (y1 > y2) {
-                double newY = ((-verticalSlope) * b1 + b2*slope + movement*slope)/(slope-verticalSlope);
-                double newX = (newY-b1)/slope;
-                return new PointImpl(newX,newY);
-            } else {
-                double newY = ((-verticalSlope) * b1 + b2*slope - movement*slope)/(slope-verticalSlope);
-                double newX = (newY-b1)/slope;
-                return new PointImpl(newX,newY);
-            }
-        }*/
+        double deviationAngle = 0.85;
+        double deviationDistance = 0.035;
+        return getDeviationFromVectorEnd(road.getSourceCrossroad(), road.getDestinationCrossroad(), deviationAngle , deviationDistance);
     }
 
     /**
@@ -177,5 +131,28 @@ public class MapGraphics {
             }
         }
         return this;
+    }
+
+    //the angle is always  to the vector angle.
+    private Point getDeviationFromVectorEnd(Point source, Point destination, double deviationAngle , double deviationDistance){
+        double x1 = source.getCoordinateX();
+        double y1 = source.getCoordinateY();
+        double x2 = destination.getCoordinateX();
+        double y2 = destination.getCoordinateY();
+
+        double slope = (y2 - y1) / (x2 - x1);
+        double vectorAngle = Math.atan(slope);
+
+        if((x2<x1)||((x2==x1)&&(y2>y1))){
+            vectorAngle +=  Math.PI;
+        }
+        //degree += (Math.PI)*0.85;
+        vectorAngle += (Math.PI)*deviationAngle;
+        //double movement = 0.035;
+
+        double newX = x2+deviationDistance*Math.cos(vectorAngle);
+        double newY = y2+deviationDistance*Math.sin(vectorAngle);
+
+        return new PointImpl(newX,newY);
     }
 }
