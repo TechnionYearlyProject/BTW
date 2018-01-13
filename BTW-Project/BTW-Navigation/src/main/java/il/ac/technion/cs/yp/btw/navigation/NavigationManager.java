@@ -1,8 +1,8 @@
 package il.ac.technion.cs.yp.btw.navigation;
 
-import il.ac.technion.cs.yp.btw.classes.Point;
+import il.ac.technion.cs.yp.btw.citysimulation.VehicleDescriptor;
+
 import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.classes.VehicleDescriptor;
 
 /**
  * Navigation Manager interface

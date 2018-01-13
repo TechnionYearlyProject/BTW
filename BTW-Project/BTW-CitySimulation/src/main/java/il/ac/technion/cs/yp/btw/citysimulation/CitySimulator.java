@@ -1,9 +1,6 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
 import il.ac.technion.cs.yp.btw.classes.Map;
-import il.ac.technion.cs.yp.btw.classes.Vehicle;
-import il.ac.technion.cs.yp.btw.classes.VehicleDescriptor;
-import il.ac.technion.cs.yp.btw.classes.Point;
 
 import java.util.List;
 

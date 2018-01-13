@@ -1,4 +1,4 @@
-package il.ac.technion.cs.yp.btw.classes;
+package il.ac.technion.cs.yp.btw.citysimulation;
 
 public interface VehicleDescriptor extends Comparable<VehicleDescriptor> {
     @Override

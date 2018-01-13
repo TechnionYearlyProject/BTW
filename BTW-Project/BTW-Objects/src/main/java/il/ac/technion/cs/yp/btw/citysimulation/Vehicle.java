@@ -1,4 +1,8 @@
-package il.ac.technion.cs.yp.btw.classes;
+package il.ac.technion.cs.yp.btw.citysimulation;
+
+import il.ac.technion.cs.yp.btw.classes.BTWWeight;
+import il.ac.technion.cs.yp.btw.classes.Crossroad;
+import il.ac.technion.cs.yp.btw.classes.Road;
 
 public interface Vehicle extends Runnable{
     /**
@@ -24,14 +28,16 @@ public interface Vehicle extends Runnable{
      *                     of the Road, We begin our drive at
      * @param ratioEnd - the ratio from the the beginning
      *                   of the Road, We end our drive at
+     * @return self
      */
-    void driveOnRoad(Road rd,double ratioStart, double ratioEnd);
+    Vehicle driveOnRoad(Road rd,double ratioStart, double ratioEnd);
     /**
      * Commit a drive on Road rd
      * @param rd - The Road to drive on
+     * @return self
      */
-    default void driveOnRoad(Road rd){
-        this.driveOnRoad(rd,0.0,1.0);
+    default Vehicle driveOnRoad(Road rd){
+        return this.driveOnRoad(rd,0.0,1.0);
     }
     /**
      * puts this Vehicle in wait on the given TrafficLight
@@ -44,11 +50,32 @@ public interface Vehicle extends Runnable{
      * TODO another approach can be an interface like the
      * TODO     Navigator for each Vehicle to do the TrafficLight
      * TODO     talking
-     * @param tl - the TrafficLight this Vehicle is waiting on
+     * @param crossroad - the Crossroad containing the TrafficLight this Vehicle is waiting on
+     * @return self
      */
-    void waitOnTrafficLight(TrafficLight tl);
+    Vehicle waitOnTrafficLight(Crossroad crossroad);
+
     /**
      * not sure if possible because it is a single thread
+     * @return value
      */
     boolean isWaitingForTrafficLight();
+
+    /**
+     * move on to the next road on the route
+     * @return self
+     */
+    Vehicle progressRoad();
+
+    /**
+     * down-count time on road
+     * @return self
+     */
+    Vehicle setRemainingTimeOnRoad(BTWWeight timeOnRoad);
+
+    /**
+     * down-count time on road
+     * @return self
+     */
+    Vehicle progressOnRoad();
 }

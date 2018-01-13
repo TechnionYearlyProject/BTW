@@ -102,51 +102,22 @@ public class MapGraphics {
         double x2 = road.getDestinationCrossroad().getCoordinateX();
         double y2 = road.getDestinationCrossroad().getCoordinateY();
 
-        double movement = 0.02;
-
         if (road.getSourceCrossroad().getCoordinateX() == road.getDestinationCrossroad().getCoordinateX())
             return new PointImpl(x1, y1);
 
         double slope = (y2 - y1) / (x2 - x1);
-        double verticalSlope = -1 / slope;
+        double degree = Math.atan(slope);
 
-        double degree = Math.atan(slope)+Math.PI/2;
-
-        if((x2<x1)||((x2==x1)&&(y2<y1))){
+        if((x2<x1)||((x2==x1)&&(y2>y1))){
             degree = degree + Math.PI;
         }
-
-        if ((degree > Math.PI/2) || (degree < -Math.PI/2)) {
-            degree = Math.atan(slope)-Math.PI/2;
-        }
+        degree += (Math.PI)*0.85;
+        double movement = 0.035;
 
         double newX = x2+movement*Math.cos(degree);
         double newY = y2+movement*Math.sin(degree);
 
         return new PointImpl(newX,newY);
-
-
-        /*double b1 = y2 - slope * x2;
-        double b2 = y2 - verticalSlope * x2;
-        double b3 = slope * x2 + b1;
-        double movement = 0.03;
-        if (y1 == y2) {
-            if (x1 < x2) {
-                return new PointImpl(x2, y2 + movement);
-            } else {
-                return new PointImpl(x2, y2 - movement);
-            }
-        } else {
-            if (y1 > y2) {
-                double newY = ((-verticalSlope) * b1 + b2*slope + movement*slope)/(slope-verticalSlope);
-                double newX = (newY-b1)/slope;
-                return new PointImpl(newX,newY);
-            } else {
-                double newY = ((-verticalSlope) * b1 + b2*slope - movement*slope)/(slope-verticalSlope);
-                double newX = (newY-b1)/slope;
-                return new PointImpl(newX,newY);
-            }
-        }*/
     }
 
     /**

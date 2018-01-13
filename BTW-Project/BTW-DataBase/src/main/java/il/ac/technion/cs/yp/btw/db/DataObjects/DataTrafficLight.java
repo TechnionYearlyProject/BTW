@@ -90,12 +90,6 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
         return roadOverload;
     }
 
-    /**
-     * @return current Weight on this TrafficLightImpl
-     */
-    @Override
-    public BTWWeight getCurrentWeight(){return null;}
-
     @Override
     public String toString(){
         String trafficLight = "";
