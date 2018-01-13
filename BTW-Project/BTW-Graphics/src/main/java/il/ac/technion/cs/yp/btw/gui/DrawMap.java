@@ -55,7 +55,7 @@ public class DrawMap extends Application {
 
         root.setOnScroll(event -> {
             double dy = event.getDeltaY();
-            double delta = dy>0.0 ? 1.1 : 0.9;
+            double delta = dy>0.0 ? 1.2 : 0.9;
             accumulatedScales.appendScale(delta,delta
                     ,event.getX(), event.getY());
         });
