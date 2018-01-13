@@ -97,7 +97,7 @@ public class MapGraphics {
      *         y2 = -(1/a)*x+b2
      */
     private Point calculateTrafficLightLocation(Road road) {
-
+        
         double deviationAngle = 0.85;
         double deviationDistance = 0.035;
         return getDeviationFromVectorEnd(road.getSourceCrossroad(), road.getDestinationCrossroad(), deviationAngle , deviationDistance);

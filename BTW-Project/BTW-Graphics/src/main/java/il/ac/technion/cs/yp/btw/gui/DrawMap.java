@@ -37,7 +37,7 @@ public class DrawMap extends Application {
         root = new Group();
         canvas = new Canvas(640, 640);
         root.getChildren().add(canvas); // add plain canvas
-        FreeFormMapSimulator k = new FreeFormMapSimulator();
+        GridCityMapSimulator k = new GridCityMapSimulator();
         k.build();
         Set<TrafficLight> trafficLights = k.getTrafficLights();
         Set<Road> roads = k.getRoads();
@@ -51,14 +51,16 @@ public class DrawMap extends Application {
             root.getChildren().add(circle.getKey());
         }
         final Affine accumulatedScales = new Affine();
+        accumulatedScales.appendScale(100,100);
         root.getTransforms().add(accumulatedScales);
-
+        root.autoSizeChildrenProperty();
         root.setOnScroll(event -> {
             double dy = event.getDeltaY();
-            double delta = dy>0.0 ? 1.1 : 0.9;
+            double delta = dy>0.0 ? 1.2 : 0.9;
             accumulatedScales.appendScale(delta,delta
                     ,event.getX(), event.getY());
         });
+
         Scene scene = new Scene(root, 640, 640, Color.GREY);
         primaryStage.setScene(scene);
         primaryStage.show();
