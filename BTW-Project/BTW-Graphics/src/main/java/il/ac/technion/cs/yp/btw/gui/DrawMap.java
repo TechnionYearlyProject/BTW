@@ -17,6 +17,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.transform.Affine;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -42,12 +43,12 @@ public class DrawMap extends Application {
         Set<Road> roads = k.getRoads();
         MapGraphics map = new MapGraphics(trafficLights,roads);
         // add all lines
-        for (Line line: map.getLines()) {
-            root.getChildren().add(line);
+        for (Pair<Line,String> line: map.getLines()) {
+            root.getChildren().add(line.getKey());
         }
         // add all circles
-        for (Circle circle: map.getCircles()) {
-            root.getChildren().add(circle);
+        for (Pair<Circle,String> circle: map.getCircles()) {
+            root.getChildren().add(circle.getKey());
         }
         final Affine accumulatedScales = new Affine();
         root.getTransforms().add(accumulatedScales);
