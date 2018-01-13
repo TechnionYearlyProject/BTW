@@ -148,4 +148,34 @@ public class MapGraphics {
             }
         }*/
     }
+
+    /**
+     * changes the color of the traffic light in the map to RED
+     * @param trafficlight - the traffic light we want to turn red
+     * @return
+     */
+    public MapGraphics TurnTrafficLightRed(TrafficLight trafficlight) {
+        for (Pair<Circle,String> currCircle: circles) {
+            if (currCircle.getValue() == trafficlight.getName()) {
+                currCircle.getKey().setFill(Color.RED);
+                return this;
+            }
+        }
+        return this;
+    }
+
+    /**
+     * changes the color of the traffic light in the map to GREEN
+     * @param trafficlight - the traffic light we want to turn green
+     * @return
+     */
+    public MapGraphics TurnTrafficLightGreen(TrafficLight trafficlight) {
+        for (Pair<Circle,String> currCircle: circles) {
+            if (currCircle.getValue() == trafficlight.getName()) {
+                currCircle.getKey().setFill(Color.GREEN);
+                return this;
+            }
+        }
+        return this;
+    }
 }
