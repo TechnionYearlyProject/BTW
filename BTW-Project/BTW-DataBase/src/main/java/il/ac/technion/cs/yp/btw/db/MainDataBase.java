@@ -147,7 +147,7 @@ public class MainDataBase{
             }
         }
         catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

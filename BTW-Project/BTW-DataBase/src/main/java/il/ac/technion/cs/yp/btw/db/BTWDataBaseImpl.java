@@ -79,8 +79,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
         String createTraffic = "DROP TABLE IF EXISTS "+ mapName + "TrafficLight;\n"+
                 "CREATE TABLE " + mapName + "TrafficLight"
                 +"(nameID varchar(50) NOT NULL,\n" +
-                "cordx double NOT NULL,\n" +
-                "cordy double NOT NULL,\n" +
+                "cordx float NOT NULL,\n" +
+                "cordy float NOT NULL,\n" +
                 "overload bigint,\n" +
                 "PRIMARY KEY(nameID));\n";
         String createPlace = "DROP TABLE IF EXISTS "+ mapName + "Place;\n"+
@@ -88,23 +88,23 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 + "Place(\n" +
                 "nameID varchar(50) NOT NULL,\n" +
                 "street varchar(50) NOT NULL,\n" +
-                "cord1x double NOT NULL,\n" +
-                "cord2x double NOT NULL,\n" +
-                "cord3x double NOT NULL,\n" +
-                "cord4x double NOT NULL,\n" +
-                "cord1y double NOT NULL,\n" +
-                "cord2y double NOT NULL,\n" +
-                "cord3y double NOT NULL,\n" +
-                "cord4y double NOT NULL,\n" +
+                "cord1x float NOT NULL,\n" +
+                "cord2x float NOT NULL,\n" +
+                "cord3x float NOT NULL,\n" +
+                "cord4x float NOT NULL,\n" +
+                "cord1y float NOT NULL,\n" +
+                "cord2y float NOT NULL,\n" +
+                "cord3y float NOT NULL,\n" +
+                "cord4y float NOT NULL,\n" +
                 "PRIMARY KEY(nameID));\n";
         String createRoad = "DROP TABLE IF EXISTS "+ mapName + "Road;\n"+
                 "CREATE TABLE " + mapName
                 + "Road(\n" +
                 "nameID varchar(50) NOT NULL,\n" +
-                "cord1x smallint NOT NULL,\n" +
-                "cord1y smallint NOT NULL,\n" +
-                "cord2x smallint NOT NULL,\n" +
-                "cord2y smallint NOT NULL,\n" +
+                "cord1x float NOT NULL,\n" +
+                "cord1y float NOT NULL,\n" +
+                "cord2x float NOT NULL,\n" +
+                "cord2y float NOT NULL,\n" +
                 "length int,\n" +
                 "secStart smallint,\n" +
                 "secEnd smallint,\n" +
@@ -117,8 +117,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "WITH (\n" +
                 "\ttypeoftoken varchar(50) '$.geometry.type',\n" +
                 "\tnameID varchar(50) '$.geometry.name',\n" +
-                "\tcordx double '$.geometry.coordinates[0]',\n" +
-                "\tcordy double '$.geometry.coordinates[1]',\n" +
+                "\tcordx float '$.geometry.coordinates[0]',\n" +
+                "\tcordy float '$.geometry.coordinates[1]',\n" +
                 "\toverload bigint '$.geometry.overload'\n" +
                 "\t) WHERE (typeoftoken = 'Point');\n"
                 + "INSERT INTO dbo." + mapName
@@ -127,24 +127,24 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "\ttypeoftoken varchar(50) '$.geometry.type',\n" +
                 "\tnameID varchar(50) '$.properties.name',\n" +
                 "\tstreet varchar(50) '$.properties.street',\n" +
-                "\tcord1x double '$.geometry.coordinates[0][0]',\n" +
-                "\tcord2x double '$.geometry.coordinates[1][0]',\n" +
-                "\tcord3x double '$.geometry.coordinates[2][0]',\n" +
-                "\tcord4x double '$.geometry.coordinates[3][0]',\n" +
-                "\tcord1y double '$.geometry.coordinates[0][1]',\n" +
-                "\tcord2y double '$.geometry.coordinates[1][1]',\n" +
-                "\tcord3y double '$.geometry.coordinates[2][1]',\n" +
-                "\tcord4y double '$.geometry.coordinates[3][1]'\n" +
+                "\tcord1x float '$.geometry.coordinates[0][0]',\n" +
+                "\tcord2x float '$.geometry.coordinates[1][0]',\n" +
+                "\tcord3x float '$.geometry.coordinates[2][0]',\n" +
+                "\tcord4x float '$.geometry.coordinates[3][0]',\n" +
+                "\tcord1y float '$.geometry.coordinates[0][1]',\n" +
+                "\tcord2y float '$.geometry.coordinates[1][1]',\n" +
+                "\tcord3y float '$.geometry.coordinates[2][1]',\n" +
+                "\tcord4y float '$.geometry.coordinates[3][1]'\n" +
                 "\t) WHERE (typeoftoken = 'Poligon');\n"
                 + "INSERT INTO dbo." + mapName
                 + "Road (nameID,cord1x,cord1y,cord2x,cord2y,length,secStart,secEnd,overload) SELECT nameID, cord1x, cord1y, cord2x, cord2y, length, secStart, secEnd, overload FROM OPENJSON(@json, '$.features')\n" +
                 "WITH (\n" +
                 "\ttypeoftoken varchar(50) '$.geometry.type',\n" +
                 "\tnameID varchar(30) '$.properties.name',\n" +
-                "\tcord1x double '$.geometry.coordinates[0][0]',\n" +
-                "\tcord1y double '$.geometry.coordinates[0][1]',\n" +
-                "\tcord2x double '$.geometry.coordinates[1][0]',\n" +
-                "\tcord2y double '$.geometry.coordinates[1][1]',\n" +
+                "\tcord1x float '$.geometry.coordinates[0][0]',\n" +
+                "\tcord1y float '$.geometry.coordinates[0][1]',\n" +
+                "\tcord2x float '$.geometry.coordinates[1][0]',\n" +
+                "\tcord2y float '$.geometry.coordinates[1][1]',\n" +
                 "\tlength int '$.properties.length',\n" +
                 "\tsecStart smallint '$.properties.secStart',\n" +
                 "\tsecEnd smallint '$.properties.secEnd',\n" +
