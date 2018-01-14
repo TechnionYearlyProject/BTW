@@ -12,10 +12,12 @@ public class BTWDataBaseImpl implements BTWDataBase {
 
     private String mapName;
     private Connection connection;
+    private boolean updatedHeuristics;
 
     public BTWDataBaseImpl(String mapName){
         this.mapName = mapName;
         MainDataBase.openConnection();
+        this.updatedHeuristics = false;
     }
 
     public void closeDataBaseConnection(String mapName){
@@ -155,6 +157,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
 
     @Override
     public BTWDataBase updateHeuristics() {
+        if(this.updatedHeuristics)
+            return this;
         Map<String, Map<String,Long>> heuristics = BTWGraphInfo.calculateHeuristics(this);
         String mapName = this.mapName;  // need to know the name of the map...
         String sql1 = "DROP TABLE IF EXISTS dbo." + mapName + "Heuristics;";
@@ -173,6 +177,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 MainDataBase.saveDataFromQuery(sql3);
             }
         } //test
+        this.updatedHeuristics = true;
         return this;
     }
 }
