@@ -36,7 +36,7 @@ public class MainDataBase{
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url);
-            System.out.println("successfuly connected to the server");
+            //System.out.println("successfuly connected to the server");
         }catch (Exception e) {
 
             if (connection != null) {
@@ -54,7 +54,7 @@ public class MainDataBase{
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("successfuly closed connection to the server");
+                //System.out.println("successfuly closed connection to the server");
                 connection = null;
             } catch (Exception e1) {
                 System.out.println("failed to close connection to the server");
@@ -126,19 +126,19 @@ public class MainDataBase{
     }
 
     public static void saveDataFromQuery(String sqlQuery) {
-        String url = "jdbc:sqlserver://btwserver.database.windows.net:1433;" +
+        /*String url = "jdbc:sqlserver://btwserver.database.windows.net:1433;" +
                 "database=BTW;" +
                 "user=shay@btwserver;" +
                 "password=S123456!;" +
                 "encrypt=true;" +
                 "trustServerCertificate=false;" +
                 "hostNameInCertificate=*.database.windows.net;" +
-                "loginTimeout=30;";
-        Connection connection = null;
+                "loginTimeout=30;";*/
+        //Connection connection = null;
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection(url);
+            //connection = DriverManager.getConnection(url);
             String schema = connection.getSchema();
 
             try (Statement statement = connection.createStatement();
@@ -147,7 +147,7 @@ public class MainDataBase{
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 }
