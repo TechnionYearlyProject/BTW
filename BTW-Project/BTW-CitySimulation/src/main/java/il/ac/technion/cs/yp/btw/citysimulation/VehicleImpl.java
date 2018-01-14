@@ -137,6 +137,15 @@ public class VehicleImpl implements Vehicle {
     }
 
     @Override
+    public BTWWeight getRemainingTimeOnRoad() {
+        try {
+            return BTWWeight.of(this.remainingTimeOnRoad);
+        } catch(BTWIllegalTimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public Vehicle setRemainingTimeOnRoad(BTWWeight timeOnRoad) {
         this.remainingTimeOnRoad = timeOnRoad.seconds();
         return this;
@@ -177,11 +186,11 @@ public class VehicleImpl implements Vehicle {
         and you are at the top of the lane.
         and back to the beginning of this pseudo - code
          */
-        Road currRoad = this.navigator.getNextRoad();
-        while (! currRoad.equals(destination)) {
-            driveOnRoad(currRoad);
-            // TODO: more...
-
-        }
+//        Road currRoad = this.navigator.getNextRoad();
+//        while (! currRoad.equals(destination)) {
+//            driveOnRoad(currRoad);
+//            // TODO: more...
+//
+//        }
     }
 }

@@ -4,6 +4,7 @@ import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -92,7 +93,7 @@ public class VehicleImplTest {
                 .thenReturn(crossroad);
 
         Mockito.when(road1.getMinimumWeight())
-                .thenAnswer(invocation -> BTWWeight.of(1L));
+                .thenAnswer(invocation -> BTWWeight.of(2L));
 
         // road2
         Mockito.when(road2.getRoadName())
@@ -111,7 +112,7 @@ public class VehicleImplTest {
                 .thenReturn(null);
 
         Mockito.when(road2.getMinimumWeight())
-                .thenAnswer(invocation -> BTWWeight.of(1L));
+                .thenAnswer(invocation -> BTWWeight.of(2L));
 
         // navigator
         Mockito.when(navigator.getNextRoad())
@@ -131,6 +132,11 @@ public class VehicleImplTest {
         this.routeIter = route.iterator();
         this.navigator = Mockito.mock(Navigator.class);
         configMock();
+    }
+
+    @Before
+    public void setUp() {
+        LiveCity.reset();
     }
 
     @Test
@@ -169,34 +175,30 @@ public class VehicleImplTest {
     }
 
     @Test
-    public void driveOnRoadTest() {
-//        Vehicle tested = null;
-//        try {
-//            tested = new VehicleImpl(new TestingVehicleDescriptor(), road1, 0.0, road2, 0.0, navigator);
-//        } catch (PathNotFoundException e) {
-//            Assert.fail();
-//        }
-//        Assert.assertEquals(road2, tested.getDestinationRoad());
-    }
-
-    @Test
     public void waitOnTrafficLightTest() {
-
-    }
-
-    @Test
-    public void isWaitingForTrafficLightTest() {
-
-    }
-
-
-    @Test
-    public void setRemainingTimeOnRoadTest() {
-
+        Vehicle tested = null;
+        try {
+            tested = new VehicleImpl(new TestingVehicleDescriptor(), road1, 0.0, road2, 0.0, navigator);
+        } catch (PathNotFoundException e) {
+            Assert.fail();
+        }
+        Assert.assertFalse(tested.isWaitingForTrafficLight());
+        Assert.assertTrue(tested.progressRoad().waitOnTrafficLight(this.crossroad).isWaitingForTrafficLight());
     }
 
     @Test
     public void progressOnRoadTest() {
-
+        Vehicle tested = null;
+        try {
+            tested = new VehicleImpl(new TestingVehicleDescriptor(), road1, 0.0, road2, 0.0, navigator);
+        } catch (PathNotFoundException e) {
+            Assert.fail();
+        }
+        Assert.assertEquals(road1, tested.progressRoad().getCurrentRoad());
+        Assert.assertEquals(new Long(2L), tested.getRemainingTimeOnRoad().seconds());
+        Assert.assertEquals(road1, tested.progressOnRoad().getCurrentRoad());
+        Assert.assertEquals(new Long(1L), tested.getRemainingTimeOnRoad().seconds());
+        Assert.assertFalse(tested.isWaitingForTrafficLight());
+        Assert.assertTrue(tested.progressOnRoad().isWaitingForTrafficLight());
     }
 }
