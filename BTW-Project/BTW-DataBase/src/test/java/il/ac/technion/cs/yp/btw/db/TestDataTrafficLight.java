@@ -2,6 +2,7 @@ package il.ac.technion.cs.yp.btw.db;
 
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Set;
@@ -16,19 +17,19 @@ public class TestDataTrafficLight {
         Set<TrafficLight> tls = btw.getAllTrafficLights();
         for (TrafficLight tl: tls) {
             if (tl.getName().equals("from:cc to:dd")) {
-                assert(tl.getCoordinateX() == 0.0);
-                assert(tl.getCoordinateY() == 0.0);
-                assert(tl.getMinimumWeight().seconds() == 4647);
+                Assert.assertTrue(tl.getCoordinateX() == 0.0);
+                Assert.assertTrue(tl.getCoordinateY() == 0.0);
+                Assert.assertTrue(tl.getMinimumWeight().seconds() == 4647);
             }
             if (tl.getName().equals("from:aa to:bb")) {
-                assert(tl.getCoordinateX() == 0.0);
-                assert(tl.getCoordinateY() == 0.0);
-                assert(tl.getMinimumWeight().seconds() == 435345445);
+                Assert.assertTrue(tl.getCoordinateX() == 0.0);
+                Assert.assertTrue(tl.getCoordinateY() == 0.0);
+                Assert.assertTrue(tl.getMinimumWeight().seconds() == 435345445);
             }
             if (tl.getName().equals("from:bb to:ee")) {
-                assert(tl.getCoordinateX() == 2.0);
-                assert(tl.getCoordinateY() == 0.0);
-                assert(tl.getMinimumWeight().seconds() == 4647);
+                Assert.assertTrue(tl.getCoordinateX() == 2.0);
+                Assert.assertTrue(tl.getCoordinateY() == 0.0);
+                Assert.assertTrue(tl.getMinimumWeight().seconds() == 4647);
             }
 
         }

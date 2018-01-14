@@ -2,6 +2,7 @@ package il.ac.technion.cs.yp.btw.db;
 
 import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataStreet;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -72,8 +73,8 @@ public class TestDataStreet {
         roads.add(r1);
         roads.add(r2);
         Street street = new DataStreet("Alenbi",roads,"try");
-        assert(street.getAllRoadsInStreet().size()==2);
-        assert(street.getStreetName().equals("Alenbi"));
+        Assert.assertTrue(street.getAllRoadsInStreet().size()==2);
+        Assert.assertTrue(street.getStreetName().equals("Alenbi"));
 
     }
 }
