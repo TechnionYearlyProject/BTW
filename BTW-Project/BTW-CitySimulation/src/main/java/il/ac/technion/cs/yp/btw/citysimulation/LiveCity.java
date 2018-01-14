@@ -46,6 +46,7 @@ public class LiveCity {
         private final Crossroad source;
         private final Crossroad destination;
         private Set<Vehicle> vehicles;
+        private BTWWeight minWeight;
 
 
         private LiveRoad(Road road) {
@@ -55,6 +56,7 @@ public class LiveCity {
             this.source = road.getSourceCrossroad();
             this.destination = road.getDestinationCrossroad();
             this.vehicles = new HashSet<>();
+            this.minWeight = road.getMinimumWeight();
         }
 
         @Override
@@ -84,7 +86,7 @@ public class LiveCity {
 
         @Override
         public BTWWeight getMinimumWeight() {
-            return null;
+            return minWeight;
         }
 
         @Override
@@ -125,8 +127,13 @@ public class LiveCity {
 
         @Override
         public BTWWeight getCurrentWeight() {
-            // TODO
-            return null;
+            // TODO: better
+            Double dWeight = (((vehicles.size() - 1) / length) + 1) * (double)minWeight.seconds();
+            try {
+                return BTWWeight.of(dWeight.longValue());
+            } catch (BTWIllegalTimeException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

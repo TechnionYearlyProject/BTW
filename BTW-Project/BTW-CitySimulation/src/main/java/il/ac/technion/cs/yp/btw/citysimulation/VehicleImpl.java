@@ -34,8 +34,10 @@ public class VehicleImpl implements Vehicle {
     }
 
     private Vehicle leaveRoad(Road rd) {
-        CityRoad realRoad = LiveCity.getRealRoad(rd);
-        realRoad.removeVehicle(this);
+        if (rd != null) {
+            CityRoad realRoad = LiveCity.getRealRoad(rd);
+            realRoad.removeVehicle(this);
+        }
         return this;
     }
 
@@ -143,7 +145,7 @@ public class VehicleImpl implements Vehicle {
     @Override
     public Vehicle progressOnRoad() {
         this.remainingTimeOnRoad--;
-        if (this.remainingTimeOnRoad == 0L) {
+        if (this.remainingTimeOnRoad <= 0) {
             waitOnTrafficLight(currentRoad.getDestinationCrossroad());
         }
         return this;
