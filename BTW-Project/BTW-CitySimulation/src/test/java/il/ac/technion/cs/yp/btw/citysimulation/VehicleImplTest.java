@@ -115,7 +115,7 @@ public class VehicleImplTest {
 
         // navigator
         Mockito.when(navigator.getNextRoad())
-                .thenReturn(routeIter.next());
+                .thenAnswer(invocation -> routeIter.next());
 
     }
 
@@ -154,7 +154,7 @@ public class VehicleImplTest {
         }
         Assert.assertNull(tested.getCurrentRoad());
         Assert.assertEquals(road1, tested.progressRoad().getCurrentRoad());
-//        Assert.assertEquals(road2, tested.progressRoad().getCurrentRoad());
+        Assert.assertEquals(road2, tested.progressRoad().getCurrentRoad());
     }
 
     @Test
