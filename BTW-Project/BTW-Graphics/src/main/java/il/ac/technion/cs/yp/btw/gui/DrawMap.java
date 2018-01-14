@@ -10,7 +10,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
@@ -38,12 +37,12 @@ public class DrawMap extends Application {
         root = new Group();
         canvas = new Canvas(640, 640);
         root.getChildren().add(canvas); // add plain canvas
+        //GridCityMapSimulator k = new GridCityMapSimulator();
         FreeFormMapSimulator k = new FreeFormMapSimulator();
         k.build();
         Set<TrafficLight> trafficLights = k.getTrafficLights();
         Set<Road> roads = k.getRoads();
         MapGraphics map = new MapGraphics(trafficLights,roads);
-
         // add all lines
         for (Pair<Line,String> line: map.getLines()) {
             root.getChildren().add(line.getKey());
@@ -52,18 +51,13 @@ public class DrawMap extends Application {
         for (Pair<Circle,String> circle: map.getCircles()) {
             root.getChildren().add(circle.getKey());
         }
-        Button btn = new Button("> Forward");
-        btn.setMaxHeight(10);
-        btn.setMaxWidth(30);
-        root.getChildren().add(btn);
-
         final Affine accumulatedScales = new Affine();
         accumulatedScales.appendScale(100,100);
         root.getTransforms().add(accumulatedScales);
         root.autoSizeChildrenProperty();
         root.setOnScroll(event -> {
             double dy = event.getDeltaY();
-            double delta = dy>0.0 ? 1.1 : 0.9;
+            double delta = dy>0.0 ? 1.2 : 0.9;
             accumulatedScales.appendScale(delta,delta
                     ,event.getX(), event.getY());
         });
