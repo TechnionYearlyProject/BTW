@@ -68,7 +68,12 @@ public interface Vehicle extends Runnable{
     Vehicle progressRoad();
 
     /**
-     * down-count time on road
+     * @return how much time onthe current road is needed to finish it
+     */
+    BTWWeight getRemainingTimeOnRoad();
+
+    /**
+     * set how much time on the current road is needed to finish it
      * @return self
      */
     Vehicle setRemainingTimeOnRoad(BTWWeight timeOnRoad);

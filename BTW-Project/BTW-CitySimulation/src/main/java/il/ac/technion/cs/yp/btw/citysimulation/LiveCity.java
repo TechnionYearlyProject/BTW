@@ -21,6 +21,11 @@ public class LiveCity {
         return roads.get(roadName);
     }
 
+    static void reset() {
+        roads = new HashMap<>();
+        trafficLights = new HashMap<>();
+    }
+
     static LiveTrafficLight getRealTrafficLight(TrafficLight trafficLight) {
         String trafficLightName = trafficLight.getName();
         if (! trafficLights.containsKey(trafficLightName)) {
