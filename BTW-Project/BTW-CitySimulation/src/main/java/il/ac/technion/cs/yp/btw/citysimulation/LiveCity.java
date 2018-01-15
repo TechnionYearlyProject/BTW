@@ -171,7 +171,7 @@ public class LiveCity {
          */
         private static double getSpeed(int speedLimit, int capacity, int numberOfVehiclesOnRoad) {
             //TODO
-            return 0;
+            return 1;
         }
 
         /**
