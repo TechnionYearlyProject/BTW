@@ -144,7 +144,7 @@ public class LiveCity {
         @Override
         public CityRoad tick() {
             for (Vehicle vehicle : vehicles) {
-                vehicle.progressRoad();
+                vehicle.driveToNextRoad();
             }
             return this;
         }
@@ -280,7 +280,7 @@ public class LiveCity {
                 if ((!vehicles.isEmpty())) {
                     while (this.totalThroughputInCurrentGreen > 1.0) {
                         Vehicle vehicle = vehicles.poll();
-                        vehicle.progressRoad();
+                        vehicle.driveToNextRoad();
                         this.totalThroughputInCurrentGreen -= 1.0;
                     }
                 }

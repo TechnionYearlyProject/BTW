@@ -70,7 +70,7 @@ public interface Vehicle {
      * move on to the next road on the route
      * @return self
      */
-    Vehicle progressRoad();
+    Vehicle driveToNextRoad();
 
     /**
      * @return how much time onthe current road is needed to finish it
@@ -88,4 +88,11 @@ public interface Vehicle {
      * @return self
      */
     Vehicle progressOnRoad();
+
+    /**
+     * start driving using the navigator if the time for driving has come
+     * @param now - current time in the system
+     * @return indicator if time for driving has come
+     */
+    boolean driveOnTime(long now);
 }
