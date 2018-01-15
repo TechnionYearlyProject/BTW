@@ -1,7 +1,5 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
-import il.ac.technion.cs.yp.btw.classes.Map;
-
 import java.util.List;
 
 /**
@@ -18,10 +16,6 @@ public interface CitySimulator {
      *         as described in the VehicleDescriptor, which
      *         will driven from the given source address
      *         to the given destination address
-     * TODO some info for GUY: String is preferred here because
-     * TODO there is no other comfortable way to specify
-     * TODO source/location while taking into account
-     * TODO different sides of the Roads
      */
     Vehicle addVehicle(VehicleDescriptor vehicleDescriptor, String source, String destination);
 
@@ -43,10 +37,8 @@ public interface CitySimulator {
             , String source, String destination, double interval);
 
     /**
-     * @return Map to be saved for graphic uses
-     * TODO maybe a "difference" approach would be better
-     * TODO than all the times copying all the Map
+     * @return CityMap to be saved for graphic uses
      */
-    Map saveMap();
+    CityMap saveMap();
 
 }

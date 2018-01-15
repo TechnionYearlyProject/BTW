@@ -15,6 +15,11 @@ public interface Vehicle extends Runnable{
      * @return the Road this Vehicle is currently located in
      */
     Road getCurrentRoad();
+
+    /**
+     * @return the Road this Vehicle is headed to
+     */
+    Road getNextRoad();
     /**
      * @return the destination Road of this Vehicle
      */

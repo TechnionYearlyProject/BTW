@@ -59,6 +59,11 @@ public class VehicleImpl implements Vehicle {
         return this.currentRoad;
     }
 
+    @Override
+    public Road getNextRoad() {
+        return this.nextRoad;
+    }
+
     /**
      * @return the destination Road of this Vehicle
      */
@@ -99,17 +104,20 @@ public class VehicleImpl implements Vehicle {
      */
     @Override
     public Vehicle waitOnTrafficLight(Crossroad crossroad) {
-        Set<TrafficLight> possibleTrafficLights = crossroad.getTrafficLightsFromRoad(this.currentRoad);
-        TrafficLight toWaitOn = null;
-        for (TrafficLight trafficLight : possibleTrafficLights) {
-            if (trafficLight.getDestinationRoad().equals(this.nextRoad)) {
-                toWaitOn = trafficLight;
-                break;
-            }
-        }
+
+        CityCrossroad realCrossroad = LiveCity.getRealCrossroad(crossroad);
         this.isWaitingOnTrafficLight = true;
-        CityTrafficLight realTL = LiveCity.getRealTrafficLight(toWaitOn);
-        realTL.addVehicle(this);
+        realCrossroad.addVehicle(this);
+//        Set<TrafficLight> possibleTrafficLights = crossroad.getTrafficLightsFromRoad(this.currentRoad);
+//        TrafficLight toWaitOn = null;
+//        for (TrafficLight trafficLight : possibleTrafficLights) {
+//            if (trafficLight.getDestinationRoad().equals(this.nextRoad)) {
+//                toWaitOn = trafficLight;
+//                break;
+//            }
+//        }
+//        CityTrafficLight realTL = LiveCity.getRealTrafficLight(toWaitOn);
+//        realTL.addVehicle(this);
         return this;
     }
 
