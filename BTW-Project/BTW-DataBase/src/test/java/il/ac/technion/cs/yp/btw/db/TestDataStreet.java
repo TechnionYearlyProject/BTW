@@ -69,12 +69,20 @@ public class TestDataStreet {
     public void testGet() {
         Road r1 = new TestingRoad("r1",null,null);
         Road r2 = new TestingRoad("r2",null,null);
+        Road r3 = new TestingRoad("r3",null,null);
         Set<Road> roads = new HashSet<Road>();
         roads.add(r1);
         roads.add(r2);
         Street street = new DataStreet("Alenbi",roads,"try");
-        Assert.assertTrue(street.getAllRoadsInStreet().size()==2);
+        Street street2 = new DataStreet("Rotchild","try");
+        street.addRoad(r3);
+        Assert.assertTrue(street2.getAllRoadsInStreet().size()==0);
+        Assert.assertTrue(street.getAllRoadsInStreet().size()==3);
         Assert.assertTrue(street.getStreetName().equals("Alenbi"));
+        String s = street.toString();
+        String s2 = street2.toString();
+        Assert.assertTrue(s.contains("Alenbi"));
+        Assert.assertTrue(s2.contains("Rotchild"));
 
     }
 }

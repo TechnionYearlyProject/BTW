@@ -69,5 +69,7 @@ public class TestDataCrossRoad {
         cr.addTrafficLight(tl2);
         cr.addTrafficLight(tl3);
         Assert.assertTrue(cr.getTrafficLights().size() == 3);
+        String s = cr.toString();
+        Assert.assertTrue(s.contains("(0.12312,2.234234)"));
     }
 }
