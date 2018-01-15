@@ -14,4 +14,9 @@ public interface CityMap {
      * @return all CityTrafficLights on the map
      */
     Set<CityTrafficLight> getAllTrafficLights();
+
+    /**
+     * @return all CityCrossroads on the map
+     */
+    Set<CityCrossroad> getAllCrossroads();
 }
