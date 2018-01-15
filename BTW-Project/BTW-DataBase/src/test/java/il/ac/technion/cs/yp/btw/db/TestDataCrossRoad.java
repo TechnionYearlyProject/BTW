@@ -2,6 +2,7 @@ package il.ac.technion.cs.yp.btw.db;
 
 import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataCrossRoad;
+import il.ac.technion.cs.yp.btw.db.DataObjects.DataRoad;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -71,5 +72,10 @@ public class TestDataCrossRoad {
         Assert.assertTrue(cr.getTrafficLights().size() == 3);
         String s = cr.toString();
         Assert.assertTrue(s.contains("(0.12312,2.234234)"));
+        BTWDataBase b = new BTWDataBaseImpl("test");
+        Crossroad cros = new DataCrossRoad(new PointImpl(0,0),"test");
+        Assert.assertNull(cros.getName());
+        Assert.assertNull(cros.getTrafficLightsFromRoad(new DataRoad("Road6",3,"STR1",new PointImpl(0,0),new PointImpl(6.6,6.6),"try")));
+        Assert.assertNotNull(cros.getTrafficLights());
     }
 }
