@@ -167,38 +167,4 @@ public class VehicleImpl implements Vehicle {
         }
         return this;
     }
-
-    /**
-     * When an object implementing interface <code>Runnable</code> is used
-     * to create a thread, starting the thread causes the object's
-     * <code>run</code> method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method <code>run</code> is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
-
-    @Override
-    public void run() {
-        // may not be useful anymore
-        /*TODO
-        at the beginning of driving every Road, check if
-        it is the destination Road, if not, drive from the location
-        on the Road to the end of it, if the destination is on this Road,
-        drive only to the needed ratio.
-        when you finish a road you ask the Navigator the next Road
-        and you wait on the needed TrafficLight accordingly.
-        you wait on it until the same TrafficLight is GREEN
-        and you are at the top of the lane.
-        and back to the beginning of this pseudo - code
-         */
-//        Road currRoad = this.navigator.getNextRoad();
-//        while (! currRoad.equals(destination)) {
-//            driveOnRoad(currRoad);
-//            // TODO: more...
-//
-//        }
-    }
 }

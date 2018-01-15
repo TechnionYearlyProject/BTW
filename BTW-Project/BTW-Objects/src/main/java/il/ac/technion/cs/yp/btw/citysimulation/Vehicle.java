@@ -4,7 +4,7 @@ import il.ac.technion.cs.yp.btw.classes.BTWWeight;
 import il.ac.technion.cs.yp.btw.classes.Crossroad;
 import il.ac.technion.cs.yp.btw.classes.Road;
 
-public interface Vehicle extends Runnable{
+public interface Vehicle {
     /**
      * @return VehicleDescriptor of this Vehicle,
      *         which contain technical information

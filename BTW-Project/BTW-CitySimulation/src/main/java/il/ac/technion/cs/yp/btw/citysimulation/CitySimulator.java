@@ -34,11 +34,34 @@ public interface CitySimulator {
      *         given interval
      */
     List<Vehicle> addSeveralVehicles(List<VehicleDescriptor> vehicleDescriptors
-            , String source, String destination, double interval);
+            , String source, String destination, int interval);
 
     /**
      * @return CityMap to be saved for graphic uses
      */
     CityMap saveMap();
 
+    /**
+     * progress everything by a clock tick,
+     * a clock tick is considered to be
+     * an advancement of 1 second
+     * @return self
+     */
+    CitySimulator tick();
+
+    /**
+     * progress everything by a numberOfTicks
+     * clock ticks,
+     * a clock tick is considered to be
+     * an advancement of 1 second
+     * @param numberOfTicks - number of ticks the
+     *                        simulation is advancing
+     * @return self
+     */
+    default CitySimulator tick(int numberOfTicks){
+        for (int interval = 0; interval < numberOfTicks ; interval++) {
+            this.tick();
+        }
+        return this;
+    }
 }
