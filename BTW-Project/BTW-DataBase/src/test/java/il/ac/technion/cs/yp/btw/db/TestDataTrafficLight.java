@@ -47,6 +47,14 @@ public class TestDataTrafficLight {
         Assert.assertNotNull(rd);
         Assert.assertNotNull(rs);
         String s = tl.toString();
+        try {
+            BTWTime time = BTWTime.of(44);
+            Assert.assertTrue(tl.getWeightByTime(time).seconds()==0);
+        }
+        catch (BTWIllegalTimeException e) {
+
+        }
+
         Assert.assertTrue(s.contains("tl12009"));
 
 
