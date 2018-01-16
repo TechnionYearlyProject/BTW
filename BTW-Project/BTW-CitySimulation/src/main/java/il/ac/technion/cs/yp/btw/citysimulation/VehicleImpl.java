@@ -103,6 +103,10 @@ public class VehicleImpl implements Vehicle {
         this.leaveRoad(prev);
         this.isWaitingOnTrafficLight = false;
         this.currentRoad = this.nextRoad;
+        if (this.currentRoad.equals(this.destination)) {
+            this.nextRoad = null;
+            return driveOnRoad(currentRoad, this.sourceRoadRatio, this.destinationRoadRatio);
+        }
         this.nextRoad = this.navigator.getNextRoad();
         return driveOnRoad(currentRoad, this.sourceRoadRatio, 1.0);
     }
@@ -146,7 +150,6 @@ public class VehicleImpl implements Vehicle {
             this.nextRoad = this.navigator.getNextRoad();
             this.driveOnRoad(this.currentRoad);
         }
-
         return this;
     }
 

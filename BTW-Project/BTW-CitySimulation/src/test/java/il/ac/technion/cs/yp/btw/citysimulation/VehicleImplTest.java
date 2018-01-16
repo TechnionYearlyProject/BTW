@@ -27,7 +27,6 @@ public class VehicleImplTest {
     private CitySimulator simulator;
     private CityRoad realRoad1;
     private CityRoad realRoad2;
-    private CityTrafficLight realTrafficLight;
     private CityCrossroad realCrossroad;
     private List<Road> route;
     private Iterator<Road> routeIter;
@@ -78,15 +77,6 @@ public class VehicleImplTest {
                 .thenAnswer(invocation -> realCrossroad);
 
         // trafficlight
-        Mockito.when(trafficLight.getName())
-                .thenReturn("tl-1");
-
-        Mockito.when(trafficLight.getCoordinateX())
-                .thenReturn(0.0);
-
-        Mockito.when(trafficLight.getCoordinateY())
-                .thenReturn(0.0);
-
         Mockito.when(trafficLight.getSourceRoad())
                 .thenReturn(road1);
 
@@ -94,23 +84,11 @@ public class VehicleImplTest {
                 .thenReturn(road2);
 
         // road1
-        Mockito.when(road1.getRoadName())
-                .thenReturn("rd-1");
-
-        Mockito.when(road1.getRoadLength())
-                .thenReturn(1);
-
-        Mockito.when(road1.getStreet())
-                .thenReturn(null);
-
         Mockito.when(road1.getSourceCrossroad())
                 .thenReturn(null);
 
         Mockito.when(road1.getDestinationCrossroad())
                 .thenReturn(crossroad);
-
-        Mockito.when(road1.getMinimumWeight())
-                .thenAnswer(invocation -> BTWWeight.of(2L));
 
         // realRoad1
         Mockito.when(realRoad1.getCurrentWeight())
@@ -123,23 +101,11 @@ public class VehicleImplTest {
                 .thenAnswer(invocation -> realRoad1);
 
         // road2
-        Mockito.when(road2.getRoadName())
-                .thenReturn("rd-2");
-
-        Mockito.when(road2.getRoadLength())
-                .thenReturn(1);
-
-        Mockito.when(road2.getStreet())
-                .thenReturn(null);
-
         Mockito.when(road2.getSourceCrossroad())
                 .thenReturn(crossroad);
 
         Mockito.when(road2.getDestinationCrossroad())
                 .thenReturn(null);
-
-        Mockito.when(road2.getMinimumWeight())
-                .thenAnswer(invocation -> BTWWeight.of(2L));
 
         // realRoad2
         Mockito.when(realRoad2.getCurrentWeight())
@@ -179,7 +145,6 @@ public class VehicleImplTest {
         this.simulator = Mockito.mock(CitySimulator.class);
         this.realRoad1 = Mockito.mock(CityRoad.class);
         this.realRoad2 = Mockito.mock(CityRoad.class);
-        this.realTrafficLight = Mockito.mock(CityTrafficLight.class);
         this.realCrossroad = Mockito.mock(CityCrossroad.class);
         configMock();
     }
@@ -267,6 +232,28 @@ public class VehicleImplTest {
         Assert.assertEquals(Long.valueOf(0L), tested.getRemainingTimeOnRoad().seconds());
         Assert.assertEquals(Long.valueOf(1L), tested.driveToNextRoad().getRemainingTimeOnRoad().seconds());
         Assert.assertEquals(tested, tested.progressOnRoad());
+        Assert.assertFalse(tested.isWaitingForTrafficLight());
+        Assert.assertEquals(tested, tested.progressOnRoad());
+        Assert.assertFalse(tested.isWaitingForTrafficLight());
+        Assert.assertEquals(tested, tested.progressOnRoad());
+        Assert.assertFalse(tested.isWaitingForTrafficLight());
+        Assert.assertEquals(Long.valueOf(0L), tested.getRemainingTimeOnRoad().seconds());
+    }
+
+    @Test
+    public void oneRoadRouteTest() {
+        Vehicle tested = null;
+        try {
+            tested = new VehicleImpl(new VehicleImplTest.TestingVehicleDescriptor(), road1, 0.0, road1, 1.0, navigator, simulator, 0);
+        } catch (PathNotFoundException e) {
+            Assert.fail();
+        }
+        Assert.assertTrue(tested.driveOnTime(0L));
+        Assert.assertEquals(road1, tested.getCurrentRoad());
+        Assert.assertNull(tested.getNextRoad());
+        Assert.assertEquals(Long.valueOf(2L), tested.getRemainingTimeOnRoad().seconds());
+        Assert.assertEquals(tested, tested.progressOnRoad());
+        Assert.assertEquals(Long.valueOf(1L), tested.getRemainingTimeOnRoad().seconds());
         Assert.assertFalse(tested.isWaitingForTrafficLight());
         Assert.assertEquals(tested, tested.progressOnRoad());
         Assert.assertFalse(tested.isWaitingForTrafficLight());

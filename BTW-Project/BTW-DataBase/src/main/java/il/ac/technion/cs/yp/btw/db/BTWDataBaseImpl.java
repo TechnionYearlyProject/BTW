@@ -51,17 +51,15 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return CentralLocationsDataBase.getCentralLocation(locationName, mapName);
     }
 
-    /**
-     * returns all Roads which are next to the
-     * given CenralLocation
-     * @param centralLocation - the location we
-     *                          are looking for
-     * @return Set of Roads, which have the location
-     *         on them
-     */
     @Override
-    public Set<Road> getAllRoadsNextToCentralLocation(CentralLocation centralLocation){
-        //return centralLocationsDataBase.getAllCentralLocations();
+    public Set<Road> getAllRoads() {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public Set<Crossroad> getAllCrossroads() {
+        // TODO
         return null;
     }
 

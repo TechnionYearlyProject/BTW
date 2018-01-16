@@ -50,4 +50,9 @@ public interface CityTrafficLight extends TrafficLight, StatisticsProviding {
      * needs to be open
      */
     int getMinimumOpenTime();
+
+    /**
+     * @return the current state of the traffic-light
+     */
+    TrafficLightState getState();
 }
