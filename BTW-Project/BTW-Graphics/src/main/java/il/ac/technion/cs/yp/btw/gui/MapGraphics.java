@@ -38,7 +38,7 @@ public class MapGraphics {
     private void createCircles(Set<TrafficLight> trafficLights) {
         int x=0;
         for (TrafficLight currTrafficLight: trafficLights) {
-            Point point = calculateTrafficLightLocation(currTrafficLight.getSourceRoad());
+            Point point = calculateTrafficLightLocation(currTrafficLight);
             Circle circle = new Circle(point.getCoordinateX(), point.getCoordinateY(),0.01);
             System.out.println("original X : "+currTrafficLight.getCoordinateX()+"original Y : "+currTrafficLight.getCoordinateY());
             System.out.println("X : "+point.getCoordinateX()+"Y : "+point.getCoordinateY());
@@ -95,18 +95,18 @@ public class MapGraphics {
     /**
      * returns the degree value in radians
      * of the given line on, from the x-axis
-     * @param road - the line we check
+     * @param trafficLight - the line we check is its source road
      * @return the degree value in radians
      *         of the given line on, from the x-axis
      *         The functions:
      *         y1 = ax+b1
      *         y2 = -(1/a)*x+b2
      */
-    private Point calculateTrafficLightLocation(Road road) {
-
+    private Point calculateTrafficLightLocation(TrafficLight trafficLight) {
+        Road sourceRoad = trafficLight.getSourceRoad();
         double deviationAngle = 0.85;
         double deviationDistance = 0.035;
-        return getDeviationFromVectorEnd(road.getSourceCrossroad(), road.getDestinationCrossroad(), deviationAngle , deviationDistance);
+        return getDeviationFromVectorEnd(sourceRoad.getSourceCrossroad(), sourceRoad.getDestinationCrossroad(), deviationAngle , deviationDistance);
     }
 
     /**
