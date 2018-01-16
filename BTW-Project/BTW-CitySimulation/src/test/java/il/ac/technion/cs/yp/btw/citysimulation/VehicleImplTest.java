@@ -184,11 +184,6 @@ public class VehicleImplTest {
         configMock();
     }
 
-    @Before
-    public void setUp() {
-        LiveCity.reset();
-    }
-
     @Test
     public void getVehicleDescriptorTest() {
         Vehicle tested = null;

@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * Testing LiveTrafficLight
  */
-public class LiveTrafficLightTest {
+public class CityTrafficLightImplTest {
     @Test
     public void getCoordinateXTest() {
 

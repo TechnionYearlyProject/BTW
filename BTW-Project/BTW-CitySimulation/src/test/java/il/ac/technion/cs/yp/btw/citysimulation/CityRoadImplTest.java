@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * Testing LiveRoad
  */
-public class LiveRoadTest {
+public class CityRoadImplTest {
     @Test
     public void isStreetNumberInRangeTest() {
 

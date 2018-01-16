@@ -302,7 +302,7 @@ public class CitySimulatorImpl implements CitySimulator {
                     break;
                 }
             }
-            CityTrafficLight realTL = LiveCity.getRealTrafficLight(toWaitOn);
+            CityTrafficLight realTL = getRealTrafficLight(toWaitOn);
             realTL.addVehicle(vehicle);
             return this;
         }
@@ -318,7 +318,7 @@ public class CitySimulatorImpl implements CitySimulator {
         public CityCrossroad tick() {
             this.trafficLights
                     .forEach(trafficLight
-                            -> LiveCity.getRealTrafficLight(trafficLight).tick());
+                            -> getRealTrafficLight(trafficLight).tick());
             return this;
         }
 
