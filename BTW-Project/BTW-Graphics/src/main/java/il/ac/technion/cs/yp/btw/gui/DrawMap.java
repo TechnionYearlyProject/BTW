@@ -41,7 +41,7 @@ public class DrawMap extends Application {
     private static final double MAX_SCALE = 10.0d;
     private static final double MIN_SCALE = .1d;
     Canvas canvas;
-    Group root;
+    BorderPane root;
     public static void main(String[] args) {
         launch(args);
     }
@@ -49,10 +49,10 @@ public class DrawMap extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Drawing Operations Test");
-        root = new Group();
-        //BorderPane root = new BorderPane();
-        canvas = new Canvas(640, 640);
-        root.getChildren().add(canvas); // add plain canvas
+        root = new BorderPane();
+        //canvas = new Canvas(640, 640);
+        //root.getChildren().add(canvas); // add plain canvas
+
         //GridCityMapSimulator k = new GridCityMapSimulator();
         //FreeFormMapSimulator k = new FreeFormMapSimulator();
         //k.build();
@@ -68,13 +68,7 @@ public class DrawMap extends Application {
                     ,event.getX(), event.getY());
         });
 
-/*
-        MenuBar menuBar = new MenuBar();
-        menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
-        Menu menuForward = new Menu("Forward");
-        menuBar.getMenus().addAll(menuForward);
-        root.setTop(menuBar);
-*/
+
         Scene scene = new Scene(root, 640, 640, Color.GREY);
 
         primaryStage.setScene(scene);
