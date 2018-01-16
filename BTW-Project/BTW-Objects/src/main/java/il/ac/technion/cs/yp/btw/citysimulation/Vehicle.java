@@ -4,7 +4,7 @@ import il.ac.technion.cs.yp.btw.classes.BTWWeight;
 import il.ac.technion.cs.yp.btw.classes.Crossroad;
 import il.ac.technion.cs.yp.btw.classes.Road;
 
-public interface Vehicle extends Runnable{
+public interface Vehicle {
     /**
      * @return VehicleDescriptor of this Vehicle,
      *         which contain technical information
@@ -15,6 +15,11 @@ public interface Vehicle extends Runnable{
      * @return the Road this Vehicle is currently located in
      */
     Road getCurrentRoad();
+
+    /**
+     * @return the Road this Vehicle is headed to
+     */
+    Road getNextRoad();
     /**
      * @return the destination Road of this Vehicle
      */
@@ -65,7 +70,7 @@ public interface Vehicle extends Runnable{
      * move on to the next road on the route
      * @return self
      */
-    Vehicle progressRoad();
+    Vehicle driveToNextRoad();
 
     /**
      * @return how much time onthe current road is needed to finish it
@@ -83,4 +88,11 @@ public interface Vehicle extends Runnable{
      * @return self
      */
     Vehicle progressOnRoad();
+
+    /**
+     * start driving using the navigator if the time for driving has come
+     * @param now - current time in the system
+     * @return indicator if time for driving has come
+     */
+    boolean driveOnTime(long now);
 }

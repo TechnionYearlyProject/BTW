@@ -1,63 +1,27 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
 import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.navigation.NaiveNavigationManager;
+import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
+import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
+import il.ac.technion.cs.yp.btw.trafficlights.NaiveTrafficLightManager;
+import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
 
 import java.util.*;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * managing the city
- */
-public class LiveCity {
-    private static Map<String, LiveRoad> roads = new HashMap<>();
-    private static Map<String, LiveTrafficLight> trafficLights = new HashMap<>();
-    private static Map<String, LiveCrossroad> crossroads = new HashMap<>();
+public class CitySimulatorImpl implements CitySimulator {
+    private Map<String, CityRoad> roads;
+    private Map<String, CityTrafficLight> trafficLights;
+    private Map<String, CityCrossroad> crossroads;
+    private TrafficLightManager trafficLightManager;
+    private NavigationManager navigationManager;
+    private Set<Vehicle> vehicles; //all vehicles that drove/drive
+    private Set<Vehicle> vehiclesToEnter;
+    private long clock;
 
-    static LiveRoad getRealRoad(Road road) {
-        String roadName = road.getRoadName();
-        if (!roads.containsKey(roadName)) {
-            LiveRoad newLiveRoad = new LiveRoad(road);
-            roads.put(roadName, newLiveRoad);
-        }
-        return roads.get(roadName);
-    }
-
-    static void reset() {
-        roads = new HashMap<>();
-        trafficLights = new HashMap<>();
-        crossroads = new HashMap<>();
-    }
-
-    static LiveTrafficLight getRealTrafficLight(TrafficLight trafficLight) {
-        String trafficLightName = trafficLight.getName();
-        if (!trafficLights.containsKey(trafficLightName)) {
-            LiveTrafficLight newLiveTrafficLight = new LiveTrafficLight(trafficLight);
-            trafficLights.put(trafficLightName, newLiveTrafficLight);
-        }
-        return trafficLights.get(trafficLightName);
-    }
-
-    static LiveCrossroad getRealCrossroad(Crossroad crossroad) {
-        String crossroadName = crossroad.getName();
-        if (!crossroads.containsKey(crossroadName)) {
-            LiveCrossroad newLiveCrossroad = new LiveCrossroad(crossroad);
-            crossroads.put(crossroadName, newLiveCrossroad);
-        }
-        return crossroads.get(crossroadName);
-    }
-
-    public void tick() {
-        // TODO: handle traffic-light opening and closing using the manager
-        for (CityRoad road : roads.values()) {
-            road.tick();
-        }
-        for (CityTrafficLight trafficLight : trafficLights.values()) {
-            trafficLight.tick();
-        }
-    }
-
-    static class LiveRoad implements CityRoad {
+    private class CityRoadImpl implements CityRoad {
         private static final double DEFAULT_CAPACITY_PER_METER = 0.45;
         private static final int DEFAULT_SPEED_LIMIT = 50;
         private final String name;
@@ -71,13 +35,13 @@ public class LiveCity {
         private BTWWeight minWeight;
 
 
-        private LiveRoad(Road road) {
+        private CityRoadImpl(Road road) {
             this.name = road.getRoadName();
             this.length = road.getRoadLength();
             this.street = road.getStreet();
             this.source = road.getSourceCrossroad();
             this.destination = road.getDestinationCrossroad();
-            this.capacity = Double.valueOf(DEFAULT_CAPACITY_PER_METER*length).intValue();
+            this.capacity = Double.valueOf(DEFAULT_CAPACITY_PER_METER * length).intValue();
             this.speedLimit = DEFAULT_SPEED_LIMIT;
             this.vehicles = new HashSet<>();
             this.minWeight = road.getMinimumWeight();
@@ -131,7 +95,7 @@ public class LiveCity {
         @Override
         public CityRoad addVehicle(Vehicle vehicle) {
             this.vehicles.add(vehicle);
-            vehicle.setRemainingTimeOnRoad(getCurrentWeight());
+//            vehicle.setRemainingTimeOnRoad(getCurrentWeight());
             return this;
         }
 
@@ -152,7 +116,7 @@ public class LiveCity {
         @Override
         public BTWWeight getCurrentWeight() {
             // TODO: better
-            double currSpeed = getSpeed(this.speedLimit,this.capacity,this.vehicles.size());
+            double currSpeed = getSpeed();
             Double time = this.length/currSpeed;
             Double dWeight = (((vehicles.size() - 1) / length) + 1) * (double) minWeight.seconds();
             try {
@@ -164,13 +128,13 @@ public class LiveCity {
 
         /**
          *
-         * @param speedLimit in km/h on road
-         * @param capacity of vehicles on road
-         * @param numberOfVehiclesOnRoad -
+         * speedLimit in km/h on road
+         * capacity - discrete
+         * number of vehicles on road - discrete
          * @return actual speed on the road, in m/s
          */
-        private static double getSpeed(int speedLimit, int capacity, int numberOfVehiclesOnRoad) {
-            //TODO
+        private double getSpeed() {
+            //TODO: use this.speedLimit, this.capacity, this.vehicles.size() for calculations
             return 1;
         }
 
@@ -179,12 +143,12 @@ public class LiveCity {
          */
         @Override
         public StatisticalData getStatisticalData() {
+            // TODO
             return null;
         }
     }
 
-    static class LiveTrafficLight implements CityTrafficLight {
-
+    private class CityTrafficLightImpl implements CityTrafficLight {
         private static final int DEFAULT_MINIMUM_OPEN_TIME = 20;
         private static final double DEFAULT_THROUGHPUT = 0.5;
         private final double xCoord;
@@ -199,7 +163,7 @@ public class LiveCity {
         private double throughput;
         private double totalThroughputInCurrentGreen;
 
-        private LiveTrafficLight(TrafficLight trafficLight) {
+        private CityTrafficLightImpl(TrafficLight trafficLight) {
             this.xCoord = trafficLight.getCoordinateX();
             this.yCoord = trafficLight.getCoordinateY();
             this.name = trafficLight.getName();
@@ -302,18 +266,19 @@ public class LiveCity {
          */
         @Override
         public StatisticalData getStatisticalData() {
+            // TODO
             return null;
         }
     }
 
-    static class LiveCrossroad implements CityCrossroad {
+    private class CityCrossroadImpl implements CityCrossroad {
         private final double xCoord;
         private final double yCoord;
         private final String name;
         private Set<TrafficLight> trafficLights;
 
 
-        private LiveCrossroad(Crossroad crossroad) {
+        private CityCrossroadImpl(Crossroad crossroad) {
             this.name = crossroad.getName();
             this.xCoord = crossroad.getCoordinateX();
             this.yCoord = crossroad.getCoordinateY();
@@ -418,7 +383,141 @@ public class LiveCity {
          */
         @Override
         public StatisticalData getStatisticalData() {
+            // TODO
             return null;
         }
     }
+
+    public CitySimulatorImpl(BTWDataBase db){
+        this.roads = new HashMap<>();
+        this.trafficLights = new HashMap<>();
+        this.crossroads = new HashMap<>();
+        // TODO: add these methods to db
+//        db.getAllRoads().forEach(this::getRealTrafficLight);
+        db.getAllTrafficLights().forEach(this::getRealTrafficLight);
+//        db.getAllCrossrods().forEach(this::getRealTrafficLight);
+
+        this.vehicles = new HashSet<>();
+        this.vehiclesToEnter = new HashSet<>();
+        this.navigationManager = new NaiveNavigationManager(db);
+        this.trafficLightManager = new NaiveTrafficLightManager(new HashSet<>(this.crossroads.values()));
+        this.clock = 0;
+    }
+
+    @Override
+    public CityRoad getRealRoad(Road road) {
+        String roadName = road.getRoadName();
+        if (!this.roads.containsKey(roadName)) {
+            CityRoad newLiveRoad = new CityRoadImpl(road);
+            this.roads.put(roadName, newLiveRoad);
+        }
+        return this.roads.get(roadName);
+    }
+
+    @Override
+    public CityTrafficLight getRealTrafficLight(TrafficLight trafficLight) {
+        String trafficLightName = trafficLight.getName();
+        if (!this.trafficLights.containsKey(trafficLightName)) {
+            CityTrafficLight newLiveTrafficLight = new CityTrafficLightImpl(trafficLight);
+            this.trafficLights.put(trafficLightName, newLiveTrafficLight);
+        }
+        return this.trafficLights.get(trafficLightName);
+    }
+
+    @Override
+    public CityCrossroad getRealCrossroad(Crossroad crossroad) {
+        String crossroadName = crossroad.getName();
+        if (!this.crossroads.containsKey(crossroadName)) {
+            CityCrossroad newLiveCrossroad = new CityCrossroadImpl(crossroad);
+            this.crossroads.put(crossroadName, newLiveCrossroad);
+        }
+        return this.crossroads.get(crossroadName);
+    }
+
+    private Vehicle addVehicleOnTime(VehicleDescriptor vehicleDescriptor, Road source, double sourceRoadRatio,
+                              Road destination, double destinationRoadRatio, long time) throws PathNotFoundException {
+        Vehicle newVehicle = new VehicleImpl(vehicleDescriptor,
+                source, sourceRoadRatio, destination, destinationRoadRatio,
+                this.navigationManager.getNavigator(vehicleDescriptor, source, sourceRoadRatio, destination, destinationRoadRatio),
+                this, time);
+        this.vehiclesToEnter.add(newVehicle);
+        return newVehicle;
+    }
+
+    /**
+     * @param vehicleDescriptor - technical properties
+     *                          of the Vehicle
+     * @param source            - source address
+     * @param destination       - destination address
+     * @return a Vehicle with technical properties
+     * as described in the VehicleDescriptor, which
+     * will driven from the given source address
+     * to the given destination address
+     */
+    @Override
+    public Vehicle addVehicle(VehicleDescriptor vehicleDescriptor, Road source, double sourceRoadRatio,
+                              Road destination, double destinationRoadRatio) throws PathNotFoundException {
+        return this.addVehicleOnTime(vehicleDescriptor, source, sourceRoadRatio, destination, destinationRoadRatio, this.clock + 1);
+    }
+
+    /**
+     * @param vehicleDescriptors - List of technical properties
+     *                           of the Vehicles
+     * @param source             - source address
+     * @param destination        - destination address
+     * @param interval           - time interval between Vehicle generation,
+     *                           in seconds
+     * @return a Vehicle List with technical properties
+     * as described in the VehicleDescriptors, which
+     * will drive from the given source address
+     * to the given destination address.
+     * new Vehicles will be generated in the
+     * given interval
+     */
+    @Override
+    public List<Vehicle> addSeveralVehicles(List<VehicleDescriptor> vehicleDescriptors,  Road source, double sourceRoadRatio,
+                                            Road destination, double destinationRoadRatio, int interval) throws PathNotFoundException{
+        List<Vehicle> added = new ArrayList<>();
+        long startFromNow = 1;
+        for (VehicleDescriptor descriptor : vehicleDescriptors) {
+            added.add(addVehicleOnTime(descriptor, source, sourceRoadRatio, destination, destinationRoadRatio, this.clock + startFromNow));
+        }
+        return added;
+    }
+
+    /**
+     * @return CityMap to be saved for graphic uses
+     */
+    @Override
+    public CityMap saveMap() {
+        return new CityMapImpl(new HashSet<>(this.roads.values())
+                ,new HashSet<>(this.trafficLights.values())
+                ,new HashSet<>(this.crossroads.values()));
+    }
+
+    /**
+     * progress everything by a clock tick,
+     * a clock tick is considered to be
+     * an advancement of 1 second
+     *
+     * @return self
+     */
+    @Override
+    public CitySimulator tick() {
+        for (CityRoad road : roads.values()) {
+            road.tick();
+        }
+        this.trafficLightManager.tick();
+        Set<Vehicle> drivingVehicles = new HashSet<>();
+        this.vehiclesToEnter.forEach(vehicle -> {
+            if (vehicle.driveOnTime(this.clock)) {
+                drivingVehicles.add(vehicle);
+            }
+        });
+        this.vehiclesToEnter.removeAll(drivingVehicles);
+        this.vehicles.addAll(drivingVehicles);
+        this.clock++;
+        return this;
+    }
+
 }

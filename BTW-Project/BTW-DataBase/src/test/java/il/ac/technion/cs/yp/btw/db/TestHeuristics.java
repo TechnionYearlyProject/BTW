@@ -15,5 +15,6 @@ public class TestHeuristics {
     public void testHeuristics() {
         BTWDataBase btw = new BTWDataBaseImpl("test1");
         assertNotNull(btw.updateHeuristics());
+        //assertNotNull(btw.updateHeuristics());
     }
 }

@@ -1,49 +1,41 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
-import il.ac.technion.cs.yp.btw.classes.BTWIllegalTimeException;
-import il.ac.technion.cs.yp.btw.classes.BTWWeight;
-import il.ac.technion.cs.yp.btw.classes.Crossroad;
-import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 
-/**
- * Created by Guy Rephaeli on 15-Jan-18.
- * implementation of Vehicle
- */
-public class VehicleImpl implements Vehicle {
+import java.util.Set;
+
+public class LiveVehicle implements Vehicle {
+
     private VehicleDescriptor descriptor;
     private Road currentRoad;
     private Road nextRoad;
     private Road destination;
-    private Double sourceRoadRatio;
-    private Double destinationRoadRatio;
+//    private Double sourceRoadRatio;
+//    private Double destinationRoadRatio;
     private Navigator navigator;
     private Long remainingTimeOnRoad;
     private boolean isWaitingOnTrafficLight;
-    private CitySimulator simulator;
-    private long startTime;
 
-    public VehicleImpl(VehicleDescriptor descriptor,
+    public LiveVehicle(VehicleDescriptor descriptor,
                        Road source, double sourceRoadRatio,
                        Road destination, double destinationRoadRatio,
-                       Navigator navigator, CitySimulator simulator, long startTime) throws PathNotFoundException {
+                       Navigator navigator) throws PathNotFoundException{
         this.descriptor = descriptor;
         this.destination = destination;
-        this.sourceRoadRatio = sourceRoadRatio;
-        this.destinationRoadRatio = destinationRoadRatio;
+//        this.sourceRoadRatio = sourceRoadRatio;
+//        this.destinationRoadRatio = destinationRoadRatio;
         this.navigator = navigator;
         this.currentRoad = null;
         this.nextRoad = navigator.getNextRoad();
         this.remainingTimeOnRoad = 0L;
         this.isWaitingOnTrafficLight = false;
-        this.simulator = simulator;
-        this.startTime = startTime;
     }
 
     private Vehicle leaveRoad(Road rd) {
         if (rd != null) {
-            CityRoad realRoad = this.simulator.getRealRoad(rd);
+            CityRoad realRoad = LiveCity.getRealRoad(rd);
             realRoad.removeVehicle(this);
         }
         return this;
@@ -91,32 +83,41 @@ public class VehicleImpl implements Vehicle {
      */
     @Override
     public Vehicle driveOnRoad(Road rd, double ratioStart, double ratioEnd) {
-        CityRoad realRoad = this.simulator.getRealRoad(rd);
-        BTWWeight weight = realRoad.getCurrentWeight();
-        this.remainingTimeOnRoad = Double.valueOf((ratioEnd - ratioStart) * weight.seconds()).longValue();
+        CityRoad realRoad = LiveCity.getRealRoad(rd);
         realRoad.addVehicle(this);
         return this;
-    }
-
-    public Vehicle driveOnFirstRoad() {
-        return driveOnRoad(this.simulator.getRealRoad(this.navigator.getNextRoad()), this.sourceRoadRatio, 1.0);
-    }
-
-    public Vehicle driveOnLast() {
-        return driveOnRoad(this.simulator.getRealRoad(this.navigator.getNextRoad()), 0.0, this.destinationRoadRatio);
     }
 
     /**
      * puts this Vehicle in wait on the given TrafficLight
      * until the TrafficLight is GREEN and this Vehicle
      * is at the top of the TrafficLight's lane
+     * TODO probably should send the wait request for the
+     * TODO     Crossroad to manage all of the TrafficLights and
+     * TODO     probably also have to waitqueues in him, instead
+     * TODO     of the TrafficLights
+     * TODO another approach can be an interface like the
+     * TODO     Navigator for each Vehicle to do the TrafficLight
+     * TODO     talking
+     *
      * @param crossroad - the Crossroad containing the TrafficLight this Vehicle is waiting on
      */
     @Override
     public Vehicle waitOnTrafficLight(Crossroad crossroad) {
-        CityCrossroad realCrossroad = this.simulator.getRealCrossroad(crossroad);
+
+        CityCrossroad realCrossroad = LiveCity.getRealCrossroad(crossroad);
         this.isWaitingOnTrafficLight = true;
         realCrossroad.addVehicle(this);
+//        Set<TrafficLight> possibleTrafficLights = crossroad.getTrafficLightsFromRoad(this.currentRoad);
+//        TrafficLight toWaitOn = null;
+//        for (TrafficLight trafficLight : possibleTrafficLights) {
+//            if (trafficLight.getDestinationRoad().equals(this.nextRoad)) {
+//                toWaitOn = trafficLight;
+//                break;
+//            }
+//        }
+//        CityTrafficLight realTL = LiveCity.getRealTrafficLight(toWaitOn);
+//        realTL.addVehicle(this);
         return this;
     }
 
@@ -131,17 +132,15 @@ public class VehicleImpl implements Vehicle {
     @Override
     public Vehicle driveToNextRoad() {
         Road prev = this.currentRoad;
-        this.leaveRoad(prev);
-        this.isWaitingOnTrafficLight = false;
         this.currentRoad = this.nextRoad;
         if (this.currentRoad.equals(this.destination)) {
             this.nextRoad = null;
-            this.driveOnLast();
         } else {
             this.nextRoad = this.navigator.getNextRoad();
-            this.driveOnRoad(this.currentRoad);
         }
-
+        this.leaveRoad(prev);
+        this.isWaitingOnTrafficLight = false;
+        this.driveOnRoad(this.currentRoad);
         return this;
     }
 
@@ -164,9 +163,6 @@ public class VehicleImpl implements Vehicle {
     public Vehicle progressOnRoad() {
         this.remainingTimeOnRoad--;
         if (this.remainingTimeOnRoad <= 0) {
-            if (this.currentRoad.equals(this.destination)) {
-                return this;
-            }
             waitOnTrafficLight(currentRoad.getDestinationCrossroad());
         }
         return this;
@@ -174,10 +170,6 @@ public class VehicleImpl implements Vehicle {
 
     @Override
     public boolean driveOnTime(long now) {
-        if (this.startTime > now) {
-            return false;
-        }
-        driveOnFirstRoad();
-        return true;
+        return false;
     }
 }

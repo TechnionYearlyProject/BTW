@@ -74,4 +74,60 @@ public class DrawMap extends Application {
     public Set<Road> getRoads() {
         return new HashSet<Road>();
     }
+
+    /**
+     * finding minimum coordinate in order to zoom in map
+     * @param trafficLights - set of traffic light
+     * @return min coordinate x in set
+     */
+    public double findMinX(Set<TrafficLight> trafficLights) {
+        double min = trafficLights.iterator().next().getCoordinateX();
+        for (TrafficLight tl: trafficLights) {
+            if (tl.getCoordinateX() < min)
+                min = tl.getCoordinateX();
+        }
+        return min;
+    }
+
+    /**
+     * finding maximum coordinate in order to zoom in map
+     * @param trafficLights - set of traffic light
+     * @return max coordinate x in set
+     */
+    public double findMaxX(Set<TrafficLight> trafficLights) {
+        double max = trafficLights.iterator().next().getCoordinateX();
+        for (TrafficLight tl: trafficLights) {
+            if (tl.getCoordinateX() > max)
+                max = tl.getCoordinateX();
+        }
+        return max;
+    }
+
+    /**
+     * finding minimum coordinate in order to zoom in map
+     * @param trafficLights - set of traffic light
+     * @return min coordinate y in set
+     */
+    public double findMinY(Set<TrafficLight> trafficLights) {
+        double min = trafficLights.iterator().next().getCoordinateY();
+        for (TrafficLight tl: trafficLights) {
+            if (tl.getCoordinateY() < min)
+                min = tl.getCoordinateY();
+        }
+        return min;
+    }
+
+    /**
+     * finding maximum coordinate in order to zoom in map
+     * @param trafficLights - set of traffic light
+     * @return max coordinate y in set
+     */
+    public double findMaxY(Set<TrafficLight> trafficLights) {
+        double max = trafficLights.iterator().next().getCoordinateY();
+        for (TrafficLight tl: trafficLights) {
+            if (tl.getCoordinateY() > max)
+                max = tl.getCoordinateY();
+        }
+        return max;
+    }
 }
