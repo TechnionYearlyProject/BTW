@@ -65,14 +65,7 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
      */
     @Override
     public BTWWeight getWeightByTime(BTWTime time){
-        overload = TrafficLightsDataBase.getOverload(nameID, mapName);
-        BTWWeight roadOverload = null;
-        try{
-            roadOverload = BTWWeight.of(overload);
-        }catch(BTWIllegalTimeException e){
-
-        }
-        return roadOverload;
+        return getMinimumWeight();
     }
 
     /**
@@ -80,14 +73,19 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
      */
     @Override
     public BTWWeight getMinimumWeight(){
-        overload = TrafficLightsDataBase.getOverload(nameID, mapName);
+        /*overload = TrafficLightsDataBase.getOverload(nameID, mapName);
         BTWWeight roadOverload = null;
         try{
             roadOverload = BTWWeight.of(overload);
         }catch(BTWIllegalTimeException e){
 
         }
-        return roadOverload;
+        return roadOverload;*/
+        try {
+            return BTWWeight.of(0);
+        } catch (BTWIllegalTimeException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
