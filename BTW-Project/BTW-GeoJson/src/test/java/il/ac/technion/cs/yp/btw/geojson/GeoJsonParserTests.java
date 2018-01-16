@@ -15,7 +15,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -51,6 +53,7 @@ public class GeoJsonParserTests {
     private Set<TrafficLight> eachOneTraffics;
     private CentralLocation eachOneCentralLocation;
     private Set<CentralLocation> eachOneCentrals;
+    private  Set<Point> pointsOfCentralLocation = null;
     private Street eachOneStreet;
     private Set<Street> eachOneStreets;
 
@@ -61,10 +64,12 @@ public class GeoJsonParserTests {
 
     private TrafficLight multiTrafficLight1;
     private TrafficLight multiTrafficLight2;
-    private Set<TrafficLight> multiTraffics;
+    private Set<TrafficLight> multiTrafficLights;
 
     private CentralLocation multiCentralLocation1;
     private CentralLocation multiCentralLocation2;
+    private  Set<Point> pointsOfCentralLocation1 = null;
+    private  Set<Point> pointsOfCentralLocation2 = null;
     private Set<CentralLocation> multiCentrals;
 
     private Street multiStreet1;
@@ -76,7 +81,7 @@ public class GeoJsonParserTests {
      */
     public GeoJsonParserTests() throws BTWIllegalTimeException {
 
-        /************First simulator*********/
+        /************Setup variables for First simulator*********/
         simulatorOneRoad = Mockito.mock(MapSimulator.class);
         oneRoad = Mockito.mock(Road.class);
         Mockito.when(oneRoad.getRoadName())
@@ -99,7 +104,7 @@ public class GeoJsonParserTests {
         Mockito.when(simulatorOneRoad.getRoads())
                 .thenAnswer(invocation -> this.oneRoads);
 
-        /************Second simulator*********/
+        /************Setup variables for Second simulator*********/
         simulatorOneTrafficLight = Mockito.mock(MapSimulator.class);
         oneTrafficLight = Mockito.mock(TrafficLight.class);
         Mockito.when(oneTrafficLight.getCoordinateX())
@@ -116,9 +121,156 @@ public class GeoJsonParserTests {
         Mockito.when(simulatorOneTrafficLight.getRoads())
                 .thenAnswer(invocation -> this.oneTraffics);
 
-        /************Third simulator*********/
+        /************Setup variables for Third simulator*********/
+        simulatorOneFromEachObject = Mockito.mock(MapSimulator.class);
 
-        /************Fourth simulator*********/
+        //Traffic light
+        eachOneTrafficLight = Mockito.mock(TrafficLight.class);
+        Mockito.when(eachOneTrafficLight.getCoordinateX())
+                .thenReturn(3.2);
+        Mockito.when(eachOneTrafficLight.getCoordinateY())
+                .thenReturn(3.2);
+        Mockito.when(eachOneTrafficLight.getName())
+                .thenReturn("From roze st to Eve st");
+        Mockito.when(eachOneTrafficLight.getMinimumWeight())
+                .thenReturn(BTWWeight.of(0));
+
+        //Road
+        eachOneRoad = Mockito.mock(Road.class);
+        Mockito.when(eachOneRoad.getRoadName())
+                .thenReturn("eachOneRoad1");
+        Mockito.when(eachOneRoad.getSourceCrossroad().getCoordinateX())
+                .thenReturn(6.0);
+        Mockito.when(eachOneRoad.getSourceCrossroad().getCoordinateY())
+                .thenReturn(7.2);
+        Mockito.when(eachOneRoad.getDestinationCrossroad().getCoordinateX())
+                .thenReturn(5.0);
+        Mockito.when(eachOneRoad.getDestinationCrossroad().getCoordinateY())
+                .thenReturn(5.0);
+        Mockito.when(eachOneRoad.getRoadLength())
+                .thenReturn(2);
+        Mockito.when(eachOneRoad.getMinimumWeight())
+                .thenReturn(BTWWeight.of(0));
+
+        //Central location
+        eachOneCentralLocation = Mockito.mock(CentralLocation.class);
+
+        pointsOfCentralLocation.add(new PointImpl(3.0,4.0));
+        pointsOfCentralLocation.add(new PointImpl(4.0,5.0));
+        pointsOfCentralLocation.add(new PointImpl(3.0,5.0));
+        pointsOfCentralLocation.add(new PointImpl(4.0,4.0));
+
+        Mockito.when(eachOneCentralLocation.getVertices()).
+                thenReturn(pointsOfCentralLocation);
+        Mockito.when(eachOneCentralLocation.getName()).
+                thenReturn("Empire building");
+
+        //Street
+        eachOneStreet = Mockito.mock(Street.class);
+        Mockito.when(eachOneStreet.getAllRoadsInStreet()).
+                thenReturn(null);
+        Mockito.when(eachOneStreet.getStreetName()).
+                thenReturn("Roze st 3-4");
+
+
+        /************Setup variables for Fourth simulator*********/
+        simulatorMultiple = Mockito.mock(MapSimulator.class);
+
+        //Traffic light **1**
+        multiTrafficLight1 = Mockito.mock(TrafficLight.class);
+        Mockito.when(multiTrafficLight1.getCoordinateX())
+                .thenReturn(3.1);
+        Mockito.when(multiTrafficLight1.getCoordinateY())
+                .thenReturn(3.1);
+        Mockito.when(multiTrafficLight1.getName())
+                .thenReturn("From roze st to Eve st");
+        Mockito.when(multiTrafficLight1.getMinimumWeight())
+                .thenReturn(BTWWeight.of(0));
+
+        //Traffic light **2**
+        multiTrafficLight2 = Mockito.mock(TrafficLight.class);
+        Mockito.when(multiTrafficLight2.getCoordinateX())
+                .thenReturn(4.5);
+        Mockito.when(multiTrafficLight2.getCoordinateY())
+                .thenReturn(4.9);
+        Mockito.when(multiTrafficLight2.getName())
+                .thenReturn("From liz st to Eve st");
+        Mockito.when(multiTrafficLight2.getMinimumWeight())
+                .thenReturn(BTWWeight.of(0));
+
+        //Road **1**
+        multiRoad1 = Mockito.mock(Road.class);
+        Mockito.when(multiRoad1.getRoadName())
+                .thenReturn("eachOneRoad1");
+        Mockito.when(multiRoad1.getSourceCrossroad().getCoordinateX())
+                .thenReturn(6.0);
+        Mockito.when(multiRoad1.getSourceCrossroad().getCoordinateY())
+                .thenReturn(7.2);
+        Mockito.when(multiRoad1.getDestinationCrossroad().getCoordinateX())
+                .thenReturn(5.0);
+        Mockito.when(multiRoad1.getDestinationCrossroad().getCoordinateY())
+                .thenReturn(5.0);
+        Mockito.when(multiRoad1.getRoadLength())
+                .thenReturn(2);
+        Mockito.when(multiRoad1.getMinimumWeight())
+                .thenReturn(BTWWeight.of(0));
+
+        //Road **2**
+        multiRoad2 = Mockito.mock(Road.class);
+        Mockito.when(multiRoad2.getRoadName())
+                .thenReturn("eachOneRoad2");
+        Mockito.when(multiRoad2.getSourceCrossroad().getCoordinateX())
+                .thenReturn(5.0);
+        Mockito.when(multiRoad2.getSourceCrossroad().getCoordinateY())
+                .thenReturn(8.2);
+        Mockito.when(multiRoad2.getDestinationCrossroad().getCoordinateX())
+                .thenReturn(1.0);
+        Mockito.when(multiRoad2.getDestinationCrossroad().getCoordinateY())
+                .thenReturn(2.0);
+        Mockito.when(multiRoad2.getRoadLength())
+                .thenReturn(2);
+        Mockito.when(multiRoad2.getMinimumWeight())
+                .thenReturn(BTWWeight.of(0));
+
+        //Central location **1**
+        multiCentralLocation1 = Mockito.mock(CentralLocation.class);
+
+        pointsOfCentralLocation1.add(new PointImpl(3.0,4.0));
+        pointsOfCentralLocation1.add(new PointImpl(4.0,5.0));
+        pointsOfCentralLocation1.add(new PointImpl(3.0,5.0));
+        pointsOfCentralLocation1.add(new PointImpl(4.0,4.0));
+
+        Mockito.when(multiCentralLocation1.getVertices()).
+                thenReturn(pointsOfCentralLocation1);
+        Mockito.when(multiCentralLocation1.getName()).
+                thenReturn("Empire building");
+
+        //Central location **2**
+        multiCentralLocation2 = Mockito.mock(CentralLocation.class);
+
+        pointsOfCentralLocation2.add(new PointImpl(1.0,4.0));
+        pointsOfCentralLocation2.add(new PointImpl(1.0,5.0));
+        pointsOfCentralLocation2.add(new PointImpl(2.0,5.0));
+        pointsOfCentralLocation2.add(new PointImpl(2.0,4.0));
+
+        Mockito.when(multiCentralLocation2.getVertices()).
+                thenReturn(pointsOfCentralLocation2);
+        Mockito.when(multiCentralLocation2.getName()).
+                thenReturn("Post office building");
+
+        //Street **1**
+        multiStreet1 = Mockito.mock(Street.class);
+        Mockito.when(multiStreet1.getAllRoadsInStreet()).
+                thenReturn(null);
+        Mockito.when(multiStreet1.getStreetName()).
+                thenReturn("Roze st 3-4");
+
+        //Street **2**
+        multiStreet2 = Mockito.mock(Street.class);
+        Mockito.when(multiStreet2.getAllRoadsInStreet()).
+                thenReturn(null);
+        Mockito.when(multiStreet2.getStreetName()).
+                thenReturn("liz st 3-4");
 
     }
 
@@ -148,19 +300,19 @@ public class GeoJsonParserTests {
         Assert.assertEquals(emptyFile.toString(),oneTrafficLightMap);
     }
 
-    /*@Test
+    @Test
     public void oneFromEveryObjectMapTest (){
         GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
         File emptyFile = geoJsonParser.buildGeoJsonFromSimulation(simulatorOneFromEachObject);
         Assert.assertEquals(emptyFile.toString(),oneFromEveryObjectMap);
-    }*/
+    }
 
-   /* @Test
+    @Test
     public void multipleFromEveryObjectMapTest (){
         GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
         File emptyFile = geoJsonParser.buildGeoJsonFromSimulation(simulatorMultiple);
         Assert.assertEquals(emptyFile.toString(),multipleFromEveryObjectMap);
-    }*/
+    }
 
     /*
     * Clean created GeoJson file after each test have finished.
