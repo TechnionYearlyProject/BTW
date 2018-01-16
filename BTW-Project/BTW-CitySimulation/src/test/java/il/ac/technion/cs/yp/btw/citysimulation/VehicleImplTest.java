@@ -155,7 +155,7 @@ public class VehicleImplTest {
         Mockito.when(navigator.getNextRoad())
                 .thenAnswer(invocation -> routeIter.next());
 
-        // siulator
+        // simulator
         Mockito.when(simulator.getRealRoad(road1))
                 .thenAnswer(invocation -> realRoad1);
         Mockito.when(simulator.getRealRoad(road2))
@@ -196,7 +196,7 @@ public class VehicleImplTest {
     }
 
     @Test
-    public void currentRoadAndProgressTest() {
+    public void roadGettersAndProgressTest() {
         Vehicle tested = null;
         try {
             tested = new VehicleImpl(new VehicleImplTest.TestingVehicleDescriptor(), road1, 0.0, road2, 1.0, navigator, simulator, 0);
@@ -204,8 +204,27 @@ public class VehicleImplTest {
             Assert.fail();
         }
         Assert.assertNull(tested.getCurrentRoad());
+        Assert.assertEquals(road1, tested.getNextRoad());
         Assert.assertEquals(road1, tested.driveToNextRoad().getCurrentRoad());
+        Assert.assertEquals(road2, tested.getNextRoad());
         Assert.assertEquals(road2, tested.driveToNextRoad().getCurrentRoad());
+        Assert.assertNull(tested.getNextRoad());
+    }
+
+    @Test
+    public void driveOnTimeTest() {
+        Vehicle tested = null;
+        try {
+            tested = new VehicleImpl(new VehicleImplTest.TestingVehicleDescriptor(), road1, 0.0, road2, 1.0, navigator, simulator, 1);
+        } catch (PathNotFoundException e) {
+            Assert.fail();
+        }
+        Assert.assertFalse(tested.driveOnTime(0L));
+        Assert.assertNull(tested.getCurrentRoad());
+        Assert.assertEquals(road1, tested.getNextRoad());
+        Assert.assertTrue(tested.driveOnTime(1L));
+        Assert.assertEquals(road1, tested.getCurrentRoad());
+        Assert.assertEquals(road2, tested.getNextRoad());
     }
 
     @Test
@@ -235,15 +254,24 @@ public class VehicleImplTest {
     public void progressOnRoadTest() {
         Vehicle tested = null;
         try {
-            tested = new VehicleImpl(new VehicleImplTest.TestingVehicleDescriptor(), road1, 0.0, road2, 0.0, navigator, simulator, 0);
+            tested = new VehicleImpl(new VehicleImplTest.TestingVehicleDescriptor(), road1, 0.0, road2, 0.5, navigator, simulator, 0);
         } catch (PathNotFoundException e) {
             Assert.fail();
         }
         Assert.assertEquals(road1, tested.driveToNextRoad().getCurrentRoad());
-        Assert.assertEquals(new Long(2L), tested.getRemainingTimeOnRoad().seconds());
+        Assert.assertEquals(Long.valueOf(2L), tested.getRemainingTimeOnRoad().seconds());
         Assert.assertEquals(road1, tested.progressOnRoad().getCurrentRoad());
-        Assert.assertEquals(new Long(1L), tested.getRemainingTimeOnRoad().seconds());
+        Assert.assertEquals(Long.valueOf(1L), tested.getRemainingTimeOnRoad().seconds());
         Assert.assertFalse(tested.isWaitingForTrafficLight());
         Assert.assertTrue(tested.progressOnRoad().isWaitingForTrafficLight());
+        Assert.assertEquals(Long.valueOf(0L), tested.getRemainingTimeOnRoad().seconds());
+        Assert.assertEquals(Long.valueOf(1L), tested.driveToNextRoad().getRemainingTimeOnRoad().seconds());
+        Assert.assertEquals(tested, tested.progressOnRoad());
+        Assert.assertFalse(tested.isWaitingForTrafficLight());
+        Assert.assertEquals(tested, tested.progressOnRoad());
+        Assert.assertFalse(tested.isWaitingForTrafficLight());
+        Assert.assertEquals(tested, tested.progressOnRoad());
+        Assert.assertFalse(tested.isWaitingForTrafficLight());
+        Assert.assertEquals(Long.valueOf(0L), tested.getRemainingTimeOnRoad().seconds());
     }
 }

@@ -78,12 +78,6 @@ public interface Vehicle {
     BTWWeight getRemainingTimeOnRoad();
 
     /**
-     * set how much time on the current road is needed to finish it
-     * @return self
-     */
-    Vehicle setRemainingTimeOnRoad(BTWWeight timeOnRoad);
-
-    /**
      * down-count time on road
      * @return self
      */
