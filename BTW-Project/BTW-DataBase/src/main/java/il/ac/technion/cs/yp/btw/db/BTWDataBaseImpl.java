@@ -54,13 +54,13 @@ public class BTWDataBaseImpl implements BTWDataBase {
     @Override
     public Set<Road> getAllRoads() {
         // TODO
-        return null;
+        return RoadsDataBase.getAllRoads(mapName);
     }
 
     @Override
     public Set<Crossroad> getAllCrossroads() {
         // TODO
-        return null;
+        return CrossRoadsDataBase.getAllCrossRoads(mapName);
     }
 
     /**

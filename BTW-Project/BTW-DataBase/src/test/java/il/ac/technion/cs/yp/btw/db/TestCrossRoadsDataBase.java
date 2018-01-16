@@ -30,8 +30,9 @@ public class TestCrossRoadsDataBase {
         Iterator<Crossroad> iterator = allCrossRoads.iterator();
         //System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
-            assertNotNull(iterator.next());
-            //System.out.println(iterator.next().toString());
+            Crossroad c = iterator.next();
+            assertNotNull(c);
+            //System.out.println(c.toString());
         }
         MainDataBase.closeConnection();
     }

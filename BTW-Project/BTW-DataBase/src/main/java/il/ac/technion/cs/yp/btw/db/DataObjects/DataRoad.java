@@ -11,6 +11,7 @@ import il.ac.technion.cs.yp.btw.classes.BTWTime;
  * default implementation for the interface Road
  */
 public class DataRoad implements Road {
+    private long DEFAULT_SPEED_LIMIT = 50;
     private String mapName;
     private String name;
     private int roadLength;
@@ -111,14 +112,13 @@ public class DataRoad implements Road {
     @Override
     public BTWWeight getMinimumWeight() {
 
-        overload = RoadsDataBase.getOverload(name, mapName);
-        BTWWeight roadOverload = null;
+//        overload = RoadsDataBase.getOverload(name, mapName);
+        overload = Double.valueOf(this.getRoadLength() / (3.6 * DEFAULT_SPEED_LIMIT)).longValue();
         try{
-            roadOverload = BTWWeight.of(overload);
+            return BTWWeight.of(overload);
         }catch(BTWIllegalTimeException e){
-
+            throw new RuntimeException(e);
         }
-        return roadOverload;
     }
 
     @Override
