@@ -23,7 +23,7 @@ public class CitySimulatorImpl implements CitySimulator {
     private long clock;
 
     private class CityRoadImpl implements CityRoad {
-        private static final double DEFAULT_CAPACITY_PER_METER = 0.45;
+        private static final double DEFAULT_CAPACITY_PER_METER = 0.4;
         private static final int DEFAULT_SPEED_LIMIT = 50;
         private final String name;
         private final int length;
@@ -116,10 +116,8 @@ public class CitySimulatorImpl implements CitySimulator {
 
         @Override
         public BTWWeight getCurrentWeight() {
-            // TODO: better
             double currSpeed = getSpeed();
             Double time = this.length/currSpeed;
-            Double dWeight = (((vehicles.size() - 1) / length) + 1) * (double) minWeight.seconds();
             try {
                 return BTWWeight.of(time.longValue());
             } catch (BTWIllegalTimeException e) {
@@ -136,7 +134,7 @@ public class CitySimulatorImpl implements CitySimulator {
          */
         private double getSpeed() {
             //TODO: use this.speedLimit, this.capacity, this.vehicles.size() for calculations
-            return 1;
+            return 3.6 * this.speedLimit * (1.0 - (this.vehicles.size() / this.capacity));
         }
 
         /**
