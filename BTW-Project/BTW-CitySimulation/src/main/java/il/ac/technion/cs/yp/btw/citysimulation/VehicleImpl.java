@@ -102,8 +102,8 @@ public class VehicleImpl implements Vehicle {
         return driveOnRoad(this.simulator.getRealRoad(this.navigator.getNextRoad()), this.sourceRoadRatio, 1.0);
     }
 
-    public Vehicle driveOnLast() {
-        return driveOnRoad(this.simulator.getRealRoad(this.navigator.getNextRoad()), 0.0, this.destinationRoadRatio);
+    public Vehicle driveOnLastRoad() {
+        return driveOnRoad(this.destination, 0.0, this.destinationRoadRatio);
     }
 
     /**
@@ -136,7 +136,7 @@ public class VehicleImpl implements Vehicle {
         this.currentRoad = this.nextRoad;
         if (this.currentRoad.equals(this.destination)) {
             this.nextRoad = null;
-            this.driveOnLast();
+            this.driveOnLastRoad();
         } else {
             this.nextRoad = this.navigator.getNextRoad();
             this.driveOnRoad(this.currentRoad);
