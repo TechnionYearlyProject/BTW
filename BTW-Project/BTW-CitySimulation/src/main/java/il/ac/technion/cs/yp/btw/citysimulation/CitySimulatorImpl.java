@@ -3,6 +3,7 @@ package il.ac.technion.cs.yp.btw.citysimulation;
 import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.navigation.NaiveNavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
+import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import il.ac.technion.cs.yp.btw.trafficlights.NaiveTrafficLightManager;
 import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
@@ -261,6 +262,11 @@ public class CitySimulatorImpl implements CitySimulator {
             return this.minimumOpenTime;
         }
 
+        @Override
+        public TrafficLightState getState() {
+            return this.state;
+        }
+
         /**
          * @return StatisticalData of current object
          */
@@ -302,7 +308,7 @@ public class CitySimulatorImpl implements CitySimulator {
                     break;
                 }
             }
-            CityTrafficLight realTL = LiveCity.getRealTrafficLight(toWaitOn);
+            CityTrafficLight realTL = getRealTrafficLight(toWaitOn);
             realTL.addVehicle(vehicle);
             return this;
         }
@@ -318,7 +324,7 @@ public class CitySimulatorImpl implements CitySimulator {
         public CityCrossroad tick() {
             this.trafficLights
                     .forEach(trafficLight
-                            -> LiveCity.getRealTrafficLight(trafficLight).tick());
+                            -> getRealTrafficLight(trafficLight).tick());
             return this;
         }
 
@@ -388,20 +394,24 @@ public class CitySimulatorImpl implements CitySimulator {
         }
     }
 
-    public CitySimulatorImpl(BTWDataBase db){
+    CitySimulatorImpl(Set<Road> roads, Set<TrafficLight> trafficLights, Set<Crossroad> crossroads, NavigationManager navigationManager){
         this.roads = new HashMap<>();
         this.trafficLights = new HashMap<>();
         this.crossroads = new HashMap<>();
-        // TODO: add these methods to db
-//        db.getAllRoads().forEach(this::getRealTrafficLight);
-        db.getAllTrafficLights().forEach(this::getRealTrafficLight);
-//        db.getAllCrossrods().forEach(this::getRealTrafficLight);
+
+        roads.forEach(this::getRealRoad);
+        trafficLights.forEach(this::getRealTrafficLight);
+        crossroads.forEach(this::getRealCrossroad);
 
         this.vehicles = new HashSet<>();
         this.vehiclesToEnter = new HashSet<>();
-        this.navigationManager = new NaiveNavigationManager(db);
+        this.navigationManager = navigationManager;
         this.trafficLightManager = new NaiveTrafficLightManager(new HashSet<>(this.crossroads.values()));
         this.clock = 0;
+    }
+
+    public CitySimulatorImpl(BTWDataBase db) {
+        this(db.getAllRoads(), db.getAllTrafficLights(), db.getAllCrossroads(), new NaiveNavigationManager(db));
     }
 
     @Override

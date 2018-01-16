@@ -27,14 +27,14 @@ public interface BTWDataBase {
     CentralLocation getCentralLocationByName(String locationName);
 
     /**
-     * returns all Roads which are next to the
-     * given CenralLocation
-     * @param centralLocation - the location we
-     *                          are looking for
-     * @return Set of Roads, which have the location
-     *         on them
+     * @return all roads in the DB
      */
-    Set<Road> getAllRoadsNextToCentralLocation(CentralLocation centralLocation);
+    Set<Road> getAllRoads();
+
+    /**
+     * @return all crossroads in the DB
+     */
+    Set<Crossroad> getAllCrossroads();
 
     /**
      * for future use, implementation not yet decided
