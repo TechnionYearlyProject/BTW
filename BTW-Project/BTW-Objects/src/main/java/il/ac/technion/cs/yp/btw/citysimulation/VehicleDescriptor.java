@@ -6,4 +6,7 @@ public interface VehicleDescriptor extends Comparable<VehicleDescriptor> {
 
     @Override
     boolean equals(Object o);
+
+    @Override
+    int hashCode();
 }

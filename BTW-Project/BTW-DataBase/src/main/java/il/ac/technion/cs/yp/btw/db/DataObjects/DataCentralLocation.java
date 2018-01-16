@@ -14,12 +14,12 @@ public class DataCentralLocation extends  CentralLocation{
     private String street;
     private String mapName;
 
-    DataCentralLocation(String name, String street, String mapName) {
+    /*DataCentralLocation(String name, String street, String mapName) {     WHY NEEDED?
 
         this(new HashSet<Point>(), name, street, mapName);
         this.mapName = mapName;
         this.street = street;
-    }
+    }*/
 
     public DataCentralLocation(Set<Point> vertices, String name, String street, String mapName) {
         super(vertices, name);

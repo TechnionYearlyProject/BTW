@@ -1,41 +1,51 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
-import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.classes.BTWIllegalTimeException;
+import il.ac.technion.cs.yp.btw.classes.BTWWeight;
+import il.ac.technion.cs.yp.btw.classes.Crossroad;
+import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 
-import java.util.Set;
-
+/**
+ * Created by Guy Rephaeli on 15-Jan-18.
+ * implementation of Vehicle
+ */
 public class VehicleImpl implements Vehicle {
-
     private VehicleDescriptor descriptor;
     private Road currentRoad;
     private Road nextRoad;
     private Road destination;
-//    private Double sourceRoadRatio;
-//    private Double destinationRoadRatio;
+    private Double sourceRoadRatio;
+    private Double destinationRoadRatio;
     private Navigator navigator;
     private Long remainingTimeOnRoad;
     private boolean isWaitingOnTrafficLight;
+    private CitySimulator simulator;
+    private long startTime;
 
     public VehicleImpl(VehicleDescriptor descriptor,
                        Road source, double sourceRoadRatio,
                        Road destination, double destinationRoadRatio,
-                       Navigator navigator) throws PathNotFoundException{
+                       Navigator navigator, CitySimulator simulator, long startTime) throws PathNotFoundException {
         this.descriptor = descriptor;
         this.destination = destination;
-//        this.sourceRoadRatio = sourceRoadRatio;
-//        this.destinationRoadRatio = destinationRoadRatio;
+        this.sourceRoadRatio = sourceRoadRatio;
+        this.destinationRoadRatio = destinationRoadRatio;
         this.navigator = navigator;
         this.currentRoad = null;
         this.nextRoad = navigator.getNextRoad();
         this.remainingTimeOnRoad = 0L;
         this.isWaitingOnTrafficLight = false;
+        this.simulator = simulator;
+        this.startTime = startTime;
     }
 
     private Vehicle leaveRoad(Road rd) {
-        CityRoad realRoad = LiveCity.getRealRoad(rd);
-        realRoad.removeVehicle(this);
+        if (rd != null) {
+            CityRoad realRoad = this.simulator.getRealRoad(rd);
+            realRoad.removeVehicle(this);
+        }
         return this;
     }
 
@@ -57,6 +67,11 @@ public class VehicleImpl implements Vehicle {
         return this.currentRoad;
     }
 
+    @Override
+    public Road getNextRoad() {
+        return this.nextRoad;
+    }
+
     /**
      * @return the destination Road of this Vehicle
      */
@@ -76,38 +91,41 @@ public class VehicleImpl implements Vehicle {
      */
     @Override
     public Vehicle driveOnRoad(Road rd, double ratioStart, double ratioEnd) {
-        CityRoad realRoad = LiveCity.getRealRoad(rd);
+        CityRoad realRoad = this.simulator.getRealRoad(rd);
+        BTWWeight weight = realRoad.getCurrentWeight();
+        this.remainingTimeOnRoad = Double.valueOf((ratioEnd - ratioStart) * weight.seconds()).longValue();
         realRoad.addVehicle(this);
         return this;
+    }
+
+    public Vehicle driveOnFirstRoad() {
+        Road prev = this.currentRoad;
+        this.leaveRoad(prev);
+        this.isWaitingOnTrafficLight = false;
+        this.currentRoad = this.nextRoad;
+        if (this.currentRoad.equals(this.destination)) {
+            this.nextRoad = null;
+            return driveOnRoad(currentRoad, this.sourceRoadRatio, this.destinationRoadRatio);
+        }
+        this.nextRoad = this.navigator.getNextRoad();
+        return driveOnRoad(currentRoad, this.sourceRoadRatio, 1.0);
+    }
+
+    public Vehicle driveOnLastRoad() {
+        return driveOnRoad(this.destination, 0.0, this.destinationRoadRatio);
     }
 
     /**
      * puts this Vehicle in wait on the given TrafficLight
      * until the TrafficLight is GREEN and this Vehicle
      * is at the top of the TrafficLight's lane
-     * TODO probably should send the wait request for the
-     * TODO     Crossroad to manage all of the TrafficLights and
-     * TODO     probably also have to waitqueues in him, instead
-     * TODO     of the TrafficLights
-     * TODO another approach can be an interface like the
-     * TODO     Navigator for each Vehicle to do the TrafficLight
-     * TODO     talking
-     *
      * @param crossroad - the Crossroad containing the TrafficLight this Vehicle is waiting on
      */
     @Override
     public Vehicle waitOnTrafficLight(Crossroad crossroad) {
-        Set<TrafficLight> possibleTrafficLights = crossroad.getTrafficLightsFromRoad(this.currentRoad);
-        TrafficLight toWaitOn = null;
-        for (TrafficLight trafficLight : possibleTrafficLights) {
-            if (trafficLight.getDestinationRoad().equals(this.nextRoad)) {
-                toWaitOn = trafficLight;
-                break;
-            }
-        }
+        CityCrossroad realCrossroad = this.simulator.getRealCrossroad(crossroad);
         this.isWaitingOnTrafficLight = true;
-        CityTrafficLight realTL = LiveCity.getRealTrafficLight(toWaitOn);
-        realTL.addVehicle(this);
+        realCrossroad.addVehicle(this);
         return this;
     }
 
@@ -120,66 +138,50 @@ public class VehicleImpl implements Vehicle {
     }
 
     @Override
-    public Vehicle progressRoad() {
+    public Vehicle driveToNextRoad() {
         Road prev = this.currentRoad;
+        this.leaveRoad(prev);
+        this.isWaitingOnTrafficLight = false;
         this.currentRoad = this.nextRoad;
         if (this.currentRoad.equals(this.destination)) {
             this.nextRoad = null;
+            this.driveOnLastRoad();
         } else {
             this.nextRoad = this.navigator.getNextRoad();
+            this.driveOnRoad(this.currentRoad);
         }
-        this.leaveRoad(prev);
-        this.isWaitingOnTrafficLight = false;
-        this.driveOnRoad(this.currentRoad);
         return this;
     }
 
     @Override
-    public Vehicle setRemainingTimeOnRoad(BTWWeight timeOnRoad) {
-        this.remainingTimeOnRoad = timeOnRoad.seconds();
-        return this;
+    public BTWWeight getRemainingTimeOnRoad() {
+        try {
+            return BTWWeight.of(this.remainingTimeOnRoad);
+        } catch(BTWIllegalTimeException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Vehicle progressOnRoad() {
-        this.remainingTimeOnRoad--;
-        if (this.remainingTimeOnRoad == 0L) {
+        if (this.remainingTimeOnRoad > 0) {
+            this.remainingTimeOnRoad--;
+        }
+        if (this.remainingTimeOnRoad <= 0) {
+            if (this.currentRoad.equals(this.destination)) {
+                return this;
+            }
             waitOnTrafficLight(currentRoad.getDestinationCrossroad());
         }
         return this;
     }
 
-    /**
-     * When an object implementing interface <code>Runnable</code> is used
-     * to create a thread, starting the thread causes the object's
-     * <code>run</code> method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method <code>run</code> is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
-
     @Override
-    public void run() {
-        // may not be useful anymore
-        /*TODO
-        at the beginning of driving every Road, check if
-        it is the destination Road, if not, drive from the location
-        on the Road to the end of it, if the destination is on this Road,
-        drive only to the needed ratio.
-        when you finish a road you ask the Navigator the next Road
-        and you wait on the needed TrafficLight accordingly.
-        you wait on it until the same TrafficLight is GREEN
-        and you are at the top of the lane.
-        and back to the beginning of this pseudo - code
-         */
-        Road currRoad = this.navigator.getNextRoad();
-        while (! currRoad.equals(destination)) {
-            driveOnRoad(currRoad);
-            // TODO: more...
-
+    public boolean driveOnTime(long now) {
+        if (this.startTime > now) {
+            return false;
         }
+        driveOnFirstRoad();
+        return true;
     }
 }

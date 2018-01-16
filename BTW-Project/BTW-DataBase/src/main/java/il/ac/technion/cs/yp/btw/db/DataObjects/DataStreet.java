@@ -41,7 +41,7 @@ public class DataStreet implements Street {
      * @param rd - the added Road
      */
     public Street addRoad(Road rd){
-        // TODO: Implement
+        roads.add(rd);
         return this;
     }
 

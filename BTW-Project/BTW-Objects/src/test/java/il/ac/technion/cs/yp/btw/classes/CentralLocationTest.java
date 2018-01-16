@@ -2,8 +2,6 @@ package il.ac.technion.cs.yp.btw.classes;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -34,10 +32,11 @@ public class CentralLocationTest {
         Assert.assertEquals("", tested.toString());
         tested = new CentralLocation(this.vertices, "Tested");
         String[] verticesNames = tested.toString().split(" ");
-        List<String> verticeslist = new ArrayList<>(Arrays.asList(verticesNames));
-        Assert.assertEquals(2, verticeslist.size());
-        Assert.assertTrue(verticeslist.contains("il.ac.technion.cs.yp.btw.classes.PointImpl@bff00000"));
-        Assert.assertTrue(verticeslist.contains("il.ac.technion.cs.yp.btw.classes.PointImpl@f82a6e9d"));
+        List<String> vertexList = new ArrayList<>(Arrays.asList(verticesNames));
+        Assert.assertEquals(2, vertexList.size());
+        for (Point vertex : vertices) {
+            Assert.assertTrue(vertexList.contains(vertex.toString()));
+        }
     }
 
     @Test
