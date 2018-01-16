@@ -44,13 +44,10 @@ public class MapGraphics {
             Circle circle = new Circle(point.getCoordinateX(), point.getCoordinateY(),0.01);
             System.out.println("original X : "+currTrafficLight.getCoordinateX()+"original Y : "+currTrafficLight.getCoordinateY());
             System.out.println("X : "+point.getCoordinateX()+"Y : "+point.getCoordinateY());
-            if(x%2==0){
-                circle.setFill(Color.RED);
-            }
-            else {
+            if (currTrafficLight.getState() == CityTrafficLight.TrafficLightState.GREEN)
                 circle.setFill(Color.GREEN);
-            }
-            circle.setFill(Color.RED);
+            else
+                circle.setFill(Color.RED);
             circle.setOnMouseClicked(event -> {System.out.println(currTrafficLight.getName());});
             circles.add(new Pair(circle,currTrafficLight.getName()));
             x++;

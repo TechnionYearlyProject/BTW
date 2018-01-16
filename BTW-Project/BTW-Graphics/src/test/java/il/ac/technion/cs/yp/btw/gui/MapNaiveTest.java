@@ -80,6 +80,12 @@ public class MapNaiveTest {
         Mockito.when(trafficLight.getName())
                 .thenReturn("t");
 
+        Mockito.when(trafficLight.getSourceRoad())
+                .thenReturn(road1);
+
+        Mockito.when(trafficLight.getDestinationRoad())
+                .thenReturn(road2);
+
         Mockito.when(trafficLight.getState())
                 .thenReturn(CityTrafficLight.TrafficLightState.GREEN);
 
@@ -91,7 +97,7 @@ public class MapNaiveTest {
                 .thenReturn(this.trafficLights);
     }
 
-    MapNaiveTest() {
+    public MapNaiveTest() {
         this.roads = new HashSet<>();
         this.trafficLights = new HashSet<>();
         this.cityMap = Mockito.mock(CityMap.class);
@@ -99,6 +105,8 @@ public class MapNaiveTest {
         this.road2 = Mockito.mock(CityRoad.class);
         this.trafficLight = Mockito.mock(CityTrafficLight.class);
         this.crossroad = Mockito.mock(CityCrossroad.class);
+        this.crossroad1 = Mockito.mock(CityCrossroad.class);
+        this.crossroad2 = Mockito.mock(CityCrossroad.class);
         this.roads.add(road1);
         this.roads.add(road2);
         this.trafficLights.add(trafficLight);

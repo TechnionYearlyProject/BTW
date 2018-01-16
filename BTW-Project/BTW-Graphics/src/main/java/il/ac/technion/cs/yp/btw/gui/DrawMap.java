@@ -50,7 +50,7 @@ public class DrawMap extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Drawing Operations Test");
         root = new BorderPane();
-        //canvas = new Canvas(640, 640);
+        canvas = new Canvas(640, 640);
         //root.getChildren().add(canvas); // add plain canvas
 
         //GridCityMapSimulator k = new GridCityMapSimulator();
@@ -76,15 +76,17 @@ public class DrawMap extends Application {
     }
 
     public DrawMap draw(CityMap cityMap) {
+        Set<Circle> circles = new HashSet<Circle>();
+        Set<Line> lines = new HashSet<Line>();
         Set<CityRoad> cityRoads = cityMap.getAllRoads();
         Set<CityTrafficLight> cityTrafficLights = cityMap.getAllTrafficLights();
         MapGraphics map = new MapGraphics(cityTrafficLights,cityRoads);
         for (Pair<Line,String> line: map.getLines()) {
-            root.getChildren().add(line.getKey());
+            lines.add(line.getKey());
         }
         // add all circles
         for (Pair<Circle,String> circle: map.getCircles()) {
-            root.getChildren().add(circle.getKey());
+            circles.add(circle.getKey());
         }
         return this;
     }
