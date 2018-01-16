@@ -40,8 +40,12 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
 
     @Override
     public Set<TrafficLight> getTrafficLightsFromRoad(Road road) {
-        // TODO: Implement
-        return null;
+        Set<TrafficLight> trafficLights = new HashSet<>();
+        for (TrafficLight currTraficLight: this.trafficLights) {
+            if (currTraficLight.getSourceRoad().getRoadName().equals(road.getRoadName()))
+                trafficLights.add(currTraficLight);
+        }
+        return trafficLights;
     }
 
     /**
