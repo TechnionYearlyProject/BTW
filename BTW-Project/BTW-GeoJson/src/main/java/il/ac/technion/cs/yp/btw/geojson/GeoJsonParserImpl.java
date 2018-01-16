@@ -122,7 +122,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
     @Override
     public String toStringTrafficLightFull(TrafficLight trafficLight) {
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
-                "[["+trafficLight.getCoordinateX()+","+trafficLight.getCoordinateY()+"]},"+
+                "["+trafficLight.getCoordinateX()+","+trafficLight.getCoordinateY()+"]},"+
                 "\"properties\":{"+"\"name\":"+"\""+trafficLight.getName()+"\","+
                 "\"overload\":"+"\""+trafficLight.getMinimumWeight()+"\"}},\n";
     }
