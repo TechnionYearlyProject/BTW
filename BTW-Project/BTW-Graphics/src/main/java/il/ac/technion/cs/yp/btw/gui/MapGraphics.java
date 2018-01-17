@@ -1,20 +1,31 @@
 package il.ac.technion.cs.yp.btw.gui;
 import il.ac.technion.cs.yp.btw.citysimulation.CityRoad;
 import il.ac.technion.cs.yp.btw.citysimulation.CityTrafficLight;
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import il.ac.technion.cs.yp.btw.classes.*;
+import javafx.util.Duration;
 import javafx.util.Pair;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -81,8 +92,48 @@ public class MapGraphics {
             separateline.setStrokeWidth(0.005);
             lines.add(new Pair(roadLine,currRoad.getRoadName()));
             lines.add(new Pair(separateline,currRoad.getRoadName()));
+
+            roadLine.setOnMouseClicked(event -> {
+                int length = currRoad.getRoadLength();
+                //double averageSpeed;
+                // int numOfCars;
+                Node anchor = null;
+                String switchTo = "/fxml/road_real_time_statistics.fxml";
+                Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+                try {
+                    URL resource = getClass().getResource(switchTo);
+                    transitionAnimationAndSwitch(switchTo, stageTheEventSourceNodeBelongs, resource, anchor);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
         }
     }
+
+    public static void transitionAnimationAndSwitch(String fxmlLocation, Stage stageTheEventSourceNodeBelongs,
+                                                    URL resource, Node rootNode) throws IOException {
+        Parent root;
+        root = FXMLLoader.load(resource);
+        int length = 300;
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(length), rootNode);
+        fadeOut.setFromValue(1.0);
+        fadeOut.setToValue(0.0);
+        fadeOut.setOnFinished(event1 -> {
+                    FadeTransition fadeIn = new FadeTransition(Duration.millis(length), root);
+                    fadeIn.setFromValue(0.0);
+                    fadeIn.setToValue(1.0);
+                    fadeIn.play();
+                    DoubleProperty opacity = root.opacityProperty();
+                    opacity.set(0);
+                    Scene scene = new Scene(root);
+                    stageTheEventSourceNodeBelongs.setScene(scene);
+                }
+        );
+        fadeOut.play();
+    }
+
 
     public List<Pair<Circle,String>> getCircles() {
         return circles;
