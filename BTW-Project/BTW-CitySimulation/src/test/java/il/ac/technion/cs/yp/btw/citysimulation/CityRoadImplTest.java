@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Testing LiveRoad
+ * Testing CityRoadImpl
  */
 public class CityRoadImplTest {
     private CitySimulator simulator;

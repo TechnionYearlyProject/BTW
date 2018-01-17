@@ -488,6 +488,7 @@ public class CitySimulatorImpl implements CitySimulator {
         long startFromNow = 1;
         for (VehicleDescriptor descriptor : vehicleDescriptors) {
             added.add(addVehicleOnTime(descriptor, source, sourceRoadRatio, destination, destinationRoadRatio, this.clock + startFromNow));
+            startFromNow += interval;
         }
         return added;
     }
@@ -511,6 +512,7 @@ public class CitySimulatorImpl implements CitySimulator {
      */
     @Override
     public CitySimulator tick() {
+        this.clock++;
         roads.values().forEach(CityRoad::tick);
         this.trafficLightManager.tick();
         Set<Vehicle> drivingVehicles = new HashSet<>();
@@ -521,7 +523,6 @@ public class CitySimulatorImpl implements CitySimulator {
         });
         this.vehiclesToEnter.removeAll(drivingVehicles);
         this.vehicles.addAll(drivingVehicles);
-        this.clock++;
         return this;
     }
 

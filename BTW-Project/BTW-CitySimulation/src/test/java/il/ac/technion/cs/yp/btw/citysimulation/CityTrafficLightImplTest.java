@@ -12,13 +12,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Testing LiveTrafficLight
+ * Testing CityTrafficLightImpl
  */
 public class CityTrafficLightImplTest {
     private CitySimulator simulator;
-    private Set<Road> roads;
-    private Set<TrafficLight> trafficLights;
-    private Set<Crossroad> crossroads;
     private NavigationManager navigationManager;
     private Navigator navigator;
     private VehicleDescriptor descriptor;
@@ -122,14 +119,14 @@ public class CityTrafficLightImplTest {
         } catch(PathNotFoundException e) {
             throw new RuntimeException(e);
         }
-        this.roads = new HashSet<>();
-        this.roads.add(this.road1);
-        this.roads.add(this.road2);
-        this.trafficLights = new HashSet<>();
-        this.trafficLights.add(this.trafficLight);
-        this.crossroads = new HashSet<>();
-        this.crossroads.add(this.crossroad);
-        this.simulator = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, navigationManager);
+        Set<Road> roads = new HashSet<>();
+        roads.add(this.road1);
+        roads.add(this.road2);
+        Set<TrafficLight> trafficLights = new HashSet<>();
+        trafficLights.add(this.trafficLight);
+        Set<Crossroad> crossroads = new HashSet<>();
+        crossroads.add(this.crossroad);
+        this.simulator = new CitySimulatorImpl(roads, trafficLights, crossroads, navigationManager);
     }
 
     @Before
@@ -171,7 +168,7 @@ public class CityTrafficLightImplTest {
         Assert.assertFalse(this.ticked);
         tested.tick();
         Assert.assertFalse(this.ticked);
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < tested.getMinimumOpenTime() - 5; i++) {
             tested.tick();
             try {
                 tested.setTrafficLightState(CityTrafficLight.TrafficLightState.RED);
