@@ -3,6 +3,7 @@ package il.ac.technion.cs.yp.btw.db.queries;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/*get from data base a road's  overload*/
 public class QueryOverloadOfRoad extends Query {
 
     public QueryOverloadOfRoad(String mapName, String nameID) {

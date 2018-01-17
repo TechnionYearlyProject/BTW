@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
+/*get from the data base a centeral location by its name*/
 public class QueryCentralLocation extends Query {
 
     public QueryCentralLocation(String mapName, String nameID){

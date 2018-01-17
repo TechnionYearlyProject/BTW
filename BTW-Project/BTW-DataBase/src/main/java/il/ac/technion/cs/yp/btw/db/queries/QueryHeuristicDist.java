@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 /**
  * Created by shay on 08/01/2018.
+ * gets from the data base the distance between two roads.
  */
 public class QueryHeuristicDist extends Query{
     public QueryHeuristicDist(String mapName, String srcID, String dstID) {

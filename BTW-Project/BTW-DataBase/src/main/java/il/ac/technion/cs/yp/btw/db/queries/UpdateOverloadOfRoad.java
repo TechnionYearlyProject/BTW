@@ -9,6 +9,7 @@ import il.ac.technion.cs.yp.btw.classes.PointImpl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/*update a road's overload in the data base*/
 public class UpdateOverloadOfRoad extends Query {
 
     public UpdateOverloadOfRoad(String mapName, String nameID, long overload) {
