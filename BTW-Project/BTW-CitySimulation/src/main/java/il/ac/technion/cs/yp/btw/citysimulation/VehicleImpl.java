@@ -99,11 +99,20 @@ public class VehicleImpl implements Vehicle {
     }
 
     public Vehicle driveOnFirstRoad() {
-        return driveOnRoad(this.simulator.getRealRoad(this.navigator.getNextRoad()), this.sourceRoadRatio, 1.0);
+        Road prev = this.currentRoad;
+        this.leaveRoad(prev);
+        this.isWaitingOnTrafficLight = false;
+        this.currentRoad = this.nextRoad;
+        if (this.currentRoad.equals(this.destination)) {
+            this.nextRoad = null;
+            return driveOnRoad(currentRoad, this.sourceRoadRatio, this.destinationRoadRatio);
+        }
+        this.nextRoad = this.navigator.getNextRoad();
+        return driveOnRoad(currentRoad, this.sourceRoadRatio, 1.0);
     }
 
-    public Vehicle driveOnLast() {
-        return driveOnRoad(this.simulator.getRealRoad(this.navigator.getNextRoad()), 0.0, this.destinationRoadRatio);
+    public Vehicle driveOnLastRoad() {
+        return driveOnRoad(this.destination, 0.0, this.destinationRoadRatio);
     }
 
     /**
@@ -136,12 +145,11 @@ public class VehicleImpl implements Vehicle {
         this.currentRoad = this.nextRoad;
         if (this.currentRoad.equals(this.destination)) {
             this.nextRoad = null;
-            this.driveOnLast();
+            this.driveOnLastRoad();
         } else {
             this.nextRoad = this.navigator.getNextRoad();
             this.driveOnRoad(this.currentRoad);
         }
-
         return this;
     }
 
@@ -155,14 +163,10 @@ public class VehicleImpl implements Vehicle {
     }
 
     @Override
-    public Vehicle setRemainingTimeOnRoad(BTWWeight timeOnRoad) {
-        this.remainingTimeOnRoad = timeOnRoad.seconds();
-        return this;
-    }
-
-    @Override
     public Vehicle progressOnRoad() {
-        this.remainingTimeOnRoad--;
+        if (this.remainingTimeOnRoad > 0) {
+            this.remainingTimeOnRoad--;
+        }
         if (this.remainingTimeOnRoad <= 0) {
             if (this.currentRoad.equals(this.destination)) {
                 return this;

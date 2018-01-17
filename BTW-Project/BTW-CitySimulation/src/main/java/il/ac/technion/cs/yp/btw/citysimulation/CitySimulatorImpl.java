@@ -3,6 +3,7 @@ package il.ac.technion.cs.yp.btw.citysimulation;
 import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.navigation.NaiveNavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
+import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import il.ac.technion.cs.yp.btw.trafficlights.NaiveTrafficLightManager;
 import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
@@ -22,7 +23,7 @@ public class CitySimulatorImpl implements CitySimulator {
     private long clock;
 
     private class CityRoadImpl implements CityRoad {
-        private static final double DEFAULT_CAPACITY_PER_METER = 0.45;
+        private static final double DEFAULT_CAPACITY_PER_METER = 0.4;
         private static final int DEFAULT_SPEED_LIMIT = 50;
         private final String name;
         private final int length;
@@ -95,7 +96,6 @@ public class CitySimulatorImpl implements CitySimulator {
         @Override
         public CityRoad addVehicle(Vehicle vehicle) {
             this.vehicles.add(vehicle);
-//            vehicle.setRemainingTimeOnRoad(getCurrentWeight());
             return this;
         }
 
@@ -107,18 +107,14 @@ public class CitySimulatorImpl implements CitySimulator {
 
         @Override
         public CityRoad tick() {
-            for (Vehicle vehicle : vehicles) {
-                vehicle.driveToNextRoad();
-            }
+            vehicles.forEach(Vehicle::progressOnRoad);
             return this;
         }
 
         @Override
         public BTWWeight getCurrentWeight() {
-            // TODO: better
             double currSpeed = getSpeed();
             Double time = this.length/currSpeed;
-            Double dWeight = (((vehicles.size() - 1) / length) + 1) * (double) minWeight.seconds();
             try {
                 return BTWWeight.of(time.longValue());
             } catch (BTWIllegalTimeException e) {
@@ -134,8 +130,7 @@ public class CitySimulatorImpl implements CitySimulator {
          * @return actual speed on the road, in m/s
          */
         private double getSpeed() {
-            //TODO: use this.speedLimit, this.capacity, this.vehicles.size() for calculations
-            return 1;
+            return (this.speedLimit * (1.0 - (((double) this.vehicles.size()) / ((double) this.capacity)))) / 3.6;
         }
 
         /**
@@ -224,7 +219,9 @@ public class CitySimulatorImpl implements CitySimulator {
                 if (timeOpen < minimumOpenTime) {
                     throw new IllegalStateException();//TODO better exception
                 } else {
-                    this.timeOpen = this.state.equals(TrafficLightState.RED) ? 0 : this.timeOpen;
+                    this.timeOpen = 0;
+//                    this.timeOpen = this.state.equals(TrafficLightState.RED) ? 0 : this.timeOpen;
+                    this.totalThroughputInCurrentGreen = this.throughput;
                 }
             }
             this.state = state;
@@ -242,7 +239,8 @@ public class CitySimulatorImpl implements CitySimulator {
             if (state.equals(TrafficLightState.GREEN)) {
                 this.timeOpen++;
                 if ((!vehicles.isEmpty())) {
-                    while (this.totalThroughputInCurrentGreen > 1.0) {
+                    this.totalThroughputInCurrentGreen += this.throughput;
+                    while (this.totalThroughputInCurrentGreen >= 1.0) {
                         Vehicle vehicle = vehicles.poll();
                         vehicle.driveToNextRoad();
                         this.totalThroughputInCurrentGreen -= 1.0;
@@ -259,6 +257,11 @@ public class CitySimulatorImpl implements CitySimulator {
         @Override
         public int getMinimumOpenTime() {
             return this.minimumOpenTime;
+        }
+
+        @Override
+        public TrafficLightState getState() {
+            return this.state;
         }
 
         /**
@@ -302,7 +305,7 @@ public class CitySimulatorImpl implements CitySimulator {
                     break;
                 }
             }
-            CityTrafficLight realTL = LiveCity.getRealTrafficLight(toWaitOn);
+            CityTrafficLight realTL = getRealTrafficLight(toWaitOn);
             realTL.addVehicle(vehicle);
             return this;
         }
@@ -318,7 +321,7 @@ public class CitySimulatorImpl implements CitySimulator {
         public CityCrossroad tick() {
             this.trafficLights
                     .forEach(trafficLight
-                            -> LiveCity.getRealTrafficLight(trafficLight).tick());
+                            -> getRealTrafficLight(trafficLight).tick());
             return this;
         }
 
@@ -388,20 +391,24 @@ public class CitySimulatorImpl implements CitySimulator {
         }
     }
 
-    public CitySimulatorImpl(BTWDataBase db){
+    CitySimulatorImpl(Set<Road> roads, Set<TrafficLight> trafficLights, Set<Crossroad> crossroads, NavigationManager navigationManager){
         this.roads = new HashMap<>();
         this.trafficLights = new HashMap<>();
         this.crossroads = new HashMap<>();
-        // TODO: add these methods to db
-//        db.getAllRoads().forEach(this::getRealTrafficLight);
-        db.getAllTrafficLights().forEach(this::getRealTrafficLight);
-//        db.getAllCrossrods().forEach(this::getRealTrafficLight);
+
+        roads.forEach(this::getRealRoad);
+        trafficLights.forEach(this::getRealTrafficLight);
+        crossroads.forEach(this::getRealCrossroad);
 
         this.vehicles = new HashSet<>();
         this.vehiclesToEnter = new HashSet<>();
-        this.navigationManager = new NaiveNavigationManager(db);
+        this.navigationManager = navigationManager;
         this.trafficLightManager = new NaiveTrafficLightManager(new HashSet<>(this.crossroads.values()));
         this.clock = 0;
+    }
+
+    public CitySimulatorImpl(BTWDataBase db) {
+        this(db.getAllRoads(), db.getAllTrafficLights(), db.getAllCrossroads(), new NaiveNavigationManager(db));
     }
 
     @Override
@@ -481,6 +488,7 @@ public class CitySimulatorImpl implements CitySimulator {
         long startFromNow = 1;
         for (VehicleDescriptor descriptor : vehicleDescriptors) {
             added.add(addVehicleOnTime(descriptor, source, sourceRoadRatio, destination, destinationRoadRatio, this.clock + startFromNow));
+            startFromNow += interval;
         }
         return added;
     }
@@ -504,9 +512,8 @@ public class CitySimulatorImpl implements CitySimulator {
      */
     @Override
     public CitySimulator tick() {
-        for (CityRoad road : roads.values()) {
-            road.tick();
-        }
+        this.clock++;
+        roads.values().forEach(CityRoad::tick);
         this.trafficLightManager.tick();
         Set<Vehicle> drivingVehicles = new HashSet<>();
         this.vehiclesToEnter.forEach(vehicle -> {
@@ -516,7 +523,6 @@ public class CitySimulatorImpl implements CitySimulator {
         });
         this.vehiclesToEnter.removeAll(drivingVehicles);
         this.vehicles.addAll(drivingVehicles);
-        this.clock++;
         return this;
     }
 

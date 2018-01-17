@@ -20,6 +20,10 @@ public class BTWDataBaseImpl implements BTWDataBase {
         this.updatedHeuristics = false;
     }
 
+    /**
+     * close the connection to the cloud DB. need to close on end of run.
+     * @param mapName - the name of the current map
+     */
     public void closeDataBaseConnection(String mapName){
         MainDataBase.closeConnection();
     }
@@ -52,21 +56,28 @@ public class BTWDataBaseImpl implements BTWDataBase {
     }
 
     /**
-     * returns all Roads which are next to the
-     * given CenralLocation
-     * @param centralLocation - the location we
-     *                          are looking for
-     * @return Set of Roads, which have the location
-     *         on them
+     * get all roads in data base
+     * @return set of all roads in data base
      */
     @Override
-    public Set<Road> getAllRoadsNextToCentralLocation(CentralLocation centralLocation){
-        //return centralLocationsDataBase.getAllCentralLocations();
-        return null;
+    public Set<Road> getAllRoads() {
+        // TODO
+        return RoadsDataBase.getAllRoads(mapName);
+    }
+
+    /**
+     * get all crossroads in data base
+     * @return set of all crossroads in data base
+     */
+    @Override
+    public Set<Crossroad> getAllCrossroads() {
+        // TODO
+        return CrossRoadsDataBase.getAllCrossRoads(mapName);
     }
 
     /**
      * for future use, implementation not yet decided
+     * NOT FOR THIS SEMESTER
      */
     @Override
     public BTWDataBase updateWeight(){
@@ -74,6 +85,11 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return this;
     }
 
+    /**
+     * Save map to DataBase from geoJson
+     * @param geoJson - string containing the map represented in Json
+     * @return this object
+     */
     @Override
     public BTWDataBase saveMap(String geoJson) {
         String createTraffic = "DROP TABLE IF EXISTS "+ mapName + "TrafficLight;\n"+
@@ -155,6 +171,10 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return this;
     }
 
+    /**
+     * update the heuristics table for the specific map in DB
+     * @return this object
+     */
     @Override
     public BTWDataBase updateHeuristics() {
         if(this.updatedHeuristics)

@@ -1,4 +1,6 @@
 package il.ac.technion.cs.yp.btw.gui;
+import il.ac.technion.cs.yp.btw.citysimulation.CityRoad;
+import il.ac.technion.cs.yp.btw.citysimulation.CityTrafficLight;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -22,7 +24,7 @@ public class MapGraphics {
     private List<Pair<Circle,String>> circles;
     private List<Pair<Line,String>> lines;
 
-    MapGraphics(Set<TrafficLight> trafficLights, Set<Road> roads) {
+    MapGraphics(Set<CityTrafficLight> trafficLights, Set<CityRoad> roads) {
         this.circles = new ArrayList<>();
         this.lines = new ArrayList<>();
 
@@ -35,20 +37,18 @@ public class MapGraphics {
      * @param trafficLights - trafficlights in the map
      */
     //TODO: change the color according to real time loads.
-    private void createCircles(Set<TrafficLight> trafficLights) {
+    private void createCircles(Set<CityTrafficLight> trafficLights) {
         int x=0;
-        for (TrafficLight currTrafficLight: trafficLights) {
+        for (CityTrafficLight currTrafficLight: trafficLights) {
             Point point = calculateTrafficLightLocation(currTrafficLight.getSourceRoad());
             Circle circle = new Circle(point.getCoordinateX(), point.getCoordinateY(),0.01);
             System.out.println("original X : "+currTrafficLight.getCoordinateX()+"original Y : "+currTrafficLight.getCoordinateY());
             System.out.println("X : "+point.getCoordinateX()+"Y : "+point.getCoordinateY());
-            if(x%2==0){
-                circle.setFill(Color.RED);
-            }
-            else {
+            if (currTrafficLight.getState() == CityTrafficLight.TrafficLightState.GREEN)
                 circle.setFill(Color.GREEN);
-            }
-            circle.setFill(Color.RED);
+            else
+                circle.setFill(Color.RED);
+            circle.setOnMouseClicked(event -> {System.out.println(currTrafficLight.getName());});
             circles.add(new Pair(circle,currTrafficLight.getName()));
             x++;
         }
@@ -58,9 +58,9 @@ public class MapGraphics {
      * creating the array of lines to represent roads
      * @param roads - roads in the map
      */
-    private void createLines(Set<Road> roads) {
+    private void createLines(Set<CityRoad> roads) {
 
-        HashSet<Road> l_roads = new HashSet<Road>();
+        HashSet<CityRoad> l_roads = new HashSet<>();
         for (Road currRoad: roads) {
 
             double deviationAngle = 0.0;

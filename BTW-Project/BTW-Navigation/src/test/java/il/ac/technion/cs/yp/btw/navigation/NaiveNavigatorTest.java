@@ -66,7 +66,13 @@ public class NaiveNavigatorTest {
         }
 
         @Override
-        public Set<Road> getAllRoadsNextToCentralLocation(CentralLocation centralLocation) {
+        public Set<Road> getAllRoads() {
+            // TODO
+            return null;
+        }
+
+        @Override
+        public Set<Crossroad> getAllCrossroads() {
             return null;
         }
 
