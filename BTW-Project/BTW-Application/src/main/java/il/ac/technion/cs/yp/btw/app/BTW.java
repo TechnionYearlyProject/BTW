@@ -22,7 +22,8 @@ public class BTW extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/traffic_light_management.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/road_real_time_statistics.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("/fxml/traffic_light_management.fxml"));
         //Parent root = FXMLLoader.load(getClass().getResource("/fxml/home_layout.fxml"));
 
         Scene scene = new Scene(root);
