@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
+/*get from the data base all the roads*/
 public class QueryAllRoads extends Query{
 
     public QueryAllRoads(String mapName){

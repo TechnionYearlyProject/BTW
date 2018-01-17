@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
+/*get from data base an overload on a traffic light by its name*/
 public class QueryOverloadOfTrafficLight extends Query {
     public QueryOverloadOfTrafficLight(String mapName, String nameID) {
         super(mapName);

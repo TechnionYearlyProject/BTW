@@ -39,7 +39,7 @@ public class MapGraphics {
     //TODO: change the color according to real time loads.
     private void createCircles(Set<CityTrafficLight> trafficLights) {
         int x=0;
-        for (TrafficLight currTrafficLight: trafficLights) {
+        for (CityTrafficLight currTrafficLight: trafficLights) {
             Point point = calculateTrafficLightLocation(currTrafficLight);
             Circle circle = new Circle(point.getCoordinateX(), point.getCoordinateY(),0.01);
             System.out.println("original X : "+currTrafficLight.getCoordinateX()+"original Y : "+currTrafficLight.getCoordinateY());

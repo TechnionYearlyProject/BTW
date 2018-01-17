@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Set;
 import java.util.HashSet;
 
+/*get from the data base all the coordinates which has traffic lights on them. retuen them in a form of a point.*/
 public class QueryAllTrafficLightPositions extends Query{
 
     public QueryAllTrafficLightPositions(String mapName){

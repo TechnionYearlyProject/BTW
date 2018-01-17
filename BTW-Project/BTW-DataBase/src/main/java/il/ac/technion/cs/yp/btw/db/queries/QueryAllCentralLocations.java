@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
+/*get from the data base all the central locations*/
 public class QueryAllCentralLocations extends Query{
 
     public QueryAllCentralLocations(String mapName){

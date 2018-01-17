@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.Set;
 import java.util.HashSet;
 
+/*get from the data base all traffic lights*/
 public class QueryAllTrafficLights extends Query{
 
     public QueryAllTrafficLights(String mapName){

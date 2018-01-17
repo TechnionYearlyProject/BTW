@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.Set;
 import java.util.HashSet;
 
+/*get from data base a cross road by its position*/
 public class QueryCrossRoad extends Query{
 
     private Point position;

@@ -9,6 +9,7 @@ import il.ac.technion.cs.yp.btw.classes.PointImpl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/*get from data base a road by its name*/
 public class QueryRoad extends Query {
 
     public QueryRoad(String mapName, String nameID) {

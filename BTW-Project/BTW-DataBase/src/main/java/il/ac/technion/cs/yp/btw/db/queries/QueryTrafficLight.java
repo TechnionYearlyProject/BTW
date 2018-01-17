@@ -9,6 +9,7 @@ import il.ac.technion.cs.yp.btw.classes.PointImpl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/*get from data base a traffic light by its name*/
 public class QueryTrafficLight extends Query {
 
     public QueryTrafficLight(String mapName, String nameID) {

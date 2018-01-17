@@ -18,5 +18,8 @@ public abstract class Query {
         return query;
     }
 
+    /*this method is called from "queryDataBaseServer" which is a method in "MainDataBase" class
+    * take the result set that received from the data base and build the data objects.
+    * return the data objects it has created.*/
     public abstract Object arrangeRecievedData(ResultSet resultSet);
 }

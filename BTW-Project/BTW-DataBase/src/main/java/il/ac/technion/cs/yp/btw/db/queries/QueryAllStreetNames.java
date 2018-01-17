@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
+/*get from the data base all the street names*/
 public class QueryAllStreetNames extends Query{
 
     public QueryAllStreetNames(String mapName){
