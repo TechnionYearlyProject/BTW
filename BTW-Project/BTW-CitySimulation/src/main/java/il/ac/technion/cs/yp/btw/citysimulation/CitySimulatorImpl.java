@@ -96,7 +96,6 @@ public class CitySimulatorImpl implements CitySimulator {
         @Override
         public CityRoad addVehicle(Vehicle vehicle) {
             this.vehicles.add(vehicle);
-//            vehicle.setRemainingTimeOnRoad(getCurrentWeight());
             return this;
         }
 
@@ -108,9 +107,7 @@ public class CitySimulatorImpl implements CitySimulator {
 
         @Override
         public CityRoad tick() {
-            for (Vehicle vehicle : vehicles) {
-                vehicle.progressOnRoad();
-            }
+            vehicles.forEach(Vehicle::progressOnRoad);
             return this;
         }
 
@@ -133,13 +130,7 @@ public class CitySimulatorImpl implements CitySimulator {
          * @return actual speed on the road, in m/s
          */
         private double getSpeed() {
-            //TODO: use this.speedLimit, this.capacity, this.vehicles.size() for calculations
-//            double ratio = (double) this.vehicles.size() / (double) this.capacity;
-//            double perc = 1.0 - ratio;
-//            double kmph = this.speedLimit * perc;
-//            double mps = kmph / 3.6;
             return (this.speedLimit * (1.0 - (((double) this.vehicles.size()) / ((double) this.capacity)))) / 3.6;
-//            return mps;
         }
 
         /**
@@ -228,7 +219,9 @@ public class CitySimulatorImpl implements CitySimulator {
                 if (timeOpen < minimumOpenTime) {
                     throw new IllegalStateException();//TODO better exception
                 } else {
-                    this.timeOpen = this.state.equals(TrafficLightState.RED) ? 0 : this.timeOpen;
+                    this.timeOpen = 0;
+//                    this.timeOpen = this.state.equals(TrafficLightState.RED) ? 0 : this.timeOpen;
+                    this.totalThroughputInCurrentGreen = this.throughput;
                 }
             }
             this.state = state;
@@ -246,7 +239,8 @@ public class CitySimulatorImpl implements CitySimulator {
             if (state.equals(TrafficLightState.GREEN)) {
                 this.timeOpen++;
                 if ((!vehicles.isEmpty())) {
-                    while (this.totalThroughputInCurrentGreen > 1.0) {
+                    this.totalThroughputInCurrentGreen += this.throughput;
+                    while (this.totalThroughputInCurrentGreen >= 1.0) {
                         Vehicle vehicle = vehicles.poll();
                         vehicle.driveToNextRoad();
                         this.totalThroughputInCurrentGreen -= 1.0;
@@ -517,9 +511,7 @@ public class CitySimulatorImpl implements CitySimulator {
      */
     @Override
     public CitySimulator tick() {
-        for (CityRoad road : roads.values()) {
-            road.tick();
-        }
+        roads.values().forEach(CityRoad::tick);
         this.trafficLightManager.tick();
         Set<Vehicle> drivingVehicles = new HashSet<>();
         this.vehiclesToEnter.forEach(vehicle -> {

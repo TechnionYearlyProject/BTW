@@ -2,12 +2,10 @@ package il.ac.technion.cs.yp.btw.citysimulation;
 
 import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
-import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -20,14 +18,7 @@ import java.util.Set;
  */
 public class CityRoadImplTest {
     private CitySimulator simulator;
-    private Set<Road> roads;
-    private Set<TrafficLight> trafficLights;
-    private Set<Crossroad> crossroads;
-    private NavigationManager navigationManager;
-    private Navigator navigator;
-    private VehicleDescriptor descriptor;
     private Road road;
-    private List<Road> route;
     private Crossroad crossroad1;
     private Crossroad crossroad2;
     private TrafficLight trafficLight1;
@@ -41,10 +32,6 @@ public class CityRoadImplTest {
     private boolean ticked;
 
     private void configMock() throws PathNotFoundException {
-        // navigationManager
-        Mockito.when(navigationManager.getNavigator(this.descriptor, road, 0.0, road, 1.0))
-                .thenAnswer(invocation -> this.navigator);
-
         //crossroad2
         Mockito.when(crossroad2.getTrafficLightsFromRoad(road))
                 .thenAnswer( invocation -> {
@@ -87,9 +74,6 @@ public class CityRoadImplTest {
                 .thenReturn(250);
 
         // vehicle
-        Mockito.when(vehicle.getVehicleDescriptor())
-                .thenReturn(this.descriptor);
-
         Mockito.when(vehicle.progressOnRoad())
                 .thenAnswer(invocation -> {
                     this.ticked = true;
@@ -98,15 +82,12 @@ public class CityRoadImplTest {
     }
 
     public CityRoadImplTest() {
-        this.route = new ArrayList<>();
-        this.descriptor = Mockito.mock(VehicleDescriptor.class);
         this.road = Mockito.mock(Road.class);
         this.crossroad1 = Mockito.mock(Crossroad.class);
         this.crossroad2 = Mockito.mock(Crossroad.class);
         this.trafficLight1 = Mockito.mock(TrafficLight.class);
         this.trafficLight2 = Mockito.mock(TrafficLight.class);
-        this.navigationManager = Mockito.mock(NavigationManager.class);
-        this.navigator = Mockito.mock(Navigator.class);
+
         this.vehicle= Mockito.mock(Vehicle.class);
         this.v2= Mockito.mock(Vehicle.class);
         this.v3= Mockito.mock(Vehicle.class);
@@ -119,14 +100,14 @@ public class CityRoadImplTest {
         } catch(PathNotFoundException e) {
             throw new RuntimeException(e);
         }
-        this.route.add(road);
-        this.roads = new HashSet<>();
-        this.roads.add(this.road);
-        this.trafficLights = new HashSet<>();
-        this.trafficLights.add(this.trafficLight1);
-        this.trafficLights.add(this.trafficLight2);
-        this.crossroads = new HashSet<>();
-        this.simulator = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, navigationManager);
+        Set<Road> roads = new HashSet<>();
+        roads.add(this.road);
+        Set<TrafficLight> trafficLights = new HashSet<>();
+        trafficLights.add(this.trafficLight1);
+        trafficLights.add(this.trafficLight2);
+        Set<Crossroad> crossroads = new HashSet<>();
+        NavigationManager navigationManager = Mockito.mock(NavigationManager.class);
+        this.simulator = new CitySimulatorImpl(roads, trafficLights, crossroads, navigationManager);
     }
 
     @Before
