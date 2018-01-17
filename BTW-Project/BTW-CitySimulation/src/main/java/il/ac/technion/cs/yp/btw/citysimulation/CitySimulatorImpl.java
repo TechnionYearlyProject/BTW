@@ -109,7 +109,7 @@ public class CitySimulatorImpl implements CitySimulator {
         @Override
         public CityRoad tick() {
             for (Vehicle vehicle : vehicles) {
-                vehicle.driveToNextRoad();
+                vehicle.progressOnRoad();
             }
             return this;
         }
@@ -134,7 +134,12 @@ public class CitySimulatorImpl implements CitySimulator {
          */
         private double getSpeed() {
             //TODO: use this.speedLimit, this.capacity, this.vehicles.size() for calculations
-            return 3.6 * this.speedLimit * (1.0 - (this.vehicles.size() / this.capacity));
+//            double ratio = (double) this.vehicles.size() / (double) this.capacity;
+//            double perc = 1.0 - ratio;
+//            double kmph = this.speedLimit * perc;
+//            double mps = kmph / 3.6;
+            return (this.speedLimit * (1.0 - (((double) this.vehicles.size()) / ((double) this.capacity)))) / 3.6;
+//            return mps;
         }
 
         /**

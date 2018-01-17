@@ -5,6 +5,7 @@ import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -31,10 +32,15 @@ public class CityRoadImplTest {
     private Crossroad crossroad2;
     private TrafficLight trafficLight1;
     private TrafficLight trafficLight2;
+    private Vehicle vehicle;
+    private Vehicle v2;
+    private Vehicle v3;
+    private Vehicle v4;
+    private Vehicle v5;
+    private Vehicle v6;
+    private boolean ticked;
 
-    void configMock() throws PathNotFoundException {
-        ArgumentCaptor<Vehicle> captorV = ArgumentCaptor.forClass(Vehicle.class);
-
+    private void configMock() throws PathNotFoundException {
         // navigationManager
         Mockito.when(navigationManager.getNavigator(this.descriptor, road, 0.0, road, 1.0))
                 .thenAnswer(invocation -> this.navigator);
@@ -61,7 +67,7 @@ public class CityRoadImplTest {
         Mockito.when(trafficLight1.getDestinationRoad())
                 .thenReturn(null);
 
-        // road1
+        // road
         Mockito.when(road.getRoadName())
                 .thenReturn("r-1");
 
@@ -76,9 +82,22 @@ public class CityRoadImplTest {
 
         Mockito.when(road.getDestinationCrossroad())
                 .thenReturn(crossroad2);
+
+        Mockito.when(road.getRoadLength())
+                .thenReturn(250);
+
+        // vehicle
+        Mockito.when(vehicle.getVehicleDescriptor())
+                .thenReturn(this.descriptor);
+
+        Mockito.when(vehicle.progressOnRoad())
+                .thenAnswer(invocation -> {
+                    this.ticked = true;
+                    return this.vehicle;
+                });
     }
 
-    CityRoadImplTest() {
+    public CityRoadImplTest() {
         this.route = new ArrayList<>();
         this.descriptor = Mockito.mock(VehicleDescriptor.class);
         this.road = Mockito.mock(Road.class);
@@ -88,6 +107,13 @@ public class CityRoadImplTest {
         this.trafficLight2 = Mockito.mock(TrafficLight.class);
         this.navigationManager = Mockito.mock(NavigationManager.class);
         this.navigator = Mockito.mock(Navigator.class);
+        this.vehicle= Mockito.mock(Vehicle.class);
+        this.v2= Mockito.mock(Vehicle.class);
+        this.v3= Mockito.mock(Vehicle.class);
+        this.v4= Mockito.mock(Vehicle.class);
+        this.v5= Mockito.mock(Vehicle.class);
+        this.v6= Mockito.mock(Vehicle.class);
+        this.ticked = false;
         try {
             this.configMock();
         } catch(PathNotFoundException e) {
@@ -103,54 +129,81 @@ public class CityRoadImplTest {
         this.simulator = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, navigationManager);
     }
 
+    @Before
+    public void setUp() {
+        this.ticked = false;
+    }
+
     @Test
     public void isStreetNumberInRangeTest() {
+        // TODO
 //        CityRoad tested = this.simulator.getRealRoad(road);
-//        Assert.assertNull(tested.isStreetNumberInRange(0));
+//        Assert.assertFalse(tested.isStreetNumberInRange(0));
     }
 
     @Test
     public void getRoadLengthTest() {
-
+        CityRoad tested = this.simulator.getRealRoad(road);
+        Assert.assertEquals(250, tested.getRoadLength());
     }
 
     @Test
     public void getRoadNameTest() {
-
+        CityRoad tested = this.simulator.getRealRoad(road);
+        Assert.assertEquals("r-1", tested.getRoadName());
     }
 
     @Test
     public void getStreetTest() {
-
+        CityRoad tested = this.simulator.getRealRoad(road);
+        Assert.assertNull(tested.getStreet());
     }
 
     @Test
     public void getSourceCrossroadTest() {
-
+        CityRoad tested = this.simulator.getRealRoad(road);
+        Assert.assertEquals(this.crossroad1, tested.getSourceCrossroad());
     }
 
     @Test
     public void getDestinationCrossroadTest() {
-
+        CityRoad tested = this.simulator.getRealRoad(road);
+        Assert.assertEquals(this.crossroad2, tested.getDestinationCrossroad());
     }
 
     @Test
-    public void addVehicleTest() {
-
-    }
-
-    @Test
-    public void removeVehicleTest() {
-
-    }
-
-    @Test
-    public void tickTest() {
-
+    public void vehicleAndTickTest() {
+        CityRoad tested = this.simulator.getRealRoad(road);
+        Assert.assertNotNull(tested.addVehicle(this.vehicle));
+        Assert.assertFalse(ticked);
+        tested.tick();
+        Assert.assertTrue(ticked);
+        tested.removeVehicle(this.vehicle);
+        this.ticked = false;
+        tested.tick();
+        Assert.assertFalse(ticked);
     }
 
     @Test
     public void getCurrentWeightTest() {
+        CityRoad tested = this.simulator.getRealRoad(road);
+        Assert.assertEquals(Long.valueOf(18), tested.getCurrentWeight().seconds());
+        tested.addVehicle(this.vehicle);
+        Assert.assertEquals(Long.valueOf(18), tested.getCurrentWeight().seconds());
+        tested.addVehicle(this.v2);
+        Assert.assertEquals(Long.valueOf(18), tested.getCurrentWeight().seconds());
+        tested.addVehicle(this.v3);
+        Assert.assertEquals(Long.valueOf(18), tested.getCurrentWeight().seconds());
+        tested.addVehicle(this.v4);
+        Assert.assertEquals(Long.valueOf(18), tested.getCurrentWeight().seconds());
+        tested.addVehicle(this.v5);
+        Assert.assertEquals(Long.valueOf(18), tested.getCurrentWeight().seconds());
+        tested.addVehicle(this.v6);
+        Assert.assertEquals(Long.valueOf(19), tested.getCurrentWeight().seconds());
+    }
+
+    @Test
+    public void getStatisticalDataTest() {
         // TODO
     }
 }
