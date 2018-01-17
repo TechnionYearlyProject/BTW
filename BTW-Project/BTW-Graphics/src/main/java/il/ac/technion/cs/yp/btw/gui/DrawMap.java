@@ -42,6 +42,8 @@ public class DrawMap extends Application {
     private static final double MIN_SCALE = .1d;
     Canvas canvas;
     BorderPane root;
+    Set<Circle> circles;
+    Set<Line> lines = new HashSet<Line>();
     public static void main(String[] args) {
         launch(args);
     }
@@ -51,11 +53,14 @@ public class DrawMap extends Application {
         primaryStage.setTitle("Drawing Operations Test");
         root = new BorderPane();
         canvas = new Canvas(640, 640);
-        //root.getChildren().add(canvas); // add plain canvas
+        root.getChildren().add(canvas); // add plain canvas
 
         //GridCityMapSimulator k = new GridCityMapSimulator();
         //FreeFormMapSimulator k = new FreeFormMapSimulator();
         //k.build();
+
+        //CityMap cityMap = getCityMap()....
+        //draw(cityMap);
 
         final Affine accumulatedScales = new Affine();
         accumulatedScales.appendScale(100,100);
@@ -76,8 +81,8 @@ public class DrawMap extends Application {
     }
 
     public DrawMap draw(CityMap cityMap) {
-        Set<Circle> circles = new HashSet<Circle>();
-        Set<Line> lines = new HashSet<Line>();
+        circles = new HashSet<Circle>();
+        lines = new HashSet<Line>();
         Set<CityRoad> cityRoads = cityMap.getAllRoads();
         Set<CityTrafficLight> cityTrafficLights = cityMap.getAllTrafficLights();
         MapGraphics map = new MapGraphics(cityTrafficLights,cityRoads);

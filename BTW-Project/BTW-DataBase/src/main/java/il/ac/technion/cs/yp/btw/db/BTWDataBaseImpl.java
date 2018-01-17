@@ -20,6 +20,10 @@ public class BTWDataBaseImpl implements BTWDataBase {
         this.updatedHeuristics = false;
     }
 
+    /**
+     * close the connection to the cloud DB. need to close on end of run.
+     * @param mapName - the name of the current map
+     */
     public void closeDataBaseConnection(String mapName){
         MainDataBase.closeConnection();
     }
@@ -51,12 +55,20 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return CentralLocationsDataBase.getCentralLocation(locationName, mapName);
     }
 
+    /**
+     * get all roads in data base
+     * @return set of all roads in data base
+     */
     @Override
     public Set<Road> getAllRoads() {
         // TODO
         return RoadsDataBase.getAllRoads(mapName);
     }
 
+    /**
+     * get all crossroads in data base
+     * @return set of all crossroads in data base
+     */
     @Override
     public Set<Crossroad> getAllCrossroads() {
         // TODO
@@ -65,6 +77,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
 
     /**
      * for future use, implementation not yet decided
+     * NOT FOR THIS SEMESTER
      */
     @Override
     public BTWDataBase updateWeight(){
@@ -72,6 +85,11 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return this;
     }
 
+    /**
+     * Save map to DataBase from geoJson
+     * @param geoJson - string containing the map represented in Json
+     * @return this object
+     */
     @Override
     public BTWDataBase saveMap(String geoJson) {
         String createTraffic = "DROP TABLE IF EXISTS "+ mapName + "TrafficLight;\n"+
@@ -153,6 +171,10 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return this;
     }
 
+    /**
+     * update the heuristics table for the specific map in DB
+     * @return this object
+     */
     @Override
     public BTWDataBase updateHeuristics() {
         if(this.updatedHeuristics)

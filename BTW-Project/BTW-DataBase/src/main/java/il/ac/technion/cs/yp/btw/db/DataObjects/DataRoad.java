@@ -113,7 +113,7 @@ public class DataRoad implements Road {
     public BTWWeight getMinimumWeight() {
 
 //        overload = RoadsDataBase.getOverload(name, mapName);
-        overload = Double.valueOf(this.getRoadLength() / (3.6 * DEFAULT_SPEED_LIMIT)).longValue();
+        overload = Double.valueOf(this.getRoadLength() / (DEFAULT_SPEED_LIMIT / 3.6)).longValue();
         try{
             return BTWWeight.of(overload);
         }catch(BTWIllegalTimeException e){
