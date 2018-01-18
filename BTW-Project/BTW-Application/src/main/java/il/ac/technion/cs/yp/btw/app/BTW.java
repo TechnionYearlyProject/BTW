@@ -1,6 +1,10 @@
 package il.ac.technion.cs.yp.btw.app;
 
 import com.jfoenix.controls.JFXButton;
+import il.ac.technion.cs.yp.btw.citysimulation.CityMap;
+import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
+import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
+//import il.ac.technion.cs.yp.btw.gui.DrawMap;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -62,5 +66,10 @@ public class BTW extends Application {
         stage.setTitle("JFX Button Demo");
         stage.setScene(scene);
         stage.show();
+
+        //CitySimulator simulator = new CitySimulatorImpl(db);
+        //DrawMap mapDrawer = new DrawMap();
+        //CityMap map = simulator.saveMap();
+       // mapDrawer.draw(map);
     }
 }

@@ -18,21 +18,21 @@ public class RoadData extends StatisticalData {
     /**
      * @return the length of the road in meters
      */
-    int getRoadLength() {
+    public int getRoadLength() {
         return this.length;
     }
 
     /**
      * @return the average speed on the road in km/h
      */
-    double getAverageSpeed() {
+    public double getAverageSpeed() {
         return this.speed;
     }
 
     /**
      * @return the current number of vehicles on the road
      */
-    int getNumOfVehicles() {
+    public int getNumOfVehicles() {
         return this.numOfVehicles;
     }
 }

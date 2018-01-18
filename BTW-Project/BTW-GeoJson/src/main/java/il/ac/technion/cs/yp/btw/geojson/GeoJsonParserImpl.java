@@ -23,6 +23,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
         Set<Crossroad> crossRoads = simulator.getCrossRoads();
         Set<CentralLocation> centralLocations = simulator.getCentralLocations();
 
+        //TODO: multiple files? add random number to map name?
         File file = new File("JsonFile.json");
 
         try {

@@ -10,7 +10,7 @@
 
 <?import javafx.scene.text.Text?>
 <AnchorPane prefHeight="250.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/8.0.112"
-            xmlns:fx="http://javafx.com/fxml/1">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.ac.technion.cs.yp.btw.app.RoadRealTimeStatisticsController">
 
     <children>
         <Text layoutX="31.0" layoutY="50.0" text="Real Time Statistics" wrappingWidth="200.0">

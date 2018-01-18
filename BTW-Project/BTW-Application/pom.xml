@@ -23,5 +23,20 @@
             <artifactId>jfoenix</artifactId>
             <version>1.10.0</version>
         </dependency>
+        <dependency>
+            <groupId>il.ac.technion.cs.yp</groupId>
+            <artifactId>btw-objects</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>il.ac.technion.cs.yp</groupId>
+            <artifactId>btw-citysimulation</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>il.ac.technion.cs.yp</groupId>
+            <artifactId>btw-graphics</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>
