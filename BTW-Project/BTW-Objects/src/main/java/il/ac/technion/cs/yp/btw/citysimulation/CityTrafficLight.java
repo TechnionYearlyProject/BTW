@@ -5,7 +5,7 @@ import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 /**
  * Interface for the real TrafficLight operating unit - not just a data passing class
  */
-public interface CityTrafficLight extends TrafficLight, StatisticsProviding {
+public interface CityTrafficLight extends TrafficLight, StatisticsProviding<TrafficLightData> {
     /**
      * TrafficLightState enum to describe the
      * different state the TrafficLight can

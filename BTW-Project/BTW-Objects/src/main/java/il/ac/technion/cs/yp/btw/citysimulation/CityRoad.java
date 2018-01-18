@@ -6,7 +6,7 @@ import il.ac.technion.cs.yp.btw.classes.Road;
 /**
  * Interface for the real Road operating unit - not just a data passing class
  */
-public interface CityRoad extends Road, StatisticsProviding {
+public interface CityRoad extends Road, StatisticsProviding<RoadData> {
     /**
      * @return current Weight on this Road
      */
