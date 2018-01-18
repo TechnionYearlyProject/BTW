@@ -5,7 +5,7 @@ import il.ac.technion.cs.yp.btw.classes.Crossroad;
 /**
  * Interface for the real Crossroad operating unit - not just a data passing class
  */
-public interface CityCrossroad extends Crossroad, StatisticsProviding {
+public interface CityCrossroad extends Crossroad, StatisticsProviding<CrossroadData> {
     /**
      * add a Vehicle to this Crossroad
      * @param vehicle - the Vehicle to be added

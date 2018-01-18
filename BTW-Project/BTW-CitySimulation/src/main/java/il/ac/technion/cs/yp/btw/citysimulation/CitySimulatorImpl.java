@@ -137,7 +137,7 @@ public class CitySimulatorImpl implements CitySimulator {
          * @return StatisticalData of current object
          */
         @Override
-        public StatisticalData getStatisticalData() {
+        public RoadData getStatisticalData() {
             // TODO
             return null;
         }
@@ -268,7 +268,7 @@ public class CitySimulatorImpl implements CitySimulator {
          * @return StatisticalData of current object
          */
         @Override
-        public StatisticalData getStatisticalData() {
+        public TrafficLightData getStatisticalData() {
             // TODO
             return null;
         }
@@ -385,7 +385,7 @@ public class CitySimulatorImpl implements CitySimulator {
          * @return StatisticalData of current object
          */
         @Override
-        public StatisticalData getStatisticalData() {
+        public CrossroadData getStatisticalData() {
             // TODO
             return null;
         }

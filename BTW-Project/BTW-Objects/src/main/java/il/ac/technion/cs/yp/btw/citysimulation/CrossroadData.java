@@ -1,0 +1,7 @@
+package il.ac.technion.cs.yp.btw.citysimulation;
+
+/**
+ * Created by Guy Rephaeli on 18-Jan-18.
+ */
+public class CrossroadData extends StatisticalData {
+}
