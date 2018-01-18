@@ -2,6 +2,7 @@ package il.ac.technion.cs.yp.btw.citysimulation;
 
 /**
  * Created by Guy Rephaeli on 18-Jan-18.
+ * Class for transferring statistical data about roads
  */
 public class RoadData extends StatisticalData {
     private int length;
@@ -14,15 +15,24 @@ public class RoadData extends StatisticalData {
         this.numOfVehicles = numOfVehicles;
     }
 
+    /**
+     * @return the length of the road in meters
+     */
+    int getRoadLength() {
+        return this.length;
+    }
+
+    /**
+     * @return the average speed on the road in km/h
+     */
     double getAverageSpeed() {
         return this.speed;
     }
 
-    double getRoadLength() {
-        return this.length;
-    }
-
-    double getNumOfVehicles() {
+    /**
+     * @return the current number of vehicles on the road
+     */
+    int getNumOfVehicles() {
         return this.numOfVehicles;
     }
 }

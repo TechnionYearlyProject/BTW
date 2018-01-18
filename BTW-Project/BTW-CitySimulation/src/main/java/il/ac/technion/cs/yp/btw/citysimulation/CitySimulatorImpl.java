@@ -138,8 +138,7 @@ public class CitySimulatorImpl implements CitySimulator {
          */
         @Override
         public RoadData getStatisticalData() {
-            // TODO
-            return null;
+            return new RoadData(this.length, this.getSpeed() * 3.6, this.vehicles.size());
         }
     }
 
