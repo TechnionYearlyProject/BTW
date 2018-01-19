@@ -1,5 +1,7 @@
 package il.ac.technion.cs.yp.btw.app;
 
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXComboBox;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -34,6 +36,8 @@ public class HomeController implements Initializable {
     private RadioButton free_form_radio = new RadioButton("free_form_radio");
     private boolean rbgrid_radio = false;
     private boolean rbfree_form_radio = false;
+    @FXML
+    private JFXComboBox chooseMapCombo;
 
     @FXML
     private Node anchor;
@@ -77,6 +81,7 @@ public class HomeController implements Initializable {
                 }
             }
         });
+        chooseMapCombo.setStyle("-fx-font: 15px \"Arial\";");
     }
 
     private void switchScreens(ActionEvent event, String fxmlLocation) {

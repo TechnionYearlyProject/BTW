@@ -220,7 +220,6 @@ public class CitySimulatorImplTest {
         Assert.assertEquals(Long.valueOf(1), vehicle2.getRemainingTimeOnRoad().seconds());
         Assert.assertFalse(vehicle2.isWaitingForTrafficLight());
         tested.tick();
-        Assert.assertTrue(vehicle1.isWaitingForTrafficLight());
         Assert.assertTrue(vehicle2.isWaitingForTrafficLight());
     }
 

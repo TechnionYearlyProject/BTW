@@ -93,12 +93,12 @@ public class MapGraphics {
                 RoadData roadData = currRoad.getStatisticalData();
                 int length = roadData.getRoadLength();
                 double averageSpeed = roadData.getAverageSpeed();
-                 int numOfVehicles = roadData.getNumOfVehicles();
-                Node anchor = null;
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/road_real_time_statistics.fxml"));
-                RoadRealTimeStatisticsController roadRealTimeStatisticsController = fxmlLoader.getController();
+                int numOfVehicles = roadData.getNumOfVehicles();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/road_real_time_statistics.fxml"));
                 try {
-                    roadRealTimeStatisticsController.generateView(length,averageSpeed,numOfVehicles);
+                    Parent root = fxmlLoader.load();
+                    RoadRealTimeStatisticsController roadRealTimeStatisticsController = fxmlLoader.getController();
+                    roadRealTimeStatisticsController.generateView(length,averageSpeed,numOfVehicles, root);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

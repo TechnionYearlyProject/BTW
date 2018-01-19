@@ -164,6 +164,7 @@ public class VehicleImpl implements Vehicle {
 
     @Override
     public Vehicle progressOnRoad() {
+        long prevRemainingTime = this.remainingTimeOnRoad;
         if (this.remainingTimeOnRoad > 0) {
             this.remainingTimeOnRoad--;
         }
@@ -171,7 +172,9 @@ public class VehicleImpl implements Vehicle {
             if (this.currentRoad.equals(this.destination)) {
                 return this;
             }
-            waitOnTrafficLight(currentRoad.getDestinationCrossroad());
+            if (prevRemainingTime > 0) {
+                waitOnTrafficLight(currentRoad.getDestinationCrossroad());
+            }
         }
         return this;
     }
