@@ -39,7 +39,8 @@ public class CrossRoadsDataBase {
                 crossRoadsMap.put(position, crossRoad);
             }
         }
-        return (Set<Crossroad>)crossRoadsMap.values();
+        Set<Crossroad> crossRoads = new HashSet(crossRoadsMap.values());
+        return crossRoads;
     }
 
     public static Crossroad getCrossRoad(Point position, String mapName){

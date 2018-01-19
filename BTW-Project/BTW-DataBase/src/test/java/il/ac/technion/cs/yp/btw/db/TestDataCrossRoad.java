@@ -94,11 +94,12 @@ public class TestDataCrossRoad {
     @Test
     public void testGetAllCrossRoad() {
         MainDataBase.openConnection();
-        String mapName = "first";
+        String mapName = "mapName";
         Set<Crossroad> crossroads = CrossRoadsDataBase.getAllCrossRoads(mapName);
         Iterator<Crossroad> iterator = crossroads.iterator();
         while(iterator.hasNext()){
-            System.out.println(iterator.next().toString());
+            Crossroad crossroad= iterator.next();
+            Assert.assertNotNull(crossroad);
         }
         MainDataBase.closeConnection();
     }
