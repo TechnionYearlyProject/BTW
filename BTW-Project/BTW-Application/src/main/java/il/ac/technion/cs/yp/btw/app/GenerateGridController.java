@@ -1,6 +1,9 @@
 package il.ac.technion.cs.yp.btw.app;
 
+import com.jfoenix.controls.JFXAlert;
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import il.ac.technion.cs.yp.btw.citysimulation.CityMap;
 import il.ac.technion.cs.yp.btw.citysimulation.CityMapImpl;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
@@ -11,12 +14,16 @@ import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -24,17 +31,32 @@ import javafx.util.Duration;
 
 import java.io.*;
 import java.net.URL;
+import java.util.ResourceBundle;
 
 import static il.ac.technion.cs.yp.btw.app.HomeController.transitionAnimationAndSwitch;
 
-public class GenerateGridController {
+public class GenerateGridController implements Initializable{
     @FXML private Node anchor;
     @FXML private JFXTextField NumberOfStreets;
     @FXML private JFXTextField NumberOfAvenues;
     @FXML private JFXTextField LengthOfStreets;
     @FXML private JFXTextField LengthOfAvenues;
-    @FXML private JFXTextField StartLongtitude;
-    @FXML private JFXTextField StartLatitude;
+
+    @FXML private JFXToggleButton numStreetsToggle, numAvenuesToggle, legnthStreetsToggle, legnthAvenuesToggle;
+
+    int Number_of_streets, Number_of_avenues, Length_of_streets, Length_of_avenues;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        numStreetsToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
+                NumberOfStreets.setDisable(!NumberOfStreets.isDisabled()));
+        numAvenuesToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
+                NumberOfAvenues.setDisable(!NumberOfAvenues.isDisabled()));
+        legnthStreetsToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
+                LengthOfStreets.setDisable(!LengthOfStreets.isDisabled()));
+        legnthAvenuesToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
+                LengthOfAvenues.setDisable(!LengthOfAvenues.isDisabled()));
+    }
 
     @FXML protected void BackClicked(ActionEvent event) {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -47,69 +69,123 @@ public class GenerateGridController {
         }
     }
 
+    boolean getAndValidateUserInput(ActionEvent event) {
+        String errorMessage = "";
+        if(!NumberOfStreets.isDisabled()) {
+            try{
+                Number_of_streets = Integer.parseInt(NumberOfStreets.getText());
+                //checking boundaries
+                if(Number_of_streets < 2 || Number_of_streets > 50) throw new NumberFormatException();
+            } catch(NumberFormatException e) {
+                errorMessage += "Number of Streets input is invalid\n";
+            }
+        }
+        if(!NumberOfAvenues.isDisabled()) {
+            try{
+                Number_of_avenues = Integer.parseInt(NumberOfAvenues.getText());
+                //checking boundaries
+                if(Number_of_avenues < 2 || Number_of_avenues > 50) throw new NumberFormatException();
+            } catch(NumberFormatException e) {
+                errorMessage += "Number of Avenues input is invalid\n";
+            }
+        }
+        if(!LengthOfStreets.isDisabled()) {
+            try{
+                Length_of_streets = Integer.parseInt(LengthOfStreets.getText());
+                //checking boundaries
+                if(Length_of_streets < 50 || Length_of_streets > 500) throw new NumberFormatException();
+            } catch(NumberFormatException e) {
+                errorMessage += "Length of Streets input is invalid\n";
+            }
+        }
+        if(!LengthOfAvenues.isDisabled()) {
+            try{
+                Length_of_avenues = Integer.parseInt(LengthOfAvenues.getText());
+                //checking boundaries
+                if(Length_of_avenues < 100 || Length_of_avenues > 1000) throw new NumberFormatException();
+            } catch(NumberFormatException e) {
+                errorMessage += "Length of Avenues input is invalid\n";
+            }
+        }
+        if(!errorMessage.equals("")) {
+            showErrorDialog(errorMessage, event);
+            return false;
+        }
+        return true;
+    }
+
+
+
+    private void showErrorDialog(String errorMessage, ActionEvent event) {
+//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        JFXAlert<Void> alert = new JFXAlert<>(stage);
+//        alert.setTitle("Invalid input");
+//        alert.setHeaderText("Look, an Information Dialog");
+//        alert.setContentText(errorMessage);
+//
+//        alert.show();
+//
+//        JFXDialog dialog = new JFXDialog();
+//        dialog.setContent();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Invalid input");
+        alert.setHeaderText(null);
+        alert.setContentText(errorMessage);
+
+        alert.showAndWait();
+
+//        alert.showAndWait();
+    }
+
     //TODO:check input validity - exist & int
     @FXML protected void GenerateClicked(ActionEvent event) {
-        //int Number_of_streets = Integer.parseInt(NumberOfStreets.getText());
-//        int Number_of_avenues = Integer.parseInt(NumberOfAvenues.getText());
-//        int Length_of_streets = Integer.parseInt(LengthOfStreets.getText());
-//        int Length_of_avenues = Integer.parseInt(LengthOfAvenues.getText());
-//        double Start_longtitude = Integer.parseInt(StartLongtitude.getText());
-//        double Start_latitude = Integer.parseInt(StartLatitude.getText());
+        if(!getAndValidateUserInput(event)) return; //if user input isn't valid there's nothing to do
+        else {
+            //TODO: for testing purposes
+            System.out.println("input was valid");
+//            return;
+        }
 
-        GridCityMapSimulator gridCityMapSimulator = new GridCityMapSimulator();
-//        gridCityMapSimulator.setNumOfStreets(Number_of_streets);
-//        gridCityMapSimulator.setAvenueLength(Length_of_avenues);
-//        gridCityMapSimulator.setNumOfAvenues(Number_of_avenues);
-//        gridCityMapSimulator.setStreetLength(Length_of_streets);
-//        gridCityMapSimulator.setStartXCoordinate(Start_longtitude);
-//        gridCityMapSimulator.setStartYCoordinate(Start_latitude);
+        //this is important code
+        /*GridCityMapSimulator gridCityMapSimulator = new GridCityMapSimulator();
+        if(!NumberOfStreets.isDisabled()) gridCityMapSimulator.setNumOfStreets(Number_of_streets);
+        if(!NumberOfAvenues.isDisabled()) gridCityMapSimulator.setNumOfAvenues(Number_of_avenues);
+        if(!LengthOfAvenues.isDisabled()) gridCityMapSimulator.setAvenueLength(Length_of_avenues);
+        if(!LengthOfStreets.isDisabled()) gridCityMapSimulator.setStreetLength(Length_of_streets);
         gridCityMapSimulator.build();
 
-        GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
-        File mapFile = geoJsonParser.buildGeoJsonFromSimulation(gridCityMapSimulator);
-        String mapString = "";
-        FileReader fileReader = null;
-        try {
-            String line;
-            fileReader = new FileReader(mapFile);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            while((line = bufferedReader.readLine()) != null) {
-                mapString = mapString+line;
-            }
-
-            // Always close files.
-            bufferedReader.close();
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+        String mapString = parseCitySimulationToGeoJsonString(gridCityMapSimulator);
 
         System.out.println(mapString);
 
         //Insert the new map to the database.
         BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity");
-        dataBase.saveMap(mapString);
+        dataBase.saveMap(mapString);*/
+
+        BTWDataBase dataBase = new BTWDataBaseImpl("test1");
 
         CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
         CityMap cityMap = citySimulator.saveMap();
+        switchScreensToMap(event, cityMap);
+
 
         //DrawMapController mapDrawer = new DrawMapController(cityMap);
 
-        FXMLLoader Loader = new FXMLLoader();
-        Loader.setLocation(getClass().getResource("/fxml/stageForDrawMap.fxml"));
-        try {
-            Loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        DrawMapController drawMapController = Loader.getController();
-        drawMapController.initCityMap(cityMap);
-
-        Parent p = Loader.getRoot();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(p));
-        stage.showAndWait();
+//        FXMLLoader Loader = new FXMLLoader();
+//        Loader.setLocation(getClass().getResource("/fxml/stageForDrawMap.fxml"));
+//        try {
+//            Loader.load();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        DrawMapController drawMapController = Loader.getController();
+//        drawMapController.initCityMap(cityMap);
+//
+//        Parent p = Loader.getRoot();
+//        Stage stage = new Stage();
+//        stage.setScene(new Scene(p));
+//        stage.showAndWait();
 
 //
 //        Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -124,6 +200,28 @@ public class GenerateGridController {
     }
 
 
+    private String parseCitySimulationToGeoJsonString(GridCityMapSimulator gridCityMapSimulator) {
+        GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
+        File mapFile = geoJsonParser.buildGeoJsonFromSimulation(gridCityMapSimulator);
+        String mapString = "";
+        FileReader fileReader = null;
+        try {
+            String line;
+            fileReader = new FileReader(mapFile);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            while((line = bufferedReader.readLine()) != null) {
+                mapString = mapString+line;
+            }
+            // Always close files.
+            bufferedReader.close();
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return mapString;
+    }
+
     private void switchScreens(ActionEvent event, String fxmlLocation) {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
         try {
@@ -135,10 +233,25 @@ public class GenerateGridController {
     }
 
 
-    public static void transitionAnimationAndSwitch(String fxmlLocation, Stage stageTheEventSourceNodeBelongs,
+    private void switchScreensToMap(ActionEvent event, CityMap cityMap) {
+        Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        try {
+            //TODO: maybe remove resource
+            URL resource = getClass().getResource("/fxml/stageForDrawMap.fxml");
+            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, resource, anchor, cityMap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void transitionAnimationAndSwitch(String fxmlLocation, Stage stageTheEventSourceNodeBelongs,
                                                     URL resource, Node rootNode) throws IOException {
-        Parent root;
-        root = FXMLLoader.load(resource);
+        Parent root = FXMLLoader.load(resource);
+        transitionAndSwitchInner(stageTheEventSourceNodeBelongs, rootNode, root);
+    }
+
+    //getting root (parent)
+    private void transitionAndSwitchInner(Stage stageTheEventSourceNodeBelongs, Node rootNode, Parent root) {
         int length = 300;
         FadeTransition fadeOut = new FadeTransition(Duration.millis(length), rootNode);
         fadeOut.setFromValue(1.0);
@@ -154,17 +267,23 @@ public class GenerateGridController {
                     stageTheEventSourceNodeBelongs.setScene(scene);
                 }
         );
-
-
-
-        //BTWDataBase db = new BTWDataBaseImpl("exampleMap");
-        //db.saveMap();
-        //CitySimulator simulator = new CitySimulatorImpl(db);
-        //DrawMapController mapDrawer = new DrawMapController();
-        //CityMap map = simulator.saveMap();
-        //mapDrawer.draw(map);
-
-
         fadeOut.play();
     }
+
+    public void transitionAndSwitchToMap(Stage stageTheEventSourceNodeBelongs,
+                                                    URL resource, Node rootNode, CityMap cityMap) throws IOException {
+        FXMLLoader Loader = new FXMLLoader();
+        Loader.setLocation(getClass().getResource("/fxml/stageForDrawMap.fxml"));
+        try {
+            Loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DrawMapController drawMapController = Loader.getController();
+        drawMapController.initCityMap(cityMap);
+
+        Parent root = Loader.getRoot();
+        transitionAndSwitchInner(stageTheEventSourceNodeBelongs, rootNode, root);
+    }
+
 }
