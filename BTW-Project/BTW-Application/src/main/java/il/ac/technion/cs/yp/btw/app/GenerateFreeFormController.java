@@ -100,7 +100,6 @@ public class GenerateFreeFormController implements Initializable{
         else {
             //TODO: for testing purposes
             System.out.println("input was valid");
-//            return;
         }
 
         FreeFormMapSimulator freeFormMapSimulator = new FreeFormMapSimulator();
