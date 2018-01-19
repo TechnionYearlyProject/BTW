@@ -6,6 +6,8 @@ import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -21,6 +23,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
         Set<Crossroad> crossRoads = simulator.getCrossRoads();
         Set<CentralLocation> centralLocations = simulator.getCentralLocations();
 
+        //TODO: multiple files? add random number to map name?
         File file = new File("JsonFile.json");
 
         try {
@@ -29,6 +32,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
 
             FileWriter fileWriter = new FileWriter(file);
 
+            //The { moved to the end, after delete the last ,
             String startFeature = "{\"type\": \"FeatureCollection\""+","+
                     "\"features\":[" ;
 
@@ -75,12 +79,20 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
                 }
             }
 
+            //Deleting last ,
+            String content = new Scanner (file).useDelimiter("\\Z").next();
+            String withoutLast = content.substring(0 , content.length() - 1);
+
+            FileWriter fileWriter2 = new FileWriter(file);
+            fileWriter2.write(withoutLast);
+            fileWriter2.flush();
+
             //return the string that include all the data/
 
             String endFeature = "]}";
 
-            fileWriter.write(endFeature);
-            fileWriter.flush();
+            fileWriter2.write(endFeature);
+            fileWriter2.flush();
         }catch (IOException e) {
             e.printStackTrace();
         }
@@ -108,7 +120,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
                 "[["+road.getSourceCrossroad().getCoordinateX()+","+road.getSourceCrossroad().getCoordinateY()+"],"+
                 "["+road.getDestinationCrossroad().getCoordinateX()+","+road.getDestinationCrossroad().getCoordinateY()+"]]},"+
                 "\"properties\":{"+"\"name\":"+"\""+road.getRoadName()+"\","+
-                "\"length\":"+"\""+road.getRoadLength()+"\","+"\"overload\":"+"\""+road.getMinimumWeight()+"\"}},\n";
+                "\"length\":"+"\""+road.getRoadLength()+"\","+"\"overload\":"+0/*road.getMinimumWeight()*/+"}},\n";
     }
 
     @Override
@@ -116,15 +128,15 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
                 "[["+road.getSourceCrossroad().getCoordinateX()+","+road.getSourceCrossroad().getCoordinateY()+"],"+
                 "["+road.getDestinationCrossroad().getCoordinateX()+","+road.getDestinationCrossroad().getCoordinateY()+"]]},"+
-                "\"properties\":{"+"\"name\":"+"\""+road.getRoadName()+"\"}},\n";
+                "\"properties\":{"+"\"name\":"+0/*road.getMinimumWeight()*/+"}},\n";
     }
 
     @Override
     public String toStringTrafficLightFull(TrafficLight trafficLight) {
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
-                "[["+trafficLight.getCoordinateX()+","+trafficLight.getCoordinateY()+"]},"+
+                "["+trafficLight.getCoordinateX()+","+trafficLight.getCoordinateY()+"]},"+
                 "\"properties\":{"+"\"name\":"+"\""+trafficLight.getName()+"\","+
-                "\"overload\":"+"\""+trafficLight.getMinimumWeight()+"\"}},\n";
+                "\"overload\":"+0/*road.getMinimumWeight()*/+"}},\n";
     }
 
     @Override

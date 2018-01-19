@@ -1,6 +1,12 @@
 package il.ac.technion.cs.yp.btw.app;
 
 import com.jfoenix.controls.JFXButton;
+import il.ac.technion.cs.yp.btw.citysimulation.CityMap;
+import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
+import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
+//import il.ac.technion.cs.yp.btw.gui.DrawMapController;
+import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
+import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -29,11 +35,9 @@ public class BTW extends Application {
 
         Scene scene = new Scene(root);
 
-
         stage.setTitle("By The Way");
         stage.setScene(scene);
         stage.show();
-
 
         //jfxButtonDemo(stage);
     }
@@ -65,5 +69,10 @@ public class BTW extends Application {
         stage.setTitle("JFX Button Demo");
         stage.setScene(scene);
         stage.show();
+
+        //TODO: insert valid map and put this part as event for clicking on generate map.
+        String mapInGeoJson = "";
+
+
     }
 }

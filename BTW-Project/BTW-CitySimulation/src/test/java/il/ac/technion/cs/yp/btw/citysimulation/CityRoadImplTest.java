@@ -185,6 +185,10 @@ public class CityRoadImplTest {
 
     @Test
     public void getStatisticalDataTest() {
-        // TODO
+        CityRoad tested = this.simulator.getRealRoad(road);
+        RoadData rData = tested.getStatisticalData();
+        Assert.assertEquals(250, rData.getRoadLength());
+        Assert.assertTrue(50.0 == rData.getAverageSpeed());
+        Assert.assertEquals(0, rData.getNumOfVehicles());
     }
 }

@@ -11,10 +11,46 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.JFXComboBox?>
 
-<AnchorPane prefHeight="300.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/8.0.112"
+<?import com.jfoenix.controls.JFXBadge?>
+<?import javafx.scene.control.TextArea?>
+<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.112"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.ac.technion.cs.yp.btw.app.TrafficLightManagementController">
     <children>
+<Text layoutX="20.0" layoutY="30.0" text="Traffic Light Management" wrappingWidth="250.0">
+    <font>
+        <Font size="20.0" />
+    </font>
+</Text>
+<JFXComboBox layoutX="50.0" layoutY="60.0" prefHeight="25.0" prefWidth="236.0" promptText="Choose scheduler method"/>
+ <Text layoutX="200.0" layoutY="150.0" text="Choose traffic light: " wrappingWidth="250.0">
+     <font>
+         <Font size="15.0" />
+     </font>
+ </Text>
+<JFXComboBox layoutX="200" layoutY="170.0" prefHeight="25.0" prefWidth="236.0" promptText="Identifier"/>
+<Text layoutX="200.0" layoutY="250.0" text="Set green duration time (in sec): " wrappingWidth="250.0">
+    <font>
+        <Font size="15.0" />
+    </font>
+</Text>
+        <HBox alignment="CENTER" layoutX="220.0" layoutY="270.0">
+            <children>
+                <JFXTextField prefWidth="210" promptText="duration" />
+            </children>
+        </HBox>
+        <Text layoutX="200.0" layoutY="320.0" text="Set red duration time (in sec): " wrappingWidth="250.0">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Text>
+        <HBox alignment="CENTER" layoutX="220.0" layoutY="340.0">
+            <children>
+                <JFXTextField prefWidth="210" promptText="duration" />
+            </children>
+        </HBox>
+
 
             </children>
 
