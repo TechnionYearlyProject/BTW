@@ -85,6 +85,8 @@ public class GenerateGridController {
             e1.printStackTrace();
         }
 
+        System.out.println(mapString);
+
         //Insert the new map to the database.
         BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity");
         dataBase.saveMap(mapString);
