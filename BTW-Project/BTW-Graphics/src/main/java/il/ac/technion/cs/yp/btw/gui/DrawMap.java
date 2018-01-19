@@ -106,12 +106,11 @@
 //        return new HashSet<Road>();
 //    }
 //
-//    */
-///**
+//*
 //     * finding minimum coordinate in order to zoom in map
 //     * @param trafficLights - set of traffic light
 //     * @return min coordinate x in set
-//     *//*
+//
 //
 //    public double findMinX(Set<TrafficLight> trafficLights) {
 //        double min = trafficLights.iterator().next().getCoordinateX();
@@ -122,12 +121,11 @@
 //        return min;
 //    }
 //
-//    */
-///**
+//*
 //     * finding maximum coordinate in order to zoom in map
 //     * @param trafficLights - set of traffic light
 //     * @return max coordinate x in set
-//     *//*
+//
 //
 //    public double findMaxX(Set<TrafficLight> trafficLights) {
 //        double max = trafficLights.iterator().next().getCoordinateX();
@@ -138,12 +136,11 @@
 //        return max;
 //    }
 //
-//    */
-///**
+//*
 //     * finding minimum coordinate in order to zoom in map
 //     * @param trafficLights - set of traffic light
 //     * @return min coordinate y in set
-//     *//*
+//
 //
 //    public double findMinY(Set<TrafficLight> trafficLights) {
 //        double min = trafficLights.iterator().next().getCoordinateY();
@@ -154,12 +151,11 @@
 //        return min;
 //    }
 //
-//    */
-///**
+//*
 //     * finding maximum coordinate in order to zoom in map
 //     * @param trafficLights - set of traffic light
 //     * @return max coordinate x in set
-//     *//*
+//
 //
 //    public double findMaxY(Set<TrafficLight> trafficLights) {
 //        double max = trafficLights.iterator().next().getCoordinateY();
@@ -169,4 +165,5 @@
 //        }
 //        return max;
 //    }
-//}*/
+//}
+//*/

@@ -1,9 +1,17 @@
 package il.ac.technion.cs.yp.btw.app;
 
 import il.ac.technion.cs.yp.btw.citysimulation.*;
+import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
+import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
+import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
+import il.ac.technion.cs.yp.btw.mapgeneration.FreeFormMapSimulator;
+import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
+import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 import javafx.application.Application;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.BorderPane;
@@ -14,10 +22,15 @@ import javafx.scene.transform.Affine;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.io.*;
+import java.net.URL;
 import java.util.HashSet;
+import java.util.ResourceBundle;
 import java.util.Set;
 
-public class DrawMapController extends Application {
+import static javafx.application.Application.launch;
+
+public class DrawMapController implements Initializable {
     private static final double MAX_SCALE = 10.0d;
     private static final double MIN_SCALE = .1d;
     Canvas canvas;
@@ -25,21 +38,30 @@ public class DrawMapController extends Application {
     Set<Circle> circles;
     Set<Line> lines = new HashSet<Line>();
     CityMap cityMap;
+    Stage stage;
 
     void initCityMap(CityMap cityMap){
         this.cityMap = cityMap;
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    void initStage(Stage stage) {
+        this.stage = stage;
     }
 
+
     @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Drawing Operations Test");
+    public void initialize(URL location, ResourceBundle resources) {
+        start();
+    }
+
+    public void start() {
+//        stage.setTitle("Drawing Operations Test");
         root = new BorderPane();
-        canvas = new Canvas(640, 640);
-        root.getChildren().add(canvas); // add plain canvas
+
+        root.setStyle("-fx-background-color: transparent;");
+//        canvas = new Canvas(stage.getWidth(), stage.getHeight());
+//        canvas = new Canvas(640, 640);
+//        root.getChildren().add(canvas); // add plain canvas
 
         final Affine accumulatedScales = new Affine();
         accumulatedScales.appendScale(100,100);
@@ -52,13 +74,61 @@ public class DrawMapController extends Application {
                     ,event.getX(), event.getY());
         });
 
+//        insertRandomMap();
 
-        Scene scene = new Scene(root, 640, 640, Color.GREY);
-
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
+//        Scene scene = new Scene(root, 640, 640, Color.GREY);
+        Scene scene = new Scene(root, stage.getWidth(), stage.getHeight(), Color.GREY);
         draw(cityMap);
+
+        stage.show();
+        stage.setScene(scene);
+
+
+    }
+
+    private String parseCitySimulationToGeoJsonString(MapSimulator gridCityMapSimulator) {
+        GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
+        File mapFile = geoJsonParser.buildGeoJsonFromSimulation(gridCityMapSimulator);
+        String mapString = "";
+        FileReader fileReader = null;
+        try {
+            String line;
+            fileReader = new FileReader(mapFile);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            while((line = bufferedReader.readLine()) != null) {
+                mapString = mapString+line;
+            }
+            // Always close files.
+            bufferedReader.close();
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return mapString;
+    }
+
+    //TODO - this is for testing purposes
+    private void insertRandomMap() {
+        GridCityMapSimulator mapSimulator = new GridCityMapSimulator();
+        mapSimulator.setNumOfStreets(3);
+        mapSimulator.setNumOfAvenues(3);
+        mapSimulator.build();
+//        FreeFormMapSimulator mapSimulator = new FreeFormMapSimulator();
+//        mapSimulator.build();
+
+        String mapString = parseCitySimulationToGeoJsonString(mapSimulator);
+
+        System.out.println(mapString);
+
+//        Insert the new map to the database.
+        BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity33");
+        dataBase.saveMap(mapString);
+
+//        BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity12");
+
+        CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
+        cityMap = citySimulator.saveMap();
     }
 
     public DrawMapController draw(CityMap cityMap) {
@@ -68,19 +138,22 @@ public class DrawMapController extends Application {
         Set<CityTrafficLight> cityTrafficLights = cityMap.getAllTrafficLights();
         MapGraphics map = new MapGraphics(cityTrafficLights,cityRoads);
         for (Pair<Line,String> line: map.getLines()) {
-            lines.add(line.getKey());
+//            lines.add(line.getKey());
+            root.getChildren().add(line.getKey());
         }
         // add all circles
         for (Pair<Circle,String> circle: map.getCircles()) {
-            circles.add(circle.getKey());
+//            circles.add(circle.getKey());
+            root.getChildren().add(circle.getKey());
         }
+//        root.setPadding(new Insets(10000,10000,10000,10000));
         return this;
     }
-
     // should be implemented outside
     public Set<TrafficLight> getTrafficLights() {
         return new HashSet<TrafficLight>();
     }
+
     // should be implemented outside
     public Set<Road> getRoads() {
         return new HashSet<Road>();

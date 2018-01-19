@@ -107,28 +107,6 @@ public class MapGraphics {
         }
     }
 
-    public static void transitionAnimationAndSwitch(String fxmlLocation, Stage stageTheEventSourceNodeBelongs,
-                                                    URL resource, Node rootNode) throws IOException {
-        Parent root;
-        root = FXMLLoader.load(resource);
-        int length = 300;
-        FadeTransition fadeOut = new FadeTransition(Duration.millis(length), rootNode);
-        fadeOut.setFromValue(1.0);
-        fadeOut.setToValue(0.0);
-        fadeOut.setOnFinished(event1 -> {
-                    FadeTransition fadeIn = new FadeTransition(Duration.millis(length), root);
-                    fadeIn.setFromValue(0.0);
-                    fadeIn.setToValue(1.0);
-                    fadeIn.play();
-                    DoubleProperty opacity = root.opacityProperty();
-                    opacity.set(0);
-                    Scene scene = new Scene(root);
-                    stageTheEventSourceNodeBelongs.setScene(scene);
-                }
-        );
-        fadeOut.play();
-    }
-
 
     public List<Pair<Circle,String>> getCircles() {
         return circles;

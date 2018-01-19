@@ -111,7 +111,7 @@ public class GenerateFreeFormController implements Initializable{
         String mapString = parseCitySimulationToGeoJsonString(freeFormMapSimulator);
 
         //Insert the new map to the database.
-        BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity");
+        BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity897");
         dataBase.saveMap(mapString);
 
         CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
@@ -183,18 +183,16 @@ public class GenerateFreeFormController implements Initializable{
 
     public void transitionAndSwitchToMap(Stage stageTheEventSourceNodeBelongs,
                                          URL resource, Node rootNode, CityMap cityMap) throws IOException {
-        FXMLLoader Loader = new FXMLLoader();
-        Loader.setLocation(getClass().getResource("/fxml/stageForDrawMap.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stageForDrawMap.fxml"));
+        DrawMapController drawMapController = new DrawMapController();
+        drawMapController.initCityMap(cityMap);
+        drawMapController.initStage(stageTheEventSourceNodeBelongs);
+        loader.setController(drawMapController);
         try {
-            Loader.load();
+            loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        DrawMapController drawMapController = Loader.getController();
-        drawMapController.initCityMap(cityMap);
-
-        Parent root = Loader.getRoot();
-        transitionAndSwitchInner(stageTheEventSourceNodeBelongs, rootNode, root);
     }
 
 }

@@ -160,10 +160,10 @@ public class GenerateGridController implements Initializable{
         System.out.println(mapString);
 
         //Insert the new map to the database.
-        BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity");
+        BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity2_2");
         dataBase.saveMap(mapString);
 
-        //BTWDataBase dataBase = new BTWDataBaseImpl("test1");
+//        BTWDataBase dataBase = new BTWDataBaseImpl("test1");
 
         CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
         CityMap cityMap = citySimulator.saveMap();
@@ -272,18 +272,22 @@ public class GenerateGridController implements Initializable{
 
     public void transitionAndSwitchToMap(Stage stageTheEventSourceNodeBelongs,
                                                     URL resource, Node rootNode, CityMap cityMap) throws IOException {
-        FXMLLoader Loader = new FXMLLoader();
-        Loader.setLocation(getClass().getResource("/fxml/stageForDrawMap.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stageForDrawMap.fxml"));
+        DrawMapController drawMapController = new DrawMapController();
+        drawMapController.initCityMap(cityMap);
+        drawMapController.initStage(stageTheEventSourceNodeBelongs);
+        loader.setController(drawMapController);
         try {
-            Loader.load();
+            loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        DrawMapController drawMapController = Loader.getController();
-        drawMapController.initCityMap(cityMap);
-
-        Parent root = Loader.getRoot();
-        transitionAndSwitchInner(stageTheEventSourceNodeBelongs, rootNode, root);
+//        DrawMapController drawMapController = loader.getController();
+//        drawMapController.initCityMap(cityMap);
+//        drawMapController.initStage(stageTheEventSourceNodeBelongs);
+        //TODO: maybe remove the next 2 lines, depending on the DrawMapController init
+//        Parent root = loader.getRoot();
+//        transitionAndSwitchInner(stageTheEventSourceNodeBelongs, rootNode, root);
     }
 
 }
