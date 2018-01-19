@@ -138,7 +138,7 @@ public class GridCityMapSimulator implements MapSimulator {
         Crossroad startCrossroad = getCrossroadByPosition(startPoint);
         Crossroad endCrossroad = getCrossroadByPosition(endPoint);
         Road rd1 = new MapSimulationRoadImpl(roadName, calculateLengthBetween2Points(startPoint,endPoint),street,startCrossroad,endCrossroad);
-        Road rd2 = new MapSimulationRoadImpl(roadName+"'", calculateLengthBetween2Points(startPoint,endPoint),street,endCrossroad,startCrossroad);
+        Road rd2 = new MapSimulationRoadImpl(roadName+"R", calculateLengthBetween2Points(startPoint,endPoint),street,endCrossroad,startCrossroad);
         this.roads.add(rd1);
         this.roads.add(rd2);
         street.addRoad(rd1);
