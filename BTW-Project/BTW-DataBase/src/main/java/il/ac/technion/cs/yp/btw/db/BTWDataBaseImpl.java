@@ -132,7 +132,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 + "TrafficLight (nameID, cordx,cordy, overload) SELECT nameID,cordx,cordy,overload FROM OPENJSON(@json, '$.features')\n" +
                 "WITH (\n" +
                 "\ttypeoftoken varchar(50) '$.geometry.type',\n" +
-                "\tnameID varchar(50) '$.geometry.name',\n" +
+                "\tnameID varchar(50) '$.properties.name',\n" +
                 "\tcordx float '$.geometry.coordinates[0]',\n" +
                 "\tcordy float '$.geometry.coordinates[1]',\n" +
                 "\toverload bigint '$.geometry.overload'\n" +
