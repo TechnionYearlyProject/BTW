@@ -120,7 +120,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
                 "[["+road.getSourceCrossroad().getCoordinateX()+","+road.getSourceCrossroad().getCoordinateY()+"],"+
                 "["+road.getDestinationCrossroad().getCoordinateX()+","+road.getDestinationCrossroad().getCoordinateY()+"]]},"+
                 "\"properties\":{"+"\"name\":"+"\""+road.getRoadName()+"\","+
-                "\"length\":"+"\""+road.getRoadLength()+"\","+"\"overload\":"+"\""+road.getMinimumWeight()+"\"}},\n";
+                "\"length\":"+"\""+road.getRoadLength()+"\","+"\"overload\":"+0/*road.getMinimumWeight()*/+"}},\n";
     }
 
     @Override
@@ -128,7 +128,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
                 "[["+road.getSourceCrossroad().getCoordinateX()+","+road.getSourceCrossroad().getCoordinateY()+"],"+
                 "["+road.getDestinationCrossroad().getCoordinateX()+","+road.getDestinationCrossroad().getCoordinateY()+"]]},"+
-                "\"properties\":{"+"\"name\":"+"\""+road.getRoadName()+"\"}},\n";
+                "\"properties\":{"+"\"name\":"+0/*road.getMinimumWeight()*/+"}},\n";
     }
 
     @Override
@@ -136,7 +136,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
                 "["+trafficLight.getCoordinateX()+","+trafficLight.getCoordinateY()+"]},"+
                 "\"properties\":{"+"\"name\":"+"\""+trafficLight.getName()+"\","+
-                "\"overload\":"+"\""+trafficLight.getMinimumWeight()+"\"}},\n";
+                "\"overload\":"+0/*road.getMinimumWeight()*/+"}},\n";
     }
 
     @Override
