@@ -1,5 +1,7 @@
 package il.ac.technion.cs.yp.btw.app;
 
+import com.jfoenix.controls.JFXAlert;
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import il.ac.technion.cs.yp.btw.citysimulation.CityMap;
 import il.ac.technion.cs.yp.btw.citysimulation.CityMapImpl;
@@ -17,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -33,8 +36,8 @@ public class GenerateGridController {
     @FXML private JFXTextField NumberOfAvenues;
     @FXML private JFXTextField LengthOfStreets;
     @FXML private JFXTextField LengthOfAvenues;
-    @FXML private JFXTextField StartLongtitude;
-    @FXML private JFXTextField StartLatitude;
+
+    int Number_of_streets, Number_of_avenues, Length_of_streets, Length_of_avenues;
 
     @FXML protected void BackClicked(ActionEvent event) {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -47,43 +50,91 @@ public class GenerateGridController {
         }
     }
 
+    boolean getAndValidateUserInput(ActionEvent event) {
+        String errorMessage = "";
+        if(!NumberOfStreets.isDisabled()) {
+            try{
+                Number_of_streets = Integer.parseInt(NumberOfStreets.getText());
+                //checking boundaries
+                if(Number_of_streets < 2 || Number_of_streets > 50) throw new NumberFormatException();
+            } catch(NumberFormatException e) {
+                errorMessage += "Number of Streets input is invalid\n";
+            }
+        }
+        if(!NumberOfAvenues.isDisabled()) {
+            try{
+                Number_of_avenues = Integer.parseInt(NumberOfAvenues.getText());
+                //checking boundaries
+                if(Number_of_avenues < 2 || Number_of_avenues > 50) throw new NumberFormatException();
+            } catch(NumberFormatException e) {
+                errorMessage += "Number of Avenues input is invalid\n";
+            }
+        }
+        if(!LengthOfStreets.isDisabled()) {
+            try{
+                Length_of_streets = Integer.parseInt(LengthOfStreets.getText());
+                //checking boundaries
+                if(Length_of_streets < 50 || Length_of_streets > 500) throw new NumberFormatException();
+            } catch(NumberFormatException e) {
+                errorMessage += "Length of Streets input is invalid\n";
+            }
+        }
+        if(!LengthOfAvenues.isDisabled()) {
+            try{
+                Length_of_avenues = Integer.parseInt(LengthOfAvenues.getText());
+                //checking boundaries
+                if(Length_of_avenues < 100 || Length_of_avenues > 1000) throw new NumberFormatException();
+            } catch(NumberFormatException e) {
+                errorMessage += "Length of Avenues input is invalid\n";
+            }
+        }
+        if(!errorMessage.equals("")) {
+            showErrorDialog(errorMessage, event);
+            return false;
+        }
+        return true;
+    }
+
+    private void showErrorDialog(String errorMessage, ActionEvent event) {
+//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        JFXAlert<Void> alert = new JFXAlert<>(stage);
+//        alert.setTitle("Invalid input");
+//        alert.setHeaderText("Look, an Information Dialog");
+//        alert.setContentText(errorMessage);
+//
+//        alert.show();
+//
+//        JFXDialog dialog = new JFXDialog();
+//        dialog.setContent();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Invalid input");
+        alert.setHeaderText(null);
+        alert.setContentText(errorMessage);
+
+        alert.showAndWait();
+
+//        alert.showAndWait();
+    }
+
     //TODO:check input validity - exist & int
     @FXML protected void GenerateClicked(ActionEvent event) {
-        //int Number_of_streets = Integer.parseInt(NumberOfStreets.getText());
-//        int Number_of_avenues = Integer.parseInt(NumberOfAvenues.getText());
-//        int Length_of_streets = Integer.parseInt(LengthOfStreets.getText());
-//        int Length_of_avenues = Integer.parseInt(LengthOfAvenues.getText());
-//        double Start_longtitude = Integer.parseInt(StartLongtitude.getText());
-//        double Start_latitude = Integer.parseInt(StartLatitude.getText());
+        if(!getAndValidateUserInput(event)) return; //if user input isn't valid there's nothing to do
+        else {
+            //TODO: for testing purposes
+            System.out.println("input was valid");
+//            return;
+        }
 
+        //this is important code
         GridCityMapSimulator gridCityMapSimulator = new GridCityMapSimulator();
-//        gridCityMapSimulator.setNumOfStreets(Number_of_streets);
-//        gridCityMapSimulator.setAvenueLength(Length_of_avenues);
-//        gridCityMapSimulator.setNumOfAvenues(Number_of_avenues);
-//        gridCityMapSimulator.setStreetLength(Length_of_streets);
-//        gridCityMapSimulator.setStartXCoordinate(Start_longtitude);
-//        gridCityMapSimulator.setStartYCoordinate(Start_latitude);
+        if(!NumberOfStreets.isDisabled()) gridCityMapSimulator.setNumOfStreets(Number_of_streets);
+        if(!NumberOfAvenues.isDisabled()) gridCityMapSimulator.setNumOfAvenues(Number_of_avenues);
+        if(!LengthOfAvenues.isDisabled()) gridCityMapSimulator.setAvenueLength(Length_of_avenues);
+        if(!LengthOfStreets.isDisabled()) gridCityMapSimulator.setStreetLength(Length_of_streets);
         gridCityMapSimulator.build();
 
-        GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
-        File mapFile = geoJsonParser.buildGeoJsonFromSimulation(gridCityMapSimulator);
-        String mapString = "";
-        FileReader fileReader = null;
-        try {
-            String line;
-            fileReader = new FileReader(mapFile);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            while((line = bufferedReader.readLine()) != null) {
-                mapString = mapString+line;
-            }
-
-            // Always close files.
-            bufferedReader.close();
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+        String mapString = parseCitySimulationToGeoJsonString(gridCityMapSimulator);
 
         System.out.println(mapString);
 
@@ -94,6 +145,7 @@ public class GenerateGridController {
         CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
         CityMap cityMap = citySimulator.saveMap();
         switchScreensToMap(event, cityMap);
+
 
         //DrawMapController mapDrawer = new DrawMapController(cityMap);
 
@@ -122,6 +174,28 @@ public class GenerateGridController {
 //            e.printStackTrace();
 //        }
 
+    }
+
+    private String parseCitySimulationToGeoJsonString(GridCityMapSimulator gridCityMapSimulator) {
+        GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
+        File mapFile = geoJsonParser.buildGeoJsonFromSimulation(gridCityMapSimulator);
+        String mapString = "";
+        FileReader fileReader = null;
+        try {
+            String line;
+            fileReader = new FileReader(mapFile);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            while((line = bufferedReader.readLine()) != null) {
+                mapString = mapString+line;
+            }
+            // Always close files.
+            bufferedReader.close();
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return mapString;
     }
 
 

@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9ebb191e-0477-4745-98ad-e693203c6e46" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java" afterPath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java" afterPath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_grid.fxml" afterPath="$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_grid.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-DataBase/src/test/java/il/ac/technion/cs/yp/btw/db/TestSaveMap.java" afterPath="$PROJECT_DIR$/BTW-DataBase/src/test/java/il/ac/technion/cs/yp/btw/db/TestSaveMap.java" />
     </list>
     <ignored path="$PROJECT_DIR$/BTW-Navigation/target/" />
     <ignored path="$PROJECT_DIR$/BTW-Objects/target/" />
@@ -31,9 +32,9 @@
         <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/BTW.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="576">
-              <caret line="36" column="21" lean-forward="false" selection-start-line="36" selection-start-column="21" selection-end-line="36" selection-end-column="21" />
+              <caret line="39" column="21" lean-forward="false" selection-start-line="39" selection-start-column="21" selection-end-line="39" selection-end-column="21" />
               <folding>
-                <marker date="1516358282430" expanded="true" signature="2356:2362" ph="{...}" />
+                <marker date="1516363917303" expanded="true" signature="2411:2417" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -42,8 +43,8 @@
       <file leaf-file-name="GenerateGridController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="518">
-              <caret line="173" column="5" lean-forward="true" selection-start-line="173" selection-start-column="5" selection-end-line="173" selection-end-column="5" />
+            <state relative-caret-position="81">
+              <caret line="127" column="0" lean-forward="true" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -51,17 +52,59 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GeoJsonParserImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BTW-GeoJson/src/main/java/il/ac/technion/cs/yp/btw/geojson/GeoJsonParserImpl.java">
+      <file leaf-file-name="JFXDialog.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/com/jfoenix/jfoenix/1.10.0/jfoenix-1.10.0.jar!/com/jfoenix/controls/JFXDialog.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2556">
-              <caret line="150" column="38" lean-forward="false" selection-start-line="150" selection-start-column="38" selection-end-line="150" selection-end-column="38" />
+            <state relative-caret-position="-395">
+              <caret line="141" column="16" lean-forward="false" selection-start-line="141" selection-start-column="16" selection-end-line="141" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Node.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/Programs/java jdk/jdk1.8.0_121/javafx-src.zip!/javafx/scene/Node.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="568">
+              <caret line="1646" column="25" lean-forward="false" selection-start-line="1646" selection-start-column="25" selection-end-line="1646" selection-end-column="25" />
               <folding>
-                <marker date="1516359274773" expanded="true" signature="5855:5869" ph="{...}" />
-                <marker date="1516359274773" expanded="true" signature="5951:6244" ph="{...}" />
-                <marker date="1516359274773" expanded="true" signature="6317:6600" ph="{...}" />
-                <marker date="1516359274773" expanded="true" signature="6668:7059" ph="{...}" />
-                <marker date="1516359274773" expanded="true" signature="7122:7307" ph="{...}" />
+                <element signature="e#67983#67984#0" expanded="true" />
+                <element signature="e#68047#68048#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="generate_grid.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_grid.fxml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="235">
+              <caret line="23" column="40" lean-forward="true" selection-start-line="23" selection-start-column="40" selection-end-line="23" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="JavaFX-Scene-Builder">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CitySimulatorImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BTW-CitySimulation/src/main/java/il/ac/technion/cs/yp/btw/citysimulation/CitySimulatorImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="416" column="0" lean-forward="false" selection-start-line="416" selection-start-column="0" selection-end-line="416" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NaiveNavigationManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BTW-Navigation/src/main/java/il/ac/technion/cs/yp/btw/navigation/NaiveNavigationManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+              <folding>
+                <element signature="e#644#645#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -70,8 +113,8 @@
       <file leaf-file-name="GenerateFreeFormController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="25" column="6" lean-forward="false" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
+            <state relative-caret-position="306">
+              <caret line="27" column="1" lean-forward="false" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -80,28 +123,8 @@
       <file leaf-file-name="CityMapImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BTW-CitySimulation/src/main/java/il/ac/technion/cs/yp/btw/citysimulation/CityMapImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
+            <state relative-caret-position="126">
               <caret line="7" column="39" lean-forward="false" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BTWDataBaseImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/BTWDataBaseImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="43" column="50" lean-forward="false" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HomeController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/HomeController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="57" column="25" lean-forward="false" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -110,8 +133,8 @@
       <file leaf-file-name="MainDataBase.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/MainDataBase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2016">
-              <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+            <state relative-caret-position="279">
+              <caret line="144" column="0" lean-forward="false" selection-start-line="144" selection-start-column="0" selection-end-line="144" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -171,11 +194,12 @@
         <option value="$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_free_form.fxml" />
         <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/GenerateGridController.java" />
         <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/HomeController.java" />
-        <option value="$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_grid.fxml" />
         <option value="$PROJECT_DIR$/BTW-Application/pom.xml" />
         <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/BTW.java" />
         <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/HomeController.java" />
         <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java" />
+        <option value="$PROJECT_DIR$/BTW-DataBase/src/test/java/il/ac/technion/cs/yp/btw/db/TestSaveMap.java" />
+        <option value="$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_grid.fxml" />
         <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java" />
       </list>
     </option>
@@ -664,8 +688,16 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-GeoJson/src/main/java/il/ac/technion/cs/yp/btw/geojson/GeoJsonParserImpl.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/BTW.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/HomeController.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_free_form.fxml</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/MainDataBase.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/queries/QueryAllTrafficLights.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/queries/QueryTrafficLight.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-DataBase/src/test/java/il/ac/technion/cs/yp/btw/db/TestSaveMap.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-DataBase/src/test/java/il/ac/technion/cs/yp/btw/db/TestTrafficLightDataBase.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-MapGeneration/src/main/java/il/ac/technion/cs/yp/btw/mapgeneration/GridCityMapSimulator.java</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -673,10 +705,6 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/BTWGraphics.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/DrawMapController.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/MapGraphics.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/stageForDrawMap.fxml</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Deleted" />
@@ -1106,7 +1134,7 @@
       <workItem from="1515325464276" duration="41000" />
       <workItem from="1515926939008" duration="78000" />
       <workItem from="1515927403137" duration="994000" />
-      <workItem from="1516348516554" duration="10335000" />
+      <workItem from="1516348516554" duration="16638000" />
     </task>
     <task id="LOCAL-00001" summary="navigation successful integration, update.&#10;navigation compiles">
       <created>1513102268093</created>
@@ -1150,7 +1178,14 @@
       <option name="project" value="LOCAL" />
       <updated>1514919621342</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="updated transition to map">
+      <created>1516362245255</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1516362245256</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1162,7 +1197,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44158000" />
+    <option name="totallyTimeSpent" value="50461000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-11" width="1922" height="1092" extended-state="6" />
@@ -1174,14 +1209,14 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32873806" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32738718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32633787" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32633787" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20416667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39979014" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1223,11 +1258,30 @@
     <MESSAGE value="first screen layout, using JavaFX and JFoeniX" />
     <MESSAGE value="- radio buttons cannot be on together&#10;- added logo&#10;- added grid and free form basic screens&#10;- added animation transition" />
     <MESSAGE value="added generate grid city screen" />
-    <option name="LAST_COMMIT_MESSAGE" value="added generate grid city screen" />
+    <MESSAGE value="updated transition to map" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated transition to map" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java</url>
+          <line>52</line>
+          <properties class="il.ac.technion.cs.yp.btw.app.GenerateGridController" method="getAndValidateUserInput">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java</url>
+          <line>120</line>
+          <properties class="il.ac.technion.cs.yp.btw.app.GenerateGridController" method="GenerateClicked">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1236,24 +1290,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/BTW-Navigation/src/test/java/il/ac/technion/cs/yp/AppTest.java" />
-    <entry file="file://$PROJECT_DIR$/BTW-Navigation/src/main/java/il/ac/technion/cs/yp/btw/navigation/BTWNavigator.java" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/jgrapht/jgrapht-core/1.1.0/jgrapht-core-1.1.0.jar!/org/jgrapht/graph/DefaultWeightedEdge.class" />
-    <entry file="file://$PROJECT_DIR$/BTW-Graphics/src/main/java/il/ac/technion/cs/yp/btw/gui/BTWGraphics.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="17" lean-forward="false" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BTW-Objects/src/main/java/il/ac/technion/cs/yp/btw/classes/Weight.java" />
-    <entry file="file://$PROJECT_DIR$/BTW-Objects/src/main/java/il/ac/technion/cs/yp/btw/classes/Crossroad.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="42" lean-forward="true" selection-start-line="17" selection-start-column="42" selection-end-line="17" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BTW-Objects/src/main/java/il/ac/technion/cs/yp/btw/classes/CrossroadImpl.java" />
     <entry file="file://$PROJECT_DIR$/BTW-Objects/src/main/java/il/ac/technion/cs/yp/btw/classes/TrafficLight.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1309,7 +1345,6 @@
     <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/HomeController.java" />
     <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/GenerateGridController.java" />
     <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/home_layout.fxml" />
-    <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_grid.fxml" />
     <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/GenerateFreeFormController.java" />
     <entry file="file://$PROJECT_DIR$/BTW-Objects/src/main/java/il/ac/technion/cs/yp/btw/classes/PolygonAbstract.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1387,22 +1422,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BTW-CitySimulation/src/main/java/il/ac/technion/cs/yp/btw/citysimulation/CityMapImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="7" column="39" lean-forward="false" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/MainDataBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2016">
-          <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BTW-GeoJson/src/main/java/il/ac/technion/cs/yp/btw/geojson/GeoJsonParserImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2556">
@@ -1417,44 +1436,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/BTWDataBaseImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="43" column="50" lean-forward="false" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/HomeController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
-          <caret line="57" column="25" lean-forward="false" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="25" />
-          <folding />
+          <caret line="95" column="25" lean-forward="false" selection-start-line="95" selection-start-column="25" selection-end-line="95" selection-end-column="25" />
+          <folding>
+            <marker date="1516363917336" expanded="true" signature="2947:2955" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/BTW.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="576">
-          <caret line="36" column="21" lean-forward="false" selection-start-line="36" selection-start-column="21" selection-end-line="36" selection-end-column="21" />
+          <caret line="39" column="21" lean-forward="false" selection-start-line="39" selection-start-column="21" selection-end-line="39" selection-end-column="21" />
           <folding>
-            <marker date="1516358282430" expanded="true" signature="2356:2362" ph="{...}" />
+            <marker date="1516363917303" expanded="true" signature="2411:2417" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="25" column="6" lean-forward="false" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BTW-CitySimulation/src/main/java/il/ac/technion/cs/yp/btw/citysimulation/CitySimulatorImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2466">
-          <caret line="142" column="5" lean-forward="true" selection-start-line="142" selection-start-column="5" selection-end-line="142" selection-end-column="5" />
+        <state relative-caret-position="306">
+          <caret line="27" column="1" lean-forward="false" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -1467,10 +1472,106 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/BTW-DataBase/src/test/java/il/ac/technion/cs/yp/btw/db/TestSaveMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="708">
+          <caret line="145" column="0" lean-forward="true" selection-start-line="145" selection-start-column="0" selection-end-line="145" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BTW-CitySimulation/src/main/java/il/ac/technion/cs/yp/btw/citysimulation/CitySimulatorImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="416" column="0" lean-forward="false" selection-start-line="416" selection-start-column="0" selection-end-line="416" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BTW-Navigation/src/main/java/il/ac/technion/cs/yp/btw/navigation/NaiveNavigationManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding>
+            <element signature="e#644#645#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/MainDataBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="144" column="0" lean-forward="false" selection-start-line="144" selection-start-column="0" selection-end-line="144" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/BTWDataBaseImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="145" column="68" lean-forward="true" selection-start-line="145" selection-start-column="68" selection-end-line="145" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BTW-CitySimulation/src/main/java/il/ac/technion/cs/yp/btw/citysimulation/CityMapImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="39" lean-forward="false" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Programs/java jdk/jdk1.8.0_121/javafx-src.zip!/javafx/scene/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="568">
+          <caret line="1646" column="25" lean-forward="false" selection-start-line="1646" selection-start-column="25" selection-end-line="1646" selection-end-column="25" />
+          <folding>
+            <element signature="e#67983#67984#0" expanded="true" />
+            <element signature="e#68047#68048#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/jfoenix/jfoenix/1.10.0/jfoenix-1.10.0.jar!/com/jfoenix/controls/JFXAlert.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="39" column="11" lean-forward="false" selection-start-line="39" selection-start-column="11" selection-end-line="39" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Programs/java jdk/jdk1.8.0_121/javafx-src.zip!/javafx/scene/control/Dialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="847">
+          <caret line="317" column="79" lean-forward="true" selection-start-line="317" selection-start-column="79" selection-end-line="317" selection-end-column="79" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/jfoenix/jfoenix/1.10.0/jfoenix-1.10.0.jar!/com/jfoenix/controls/JFXDialog.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-395">
+          <caret line="141" column="16" lean-forward="false" selection-start-line="141" selection-start-column="16" selection-end-line="141" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_grid.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="23" column="40" lean-forward="true" selection-start-line="23" selection-start-column="40" selection-end-line="23" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="518">
-          <caret line="173" column="5" lean-forward="true" selection-start-line="173" selection-start-column="5" selection-end-line="173" selection-end-column="5" />
+        <state relative-caret-position="81">
+          <caret line="127" column="0" lean-forward="true" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
