@@ -309,6 +309,13 @@ public class CitySimulatorImpl implements CitySimulator {
             return this;
         }
 
+        @Override
+        public Set<CityTrafficLight> getRealTrafficLights() {
+            return this.trafficLights.stream()
+                    .map(CitySimulatorImpl.this::getRealTrafficLight)
+                    .collect(Collectors.toSet());
+        }
+
         /**
          * progress everything by a clock all TrafficLights
          * in this Crossroad, and manage the opening and closing
