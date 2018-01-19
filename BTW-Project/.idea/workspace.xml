@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9ebb191e-0477-4745-98ad-e693203c6e46" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java" afterPath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_free_form.fxml" afterPath="$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_free_form.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java" afterPath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/BTW-Navigation/target/" />
     <ignored path="$PROJECT_DIR$/BTW-Objects/target/" />
@@ -27,11 +26,21 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="GenerateFreeFormController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GenerateFreeFormController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="477">
-              <caret line="119" column="0" lean-forward="true" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+            <state relative-caret-position="459">
+              <caret line="118" column="43" lean-forward="true" selection-start-line="118" selection-start-column="43" selection-end-line="118" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NaiveTrafficLightManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BTW-TrafficLightManagement/src/main/java/il/ac/technion/cs/yp/btw/trafficlights/NaiveTrafficLightManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="555">
+              <caret line="43" column="50" lean-forward="true" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -83,28 +92,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CitySimulatorImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BTW-CitySimulation/src/main/java/il/ac/technion/cs/yp/btw/citysimulation/CitySimulatorImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="416" column="0" lean-forward="false" selection-start-line="416" selection-start-column="0" selection-end-line="416" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NaiveNavigationManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BTW-Navigation/src/main/java/il/ac/technion/cs/yp/btw/navigation/NaiveNavigationManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-              <folding>
-                <element signature="e#644#645#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="CityMapImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BTW-CitySimulation/src/main/java/il/ac/technion/cs/yp/btw/citysimulation/CityMapImpl.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -120,6 +107,28 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="279">
               <caret line="144" column="0" lean-forward="false" selection-start-line="144" selection-start-column="0" selection-end-line="144" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GenerateGridController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="169" column="43" lean-forward="true" selection-start-line="169" selection-start-column="43" selection-end-line="169" selection-end-column="43" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestDataStreet.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BTW-DataBase/src/test/java/il/ac/technion/cs/yp/btw/db/TestDataStreet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-441">
+              <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -183,9 +192,9 @@
         <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/HomeController.java" />
         <option value="$PROJECT_DIR$/BTW-DataBase/src/test/java/il/ac/technion/cs/yp/btw/db/TestSaveMap.java" />
         <option value="$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_grid.fxml" />
-        <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java" />
         <option value="$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_free_form.fxml" />
         <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java" />
+        <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java" />
       </list>
     </option>
   </component>
@@ -203,10 +212,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
-    <option name="y" value="-11" />
-    <option name="width" value="1922" />
-    <option name="height" value="1092" />
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -404,6 +411,18 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="db" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1119,7 +1138,7 @@
       <workItem from="1515325464276" duration="41000" />
       <workItem from="1515926939008" duration="78000" />
       <workItem from="1515927403137" duration="994000" />
-      <workItem from="1516348516554" duration="18808000" />
+      <workItem from="1516348516554" duration="20183000" />
     </task>
     <task id="LOCAL-00001" summary="navigation successful integration, update.&#10;navigation compiles">
       <created>1513102268093</created>
@@ -1184,7 +1203,14 @@
       <option name="project" value="LOCAL" />
       <updated>1516370815670</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="added free form city generation screen with input validation">
+      <created>1516371677284</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1516371677284</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1196,10 +1222,10 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52631000" />
+    <option name="totallyTimeSpent" value="54006000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="-11" width="1922" height="1092" extended-state="6" />
+    <frame x="0" y="0" width="1920" height="1080" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1260,20 +1286,11 @@
     <MESSAGE value="updated transition to map" />
     <MESSAGE value="in generate grid city you can insert and validate the input. enabling and disbaling doesnt work yet" />
     <MESSAGE value="generate grid city works, including toggles" />
-    <option name="LAST_COMMIT_MESSAGE" value="generate grid city works, including toggles" />
+    <MESSAGE value="added free form city generation screen with input validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="added free form city generation screen with input validation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java</url>
-          <line>71</line>
-          <properties class="il.ac.technion.cs.yp.btw.app.GenerateGridController" method="getAndValidateUserInput">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
@@ -1283,15 +1300,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/BTW-Objects/src/main/java/il/ac/technion/cs/yp/btw/classes/TrafficLight.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="44" lean-forward="false" selection-start-line="16" selection-start-column="44" selection-end-line="16" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BTW-Objects/src/main/java/il/ac/technion/cs/yp/btw/classes/StreetImpl.java" />
-    <entry file="file://$PROJECT_DIR$/BTW-Objects/src/main/java/il/ac/technion/cs/yp/btw/classes/TrafficLightImpl.java" />
     <entry file="file://$PROJECT_DIR$/BTW-Simulation/src/main/java/il/ac/technion/cs/yp/CrossRoad.java" />
     <entry file="file://$PROJECT_DIR$/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/BTWDataBase.java" />
     <entry file="file://$PROJECT_DIR$/BTW-Simulation/src/main/java/il/ac/technion/cs/yp/GridCityMapSimulator.java" />
@@ -1537,16 +1545,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="40" column="26" lean-forward="false" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_free_form.fxml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="379">
@@ -1578,9 +1576,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="477">
-          <caret line="119" column="0" lean-forward="true" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+        <state relative-caret-position="459">
+          <caret line="118" column="43" lean-forward="true" selection-start-line="118" selection-start-column="43" selection-end-line="118" selection-end-column="43" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BTW-DataBase/src/test/java/il/ac/technion/cs/yp/btw/db/TestCrossRoadsDataBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BTW-DataBase/src/test/java/il/ac/technion/cs/yp/btw/db/TestDataStreet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-441">
+          <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BTW-TrafficLightManagement/src/main/java/il/ac/technion/cs/yp/btw/trafficlights/NaiveTrafficLightManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="43" column="50" lean-forward="true" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="169" column="43" lean-forward="true" selection-start-line="169" selection-start-column="43" selection-end-line="169" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

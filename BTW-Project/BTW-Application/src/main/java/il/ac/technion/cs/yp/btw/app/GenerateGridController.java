@@ -161,11 +161,13 @@ public class GenerateGridController implements Initializable{
 
         //Insert the new map to the database.
         BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity");
-        dataBase.saveMap(mapString);
+        dataBase.saveMap(mapString);*/
+
+        BTWDataBase dataBase = new BTWDataBaseImpl("test1");
 
         CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
         CityMap cityMap = citySimulator.saveMap();
-        switchScreensToMap(event, cityMap);*/
+        switchScreensToMap(event, cityMap);
 
 
         //DrawMapController mapDrawer = new DrawMapController(cityMap);
