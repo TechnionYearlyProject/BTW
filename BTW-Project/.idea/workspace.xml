@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9ebb191e-0477-4745-98ad-e693203c6e46" name="Default" comment="can view generated road map from generate grid city.&#10;free form">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Application/src/main/resources/BTWLogo.png" afterPath="$PROJECT_DIR$/BTW-Application/src/main/resources/BTWLogo.png" />
+    <list default="true" id="9ebb191e-0477-4745-98ad-e693203c6e46" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/DrawMapController.java" afterPath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/DrawMapController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java" afterPath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java" afterPath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/MapGraphics.java" afterPath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/MapGraphics.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/stageForDrawMap.fxml" afterPath="$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/stageForDrawMap.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Graphics/src/main/java/il/ac/technion/cs/yp/btw/gui/DrawMap.java" afterPath="$PROJECT_DIR$/BTW-Graphics/src/main/java/il/ac/technion/cs/yp/btw/gui/DrawMap.java" />
     </list>
     <ignored path="$PROJECT_DIR$/BTW-Navigation/target/" />
     <ignored path="$PROJECT_DIR$/BTW-Objects/target/" />
@@ -35,8 +28,8 @@
       <file leaf-file-name="GenerateFreeFormController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-468">
-              <caret line="61" column="16" lean-forward="true" selection-start-line="61" selection-start-column="16" selection-end-line="61" selection-end-column="16" />
+            <state relative-caret-position="846">
+              <caret line="134" column="43" lean-forward="true" selection-start-line="134" selection-start-column="43" selection-end-line="134" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -174,7 +167,7 @@
         <option value="orelkan &lt;orelkanditan@gmail.com&gt;" />
       </list>
     </option>
-    <option name="UPDATE_TYPE" value="REBASE" />
+    <option name="UPDATE_TYPE" value="MERGE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GradleLocalSettings">
@@ -1217,7 +1210,7 @@
       <workItem from="1515325464276" duration="41000" />
       <workItem from="1515926939008" duration="78000" />
       <workItem from="1515927403137" duration="994000" />
-      <workItem from="1516348516554" duration="32010000" />
+      <workItem from="1516348516554" duration="32176000" />
     </task>
     <task id="LOCAL-00001" summary="navigation successful integration, update.&#10;navigation compiles">
       <created>1513102268093</created>
@@ -1296,7 +1289,14 @@
       <option name="project" value="LOCAL" />
       <updated>1516373404511</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="can view generated road map from generate grid city. 2x2 and 3x3 appear in reasonable time">
+      <created>1516385694184</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1516385694184</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1308,7 +1308,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65833000" />
+    <option name="totallyTimeSpent" value="65999000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="6" />
@@ -1316,10 +1316,10 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843652" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32873806" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32843652" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32738718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31689402" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31689402" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20416667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1373,7 +1373,8 @@
     <MESSAGE value="generate grid city works, including toggles" />
     <MESSAGE value="added free form city generation screen with input validation" />
     <MESSAGE value="replaced grid city map creation code with static test map, currently not working" />
-    <option name="LAST_COMMIT_MESSAGE" value="replaced grid city map creation code with static test map, currently not working" />
+    <MESSAGE value="can view generated road map from generate grid city. 2x2 and 3x3 appear in reasonable time" />
+    <option name="LAST_COMMIT_MESSAGE" value="can view generated road map from generate grid city. 2x2 and 3x3 appear in reasonable time" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1758,8 +1759,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-468">
-          <caret line="61" column="16" lean-forward="true" selection-start-line="61" selection-start-column="16" selection-end-line="61" selection-end-column="16" />
+        <state relative-caret-position="846">
+          <caret line="134" column="43" lean-forward="true" selection-start-line="134" selection-start-column="43" selection-end-line="134" selection-end-column="43" />
           <folding />
         </state>
       </provider>
