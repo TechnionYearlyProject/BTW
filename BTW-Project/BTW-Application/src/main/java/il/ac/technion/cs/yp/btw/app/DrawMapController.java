@@ -146,7 +146,6 @@ public class DrawMapController implements Initializable {
 //            circles.add(circle.getKey());
             root.getChildren().add(circle.getKey());
         }
-//        root.setPadding(new Insets(10000,10000,10000,10000));
         return this;
     }
     // should be implemented outside

@@ -1,8 +1,10 @@
 package il.ac.technion.cs.yp.btw.app;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -12,15 +14,20 @@ import java.io.IOException;
  */
 
 public class RoadRealTimeStatisticsController {
- public void generateView(int length, double averageSpeed, int numOfVehicles) throws IOException {
-     Parent root = FXMLLoader.load(getClass().getResource("fxml/RoadRealTimeStatistics.fxml"));
+    @FXML private Text vehiclesNum, averageSpeed, lengthInKm;
 
-     Scene scene = new Scene(root);
+    public void generateView(int length, double averageSpeed, int numOfVehicles, Parent root) throws IOException {
 
-     Stage stage = new Stage();
+        Scene scene = new Scene(root);
 
-     stage.setScene(scene);
-     stage.show();
+        Stage stage = new Stage();
 
- }
+        stage.setScene(scene);
+        stage.show();
+
+        this.vehiclesNum.setText(String.valueOf(numOfVehicles));
+        this.averageSpeed.setText(String.valueOf(averageSpeed));
+        this.lengthInKm.setText(String.valueOf(length));
+
+    }
 }
