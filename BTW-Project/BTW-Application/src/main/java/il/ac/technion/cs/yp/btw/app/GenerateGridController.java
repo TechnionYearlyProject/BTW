@@ -93,23 +93,24 @@ public class GenerateGridController {
 
         CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
         CityMap cityMap = citySimulator.saveMap();
+        switchScreensToMap(event, cityMap);
 
         //DrawMapController mapDrawer = new DrawMapController(cityMap);
 
-        FXMLLoader Loader = new FXMLLoader();
-        Loader.setLocation(getClass().getResource("/fxml/stageForDrawMap.fxml"));
-        try {
-            Loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        DrawMapController drawMapController = Loader.getController();
-        drawMapController.initCityMap(cityMap);
-
-        Parent p = Loader.getRoot();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(p));
-        stage.showAndWait();
+//        FXMLLoader Loader = new FXMLLoader();
+//        Loader.setLocation(getClass().getResource("/fxml/stageForDrawMap.fxml"));
+//        try {
+//            Loader.load();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        DrawMapController drawMapController = Loader.getController();
+//        drawMapController.initCityMap(cityMap);
+//
+//        Parent p = Loader.getRoot();
+//        Stage stage = new Stage();
+//        stage.setScene(new Scene(p));
+//        stage.showAndWait();
 
 //
 //        Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -134,11 +135,26 @@ public class GenerateGridController {
         }
     }
 
+    private void switchScreensToMap(ActionEvent event, CityMap cityMap) {
+        Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        try {
+            //TODO: maybe remove resource
+            URL resource = getClass().getResource("/fxml/stageForDrawMap.fxml");
+            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, resource, anchor, cityMap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-    public static void transitionAnimationAndSwitch(String fxmlLocation, Stage stageTheEventSourceNodeBelongs,
+
+    public void transitionAnimationAndSwitch(String fxmlLocation, Stage stageTheEventSourceNodeBelongs,
                                                     URL resource, Node rootNode) throws IOException {
-        Parent root;
-        root = FXMLLoader.load(resource);
+        Parent root = FXMLLoader.load(resource);
+        transitionAndSwitchInner(stageTheEventSourceNodeBelongs, rootNode, root);
+    }
+
+    //getting root (parent)
+    private void transitionAndSwitchInner(Stage stageTheEventSourceNodeBelongs, Node rootNode, Parent root) {
         int length = 300;
         FadeTransition fadeOut = new FadeTransition(Duration.millis(length), rootNode);
         fadeOut.setFromValue(1.0);
@@ -154,17 +170,22 @@ public class GenerateGridController {
                     stageTheEventSourceNodeBelongs.setScene(scene);
                 }
         );
-
-
-
-        //BTWDataBase db = new BTWDataBaseImpl("exampleMap");
-        //db.saveMap();
-        //CitySimulator simulator = new CitySimulatorImpl(db);
-        //DrawMapController mapDrawer = new DrawMapController();
-        //CityMap map = simulator.saveMap();
-        //mapDrawer.draw(map);
-
-
         fadeOut.play();
+    }
+
+    public void transitionAndSwitchToMap(Stage stageTheEventSourceNodeBelongs,
+                                                    URL resource, Node rootNode, CityMap cityMap) throws IOException {
+        FXMLLoader Loader = new FXMLLoader();
+        Loader.setLocation(getClass().getResource("/fxml/stageForDrawMap.fxml"));
+        try {
+            Loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DrawMapController drawMapController = Loader.getController();
+        drawMapController.initCityMap(cityMap);
+
+        Parent root = Loader.getRoot();
+        transitionAndSwitchInner(stageTheEventSourceNodeBelongs, rootNode, root);
     }
 }
