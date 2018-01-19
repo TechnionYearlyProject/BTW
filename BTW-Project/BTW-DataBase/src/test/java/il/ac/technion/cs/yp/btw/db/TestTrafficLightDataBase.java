@@ -18,7 +18,7 @@ public class TestTrafficLightDataBase {
     @Test
     public void testGetAllTrafficLights(){
         MainDataBase.openConnection();
-        Set<TrafficLight> allTrafficLights = TrafficLightsDataBase.getAllTrafficLights("first");
+        Set<TrafficLight> allTrafficLights = TrafficLightsDataBase.getAllTrafficLights("mapName");
         Iterator<TrafficLight> iterator = allTrafficLights.iterator();
         //System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
@@ -32,7 +32,7 @@ public class TestTrafficLightDataBase {
     public void testGetAllTrafficLightsInPosition(){
         MainDataBase.openConnection();
         Point position = new PointImpl(1,1);
-        Set<TrafficLight> allTrafficLights = TrafficLightsDataBase.getAllTrafficLights(position, "first");
+        Set<TrafficLight> allTrafficLights = TrafficLightsDataBase.getAllTrafficLights(position, "mapName");
         Iterator<TrafficLight> iterator = allTrafficLights.iterator();
         //System.out.println("\n\n\nthe result set is:");
         while(iterator.hasNext()){
@@ -45,7 +45,7 @@ public class TestTrafficLightDataBase {
     @Test
     public void testGetTrafficLight(){
         MainDataBase.openConnection();
-        TrafficLight trafficLight = TrafficLightsDataBase.getTrafficLight("T1-Road4-Road6", "first");
+        TrafficLight trafficLight = TrafficLightsDataBase.getTrafficLight("from:7 street section 3 to:7 street section 3R", "mapName");
         assertNotNull(trafficLight);
         //System.out.println(trafficLight.toString());
         MainDataBase.closeConnection();
