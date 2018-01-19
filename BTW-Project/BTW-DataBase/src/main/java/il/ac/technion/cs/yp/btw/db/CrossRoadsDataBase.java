@@ -35,7 +35,7 @@ public class CrossRoadsDataBase {
                 crossRoad = crossRoadsMap.get(position);
                 crossRoad.addTrafficLight(trafficLightfromDataBase);
             } else {
-                crossRoad = new DataCrossRoad(position, mapName);
+                crossRoad = new DataCrossRoad(position, true,mapName);
                 crossRoadsMap.put(position, crossRoad);
             }
         }
