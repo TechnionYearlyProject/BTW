@@ -5,6 +5,8 @@ import il.ac.technion.cs.yp.btw.db.DataObjects.DataCrossRoad;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataRoad;
 import org.junit.Assert;
 import org.junit.Test;
+import java.util.Iterator;
+import java.util.Set;
 
 import java.util.HashSet;
 
@@ -86,6 +88,18 @@ public class TestDataCrossRoad {
         //TrafficLight t = TrafficLightsDataBase.getAllTrafficLights("mapName");
         Crossroad tl1 = CrossRoadsDataBase.getCrossRoad(position, "mapName");
         System.out.println(tl1.toString());
+        MainDataBase.closeConnection();
+    }
+
+    @Test
+    public void testGetAllCrossRoad() {
+        MainDataBase.openConnection();
+        String mapName = "first";
+        Set<Crossroad> crossroads = CrossRoadsDataBase.getAllCrossRoads(mapName);
+        Iterator<Crossroad> iterator = crossroads.iterator();
+        while(iterator.hasNext()){
+            System.out.println(iterator.next().toString());
+        }
         MainDataBase.closeConnection();
     }
 }

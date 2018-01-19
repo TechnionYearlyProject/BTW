@@ -75,4 +75,12 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
         return crossRoad;
     }
 
+    @Override
+    public boolean equals (Object o){
+        if(!(o instanceof DataCrossRoad))
+            return false;
+        DataCrossRoad otherCrossRoad = (DataCrossRoad)o;
+        return (this.getCoordinateX() == otherCrossRoad.getCoordinateX())&&(this.getCoordinateY() == otherCrossRoad.getCoordinateY());
+    }
+
 }
