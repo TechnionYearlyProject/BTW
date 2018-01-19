@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
  * map simulator of a grid shaped city
  */
 public class GridCityMapSimulator implements MapSimulator {
-    private static final int DEFAULT_NUM_OF_STREETS = 7;
-    private static final int DEFAULT_NUM_OF_AVENUES = 7;
+    private static final int DEFAULT_NUM_OF_STREETS = 3;
+    private static final int DEFAULT_NUM_OF_AVENUES = 3;
     private static final double DEFAULT_ROAD_LENGTH = 1;
     private static final double DEFAULT_START_X_COORDINATE = 0;
     private static final double DEFAULT_START_Y_COORDINATE = 0;

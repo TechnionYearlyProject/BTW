@@ -94,7 +94,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
     public BTWDataBase saveMap(String geoJson) {
         String createTraffic = "DROP TABLE IF EXISTS "+ mapName + "TrafficLight;\n"+
                 "CREATE TABLE " + mapName + "TrafficLight"
-                +"(nameID varchar(50) NOT NULL,\n" +
+                +"(nameID varchar(100) NOT NULL,\n" +
                 "cordx float NOT NULL,\n" +
                 "cordy float NOT NULL,\n" +
                 "overload bigint,\n" +
@@ -102,8 +102,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
         String createPlace = "DROP TABLE IF EXISTS "+ mapName + "Place;\n"+
                 "CREATE TABLE " + mapName
                 + "Place(\n" +
-                "nameID varchar(50) NOT NULL,\n" +
-                "street varchar(50) NOT NULL,\n" +
+                "nameID varchar(100) NOT NULL,\n" +
+                "street varchar(100) NOT NULL,\n" +
                 "cord1x float NOT NULL,\n" +
                 "cord2x float NOT NULL,\n" +
                 "cord3x float NOT NULL,\n" +
@@ -116,7 +116,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
         String createRoad = "DROP TABLE IF EXISTS "+ mapName + "Road;\n"+
                 "CREATE TABLE " + mapName
                 + "Road(\n" +
-                "nameID varchar(50) NOT NULL,\n" +
+                "nameID varchar(100) NOT NULL,\n" +
                 "cord1x float NOT NULL,\n" +
                 "cord1y float NOT NULL,\n" +
                 "cord2x float NOT NULL,\n" +
@@ -131,8 +131,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 + "INSERT INTO dbo." + mapName
                 + "TrafficLight (nameID, cordx,cordy, overload) SELECT nameID,cordx,cordy,overload FROM OPENJSON(@json, '$.features')\n" +
                 "WITH (\n" +
-                "\ttypeoftoken varchar(50) '$.geometry.type',\n" +
-                "\tnameID varchar(50) '$.properties.name',\n" +
+                "\ttypeoftoken varchar(100) '$.geometry.type',\n" +
+                "\tnameID varchar(100) '$.properties.name',\n" +
                 "\tcordx float '$.geometry.coordinates[0]',\n" +
                 "\tcordy float '$.geometry.coordinates[1]',\n" +
                 "\toverload bigint '$.geometry.overload'\n" +
@@ -140,9 +140,9 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 + "INSERT INTO dbo." + mapName
                 + "Place (nameID, street, cord1x, cord2x, cord3x, cord4x, cord1y, cord2y, cord3y, cord4y) SELECT nameID, street, cord1x, cord2x, cord3x, cord4x, cord1y, cord2y, cord3y, cord4y FROM OPENJSON(@json, '$.features')\n" +
                 "WITH (\n" +
-                "\ttypeoftoken varchar(50) '$.geometry.type',\n" +
-                "\tnameID varchar(50) '$.properties.name',\n" +
-                "\tstreet varchar(50) '$.properties.street',\n" +
+                "\ttypeoftoken varchar(100) '$.geometry.type',\n" +
+                "\tnameID varchar(100) '$.properties.name',\n" +
+                "\tstreet varchar(100) '$.properties.street',\n" +
                 "\tcord1x float '$.geometry.coordinates[0][0]',\n" +
                 "\tcord2x float '$.geometry.coordinates[1][0]',\n" +
                 "\tcord3x float '$.geometry.coordinates[2][0]',\n" +
@@ -155,8 +155,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 + "INSERT INTO dbo." + mapName
                 + "Road (nameID,cord1x,cord1y,cord2x,cord2y,length,secStart,secEnd,overload) SELECT nameID, cord1x, cord1y, cord2x, cord2y, length, secStart, secEnd, overload FROM OPENJSON(@json, '$.features')\n" +
                 "WITH (\n" +
-                "\ttypeoftoken varchar(50) '$.geometry.type',\n" +
-                "\tnameID varchar(30) '$.properties.name',\n" +
+                "\ttypeoftoken varchar(100) '$.geometry.type',\n" +
+                "\tnameID varchar(100) '$.properties.name',\n" +
                 "\tcord1x float '$.geometry.coordinates[0][0]',\n" +
                 "\tcord1y float '$.geometry.coordinates[0][1]',\n" +
                 "\tcord2x float '$.geometry.coordinates[1][0]',\n" +
@@ -186,17 +186,19 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "targetID varchar(50) NOT NULL, overload bigint, PRIMARY KEY(sourceID,targetID));";
         MainDataBase.saveDataFromQuery(sql1);
         MainDataBase.saveDataFromQuery(sql2);
+        String sql3 = "";
         for (Map.Entry<String,Map<String,Long>> firstEntry: heuristics.entrySet())
         {
             for (Map.Entry<String,Long> secondEntry: firstEntry.getValue().entrySet())
             {
                 System.out.println(firstEntry.getKey() + " " + secondEntry.getKey() + " " + secondEntry.getValue());
-                String sql3 = "INSERT INTO dbo." + mapName + "Heuristics(sourceID,targetID,overload)" +
+                String sql3do = "INSERT INTO dbo." + mapName + "Heuristics(sourceID,targetID,overload)" +
                         " VALUES (" + "'" + firstEntry.getKey()+ "', " + "'" +secondEntry.getKey() + "', "
-                        + secondEntry.getValue().toString() + ");";
-                MainDataBase.saveDataFromQuery(sql3);
+                        + secondEntry.getValue().toString() + ");\n";
+                sql3 += sql3do;
             }
-        } //test
+        }
+        MainDataBase.saveDataFromQuery(sql3);
         this.updatedHeuristics = true;
         return this;
     }

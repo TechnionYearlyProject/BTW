@@ -13,7 +13,7 @@ public class TestHeuristics {
 
     @Test
     public void testHeuristics() {
-        BTWDataBase btw = new BTWDataBaseImpl("test1");
+        BTWDataBase btw = new BTWDataBaseImpl("simulatedCity");
         assertNotNull(btw.updateHeuristics());
         //assertNotNull(btw.updateHeuristics());
     }

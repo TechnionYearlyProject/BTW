@@ -143,7 +143,6 @@ public class MainDataBase{
 
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(sqlQuery)) {
-                connection.close();
             }
         }
         catch (Exception e) {

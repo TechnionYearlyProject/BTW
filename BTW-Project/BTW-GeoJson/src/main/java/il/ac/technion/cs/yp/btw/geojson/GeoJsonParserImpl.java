@@ -63,14 +63,14 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
                 }
             }*/
             //fileWriter.flush();
-            if(crossRoads!=null) {
-                for (Crossroad cr : crossRoads) {
-                    String jsonData = this.toStringCrossRoad(cr);
-                    //write the data to json file
-                    fileWriter.write(jsonData);
-                }
-            }
-            fileWriter.flush();
+            //if(crossRoads!=null) {
+             //   for (Crossroad cr : crossRoads) {
+             //       String jsonData = this.toStringCrossRoad(cr);
+             //       //write the data to json file
+             //       fileWriter.write(jsonData);
+             //   }
+            //}
+            //fileWriter.flush();
             if(centralLocations!=null) {
                 for (CentralLocation cl : centralLocations) {
                     String jsonData = this.toStringLocation(cl);
