@@ -148,7 +148,7 @@ public class GenerateGridController implements Initializable{
         }
 
         //this is important code
-        /*GridCityMapSimulator gridCityMapSimulator = new GridCityMapSimulator();
+        GridCityMapSimulator gridCityMapSimulator = new GridCityMapSimulator();
         if(!NumberOfStreets.isDisabled()) gridCityMapSimulator.setNumOfStreets(Number_of_streets);
         if(!NumberOfAvenues.isDisabled()) gridCityMapSimulator.setNumOfAvenues(Number_of_avenues);
         if(!LengthOfAvenues.isDisabled()) gridCityMapSimulator.setAvenueLength(Length_of_avenues);
@@ -161,9 +161,9 @@ public class GenerateGridController implements Initializable{
 
         //Insert the new map to the database.
         BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity");
-        dataBase.saveMap(mapString);*/
+        dataBase.saveMap(mapString);
 
-        BTWDataBase dataBase = new BTWDataBaseImpl("test1");
+        //BTWDataBase dataBase = new BTWDataBaseImpl("test1");
 
         CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
         CityMap cityMap = citySimulator.saveMap();
