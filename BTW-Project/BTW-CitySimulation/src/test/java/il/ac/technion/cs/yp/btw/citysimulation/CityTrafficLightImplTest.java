@@ -31,8 +31,15 @@ public class CityTrafficLightImplTest {
         Mockito.when(navigationManager.getNavigator(this.descriptor, road1, 0.0, road2, 1.0))
                 .thenAnswer(invocation -> this.navigator);
 
-        //crossroad2
+        //crossroad
         Mockito.when(crossroad.getTrafficLightsFromRoad(road1))
+                .thenAnswer( invocation -> {
+                    Set<TrafficLight> trafficLights = new HashSet<>();
+                    trafficLights.add(trafficLight);
+                    return trafficLights;
+                });
+
+        Mockito.when(crossroad.getTrafficLights())
                 .thenAnswer( invocation -> {
                     Set<TrafficLight> trafficLights = new HashSet<>();
                     trafficLights.add(trafficLight);
