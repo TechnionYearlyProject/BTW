@@ -24,37 +24,37 @@
                <HBox alignment="CENTER">
                    <children>
                        <JFXToggleButton />
-                       <JFXTextField prefWidth="210" promptText="Number Of Streets" />
+                       <JFXTextField prefWidth="210" promptText="Number Of Streets" fx:id="NumberOfStreets"/>
                    </children>
                </HBox>
                <HBox alignment="CENTER">
                    <children>
                        <JFXToggleButton />
-                       <JFXTextField prefWidth="210" promptText="Number Of Avenues" />
+                       <JFXTextField prefWidth="210" promptText="Number Of Avenues" fx:id="NumberOfAvenues" />
                    </children>
                </HBox>
                <HBox alignment="CENTER">
                    <children>
                        <JFXToggleButton />
-                       <JFXTextField prefWidth="210" promptText="Length Of Street (meters)" />
+                       <JFXTextField prefWidth="210" promptText="Length Of Street (meters)" fx:id="LengthOfStreets" />
                    </children>
                </HBox>
                <HBox alignment="CENTER">
                    <children>
                        <JFXToggleButton />
-                       <JFXTextField prefWidth="210.0" promptText="Length Of Avenues (meters)" />
+                       <JFXTextField prefWidth="210.0" promptText="Length Of Avenues (meters)" fx:id="LengthOfAvenues"/>
                    </children>
                </HBox>
                <HBox alignment="CENTER">
                    <children>
                        <JFXToggleButton />
-                       <JFXTextField prefWidth="210" promptText="Start Longtitude" />
+                       <JFXTextField prefWidth="210" promptText="Start Longtitude" fx:id="StartLongtitude"/>
                    </children>
                </HBox>
                <HBox alignment="CENTER">
                    <children>
                        <JFXToggleButton />
-                       <JFXTextField prefWidth="210" promptText="Start Latitude" />
+                       <JFXTextField prefWidth="210" promptText="Start Latitude" fx:id="StartLatitude"/>
                    </children>
                </HBox>
            </children>
