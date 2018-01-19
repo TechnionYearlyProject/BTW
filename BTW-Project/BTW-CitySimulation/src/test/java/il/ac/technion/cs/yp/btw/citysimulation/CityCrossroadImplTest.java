@@ -176,10 +176,6 @@ public class CityCrossroadImplTest {
     }
 
     @Test
-    public void tickTest() {
-    }
-
-    @Test
     public void getNameTest() {
         CityCrossroad tested = simulator.getRealCrossroad(this.crossroad);
         Assert.assertEquals("crossroad", tested.getName());

@@ -32,8 +32,23 @@ public class CityRoadImplTest {
     private boolean ticked;
 
     private void configMock() throws PathNotFoundException {
+        //crossroad1
+        Mockito.when(crossroad1.getTrafficLights())
+                .thenAnswer( invocation -> {
+                    Set<TrafficLight> trafficLights = new HashSet<>();
+                    trafficLights.add(trafficLight1);
+                    return trafficLights;
+                });
+
         //crossroad2
         Mockito.when(crossroad2.getTrafficLightsFromRoad(road))
+                .thenAnswer( invocation -> {
+                    Set<TrafficLight> trafficLights = new HashSet<>();
+                    trafficLights.add(trafficLight2);
+                    return trafficLights;
+                });
+
+        Mockito.when(crossroad2.getTrafficLights())
                 .thenAnswer( invocation -> {
                     Set<TrafficLight> trafficLights = new HashSet<>();
                     trafficLights.add(trafficLight2);
@@ -106,6 +121,8 @@ public class CityRoadImplTest {
         trafficLights.add(this.trafficLight1);
         trafficLights.add(this.trafficLight2);
         Set<Crossroad> crossroads = new HashSet<>();
+        crossroads.add(this.crossroad1);
+        crossroads.add(this.crossroad2);
         NavigationManager navigationManager = Mockito.mock(NavigationManager.class);
         this.simulator = new CitySimulatorImpl(roads, trafficLights, crossroads, navigationManager);
     }
