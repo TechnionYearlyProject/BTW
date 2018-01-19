@@ -3,6 +3,7 @@ package il.ac.technion.cs.yp.btw.app;
 import com.jfoenix.controls.JFXAlert;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import il.ac.technion.cs.yp.btw.citysimulation.CityMap;
 import il.ac.technion.cs.yp.btw.citysimulation.CityMapImpl;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
@@ -13,9 +14,12 @@ import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,17 +31,32 @@ import javafx.util.Duration;
 
 import java.io.*;
 import java.net.URL;
+import java.util.ResourceBundle;
 
 import static il.ac.technion.cs.yp.btw.app.HomeController.transitionAnimationAndSwitch;
 
-public class GenerateGridController {
+public class GenerateGridController implements Initializable{
     @FXML private Node anchor;
     @FXML private JFXTextField NumberOfStreets;
     @FXML private JFXTextField NumberOfAvenues;
     @FXML private JFXTextField LengthOfStreets;
     @FXML private JFXTextField LengthOfAvenues;
 
+    @FXML private JFXToggleButton numStreetsToggle, numAvenuesToggle, legnthStreetsToggle, legnthAvenuesToggle;
+
     int Number_of_streets, Number_of_avenues, Length_of_streets, Length_of_avenues;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        numStreetsToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
+                NumberOfStreets.setDisable(!NumberOfStreets.isDisabled()));
+        numAvenuesToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
+                NumberOfAvenues.setDisable(!NumberOfAvenues.isDisabled()));
+        legnthStreetsToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
+                LengthOfStreets.setDisable(!LengthOfStreets.isDisabled()));
+        legnthAvenuesToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
+                LengthOfAvenues.setDisable(!LengthOfAvenues.isDisabled()));
+    }
 
     @FXML protected void BackClicked(ActionEvent event) {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -95,6 +114,8 @@ public class GenerateGridController {
         return true;
     }
 
+
+
     private void showErrorDialog(String errorMessage, ActionEvent event) {
 //        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 //        JFXAlert<Void> alert = new JFXAlert<>(stage);
@@ -127,7 +148,7 @@ public class GenerateGridController {
         }
 
         //this is important code
-        GridCityMapSimulator gridCityMapSimulator = new GridCityMapSimulator();
+        /*GridCityMapSimulator gridCityMapSimulator = new GridCityMapSimulator();
         if(!NumberOfStreets.isDisabled()) gridCityMapSimulator.setNumOfStreets(Number_of_streets);
         if(!NumberOfAvenues.isDisabled()) gridCityMapSimulator.setNumOfAvenues(Number_of_avenues);
         if(!LengthOfAvenues.isDisabled()) gridCityMapSimulator.setAvenueLength(Length_of_avenues);
@@ -144,7 +165,7 @@ public class GenerateGridController {
 
         CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
         CityMap cityMap = citySimulator.saveMap();
-        switchScreensToMap(event, cityMap);
+        switchScreensToMap(event, cityMap);*/
 
 
         //DrawMapController mapDrawer = new DrawMapController(cityMap);
@@ -176,6 +197,7 @@ public class GenerateGridController {
 
     }
 
+
     private String parseCitySimulationToGeoJsonString(GridCityMapSimulator gridCityMapSimulator) {
         GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
         File mapFile = geoJsonParser.buildGeoJsonFromSimulation(gridCityMapSimulator);
@@ -198,7 +220,6 @@ public class GenerateGridController {
         return mapString;
     }
 
-
     private void switchScreens(ActionEvent event, String fxmlLocation) {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
         try {
@@ -208,6 +229,7 @@ public class GenerateGridController {
             e.printStackTrace();
         }
     }
+
 
     private void switchScreensToMap(ActionEvent event, CityMap cityMap) {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -219,7 +241,6 @@ public class GenerateGridController {
             e.printStackTrace();
         }
     }
-
 
     public void transitionAnimationAndSwitch(String fxmlLocation, Stage stageTheEventSourceNodeBelongs,
                                                     URL resource, Node rootNode) throws IOException {
@@ -262,4 +283,5 @@ public class GenerateGridController {
         Parent root = Loader.getRoot();
         transitionAndSwitchInner(stageTheEventSourceNodeBelongs, rootNode, root);
     }
+
 }

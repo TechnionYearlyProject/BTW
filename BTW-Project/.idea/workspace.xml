@@ -5,7 +5,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java" afterPath="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_grid.fxml" afterPath="$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_grid.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BTW-DataBase/src/test/java/il/ac/technion/cs/yp/btw/db/TestSaveMap.java" afterPath="$PROJECT_DIR$/BTW-DataBase/src/test/java/il/ac/technion/cs/yp/btw/db/TestSaveMap.java" />
     </list>
     <ignored path="$PROJECT_DIR$/BTW-Navigation/target/" />
     <ignored path="$PROJECT_DIR$/BTW-Objects/target/" />
@@ -40,15 +39,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GenerateGridController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GenerateGridController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
-              <caret line="127" column="0" lean-forward="true" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
+            <state relative-caret-position="342">
+              <caret line="40" column="26" lean-forward="false" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="generate_grid.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_grid.fxml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="217">
+              <caret line="25" column="64" lean-forward="false" selection-start-line="25" selection-start-column="64" selection-end-line="25" selection-end-column="64" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="JavaFX-Scene-Builder">
+            <state />
           </provider>
         </entry>
       </file>
@@ -75,19 +87,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="generate_grid.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_grid.fxml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="23" column="40" lean-forward="true" selection-start-line="23" selection-start-column="40" selection-end-line="23" selection-end-column="40" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="JavaFX-Scene-Builder">
-            <state />
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="CitySimulatorImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BTW-CitySimulation/src/main/java/il/ac/technion/cs/yp/btw/citysimulation/CitySimulatorImpl.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -110,11 +109,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GenerateFreeFormController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="GenerateFreeFormController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="27" column="1" lean-forward="false" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+            <state relative-caret-position="126">
+              <caret line="7" column="27" lean-forward="true" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -197,10 +196,10 @@
         <option value="$PROJECT_DIR$/BTW-Application/pom.xml" />
         <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/BTW.java" />
         <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/HomeController.java" />
-        <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java" />
         <option value="$PROJECT_DIR$/BTW-DataBase/src/test/java/il/ac/technion/cs/yp/btw/db/TestSaveMap.java" />
         <option value="$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_grid.fxml" />
         <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java" />
+        <option value="$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java" />
       </list>
     </option>
   </component>
@@ -1134,7 +1133,7 @@
       <workItem from="1515325464276" duration="41000" />
       <workItem from="1515926939008" duration="78000" />
       <workItem from="1515927403137" duration="994000" />
-      <workItem from="1516348516554" duration="16638000" />
+      <workItem from="1516348516554" duration="17954000" />
     </task>
     <task id="LOCAL-00001" summary="navigation successful integration, update.&#10;navigation compiles">
       <created>1513102268093</created>
@@ -1185,7 +1184,14 @@
       <option name="project" value="LOCAL" />
       <updated>1516362245256</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="in generate grid city you can insert and validate the input. enabling and disbaling doesnt work yet">
+      <created>1516369516892</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1516369516892</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1197,7 +1203,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="50461000" />
+    <option name="totallyTimeSpent" value="51777000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-11" width="1922" height="1092" extended-state="6" />
@@ -1259,26 +1265,19 @@
     <MESSAGE value="- radio buttons cannot be on together&#10;- added logo&#10;- added grid and free form basic screens&#10;- added animation transition" />
     <MESSAGE value="added generate grid city screen" />
     <MESSAGE value="updated transition to map" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated transition to map" />
+    <MESSAGE value="in generate grid city you can insert and validate the input. enabling and disbaling doesnt work yet" />
+    <option name="LAST_COMMIT_MESSAGE" value="in generate grid city you can insert and validate the input. enabling and disbaling doesnt work yet" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java</url>
-          <line>52</line>
+          <line>71</line>
           <properties class="il.ac.technion.cs.yp.btw.app.GenerateGridController" method="getAndValidateUserInput">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java</url>
-          <line>120</line>
-          <properties class="il.ac.technion.cs.yp.btw.app.GenerateGridController" method="GenerateClicked">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
       <option name="time" value="4" />
@@ -1456,14 +1455,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="27" column="1" lean-forward="false" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BTW-MapGeneration/src/main/java/il/ac/technion/cs/yp/btw/mapgeneration/GridCityMapSimulator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2240">
@@ -1559,8 +1550,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/resources/fxml/generate_grid.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="23" column="40" lean-forward="true" selection-start-line="23" selection-start-column="40" selection-end-line="23" selection-end-column="40" />
+        <state relative-caret-position="217">
+          <caret line="25" column="64" lean-forward="false" selection-start-line="25" selection-start-column="64" selection-end-line="25" selection-end-column="64" />
           <folding />
         </state>
       </provider>
@@ -1570,11 +1561,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateGridController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="127" column="0" lean-forward="true" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
+        <state relative-caret-position="342">
+          <caret line="40" column="26" lean-forward="false" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BTW-Application/src/main/java/il/ac/technion/cs/yp/btw/app/GenerateFreeFormController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="27" lean-forward="true" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>
