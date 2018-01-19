@@ -4,7 +4,9 @@ import com.jfoenix.controls.JFXButton;
 import il.ac.technion.cs.yp.btw.citysimulation.CityMap;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
-//import il.ac.technion.cs.yp.btw.gui.DrawMap;
+//import il.ac.technion.cs.yp.btw.gui.DrawMapController;
+import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
+import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -26,9 +28,7 @@ public class BTW extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/road_real_time_statistics.fxml"));
-        //Parent root = FXMLLoader.load(getClass().getResource("/fxml/traffic_light_management.fxml"));
-        //Parent root = FXMLLoader.load(getClass().getResource("/fxml/home_layout.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/home_layout.fxml"));
 
         Scene scene = new Scene(root);
 
@@ -67,9 +67,9 @@ public class BTW extends Application {
         stage.setScene(scene);
         stage.show();
 
-        //CitySimulator simulator = new CitySimulatorImpl(db);
-        //DrawMap mapDrawer = new DrawMap();
-        //CityMap map = simulator.saveMap();
-       // mapDrawer.draw(map);
+        //TODO: insert valid map and put this part as event for clicking on generate map.
+        String mapInGeoJson = "";
+
+
     }
 }
