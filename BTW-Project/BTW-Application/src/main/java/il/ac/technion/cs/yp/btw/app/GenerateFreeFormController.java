@@ -21,4 +21,8 @@ public class GenerateFreeFormController {
             e.printStackTrace();
         }
     }
+
+    @FXML protected void GenerateClicked(ActionEvent event) {
+
+    }
 }

@@ -73,7 +73,6 @@ public class DrawMap extends Application {
                     ,event.getX(), event.getY());
         });
 
-
         Scene scene = new Scene(root, 640, 640, Color.GREY);
 
         primaryStage.setScene(scene);

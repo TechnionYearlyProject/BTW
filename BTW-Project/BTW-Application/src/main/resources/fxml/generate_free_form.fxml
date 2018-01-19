@@ -39,14 +39,14 @@
                 <Font size="20.0" />
             </font>
         </Text>
-        <JFXButton fx:id="generate_button" buttonType="RAISED" layoutX="709.0" layoutY="400.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Generate" />
+        <JFXButton fx:id="generate_button" buttonType="RAISED" layoutX="709.0" layoutY="400.0" onAction="#GenerateClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Generate" />
         <JFXRadioButton layoutX="757.0" layoutY="250.0" prefHeight="36.0" prefWidth="143.0" text="Grid Road" />
         <JFXRadioButton layoutX="757.0" layoutY="304.0" prefHeight="36.0" prefWidth="161.0" text="Free Form" />
-      <ImageView fx:id="logo" fitHeight="307.0" fitWidth="250.0" layoutX="461.0" layoutY="466.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="logo" fitHeight="307.0" fitWidth="250.0" layoutX="461.0" layoutY="466.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="/BTWLogo.png" />
          </image>
-      </ImageView>
+        </ImageView>
         <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="45.0" layoutY="681.0" onAction="#BackClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
     </children>
 </AnchorPane>
