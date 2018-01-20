@@ -1,20 +1,27 @@
 package il.ac.technion.cs.yp.btw.db;
 
 import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.db.DataObjects.DataCrossRoad;
 import il.ac.technion.cs.yp.btw.navigation.BTWGraphInfo;
+import javafx.util.Pair;
 import sun.applet.Main;
 
 import java.sql.Connection;
+import java.util.*;
 import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 public class BTWDataBaseImpl implements BTWDataBase {
 
     private String mapName;
     private Connection connection;
     private boolean updatedHeuristics;
+    private Set<TrafficLight> trafficLights;
+    private boolean trafficLightsloaded;
 
     public BTWDataBaseImpl(String mapName){
+        this.trafficLights = new HashSet<>();
+        this.trafficLightsloaded = false;
         this.mapName = mapName;
         MainDataBase.openConnection();
         this.updatedHeuristics = false;
@@ -27,12 +34,21 @@ public class BTWDataBaseImpl implements BTWDataBase {
     public void closeDataBaseConnection(String mapName){
         MainDataBase.closeConnection();
     }
+
     /**
      * @return Set of all TrafficLights in the system
      */
     @Override
     public Set<TrafficLight> getAllTrafficLights(){
-        return TrafficLightsDataBase.getAllTrafficLights(mapName);
+        if (!trafficLightsloaded) {
+            trafficLightsloaded = true;
+            this.trafficLights = TrafficLightsDataBase.getAllTrafficLights(mapName);
+            return this.trafficLights;
+        }
+        else {
+            return this.trafficLights;
+        }
+
     }
 
     /**
@@ -73,8 +89,24 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public Set<Crossroad> getAllCrossroads() {
-        // TODO
-        return CrossRoadsDataBase.getAllCrossRoads(mapName);
+        Set<Crossroad> crossRoads = new HashSet<Crossroad>();
+        String name = "cross";
+        Integer count = 1;
+        Map<Pair<Double, Double>, List<TrafficLight>> trafficLightsOfLocation = this.getAllTrafficLights()
+                .stream()
+                .collect(Collectors.groupingBy(trafficLight ->
+                        new Pair<>(trafficLight.getCoordinateX(), trafficLight.getCoordinateY())));
+
+        for (Map.Entry<Pair<Double, Double>, List<TrafficLight>> entry: trafficLightsOfLocation.entrySet()) {
+            Point p = new PointImpl(entry.getKey().getKey(),entry.getKey().getValue());
+            Set<TrafficLight> tlsOfCrossRoad = new HashSet<TrafficLight>(entry.getValue());
+            String crossRoadName = name+count.toString();
+            count++;
+            Crossroad crossRoad = new DataCrossRoad(p,tlsOfCrossRoad,crossRoadName,mapName);
+            crossRoads.add(crossRoad);
+        }
+
+        return crossRoads;
     }
 
     /**

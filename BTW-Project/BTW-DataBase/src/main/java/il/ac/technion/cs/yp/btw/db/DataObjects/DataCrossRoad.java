@@ -14,6 +14,7 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
 
     private String mapName;
     private Set<TrafficLight> trafficLights;
+    private String name;
     public DataCrossRoad(Point position, String mapName) {
         super(position);
         this.trafficLights = new HashSet<>();
@@ -24,6 +25,12 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
         this.trafficLights = trafficLights;
         this.mapName = mapName;
     }
+    public DataCrossRoad(Point position, Set<TrafficLight> trafficLights, String crossname, String mapName) {
+        super(position);
+        this.trafficLights = trafficLights;
+        this.mapName = mapName;
+        this.name = crossname;
+    }
 
     public DataCrossRoad(Point position, boolean noTrafficLights, String mapName) {
         super(position);
@@ -32,7 +39,7 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
     }
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 
     /**
