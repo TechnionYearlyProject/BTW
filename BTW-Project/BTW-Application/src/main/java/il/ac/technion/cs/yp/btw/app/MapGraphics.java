@@ -83,16 +83,27 @@ public class MapGraphics {
             double deviationDistance = -0.00003;
             Point newSource = getDeviationFromVectorEnd(currRoad.getDestinationCrossroad(), currRoad.getSourceCrossroad(),deviationAngle , deviationDistance);
             Point newDestination = getDeviationFromVectorEnd(currRoad.getSourceCrossroad(), currRoad.getDestinationCrossroad(), deviationAngle , deviationDistance);
-            double x1 = newSource.getCoordinateX();
-            double y1 = newSource.getCoordinateY();
-            double x2 = newDestination.getCoordinateX();
-            double y2 = newDestination.getCoordinateY();
+            double xroad1 = newSource.getCoordinateX();
+            double yroad1 = newSource.getCoordinateY();
+            double xroad2 = newDestination.getCoordinateX();
+            double yroad2 = newDestination.getCoordinateY();
 
-            Line roadLine = new Line(x1,y1,x2,y2);
+            Line roadLine = new Line(xroad1,yroad1,xroad2,yroad2);
             roadLine.setStroke(Color.BLACK);
             roadLine.setStrokeWidth(0.0005);
             roadLine.toBack();
-            Line separateline = new Line(x1,y1,x2,y2);
+
+            deviationAngle = 0.0;
+            deviationDistance = -0.0003;
+            newSource = getDeviationFromVectorEnd(currRoad.getDestinationCrossroad(), currRoad.getSourceCrossroad(),deviationAngle , deviationDistance);
+            newDestination = getDeviationFromVectorEnd(currRoad.getSourceCrossroad(), currRoad.getDestinationCrossroad(), deviationAngle , deviationDistance);
+
+            double xSeperateLine1 = newSource.getCoordinateX();
+            double ySeperateLine1 = newSource.getCoordinateY();
+            double xSeperateLine2 = newDestination.getCoordinateX();
+            double ySeperateLine2 = newDestination.getCoordinateY();
+
+            Line separateline = new Line(xSeperateLine1,ySeperateLine1,xSeperateLine2,ySeperateLine2);
             separateline.setStroke(Color.WHITE);
             separateline.setStrokeWidth(0.00005);
             lines.add(new Pair(roadLine,currRoad.getRoadName()));
@@ -138,7 +149,7 @@ public class MapGraphics {
     private Point calculateTrafficLightLocation(TrafficLight trafficLight) {
         Road sourceRoad = trafficLight.getSourceRoad();
         double deviationAngle = 0.85;
-        double deviationDistance = 0.000035;
+        double deviationDistance = 0.0003;
         return getDeviationFromVectorEnd(sourceRoad.getSourceCrossroad(), sourceRoad.getDestinationCrossroad(), deviationAngle , deviationDistance);
     }
 

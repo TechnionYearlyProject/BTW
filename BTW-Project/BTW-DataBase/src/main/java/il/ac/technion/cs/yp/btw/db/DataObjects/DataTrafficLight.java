@@ -14,15 +14,17 @@ import il.ac.technion.cs.yp.btw.db.TrafficLightsDataBase;
 public class DataTrafficLight extends PointAbstract implements TrafficLight {
 
     private String mapName;
-    private String sourceRoadId;
-    private String destinationRoadId;
+    private String sourceRoadName;
+    private String destinationRoadName;
     private long overload;
     private String nameID;
-    public DataTrafficLight(String nameID, Point pos, String sourceRoadId, String destinationRoadId, long overload, String mapName) {
+    private Road sourceRoad;
+    private Road destinationRoad;
+    public DataTrafficLight(String nameID, Point pos, String sourceRoadName, String destinationRoadName, long overload, String mapName) {
         super(pos);
         this.nameID = nameID;
-        this.sourceRoadId = sourceRoadId;
-        this.destinationRoadId = destinationRoadId;
+        this.sourceRoadName = sourceRoadName;
+        this.destinationRoadName = destinationRoadName;
         this.overload = overload;
         this.mapName = mapName;
     }
@@ -43,9 +45,9 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
      *         TrafficLightImpl
      */
     @Override
-    public Road getSourceRoad() {
-        return RoadsDataBase.getRoad(sourceRoadId, mapName);
-    }
+    public Road getSourceRoad() { return this.sourceRoad; }
+
+    public void setSourceRoad(Road sourceRoad) { this.sourceRoad = sourceRoad; }
 
     /**
      * @return the destination Road you
@@ -53,7 +55,18 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
      */
     @Override
     public Road getDestinationRoad(){
-        return RoadsDataBase.getRoad(destinationRoadId, mapName);
+        return this.destinationRoad;
+    }
+
+    public void setDestinationRoad(Road destinationRoad){
+        this.destinationRoad = destinationRoad;
+    }
+
+
+    public String getSourceRoadName() { return this.sourceRoadName; }
+
+    public String getDestinationRoadName(){
+        return this.destinationRoadName;
     }
 
     /**
@@ -93,8 +106,8 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
         String trafficLight = "";
         trafficLight += "traffic light: ";
         trafficLight += "nameID = " + nameID + " ";
-        trafficLight += "sourceRoadId = " + sourceRoadId + " ";
-        trafficLight += "destinationRoadId = " + destinationRoadId + " ";
+        trafficLight += "sourceRoadName = " + sourceRoadName + " ";
+        trafficLight += "destinationRoadName = " + destinationRoadName + " ";
         trafficLight += "overload = " + overload +" ";
         trafficLight += "position = (" + super.getCoordinateX() + "," + super.getCoordinateY() + ")";
         return trafficLight;

@@ -16,22 +16,24 @@ public class DataRoad implements Road {
     private String name;
     private int roadLength;
     private String myStreet;
-    private Point sourceCrossroadId;
-    private Point destinationCrossroadId;
+    private Point sourceCrossroadPosition;
+    private Point destinationCrossroadPosition;
+    private Crossroad sourceCrossroad;
+    private Crossroad destinationCrossroad;
     private int secStart;
     private int secEnd;
     private long overload;
 
     public DataRoad(String name, int roadLength,
                     String myStreet,
-                    Point sourceCrossroadId,
-                    Point destinationCrossroadId,
+                    Point sourceCrossroadPosition,
+                    Point destinationCrossroadPosition,
                     String mapName){
         this.name = name;
         this.roadLength = roadLength;
         this.myStreet = myStreet;
-        this.sourceCrossroadId = sourceCrossroadId;
-        this.destinationCrossroadId = destinationCrossroadId;
+        this.sourceCrossroadPosition = sourceCrossroadPosition;
+        this.destinationCrossroadPosition = destinationCrossroadPosition;
         this.mapName = mapName;
     }
 
@@ -133,13 +135,22 @@ public class DataRoad implements Road {
         return roadOverload;
     }
 
+    public void setSourceCrossRoad (Crossroad sourceCrossroad){
+        this.sourceCrossroad = sourceCrossroad;
+    }
+
+    public void setDestinationCrossRoad (Crossroad destinationCrossroad){
+        this.destinationCrossroad = destinationCrossroad;
+    }
+
+
     /**
      * @return the CrossroadImpl this Road starts in
      */
     @Override
     public Crossroad getSourceCrossroad() {
-
-        return CrossRoadsDataBase.getCrossRoad(sourceCrossroadId, mapName);
+        return this.sourceCrossroad;
+        //return CrossRoadsDataBase.getCrossRoad(sourceCrossroadId, mapName);
     }
 
     /**
@@ -148,9 +159,17 @@ public class DataRoad implements Road {
     @Override
     public Crossroad getDestinationCrossroad() {
 
-        return CrossRoadsDataBase.getCrossRoad(destinationCrossroadId, mapName);
+        return this.destinationCrossroad;
+        //return CrossRoadsDataBase.getCrossRoad(destinationCrossroadId, mapName);
     }
 
+    public Point getSourceCrossroadPosition() {
+        return this.sourceCrossroadPosition;
+    }
+
+    public Point getDestinationCrossroadPosition(){
+        return this.destinationCrossroadPosition;
+    }
     @Override
     public String toString(){
 
@@ -159,8 +178,8 @@ public class DataRoad implements Road {
         road += "name = " + name +" ";
         road += "roadLength = " +roadLength + " ";
         road += "myStreet = " + myStreet + " ";
-        road += "sourceCrossroadId = (" + sourceCrossroadId.getCoordinateX() + "," + sourceCrossroadId.getCoordinateY() + ") ";
-        road += "destinationCrossroadId = (" + destinationCrossroadId.getCoordinateX() + "," + destinationCrossroadId.getCoordinateY() + ") ";
+        road += "sourceCrossroadId = (" + sourceCrossroadPosition.getCoordinateX() + "," + sourceCrossroadPosition.getCoordinateY() + ") ";
+        road += "destinationCrossroadId = (" + destinationCrossroadPosition.getCoordinateX() + "," + destinationCrossroadPosition.getCoordinateY() + ") ";
         return road;
 
     }

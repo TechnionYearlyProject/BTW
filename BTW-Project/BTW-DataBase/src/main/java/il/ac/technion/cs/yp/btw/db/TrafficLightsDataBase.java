@@ -1,6 +1,7 @@
 package il.ac.technion.cs.yp.btw.db;
 
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
+import il.ac.technion.cs.yp.btw.db.DataObjects.DataTrafficLight;
 import il.ac.technion.cs.yp.btw.db.queries.Query;
 import il.ac.technion.cs.yp.btw.db.queries.QueryAllTrafficLights;
 import il.ac.technion.cs.yp.btw.db.queries.QueryOverloadOfTrafficLight;

@@ -2,9 +2,10 @@ package il.ac.technion.cs.yp.btw.db;
 
 import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataCrossRoad;
+import il.ac.technion.cs.yp.btw.db.DataObjects.DataRoad;
+import il.ac.technion.cs.yp.btw.db.DataObjects.DataTrafficLight;
 import il.ac.technion.cs.yp.btw.navigation.BTWGraphInfo;
 import javafx.util.Pair;
-import sun.applet.Main;
 
 import java.sql.Connection;
 import java.util.*;
@@ -17,14 +18,26 @@ public class BTWDataBaseImpl implements BTWDataBase {
     private Connection connection;
     private boolean updatedHeuristics;
     private Set<TrafficLight> trafficLights;
-    private boolean trafficLightsloaded;
+    private boolean trafficLightsLoaded;
+    private Set<Crossroad> crossRoads;
+    private boolean crossRoadsLoaded;
+    private Set<Road> roads;
+    private boolean roadsLoaded;
+
 
     public BTWDataBaseImpl(String mapName){
-        this.trafficLights = new HashSet<>();
-        this.trafficLightsloaded = false;
+
+
         this.mapName = mapName;
         MainDataBase.openConnection();
         this.updatedHeuristics = false;
+
+        roadsLoaded = false;
+        trafficLightsLoaded = false;
+        crossRoadsLoaded = false;
+        roads = null;
+        trafficLights = null;
+        crossRoads = null;
     }
 
     /**
@@ -40,8 +53,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public Set<TrafficLight> getAllTrafficLights(){
-        if (!trafficLightsloaded) {
-            trafficLightsloaded = true;
+        if (!trafficLightsLoaded) {
+            trafficLightsLoaded = true;
             this.trafficLights = TrafficLightsDataBase.getAllTrafficLights(mapName);
             return this.trafficLights;
         }
@@ -80,7 +93,12 @@ public class BTWDataBaseImpl implements BTWDataBase {
     @Override
     public Set<Road> getAllRoads() {
         // TODO
-        return RoadsDataBase.getAllRoads(mapName);
+        if(this.roadsLoaded == true){
+            return this.roads;
+        }else {
+            this.roadsLoaded = true;
+            return RoadsDataBase.getAllRoads(mapName);
+        }
     }
 
     /**
@@ -89,7 +107,12 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public Set<Crossroad> getAllCrossroads() {
-        Set<Crossroad> crossRoads = new HashSet<Crossroad>();
+
+        if(this.crossRoadsLoaded == true){
+            return this.crossRoads;
+        }
+        this.crossRoadsLoaded = true;
+        Set<Crossroad> crossRoads = new HashSet<>();
         String name = "cross";
         Integer count = 1;
         Map<Pair<Double, Double>, List<TrafficLight>> trafficLightsOfLocation = this.getAllTrafficLights()
@@ -105,10 +128,41 @@ public class BTWDataBaseImpl implements BTWDataBase {
             Crossroad crossRoad = new DataCrossRoad(p,tlsOfCrossRoad,crossRoadName,mapName);
             crossRoads.add(crossRoad);
         }
-
         return crossRoads;
     }
 
+    private void insertCrossRoadsToRoads(){
+        //set.forEach(t -> map.put(t, t));
+        Map<Point, Crossroad> crossRoadsOfLocation = new HashMap<>();
+        this.crossRoads.
+                forEach(crossRoad -> crossRoadsOfLocation.put(new PointImpl(crossRoad.getCoordinateX(), crossRoad.getCoordinateY()),crossRoad ));
+
+//        Iterator<Road> roadIterator = this.roads.iterator();
+        for (Road road : this.roads) {
+            Point sourcePosition = ((DataRoad)road).getSourceCrossroadPosition();
+            ((DataRoad)road).setSourceCrossRoad(crossRoadsOfLocation.get(sourcePosition));
+            Point destinationPosition = ((DataRoad)road).getDestinationCrossroadPosition();
+            ((DataRoad)road).setDestinationCrossRoad(crossRoadsOfLocation.get(destinationPosition));
+        }
+
+    }
+
+    void insertRoadsToTrafficLights(){
+        Map<String, Road> roadsLightsOfName = new HashMap<>();
+        this.roads.
+                forEach(road -> roadsLightsOfName.put(road.getRoadName(),road ));
+//        Iterator<TrafficLight> trafficLightIterator = this.trafficLights.iterator();
+        for (TrafficLight trafficLight : this.trafficLights) {
+
+            String sourceRoadName = ((DataTrafficLight)trafficLight).getSourceRoadName();
+            ((DataTrafficLight)trafficLight).setSourceRoad(roadsLightsOfName.get(sourceRoadName));
+
+            String destinationRoadName = ((DataTrafficLight)trafficLight).getDestinationRoadName();
+            ((DataTrafficLight)trafficLight).setDestinationRoad(roadsLightsOfName.get(destinationRoadName));
+
+        }
+
+    }
     /**
      ** @author: shay
      * @date: 20/1/18
@@ -207,6 +261,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "\t) WHERE (typeoftoken = 'LineString');\n";
         String sqlQuery = createTraffic + createPlace + createRoad + createJson;
         MainDataBase.saveDataFromQuery(sqlQuery);
+        loadMap();
         return this;
     }
 
@@ -242,5 +297,17 @@ public class BTWDataBaseImpl implements BTWDataBase {
         MainDataBase.saveDataFromQuery(sql3);
         this.updatedHeuristics = true;
         return this;
+    }
+
+
+    private void loadMap(){
+        roads = getAllRoads();
+
+        trafficLights = getAllTrafficLights();
+
+        crossRoads = getAllCrossroads();//traffic light inserted to crss roads here.
+
+        insertCrossRoadsToRoads();
+        insertRoadsToTrafficLights();
     }
 }
