@@ -56,6 +56,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
     }
 
     /**
+     ** @author: shay
+     * @date: 20/1/18
      * get all roads in data base
      * @return set of all roads in data base
      */
@@ -76,7 +78,9 @@ public class BTWDataBaseImpl implements BTWDataBase {
     }
 
     /**
-     * for future use, implementation not yet decided
+     ** @author: shay
+     * @date: 20/1/18
+     *  for future use, implementation not yet decided
      * NOT FOR THIS SEMESTER
      */
     @Override
@@ -86,10 +90,13 @@ public class BTWDataBaseImpl implements BTWDataBase {
     }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
      * Save map to DataBase from geoJson
      * @param geoJson - string containing the map represented in Json
      * @return this object
      */
+
     @Override
     public BTWDataBase saveMap(String geoJson) {
         String createTraffic = "DROP TABLE IF EXISTS "+ mapName + "TrafficLight;\n"+
@@ -172,6 +179,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
     }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
      * update the heuristics table for the specific map in DB
      * @return this object
      */
