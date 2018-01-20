@@ -11,6 +11,7 @@ import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
 import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
 import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
+import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -206,13 +207,15 @@ public class DrawMapController implements Initializable {
 
     private void addRandomVehiclesToSimulation(int numOfVehicles) {
         Thread thread = new Thread(() -> {
-            //TODO: add vehicles to simulation
+            try {
+                citySimulator.addRandomVehicles(numOfVehicles);
+            } catch (PathNotFoundException e) {
+                e.printStackTrace();
+            }
             cityMap = citySimulator.saveMap();
             Platform.runLater(this::redrawMap);
         });
-
-        //TODO: remove comment when function should work
-//        thread.start();
+        thread.start();
     }
 
     private void showErrorDialog(String errorMessage) {
