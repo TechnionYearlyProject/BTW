@@ -22,8 +22,8 @@ public class QueryAllTrafficLightPositions extends Query{
         try{
             while (resultSet.next()){
 
-                int cordx =  resultSet.getInt("cordx");
-                int cordy =  resultSet.getInt("cordy");
+                double cordx =  resultSet.getDouble("cordx");
+                double cordy =  resultSet.getDouble("cordy");
                 Point position = new PointImpl(cordx, cordy);
 
                 positions.add(position);

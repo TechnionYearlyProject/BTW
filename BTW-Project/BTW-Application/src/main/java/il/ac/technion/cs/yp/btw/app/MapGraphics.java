@@ -40,6 +40,8 @@ public class MapGraphics {
     }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
      * creating the array of circles, each circle for a traffic light.
      * @param trafficLights - trafficlights in the map
      */
@@ -48,7 +50,7 @@ public class MapGraphics {
         int x=0;
         for (CityTrafficLight currTrafficLight: trafficLights) {
             Point point = calculateTrafficLightLocation(currTrafficLight);
-            Circle circle = new Circle(point.getCoordinateX(), point.getCoordinateY(),0.01);
+            Circle circle = new Circle(point.getCoordinateX(), point.getCoordinateY(),0.000005);
             //System.out.println("original X : "+currTrafficLight.getCoordinateX()+"original Y : "+currTrafficLight.getCoordinateY());
             //System.out.println("X : "+point.getCoordinateX()+"Y : "+point.getCoordinateY());
             if (currTrafficLight.getState() == CityTrafficLight.TrafficLightState.GREEN)
@@ -62,6 +64,8 @@ public class MapGraphics {
     }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
      * creating the array of lines to represent roads
      * @param roads - roads in the map
      */
@@ -134,6 +138,8 @@ public class MapGraphics {
     }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
      * changes the color of the traffic light in the map to RED
      * @param trafficlight - the traffic light we want to turn red
      * @return
@@ -149,6 +155,8 @@ public class MapGraphics {
     }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
      * changes the color of the traffic light in the map to GREEN
      * @param trafficlight - the traffic light we want to turn green
      * @return

@@ -64,7 +64,7 @@ public class DrawMapController implements Initializable {
 //        root.getChildren().add(canvas); // add plain canvas
 
         final Affine accumulatedScales = new Affine();
-        accumulatedScales.appendScale(100,100);
+        accumulatedScales.appendScale(1000,1000);
         root.getTransforms().add(accumulatedScales);
         //root.autoSizeChildrenProperty();
         root.setOnScroll(event -> {
@@ -131,6 +131,14 @@ public class DrawMapController implements Initializable {
         cityMap = citySimulator.saveMap();
     }
 
+
+    /**
+     * @author: shay
+     * @date: 20/1/18
+     * gets the logical object and draw all the corcles and lines from it
+     * @param cityMap - the citymap object we want to draw
+     * @return DrawMapController
+     */
     public DrawMapController draw(CityMap cityMap) {
         circles = new HashSet<Circle>();
         lines = new HashSet<Line>();
@@ -138,27 +146,18 @@ public class DrawMapController implements Initializable {
         Set<CityTrafficLight> cityTrafficLights = cityMap.getAllTrafficLights();
         MapGraphics map = new MapGraphics(cityTrafficLights,cityRoads);
         for (Pair<Line,String> line: map.getLines()) {
-//            lines.add(line.getKey());
             root.getChildren().add(line.getKey());
         }
         // add all circles
         for (Pair<Circle,String> circle: map.getCircles()) {
-//            circles.add(circle.getKey());
             root.getChildren().add(circle.getKey());
         }
         return this;
     }
-    // should be implemented outside
-    public Set<TrafficLight> getTrafficLights() {
-        return new HashSet<TrafficLight>();
-    }
-
-    // should be implemented outside
-    public Set<Road> getRoads() {
-        return new HashSet<Road>();
-    }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
      * finding minimum coordinate in order to zoom in map
      * @param trafficLights - set of traffic light
      * @return min coordinate x in set
@@ -173,6 +172,8 @@ public class DrawMapController implements Initializable {
     }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
      * finding maximum coordinate in order to zoom in map
      * @param trafficLights - set of traffic light
      * @return max coordinate x in set
@@ -187,6 +188,8 @@ public class DrawMapController implements Initializable {
     }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
      * finding minimum coordinate in order to zoom in map
      * @param trafficLights - set of traffic light
      * @return min coordinate y in set
@@ -201,6 +204,8 @@ public class DrawMapController implements Initializable {
     }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
      * finding maximum coordinate in order to zoom in map
      * @param trafficLights - set of traffic light
      * @return max coordinate x in set

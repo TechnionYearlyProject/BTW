@@ -23,8 +23,8 @@ public class QueryTrafficLight extends Query {
         try{
             resultSet.next();
             String nameID = resultSet.getString("nameID");
-            int cordx =  resultSet.getInt("cordx");
-            int cordy =  resultSet.getInt("cordy");
+            double cordx =  resultSet.getDouble("cordx");
+            double cordy =  resultSet.getDouble("cordy");
             String sourceRoadId = nameID.split("from:|to:")[1];
             String destinationRoadIf = nameID.split("to:")[1];
             long overload =  resultSet.getLong("overload");
