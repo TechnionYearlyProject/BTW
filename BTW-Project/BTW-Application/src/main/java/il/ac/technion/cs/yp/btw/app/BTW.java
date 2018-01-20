@@ -13,10 +13,15 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -39,7 +44,7 @@ public class BTW extends Application {
         stage.setScene(scene);
         stage.show();
 
-        //jfxButtonDemo(stage);
+//        jfxButtonDemo(stage);
     }
 
     private void jfxButtonDemo(Stage stage) {
@@ -52,7 +57,18 @@ public class BTW extends Application {
         main.getChildren().add(jfoenixButton);
 
         JFXButton button = new JFXButton("RAISED BUTTON");
-        button.getStyleClass().add("button-raised");
+//        button.setStyle("-fx-background-color: #ffffff ");
+//        button.getStyleClass().add("button-raised ");
+//        button.getStyleClass().add("-fx-background-color: #ffffff button-raised ");
+//        button.setBackground(Color.WHITE);
+//        button.getStyleClass().add("-fx-background-color: #ffffff;");
+
+        button.setButtonType(JFXButton.ButtonType.RAISED);
+        button.setStyle("-fx-background-color: #ffffff");
+        button.setPrefSize(200, 50);
+        button.setRipplerFill(Color.BLACK);
+
+
         main.getChildren().add(button);
 
         JFXButton button1 = new JFXButton("DISABLED");

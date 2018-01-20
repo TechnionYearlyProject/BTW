@@ -1,5 +1,7 @@
 package il.ac.technion.cs.yp.btw.app;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import il.ac.technion.cs.yp.btw.citysimulation.CityMap;
@@ -12,6 +14,7 @@ import il.ac.technion.cs.yp.btw.mapgeneration.FreeFormMapSimulator;
 import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
 import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,7 +35,8 @@ public class GenerateFreeFormController implements Initializable{
     @FXML private Node anchor;
     @FXML private JFXTextField NumberOfBlocks;
     @FXML private JFXTextField Radius;
-
+    @FXML private JFXButton generate_button, back_button;
+    @FXML private JFXSpinner progress_spinner;
     @FXML private JFXToggleButton blocksToggle, radiusToggle;
 
     int Number_of_blocks, radius_val;
@@ -100,23 +104,27 @@ public class GenerateFreeFormController implements Initializable{
         else {
             //TODO: for testing purposes
             System.out.println("input was valid");
+            generate_button.setDisable(true);
+            back_button.setDisable(true);
+            progress_spinner.setVisible(true);
         }
 
         FreeFormMapSimulator freeFormMapSimulator = new FreeFormMapSimulator();
         //TODO: add input to map simulator when Adam is done
 //        if(!NumberOfBlocks.isDisabled())
-        freeFormMapSimulator.build();
 
-        String mapString = parseCitySimulationToGeoJsonString(freeFormMapSimulator);
-        System.out.println(mapString);
-        //Insert the new map to the database.
-        BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity897");
-        dataBase.saveMap(mapString);
+        new Thread(() -> {
+            freeFormMapSimulator.build();
 
-        CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
-        CityMap cityMap = citySimulator.saveMap();
-        switchScreensToMap(event, cityMap);
+            String mapString = parseCitySimulationToGeoJsonString(freeFormMapSimulator);
 
+            //Insert the new map to the database.
+            BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity897");
+            dataBase.saveMap(mapString);
+
+            CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
+            Platform.runLater(() -> switchScreensToMap(event, citySimulator));
+        }).start();
 
     }
 
@@ -144,12 +152,12 @@ public class GenerateFreeFormController implements Initializable{
     }
 
 
-    private void switchScreensToMap(ActionEvent event, CityMap cityMap) {
+    private void switchScreensToMap(ActionEvent event, CitySimulator citySimulator) {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
         try {
             //TODO: maybe remove resource
             URL resource = getClass().getResource("/fxml/stageForDrawMap.fxml");
-            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, resource, anchor, cityMap);
+            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, resource, anchor, citySimulator);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,10 +189,10 @@ public class GenerateFreeFormController implements Initializable{
     }
 
     public void transitionAndSwitchToMap(Stage stageTheEventSourceNodeBelongs,
-                                         URL resource, Node rootNode, CityMap cityMap) throws IOException {
+                                         URL resource, Node rootNode, CitySimulator citySimulator) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stageForDrawMap.fxml"));
         DrawMapController drawMapController = new DrawMapController();
-        drawMapController.initCityMap(cityMap);
+        drawMapController.initCitySimulator(citySimulator);
         drawMapController.initStage(stageTheEventSourceNodeBelongs);
         loader.setController(drawMapController);
         try {

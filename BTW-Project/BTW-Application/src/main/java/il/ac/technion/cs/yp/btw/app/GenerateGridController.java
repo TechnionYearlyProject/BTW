@@ -1,11 +1,9 @@
 package il.ac.technion.cs.yp.btw.app;
 
-import com.jfoenix.controls.JFXAlert;
-import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
-import il.ac.technion.cs.yp.btw.citysimulation.CityMap;
-import il.ac.technion.cs.yp.btw.citysimulation.CityMapImpl;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
@@ -13,9 +11,8 @@ import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
 import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,16 +21,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static il.ac.technion.cs.yp.btw.app.HomeController.transitionAnimationAndSwitch;
 
 public class GenerateGridController implements Initializable{
     @FXML private Node anchor;
@@ -42,6 +35,8 @@ public class GenerateGridController implements Initializable{
     @FXML private JFXTextField LengthOfStreets;
     @FXML private JFXTextField LengthOfAvenues;
 
+    @FXML private JFXSpinner progress_spinner;
+    @FXML private JFXButton generate_button, back_button;
     @FXML private JFXToggleButton numStreetsToggle, numAvenuesToggle, legnthStreetsToggle, legnthAvenuesToggle;
 
     int Number_of_streets, Number_of_avenues, Length_of_streets, Length_of_avenues;
@@ -144,6 +139,9 @@ public class GenerateGridController implements Initializable{
         else {
             //TODO: for testing purposes
             System.out.println("input was valid");
+            generate_button.setDisable(true);
+            back_button.setDisable(true);
+            progress_spinner.setVisible(true);
 //            return;
         }
 
@@ -153,7 +151,25 @@ public class GenerateGridController implements Initializable{
         if(!NumberOfAvenues.isDisabled()) gridCityMapSimulator.setNumOfAvenues(Number_of_avenues);
         if(!LengthOfAvenues.isDisabled()) gridCityMapSimulator.setAvenueLength(Length_of_avenues);
         if(!LengthOfStreets.isDisabled()) gridCityMapSimulator.setStreetLength(Length_of_streets);
-        gridCityMapSimulator.build();
+
+
+        new Thread(() -> {
+            gridCityMapSimulator.build();
+
+            String mapString = parseCitySimulationToGeoJsonString(gridCityMapSimulator);
+
+            System.out.println(mapString);
+
+            //Insert the new map to the database.
+            BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity2_2");
+            dataBase.saveMap(mapString);
+
+            CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
+            Platform.runLater(() -> switchScreensToMap(event, citySimulator));
+        }).start();
+
+
+        /*gridCityMapSimulator.build();
 
         String mapString = parseCitySimulationToGeoJsonString(gridCityMapSimulator);
 
@@ -163,11 +179,11 @@ public class GenerateGridController implements Initializable{
         BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity2_2");
         dataBase.saveMap(mapString);
 
-//        BTWDataBase dataBase = new BTWDataBaseImpl("test1");
-
         CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
-        CityMap cityMap = citySimulator.saveMap();
-        switchScreensToMap(event, cityMap);
+        switchScreensToMap(event, citySimulator);*/
+
+//        CityMap cityMap = citySimulator.saveMap();
+//        switchScreensToMap(event, cityMap);
 
 
         //DrawMapController mapDrawer = new DrawMapController(cityMap);
@@ -180,7 +196,7 @@ public class GenerateGridController implements Initializable{
 //            e.printStackTrace();
 //        }
 //        DrawMapController drawMapController = Loader.getController();
-//        drawMapController.initCityMap(cityMap);
+//        drawMapController.initCitySimulator(cityMap);
 //
 //        Parent p = Loader.getRoot();
 //        Stage stage = new Stage();
@@ -233,12 +249,14 @@ public class GenerateGridController implements Initializable{
     }
 
 
-    private void switchScreensToMap(ActionEvent event, CityMap cityMap) {
+//    private void switchScreensToMap(ActionEvent event, CityMap cityMap) {
+    private void switchScreensToMap(ActionEvent event, CitySimulator citySimulator) {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
         try {
             //TODO: maybe remove resource
             URL resource = getClass().getResource("/fxml/stageForDrawMap.fxml");
-            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, resource, anchor, cityMap);
+//            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, resource, anchor, cityMap);
+            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, resource, anchor, citySimulator);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -250,7 +268,7 @@ public class GenerateGridController implements Initializable{
         transitionAndSwitchInner(stageTheEventSourceNodeBelongs, rootNode, root);
     }
 
-    //getting root (parent)
+    //getting borderPane (parent)
     private void transitionAndSwitchInner(Stage stageTheEventSourceNodeBelongs, Node rootNode, Parent root) {
         int length = 300;
         FadeTransition fadeOut = new FadeTransition(Duration.millis(length), rootNode);
@@ -271,10 +289,12 @@ public class GenerateGridController implements Initializable{
     }
 
     public void transitionAndSwitchToMap(Stage stageTheEventSourceNodeBelongs,
-                                                    URL resource, Node rootNode, CityMap cityMap) throws IOException {
+                                                    URL resource, Node rootNode, CitySimulator citySimulator) throws IOException {
+//                                                    URL resource, Node rootNode, CityMap cityMap) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stageForDrawMap.fxml"));
         DrawMapController drawMapController = new DrawMapController();
-        drawMapController.initCityMap(cityMap);
+//        drawMapController.initCitySimulator(cityMap);
+        drawMapController.initCitySimulator(citySimulator);
         drawMapController.initStage(stageTheEventSourceNodeBelongs);
         loader.setController(drawMapController);
         try {
@@ -283,11 +303,11 @@ public class GenerateGridController implements Initializable{
             e.printStackTrace();
         }
 //        DrawMapController drawMapController = loader.getController();
-//        drawMapController.initCityMap(cityMap);
+//        drawMapController.initCitySimulator(cityMap);
 //        drawMapController.initStage(stageTheEventSourceNodeBelongs);
         //TODO: maybe remove the next 2 lines, depending on the DrawMapController init
-//        Parent root = loader.getRoot();
-//        transitionAndSwitchInner(stageTheEventSourceNodeBelongs, rootNode, root);
+//        Parent borderPane = loader.getRoot();
+//        transitionAndSwitchInner(stageTheEventSourceNodeBelongs, rootNode, borderPane);
     }
 
 }
