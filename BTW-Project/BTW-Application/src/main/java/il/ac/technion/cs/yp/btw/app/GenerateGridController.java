@@ -36,7 +36,7 @@ public class GenerateGridController implements Initializable{
     @FXML private JFXTextField LengthOfAvenues;
 
     @FXML private JFXSpinner progress_spinner;
-    @FXML private JFXButton generate_button;
+    @FXML private JFXButton generate_button, back_button;
     @FXML private JFXToggleButton numStreetsToggle, numAvenuesToggle, legnthStreetsToggle, legnthAvenuesToggle;
 
     int Number_of_streets, Number_of_avenues, Length_of_streets, Length_of_avenues;
@@ -140,6 +140,7 @@ public class GenerateGridController implements Initializable{
             //TODO: for testing purposes
             System.out.println("input was valid");
             generate_button.setDisable(true);
+            back_button.setDisable(true);
             progress_spinner.setVisible(true);
 //            return;
         }

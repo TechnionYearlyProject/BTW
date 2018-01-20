@@ -1,6 +1,8 @@
 package il.ac.technion.cs.yp.btw.app;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.NumberValidator;
 import il.ac.technion.cs.yp.btw.citysimulation.*;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.classes.Road;
@@ -17,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -54,7 +57,8 @@ public class DrawMapController implements Initializable {
     CityMap cityMap;
     CitySimulator citySimulator;
     Stage stage;
-    JFXButton playButton, tickButton;
+    JFXButton playButton, tickButton, addVehiclesButton;
+    JFXTextField numOfVehiclesTextField;
     boolean isPlayButton;
     Timeline playCityTimeline;
     CompletableFuture<Boolean> tickTask;
@@ -81,6 +85,8 @@ public class DrawMapController implements Initializable {
         borderPane = new BorderPane();
 
         borderPane.setStyle("-fx-background-color: transparent;");
+        root.setStyle("-fx-background-color: transparent;");
+
 //        canvas = new Canvas(stage.getWidth(), stage.getHeight());
 //        canvas = new Canvas(640, 640);
 //        borderPane.getChildren().add(canvas); // add plain canvas
@@ -97,9 +103,9 @@ public class DrawMapController implements Initializable {
         });
 
 //        insertRandomMap();
-        HBox hBox = new HBox();
-        hBox.setPadding(new Insets(15, 12, 15, 12));
-        hBox.setSpacing(10);
+        HBox playAndTickHbox = new HBox();
+        playAndTickHbox.setPadding(new Insets(15, 12, 15, 12));
+        playAndTickHbox.setSpacing(10);
 
         tickButton = createRaisedJFXButtonWithIcon("/icons8-arrow-50.png");
         tickButton.setOnAction(event -> {
@@ -110,7 +116,7 @@ public class DrawMapController implements Initializable {
             playButtonClicked(event);
         });
         isPlayButton = true;
-        hBox.getChildren().addAll(tickButton, playButton);
+        playAndTickHbox.getChildren().addAll(tickButton, playButton);
 
         playCityTimeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
             getTickTask();
@@ -123,13 +129,55 @@ public class DrawMapController implements Initializable {
         }));
         playCityTimeline.setCycleCount(Timeline.INDEFINITE);
 
+
+        HBox addVehiclesHbox = new HBox();
+        addVehiclesHbox.setPadding(new Insets(15, 12, 15, 12));
+        addVehiclesHbox.setSpacing(10);
+
+        //set up the button
+        addVehiclesButton = createRaisedJFXButtonWithText("Choose Vehicles To Add");
+        addVehiclesButton.setOnAction(event -> {
+            boolean textFieldWasVisible = numOfVehiclesTextField.isVisible();
+            if(!textFieldWasVisible) {
+                numOfVehiclesTextField.setVisible(true);
+                addVehiclesButton.setText("Add Vehicles");
+            } else {
+                int numOfVehicles;
+                try {
+                    numOfVehicles = Integer.parseInt(numOfVehiclesTextField.getText());
+                    if(numOfVehicles < 1) throw new NumberFormatException();
+                } catch (NumberFormatException e) {
+                    showErrorDialog("Number of vehicles needs to be a number greater than 0");
+                    return;
+                }
+                numOfVehiclesTextField.setVisible(false);
+                numOfVehiclesTextField.setText("");
+                addVehiclesButton.setText("Choose Vehicles To Add");
+                addRandomVehiclesToSimulation(numOfVehicles);
+            }
+        });
+
+        //setting up the text field
+        numOfVehiclesTextField = new JFXTextField();
+        numOfVehiclesTextField.setPromptText("Enter amount of vehicles");
+        numOfVehiclesTextField.setPrefSize(200, 50);
+        numOfVehiclesTextField.setVisible(false);
+
+
+        addVehiclesHbox.getChildren().addAll(addVehiclesButton, numOfVehiclesTextField);
+
 //        root.getChildren().addAll(borderPane, tickButton);
-        root.getChildren().addAll(borderPane, hBox);
+        root.getChildren().addAll(borderPane, playAndTickHbox, addVehiclesHbox);
         AnchorPane.setTopAnchor(borderPane, 0.0);
 
-        AnchorPane.setBottomAnchor(hBox, 5.0);
-//        AnchorPane.setLeftAnchor(hBox, 5.0);
-        AnchorPane.setRightAnchor(hBox, 5.0);
+        AnchorPane.setBottomAnchor(playAndTickHbox, 5.0);
+//        AnchorPane.setLeftAnchor(playAndTickHbox, 5.0);
+        AnchorPane.setRightAnchor(playAndTickHbox, 5.0);
+
+
+        AnchorPane.setBottomAnchor(addVehiclesHbox, 5.0);
+        AnchorPane.setLeftAnchor(addVehiclesHbox, 5.0);
+
 
 //        AnchorPane.setBottomAnchor(tickButton, 5.0);
 //        AnchorPane.setLeftAnchor(tickButton, 5.0);
@@ -145,6 +193,19 @@ public class DrawMapController implements Initializable {
         stage.setScene(scene);
 
 
+    }
+
+    private void addRandomVehiclesToSimulation(int numOfVehicles) {
+        //TODO: fill up with Guy's code
+    }
+
+    private void showErrorDialog(String errorMessage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Invalid input");
+        alert.setHeaderText(null);
+        alert.setContentText(errorMessage);
+
+        alert.showAndWait();
     }
 
     private void resetTickTask() {
@@ -189,6 +250,15 @@ public class DrawMapController implements Initializable {
         return button;
     }
 
+    private JFXButton createRaisedJFXButtonWithText(String buttonText) {
+        JFXButton button = new JFXButton(buttonText);
+        button.setButtonType(JFXButton.ButtonType.RAISED);
+        button.setStyle("-fx-background-color: #ffffff");
+        button.setPrefSize(200, 50);
+        button.setRipplerFill(Color.BLACK);
+        return button;
+    }
+
     private void tickButtonClicked(ActionEvent event) {
 //        if(isPlayButton) { //can only do a tick when play isn't enabled
 //            performMapTicks();
@@ -196,14 +266,20 @@ public class DrawMapController implements Initializable {
 
 //        performMapTicks();
 //        redrawMap();
-
-        Thread thread = new Thread(() -> {
-            performMapTicks();
-            Platform.runLater(() -> {
-                redrawMap();
+        tickButton.setDisable(true);
+        try {
+            Thread thread = new Thread(() -> {
+                performMapTicks();
+                Platform.runLater(() -> {
+                    redrawMap();
+                    tickButton.setDisable(false);
+                });
             });
-        });
-        thread.start();
+            thread.start();
+        } catch (Exception e) {
+            tickButton.setDisable(false);
+            System.out.println("tick button caught exception " + e.getMessage());
+        }
 //        try {
 //            CompletableFuture.supplyAsync(() -> {performMapTicks(); return true;}).
 //                    thenAccept(val -> redrawMap()).get();

@@ -34,7 +34,7 @@ public class GenerateFreeFormController implements Initializable{
     @FXML private Node anchor;
     @FXML private JFXTextField NumberOfBlocks;
     @FXML private JFXTextField Radius;
-    @FXML private JFXButton generate_button;
+    @FXML private JFXButton generate_button, back_button;
     @FXML private JFXSpinner progress_spinner;
     @FXML private JFXToggleButton blocksToggle, radiusToggle;
 
@@ -104,6 +104,7 @@ public class GenerateFreeFormController implements Initializable{
             //TODO: for testing purposes
             System.out.println("input was valid");
             generate_button.setDisable(true);
+            back_button.setDisable(true);
             progress_spinner.setVisible(true);
         }
 
