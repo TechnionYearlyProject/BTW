@@ -26,6 +26,7 @@ public class FreeFormMapSimulator extends AbstractMapSimulator{
         this.cityCenter = new PointImpl(0,0);
     }
     public Map build() {
+        initializeAllSets();
         ArrayList<VoronoiPoint> sites = new ArrayList<VoronoiPoint>();
         Random rnd = new Random();
         for (int i = 0; i < this.numOfCityBlocks; i++) {
@@ -35,70 +36,25 @@ public class FreeFormMapSimulator extends AbstractMapSimulator{
         }
         Voronoi v = new Voronoi(sites);
         List<VoronoiEdge> edgeList = v.getEdgeList();
-        declareAllCrossRoads(edgeList);
+        edgeList = declareAllCrossRoads(edgeList);
         buildRoadsOnCrossRoads(edgeList);
         addTrafficLights();
         return extractMap();
     }
 
-    private static List<VoronoiPoint> getCircleLineIntersectionPoint(VoronoiPoint pointA,
-                                                             VoronoiPoint pointB, Point center, double radius) {
-        double baX = pointB.x - pointA.x;
-        double baY = pointB.y - pointA.y;
-        double caX = center.getCoordinateX() - pointA.x;
-        double caY = center.getCoordinateY() - pointA.y;
-
-        double a = baX * baX + baY * baY;
-        double bBy2 = baX * caX + baY * caY;
-        double c = caX * caX + caY * caY - radius * radius;
-
-        double pBy2 = bBy2 / a;
-        double q = c / a;
-
-        double disc = pBy2 * pBy2 - q;
-        if (disc < 0) {
-            return Collections.emptyList();
-        }
-        // if disc == 0 ... dealt with later
-        double tmpSqrt = Math.sqrt(disc);
-        double abScalingFactor1 = -pBy2 + tmpSqrt;
-        double abScalingFactor2 = -pBy2 - tmpSqrt;
-
-        VoronoiPoint p1 = new VoronoiPoint(pointA.x - baX * abScalingFactor1, pointA.y
-                - baY * abScalingFactor1);
-        if (disc == 0) { // abScalingFactor1 == abScalingFactor2
-            return Collections.singletonList(p1);
-        }
-        VoronoiPoint p2 = new VoronoiPoint(pointA.x - baX * abScalingFactor2, pointA.y
-                - baY * abScalingFactor2);
-        return Arrays.asList(p1, p2);
-    }
-
-    private void declareAllCrossRoads(List<VoronoiEdge> edgeList) {
+    private List<VoronoiEdge> declareAllCrossRoads(List<VoronoiEdge> edgeList) {
         Set<Point> locationSet = new HashSet<>();
+        List<VoronoiEdge> modifiedList = new ArrayList<>();
         for (VoronoiEdge voronoiEdge : edgeList) {
             Point p1,p2;
-            List<VoronoiPoint> intersectionPoints =
-                    getCircleLineIntersectionPoint(voronoiEdge.p1, voronoiEdge.p2
-                            , this.cityCenter, metersToDegrees(this.cityRadius));
-            if (intersectionPoints.size() == 2) {
-                voronoiEdge.p1.x = intersectionPoints.get(0).x;
-                voronoiEdge.p1.y = intersectionPoints.get(0).y;
-                voronoiEdge.p2.x = intersectionPoints.get(1).x;
-                voronoiEdge.p2.y = intersectionPoints.get(1).y;
-            } else if (intersectionPoints.size() == 1) {
-                if (calculateLengthBetween2Points(this.cityCenter, new PointImpl(voronoiEdge.p1.x, voronoiEdge.p1.y)) > metersToDegrees(this.cityRadius)) {
-                    voronoiEdge.p1.x = intersectionPoints.get(0).x;
-                    voronoiEdge.p1.y = intersectionPoints.get(0).y;
-                } else {
-                    voronoiEdge.p2.x = intersectionPoints.get(0).x;
-                    voronoiEdge.p2.y = intersectionPoints.get(0).y;
-                }
+            int numOfPointsOutOfRadius = getNumOfPointsOutOfRadius(voronoiEdge);
+            if(numOfPointsOutOfRadius == 0) {
+                modifiedList.add(voronoiEdge);
+                p1 = new PointImpl(voronoiEdge.p1.x, voronoiEdge.p1.y);
+                p2 = new PointImpl(voronoiEdge.p2.x, voronoiEdge.p2.y);
+                locationSet.add(p1);
+                locationSet.add(p2);
             }
-            p1 = new PointImpl(voronoiEdge.p1.x, voronoiEdge.p1.y);
-            p2 = new PointImpl(voronoiEdge.p2.x, voronoiEdge.p2.y);
-            locationSet.add(p1);
-            locationSet.add(p2);
         }
         this.crossRoads.addAll(
                 locationSet
@@ -106,10 +62,19 @@ public class FreeFormMapSimulator extends AbstractMapSimulator{
                         .map(MapSimulationCrossroadImpl::new)
                         .collect(Collectors.toSet())
         );
-        buildRoadsOnCrossRoads(edgeList);
+        return modifiedList;
     }
 
-    private Crossroad getCrossroadByLocation(il.ac.technion.cs.yp.btw.classes.Point location) {
+    private int getNumOfPointsOutOfRadius(VoronoiEdge voronoiEdge) {
+        int counter = 0;
+        if(calculateLengthBetween2Points(this.cityCenter, new PointImpl(voronoiEdge.p1.x, voronoiEdge.p1.y)) > (this.cityRadius) + 100)
+            counter++;
+        if(calculateLengthBetween2Points(this.cityCenter, new PointImpl(voronoiEdge.p2.x, voronoiEdge.p2.y)) > (this.cityRadius) + 100)
+            counter++;
+        return counter;
+    }
+
+    private Crossroad getCrossroadByLocation(Point location) {
         return this.crossRoads
                 .stream()
                 .filter(crossroad -> crossroad.getCoordinateX()==(location.getCoordinateX())
@@ -191,15 +156,22 @@ public class FreeFormMapSimulator extends AbstractMapSimulator{
         return cityRadius;
     }
 
-    public void setCityRadius(int cityRadius) {
+    public FreeFormMapSimulator setCityRadius(int cityRadius) {
         this.cityRadius = cityRadius;
+        return this;
     }
 
     public Point getCityCenter() {
         return cityCenter;
     }
 
-    public void setCityCenter(Point cityCenter) {
+    public FreeFormMapSimulator setCityCenter(Point cityCenter) {
         this.cityCenter = cityCenter;
+        return this;
+    }
+
+    public FreeFormMapSimulator setNumOfCityBlocks(int numOfCityBlocks) {
+        this.numOfCityBlocks = numOfCityBlocks;
+        return this;
     }
 }
