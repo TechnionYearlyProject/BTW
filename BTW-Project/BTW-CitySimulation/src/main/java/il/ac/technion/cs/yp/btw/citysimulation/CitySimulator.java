@@ -65,6 +65,12 @@ public interface CitySimulator {
                                      Road destination, double destinationRoadRatio, int interval) throws PathNotFoundException;
 
     /**
+     * @param numOfVehicles - number of vehicles to enter
+     * @return a Vehicle List all the randomly generated vehicles
+     */
+    List<Vehicle> addRandomVehicles(int numOfVehicles) throws PathNotFoundException;
+
+    /**
      * @return CityMap to be saved for graphic uses
      */
     CityMap saveMap();
