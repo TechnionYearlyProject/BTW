@@ -25,7 +25,7 @@
                 <HBox alignment="CENTER">
                     <children>
                         <JFXToggleButton fx:id="blocksToggle"/>
-                        <JFXTextField fx:id="NumberOfBlocks" disable="true" prefWidth="260" promptText="Number of Blocks (50-250)" />
+                        <JFXTextField fx:id="NumberOfBlocks" disable="true" prefWidth="260" promptText="Maximum Number of Blocks (50-250)" />
                     </children>
                 </HBox>
                 <HBox alignment="CENTER">

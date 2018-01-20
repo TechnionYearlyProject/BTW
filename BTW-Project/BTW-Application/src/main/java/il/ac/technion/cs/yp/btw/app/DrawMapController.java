@@ -50,7 +50,7 @@ import static javafx.application.Application.launch;
 public class DrawMapController implements Initializable {
     private static final double MAX_SCALE = 10.0d;
     private static final double MIN_SCALE = .1d;
-    Canvas canvas;
+
     BorderPane borderPane;
     Set<Circle> circles;
     Set<Line> lines = new HashSet<Line>();
@@ -63,7 +63,8 @@ public class DrawMapController implements Initializable {
     Timeline playCityTimeline;
     CompletableFuture<Boolean> tickTask;
 
-//    void initCityMap(CityMap cityMap){
+    boolean lastTickActionWasPause = false;
+
     void initCitySimulator(CitySimulator citySimulator){
         this.citySimulator = citySimulator;
         cityMap = citySimulator.saveMap();
@@ -80,16 +81,11 @@ public class DrawMapController implements Initializable {
     }
 
     public void start() {
-//        stage.setTitle("Drawing Operations Test");
         AnchorPane root = new AnchorPane();
         borderPane = new BorderPane();
 
         borderPane.setStyle("-fx-background-color: transparent;");
         root.setStyle("-fx-background-color: transparent;");
-
-//        canvas = new Canvas(stage.getWidth(), stage.getHeight());
-//        canvas = new Canvas(640, 640);
-//        borderPane.getChildren().add(canvas); // add plain canvas
 
         final Affine accumulatedScales = new Affine();
         accumulatedScales.appendScale(100,100);
@@ -102,7 +98,6 @@ public class DrawMapController implements Initializable {
                     ,event.getX(), event.getY());
         });
 
-//        insertRandomMap();
         HBox playAndTickHbox = new HBox();
         playAndTickHbox.setPadding(new Insets(15, 12, 15, 12));
         playAndTickHbox.setSpacing(10);
@@ -244,11 +239,14 @@ public class DrawMapController implements Initializable {
         if(isPlayButton) {
             buttonImage = new Image(getClass().getResourceAsStream("/icons8-pause-50.png"));
             tickButton.setDisable(true);
-            resetTickTask();
+            //only fetch a new task if the previous task didn't finish
+            if(!lastTickActionWasPause) resetTickTask();
+            lastTickActionWasPause = false;
             playCityTimeline.play();
         } else {
             buttonImage = new Image(getClass().getResourceAsStream("/icons8-play-50.png"));
             tickButton.setDisable(false);
+            lastTickActionWasPause = true;
             playCityTimeline.stop();
         }
         isPlayButton = !isPlayButton;
@@ -276,13 +274,21 @@ public class DrawMapController implements Initializable {
     }
 
     private void tickButtonClicked(ActionEvent event) {
-//        if(isPlayButton) { //can only do a tick when play isn't enabled
-//            performMapTicks();
-//        }
-
-//        performMapTicks();
-//        redrawMap();
         tickButton.setDisable(true);
+
+        //if the last action was pause, we started a task but didn't draw it yet. finish that task and draw it.
+        if(lastTickActionWasPause) {
+            lastTickActionWasPause = false;
+//            redrawMap();
+//            tickButton.setDisable(false);
+            Thread thread = new Thread(() -> {
+                getTickTask();
+                Platform.runLater(() -> {
+                    redrawMap();
+                    tickButton.setDisable(false);
+                });
+            });
+        }
         try {
             Thread thread = new Thread(() -> {
                 performMapTicks();
@@ -315,48 +321,6 @@ public class DrawMapController implements Initializable {
         draw(cityMap);
     }
 
-    private String parseCitySimulationToGeoJsonString(MapSimulator gridCityMapSimulator) {
-        GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
-        File mapFile = geoJsonParser.buildGeoJsonFromSimulation(gridCityMapSimulator);
-        String mapString = "";
-        FileReader fileReader = null;
-        try {
-            String line;
-            fileReader = new FileReader(mapFile);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            while((line = bufferedReader.readLine()) != null) {
-                mapString = mapString+line;
-            }
-            // Always close files.
-            bufferedReader.close();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        return mapString;
-    }
-
-    //TODO - this is for testing purposes
-    private void insertRandomMap() {
-        GridCityMapSimulator mapSimulator = new GridCityMapSimulator();
-        mapSimulator.setNumOfStreets(3);
-        mapSimulator.setNumOfAvenues(3);
-        mapSimulator.build();
-//        FreeFormMapSimulator mapSimulator = new FreeFormMapSimulator();
-//        mapSimulator.build();
-
-        String mapString = parseCitySimulationToGeoJsonString(mapSimulator);
-
-        System.out.println(mapString);
-
-//        Insert the new map to the database.
-        BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity33");
-        dataBase.saveMap(mapString);
-
-//        BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity12");
-
-        CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
-        cityMap = citySimulator.saveMap();
-    }
 
     public DrawMapController draw(CityMap cityMap) {
         circles = new HashSet<>();
