@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
  * default implementation for the interface Street
  */
 public class MapSimulationStreetImpl implements Street {
@@ -22,19 +24,30 @@ public class MapSimulationStreetImpl implements Street {
         this.roads = roads;
     }
 
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @return this Street's Roads in a Set
+     */
     @Override
     public Set<Road> getAllRoadsInStreet() {
         return this.roads;
     }
 
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @return this Street's name
+     */
     @Override
     public String getStreetName() {
         return this.name;
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * adds the given Road to this Street
-     *
      * @param rd - the added Road
      */
     @Override

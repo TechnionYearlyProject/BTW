@@ -1,6 +1,8 @@
 package il.ac.technion.cs.yp.btw.classes;
 
 /**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
  * default implementation for the abstract class PointAbstract
  */
 public class PointImpl extends PointAbstract {

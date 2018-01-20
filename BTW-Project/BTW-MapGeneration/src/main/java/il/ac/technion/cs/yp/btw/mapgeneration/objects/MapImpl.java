@@ -4,12 +4,18 @@ import il.ac.technion.cs.yp.btw.classes.*;
 
 import java.util.Set;
 
+/**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
+ * Map implementation to pass Map information
+ * from the MapGeneration to other modules
+ */
 public class MapImpl implements Map {
-    private Set<TrafficLight> trafficLights;
-    private Set<Road> roads;
-    private Set<Crossroad> crossRoads;
-    private Set<CentralLocation> centralLocations;
-    private Set<Street> streets;
+    private final Set<TrafficLight> trafficLights;
+    private final Set<Road> roads;
+    private final Set<Crossroad> crossRoads;
+    private final Set<CentralLocation> centralLocations;
+    private final Set<Street> streets;
 
     public MapImpl(Set<TrafficLight> trafficLights, Set<Road> roads
             , Set<Crossroad> crossRoads, Set<CentralLocation> centralLocations
@@ -22,6 +28,8 @@ public class MapImpl implements Map {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the map's
      * traffic Lights
      */
@@ -31,6 +39,8 @@ public class MapImpl implements Map {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the map's
      * roads
      */
@@ -40,6 +50,8 @@ public class MapImpl implements Map {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the map's
      * cross roads
      */
@@ -49,6 +61,8 @@ public class MapImpl implements Map {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the map's
      * central locations
      */
@@ -58,6 +72,8 @@ public class MapImpl implements Map {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the map's
      * central locations
      */

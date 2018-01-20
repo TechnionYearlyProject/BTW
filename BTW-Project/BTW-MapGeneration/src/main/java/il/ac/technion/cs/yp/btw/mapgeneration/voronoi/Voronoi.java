@@ -2,6 +2,8 @@ package il.ac.technion.cs.yp.btw.mapgeneration.voronoi;
 import java.util.*;
 
 /**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
  * Voronoi diagram generator, from set
  * of site locations
  */
