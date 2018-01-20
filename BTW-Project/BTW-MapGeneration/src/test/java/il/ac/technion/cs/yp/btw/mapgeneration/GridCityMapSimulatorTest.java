@@ -12,6 +12,8 @@ import static il.ac.technion.cs.yp.btw.mapgeneration.AbstractMapSimulator.meters
 import static org.junit.Assert.*;
 
 /**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
  * Test class for GridCityMapSimulator
  */
 public class GridCityMapSimulatorTest {

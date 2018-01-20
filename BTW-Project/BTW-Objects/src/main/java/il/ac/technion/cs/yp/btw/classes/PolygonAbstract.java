@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.Iterator;
 
 /**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
  * default abstract implementation for the interface Polygon
  */
 public abstract class PolygonAbstract implements Polygon {

@@ -8,6 +8,8 @@ import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import java.util.List;
 
 /**
+ * @author Adam Elgressy and Guy Rephaeli
+ * @Date 20-1-2018
  * Interface to describe City Simulator with live
  * Vehicles and TrafficLights
  */
@@ -31,6 +33,8 @@ public interface CitySimulator {
     CityCrossroad getRealCrossroad(Crossroad crossroad);
 
     /**
+     * @author Adam Elgressy and Guy Rephaeli
+     * @Date 20-1-2018
      * @param vehicleDescriptor - technical properties
      *                          of the Vehicle
      * @param source - source road
@@ -46,6 +50,8 @@ public interface CitySimulator {
                        Road destination, double destinationRoadRatio) throws PathNotFoundException;
 
     /**
+     * @author Adam Elgressy and Guy Rephaeli
+     * @Date 20-1-2018
      * @param vehicleDescriptors - List of technical properties
      *                             of the Vehicles
      * @param source - source road
@@ -76,6 +82,8 @@ public interface CitySimulator {
     CityMap saveMap();
 
     /**
+     * @author Adam Elgressy and Guy Rephaeli
+     * @Date 20-1-2018
      * progress everything by a clock tick,
      * a clock tick is considered to be
      * an advancement of 1 second
@@ -84,6 +92,8 @@ public interface CitySimulator {
     CitySimulator tick();
 
     /**
+     * @author Adam Elgressy and Guy Rephaeli
+     * @Date 20-1-2018
      * progress everything by a numberOfTicks
      * clock ticks,
      * a clock tick is considered to be

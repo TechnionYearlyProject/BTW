@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.function.Function;
 
 /**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
  * map simulator of a grid shaped city
  */
 public class GridCityMapSimulator extends AbstractMapSimulator {
@@ -25,10 +27,12 @@ public class GridCityMapSimulator extends AbstractMapSimulator {
     private double startXCoordinate;
     private double startYCoordinate;
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * by using the constructor, the city simulation
      * is taking place
      * default city is 6x6 blocks
-     * block length is 1 mile
+     * block length is 600 meters
      * the blocks are numbered:
      * | 31 | 32 | 33 | 34 | 35 | 36 |
      * | 30 | 29 | 28 | 27 | 26 | 25 |
@@ -144,6 +148,8 @@ public class GridCityMapSimulator extends AbstractMapSimulator {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the simulated map's
      * traffic Lights
      */
@@ -152,6 +158,8 @@ public class GridCityMapSimulator extends AbstractMapSimulator {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the simulated map's
      * roads
      */
@@ -160,6 +168,8 @@ public class GridCityMapSimulator extends AbstractMapSimulator {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the simulated map's
      * cross roads
      */
@@ -168,6 +178,8 @@ public class GridCityMapSimulator extends AbstractMapSimulator {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the simulated map's
      * central locations
      */
@@ -176,6 +188,8 @@ public class GridCityMapSimulator extends AbstractMapSimulator {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the simulated map's
      * central locations
      */
