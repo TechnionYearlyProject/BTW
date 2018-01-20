@@ -135,33 +135,10 @@ public class DrawMapController implements Initializable {
         addVehiclesHbox.setSpacing(10);
 
         //set up the button
-        addVehiclesButton = createRaisedJFXButtonWithText("Choose Vehicles To Add");
-        addVehiclesButton.setOnAction(event -> {
-            boolean textFieldWasVisible = numOfVehiclesTextField.isVisible();
-            if(!textFieldWasVisible) {
-                numOfVehiclesTextField.setVisible(true);
-                addVehiclesButton.setText("Add Vehicles");
-            } else {
-                int numOfVehicles;
-                try {
-                    numOfVehicles = Integer.parseInt(numOfVehiclesTextField.getText());
-                    if(numOfVehicles < 1) throw new NumberFormatException();
-                } catch (NumberFormatException e) {
-                    showErrorDialog("Number of vehicles needs to be a number greater than 0");
-                    return;
-                }
-                numOfVehiclesTextField.setVisible(false);
-                numOfVehiclesTextField.setText("");
-                addVehiclesButton.setText("Choose Vehicles To Add");
-                addRandomVehiclesToSimulation(numOfVehicles);
-            }
-        });
+        initVehiclesButton();
 
         //setting up the text field
-        numOfVehiclesTextField = new JFXTextField();
-        numOfVehiclesTextField.setPromptText("Enter amount of vehicles");
-        numOfVehiclesTextField.setPrefSize(200, 50);
-        numOfVehiclesTextField.setVisible(false);
+        initVehiclesTextField();
 
 
         addVehiclesHbox.getChildren().addAll(addVehiclesButton, numOfVehiclesTextField);
@@ -186,8 +163,8 @@ public class DrawMapController implements Initializable {
 //        Scene scene = new Scene(borderPane, 640, 640, Color.GREY);
 //        Scene scene = new Scene(borderPane, stage.getWidth(), stage.getHeight(), Color.GREY);
         Scene scene = new Scene(root, stage.getWidth(), stage.getHeight(), Color.GREY);
-        draw(cityMap);
-
+//        draw(cityMap);
+        drawNow(cityMap);
 
         stage.show();
         stage.setScene(scene);
@@ -195,8 +172,46 @@ public class DrawMapController implements Initializable {
 
     }
 
+    private void initVehiclesTextField() {
+        numOfVehiclesTextField = new JFXTextField();
+        numOfVehiclesTextField.setPromptText("Enter amount of vehicles");
+        numOfVehiclesTextField.setPrefSize(200, 50);
+        numOfVehiclesTextField.setVisible(false);
+    }
+
+    private void initVehiclesButton() {
+        addVehiclesButton = createRaisedJFXButtonWithText("Choose Vehicles To Add");
+        addVehiclesButton.setOnAction(event -> {
+            boolean textFieldWasVisible = numOfVehiclesTextField.isVisible();
+            if(!textFieldWasVisible) {
+                numOfVehiclesTextField.setVisible(true);
+                addVehiclesButton.setText("Add Vehicles");
+            } else {
+                int numOfVehicles;
+                try {
+                    numOfVehicles = Integer.parseInt(numOfVehiclesTextField.getText());
+                    if(numOfVehicles < 1) throw new NumberFormatException();
+                } catch (NumberFormatException e) {
+                    showErrorDialog("Number of vehicles needs to be a number greater than 0");
+                    return;
+                }
+                numOfVehiclesTextField.setVisible(false);
+                numOfVehiclesTextField.setText("");
+                addVehiclesButton.setText("Choose Vehicles To Add");
+                addRandomVehiclesToSimulation(numOfVehicles);
+            }
+        });
+    }
+
     private void addRandomVehiclesToSimulation(int numOfVehicles) {
-        //TODO: fill up with Guy's code
+        Thread thread = new Thread(() -> {
+            //TODO: add vehicles to simulation
+            cityMap = citySimulator.saveMap();
+            Platform.runLater(this::redrawMap);
+        });
+
+        //TODO: remove comment when function should work
+//        thread.start();
     }
 
     private void showErrorDialog(String errorMessage) {
@@ -295,7 +310,7 @@ public class DrawMapController implements Initializable {
     }
 
     private void redrawMap() {
-        borderPane.getChildren().clear();
+//        borderPane.getChildren().clear();
         draw(cityMap);
     }
 
@@ -313,8 +328,6 @@ public class DrawMapController implements Initializable {
             }
             // Always close files.
             bufferedReader.close();
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -345,22 +358,43 @@ public class DrawMapController implements Initializable {
     }
 
     public DrawMapController draw(CityMap cityMap) {
-        circles = new HashSet<Circle>();
-        lines = new HashSet<Line>();
+        circles = new HashSet<>();
+        lines = new HashSet<>();
+        new Thread(() -> {
+            Set<CityRoad> cityRoads = cityMap.getAllRoads();
+            Set<CityTrafficLight> cityTrafficLights = cityMap.getAllTrafficLights();
+            MapGraphics map = new MapGraphics(cityTrafficLights,cityRoads);
+            Platform.runLater(() -> {
+                extractMapToBorderPane(map);
+            });
+        }).start();
+        return this;
+    }
+
+    public DrawMapController drawNow(CityMap cityMap) {
+        circles = new HashSet<>();
+        lines = new HashSet<>();
+
         Set<CityRoad> cityRoads = cityMap.getAllRoads();
         Set<CityTrafficLight> cityTrafficLights = cityMap.getAllTrafficLights();
         MapGraphics map = new MapGraphics(cityTrafficLights,cityRoads);
+
+        extractMapToBorderPane(map);
+
+        return this;
+    }
+
+    private void extractMapToBorderPane(MapGraphics map) {
+        borderPane.getChildren().clear();
         for (Pair<Line,String> line: map.getLines()) {
-//            lines.add(line.getKey());
             borderPane.getChildren().add(line.getKey());
         }
         // add all circles
         for (Pair<Circle,String> circle: map.getCircles()) {
-//            circles.add(circle.getKey());
             borderPane.getChildren().add(circle.getKey());
         }
-        return this;
     }
+
     // should be implemented outside
     public Set<TrafficLight> getTrafficLights() {
         return new HashSet<TrafficLight>();
