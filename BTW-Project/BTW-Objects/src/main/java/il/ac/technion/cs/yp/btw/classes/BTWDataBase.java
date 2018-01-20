@@ -52,4 +52,9 @@ public interface BTWDataBase {
      * update the heuristics
      */
     BTWDataBase updateHeuristics();
+
+    /**
+     * load existing map
+     */
+    public boolean loadMap();
 }

@@ -301,15 +301,25 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return this;
     }
 
+    @Override
+    public boolean loadMap(){
 
-    private void loadMap(){
         roads = getAllRoads();
-
+        if(roads == null){
+            return false;
+        }
         trafficLights = getAllTrafficLights();
-
+        if(trafficLights == null){
+            return false;
+        }
         crossRoads = getAllCrossroads();//traffic light inserted to crss roads here.
-
+        if(crossRoads == null){
+            return false;
+        }
         insertCrossRoadsToRoads();
         insertRoadsToTrafficLights();
+        return true;
     }
+
+
 }
