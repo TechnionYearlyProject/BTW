@@ -1,3 +1,7 @@
 ignore:
   - "BTW-Project/BTW-Application/*"  #ignore user UI code
   - "BTW-Project/BTW-Graphics/*" #ignore map gui code
+  - "BTW-Project/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/WeightsDataBase.java" #ignore unused DB
+  - "BTW-Project/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/StreetsDataBase.java" #ignore unused DB
+  - "BTW-Project/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/CrossRoadsDataBase.java" #ignore unused DB
+  - "BTW-Project/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/CentralLocationsDataBase.java" #ignore unused DB

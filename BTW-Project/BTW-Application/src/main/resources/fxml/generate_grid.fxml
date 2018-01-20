@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.scene.control.Separator?>
@@ -23,25 +24,25 @@
            <children>
                <HBox alignment="CENTER">
                    <children>
-                       <JFXToggleButton fx:id="numStreetsToggle"/>
+                       <JFXToggleButton fx:id="numStreetsToggle" />
                        <JFXTextField fx:id="NumberOfStreets" disable="true" prefWidth="260" promptText="Number Of Streets (2-50)" />
                    </children>
                </HBox>
                <HBox alignment="CENTER">
                    <children>
-                       <JFXToggleButton fx:id="numAvenuesToggle"/>
+                       <JFXToggleButton fx:id="numAvenuesToggle" />
                        <JFXTextField fx:id="NumberOfAvenues" disable="true" prefWidth="260" promptText="Number Of Avenues (2-50)" />
                    </children>
                </HBox>
                <HBox alignment="CENTER">
                    <children>
-                       <JFXToggleButton fx:id="legnthStreetsToggle"/>
+                       <JFXToggleButton fx:id="legnthStreetsToggle" />
                        <JFXTextField fx:id="LengthOfStreets" disable="true" prefWidth="260" promptText="Length Of Street (50-500 meters)" />
                    </children>
                </HBox>
                <HBox alignment="CENTER">
                    <children>
-                       <JFXToggleButton fx:id="legnthAvenuesToggle"/>
+                       <JFXToggleButton fx:id="legnthAvenuesToggle" />
                        <JFXTextField fx:id="LengthOfAvenues" disable="true" prefWidth="260.0" promptText="Length Of Avenues (100-1000 meters)" />
                    </children>
                </HBox>
@@ -52,6 +53,7 @@
             <Image url="/BTWLogo.png" />
          </image>
       </ImageView>
+      <JFXSpinner progress="0.0" layoutX="1000.0" layoutY="500.0" visible="false" fx:id="progress_spinner" />
       <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="45.0" layoutY="681.0" onAction="#BackClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
       <JFXButton fx:id="generate_button" buttonType="RAISED" layoutX="887.0" layoutY="281.0" onAction="#GenerateClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Generate!" />
       <Text layoutX="85.0" layoutY="285.0" text="If an option isn't selected a default value will be chosen" textAlignment="CENTER" wrappingWidth="278.0000231266022">
