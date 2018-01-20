@@ -125,7 +125,8 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
-         *
+         * @author Adam Elgressy
+         * @Date 20-1-2018
          * speedLimit in km/h on road
          * capacity - discrete
          * number of vehicles on road - discrete

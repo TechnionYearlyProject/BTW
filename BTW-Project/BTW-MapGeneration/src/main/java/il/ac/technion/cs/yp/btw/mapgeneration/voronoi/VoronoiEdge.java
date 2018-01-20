@@ -1,6 +1,8 @@
 package il.ac.technion.cs.yp.btw.mapgeneration.voronoi;
 
 /**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
  * edges on a Voronoi diagram
  */
 public class VoronoiEdge {

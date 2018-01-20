@@ -1,6 +1,8 @@
 package il.ac.technion.cs.yp.btw.classes;
 
 /**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
  * default abstract implementation for the interface Point
  */
 public abstract class PointAbstract implements Point {

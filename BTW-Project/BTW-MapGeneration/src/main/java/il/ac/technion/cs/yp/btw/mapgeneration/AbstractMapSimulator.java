@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * @author Adam Elgressy
+ * @Date 18-1-2018
  * abstract class for all mutual code of map simulators
  */
 abstract class AbstractMapSimulator implements MapSimulator {
@@ -23,6 +25,8 @@ abstract class AbstractMapSimulator implements MapSimulator {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * Calculate distance between two points in latitude and longitude taking
      * into account height difference. If you are not interested in height
      * difference pass 0.0. Uses Haversine method as its base.
@@ -53,6 +57,8 @@ abstract class AbstractMapSimulator implements MapSimulator {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * adds all possible TrafficLights to this MapSimulator's map
      */
     protected void addTrafficLights() {
@@ -76,6 +82,8 @@ abstract class AbstractMapSimulator implements MapSimulator {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Map with the corresponding Sets
      *         of the current MapSimulator's state
      *         returns empty map if no build was made
@@ -86,6 +94,11 @@ abstract class AbstractMapSimulator implements MapSimulator {
         ,this.getCentralLocations(),this.getStreets());
     }
 
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * resets all of this MapSimulator's Sets
+     */
     protected void initializeAllSets() {
         this.roads = new HashSet<>();
         this.crossRoads = new HashSet<>();
@@ -94,6 +107,13 @@ abstract class AbstractMapSimulator implements MapSimulator {
         this.streets = new HashSet<>();
     }
 
+    /**
+     * @author Adam Elgressy
+     * @Date 18-1-2018
+     * @param meters - length to be converted in meters
+     * @return the number of latitude/longitude degrees
+     *         the given meters are equal to
+     */
     static double metersToDegrees(int meters){
         return meters/111111.0;
     }

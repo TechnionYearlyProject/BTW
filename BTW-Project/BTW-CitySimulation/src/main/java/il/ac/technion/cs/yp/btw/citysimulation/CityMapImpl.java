@@ -3,6 +3,8 @@ package il.ac.technion.cs.yp.btw.citysimulation;
 import java.util.Set;
 
 /**
+ * @author Adam Elgressy and Guy Rephaeli
+ * @Date 20-1-2018
  * implementation of CityMap for graphics use
  */
 public class CityMapImpl implements CityMap {
@@ -19,6 +21,8 @@ public class CityMapImpl implements CityMap {
     }
 
     /**
+     * @author Adam Elgressy and Guy Rephaeli
+     * @Date 20-1-2018
      * @return all CityRoads on the map
      */
     @Override
@@ -27,6 +31,8 @@ public class CityMapImpl implements CityMap {
     }
 
     /**
+     * @author Adam Elgressy and Guy Rephaeli
+     * @Date 20-1-2018
      * @return all CityTrafficLights on the map
      */
     @Override
@@ -35,6 +41,8 @@ public class CityMapImpl implements CityMap {
     }
 
     /**
+     * @author Adam Elgressy and Guy Rephaeli
+     * @Date 20-1-2018
      * @return all CityCrossroads on the map
      */
     @Override

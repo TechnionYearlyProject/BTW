@@ -71,7 +71,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public Street getStreetByName(String streetName){
-        return StreetsDataBase.getStreet(streetName, mapName);
+        return null;
     }
 
     /**
@@ -81,7 +81,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public CentralLocation getCentralLocationByName(String locationName){
-        return CentralLocationsDataBase.getCentralLocation(locationName, mapName);
+        return null;
     }
 
     /**
@@ -97,7 +97,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
             return this.roads;
         }else {
             this.roadsLoaded = true;
-            return RoadsDataBase.getAllRoads(mapName);
+            this.roads = RoadsDataBase.getAllRoads(mapName);
+            return this.roads;
         }
     }
 
@@ -128,7 +129,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
             Crossroad crossRoad = new DataCrossRoad(p,tlsOfCrossRoad,crossRoadName,mapName);
             crossRoads.add(crossRoad);
         }
-        return crossRoads;
+        this.crossRoads = crossRoads;
+        return this.crossRoads;
     }
 
     private void insertCrossRoadsToRoads(){
@@ -147,7 +149,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
 
     }
 
-    void insertRoadsToTrafficLights(){
+    private void insertRoadsToTrafficLights(){
         Map<String, Road> roadsLightsOfName = new HashMap<>();
         this.roads.
                 forEach(road -> roadsLightsOfName.put(road.getRoadName(),road ));
@@ -172,7 +174,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
     @Override
     public BTWDataBase updateWeight(){
         // TODO: ???
-        return this;
+        return null;
     }
 
     /**

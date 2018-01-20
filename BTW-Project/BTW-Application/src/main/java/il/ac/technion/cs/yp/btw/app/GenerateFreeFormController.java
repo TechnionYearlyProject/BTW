@@ -111,7 +111,8 @@ public class GenerateFreeFormController implements Initializable{
 
         FreeFormMapSimulator freeFormMapSimulator = new FreeFormMapSimulator();
         //TODO: add input to map simulator when Adam is done
-//        if(!NumberOfBlocks.isDisabled())
+        if(!NumberOfBlocks.isDisabled()) freeFormMapSimulator.setNumOfCityBlocks(Number_of_blocks);
+        if(!Radius.isDisabled()) freeFormMapSimulator.setCityRadius(radius_val);
 
         new Thread(() -> {
             freeFormMapSimulator.build();

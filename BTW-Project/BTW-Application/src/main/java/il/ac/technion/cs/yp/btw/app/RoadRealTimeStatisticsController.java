@@ -8,6 +8,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 /**
  * Created by anat ana on 19/01/2018.
@@ -26,7 +27,10 @@ public class RoadRealTimeStatisticsController {
         stage.show();
 
         this.vehiclesNum.setText(String.valueOf(numOfVehicles));
-        this.averageSpeed.setText(String.valueOf(averageSpeed));
+        DecimalFormat df = new DecimalFormat("#.000");
+        String formattedSpeed = df.format(averageSpeed);
+        this.averageSpeed.setText(formattedSpeed);
+//        this.averageSpeed.setText(String.valueOf(averageSpeed));
         this.lengthInKm.setText(String.valueOf(length));
 
     }

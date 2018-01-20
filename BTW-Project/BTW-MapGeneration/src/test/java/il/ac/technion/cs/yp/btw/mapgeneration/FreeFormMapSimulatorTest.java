@@ -5,6 +5,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
+ * test class for FreeFormSimulator
+ */
 public class FreeFormMapSimulatorTest {
 
     private static final int DEFAULT_RADIUS_MARGIN_OF_ERROR = 150;

@@ -6,11 +6,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
  * Interface which represents a Polygon
  * on a road map
  */
 public interface Polygon {
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * Adds a Point to define this Polygon
      * @param p - the Point to add
      */
@@ -19,11 +23,15 @@ public interface Polygon {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of all the Points
      *         which represent this Polygon
      */
     Set<Point> getVertices();
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * Return true if the given point is contained inside the boundary.
      * See: http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
      * @param point The point to check

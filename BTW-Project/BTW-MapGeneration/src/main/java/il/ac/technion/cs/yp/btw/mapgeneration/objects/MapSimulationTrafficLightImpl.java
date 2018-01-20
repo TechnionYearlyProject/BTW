@@ -3,6 +3,8 @@ package il.ac.technion.cs.yp.btw.mapgeneration.objects;
 import il.ac.technion.cs.yp.btw.classes.*;
 
 /**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
  * Point on a road map which represents
  * transition between two different Roads
  */
@@ -16,6 +18,8 @@ public class MapSimulationTrafficLightImpl extends PointAbstract implements Traf
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return the MapSimulationTrafficLightImpl's unique name
      * in the format:
      * from:@getSourceRoad() to:@getDestinationRoad()
@@ -27,6 +31,8 @@ public class MapSimulationTrafficLightImpl extends PointAbstract implements Traf
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return the Road you got from to this
      *         MapSimulationTrafficLightImpl
      */
@@ -34,6 +40,8 @@ public class MapSimulationTrafficLightImpl extends PointAbstract implements Traf
     public Road getSourceRoad(){return this.sourceRoad;}
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return the destination Road you
      *         go to from this MapSimulationTrafficLightImpl
      */
@@ -41,6 +49,8 @@ public class MapSimulationTrafficLightImpl extends PointAbstract implements Traf
     public Road getDestinationRoad(){return this.destinationRoad;}
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * returns the right Weight for the given Time
      * @param time - Time we want to check the load
      *             on the traffic light at
@@ -51,12 +61,10 @@ public class MapSimulationTrafficLightImpl extends PointAbstract implements Traf
     public BTWWeight getWeightByTime(BTWTime time){return null;}
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return minimum possible Weight of MapSimulationTrafficLightImpl
      */
     @Override
     public BTWWeight getMinimumWeight(){return null;}
-
-    /**
-     * @return current Weight on this MapSimulationTrafficLightImpl
-     */
 }

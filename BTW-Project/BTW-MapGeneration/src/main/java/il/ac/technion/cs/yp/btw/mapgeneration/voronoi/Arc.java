@@ -1,6 +1,8 @@
 package il.ac.technion.cs.yp.btw.mapgeneration.voronoi;
 
 /**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
  * Arc on Voronoi diagram
  */
 public class Arc extends ArcKey {

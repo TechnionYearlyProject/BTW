@@ -12,6 +12,13 @@ import il.ac.technion.cs.yp.btw.mapgeneration.voronoi.VoronoiPoint;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
+ * Free form map simulation implementation
+ * in order to execute this generator use the
+ * build() function after giving the wanted parameters
+ */
 public class FreeFormMapSimulator extends AbstractMapSimulator{
     private static final int DEFAULT_NUM_OF_CITY_BLOCKS = 50;
     private static final int DEFAULT_CITY_RADIUS = 5000;
@@ -25,6 +32,18 @@ public class FreeFormMapSimulator extends AbstractMapSimulator{
         this.cityRadius = DEFAULT_CITY_RADIUS;
         this.cityCenter = new PointImpl(0,0);
     }
+
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * in order to get a built simulated map there
+     * is a need to call this build() function
+     * for all of the Sets which describe the map
+     * to be updated with valid values
+     * @return Map with all updated Sets after
+     *         simulating a FreeFormMap with the
+     *         current parameters
+     */
     public Map build() {
         initializeAllSets();
         ArrayList<VoronoiPoint> sites = new ArrayList<VoronoiPoint>();
@@ -112,6 +131,8 @@ public class FreeFormMapSimulator extends AbstractMapSimulator{
 
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the simulated map's
      * traffic Lights
      */
@@ -120,6 +141,8 @@ public class FreeFormMapSimulator extends AbstractMapSimulator{
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the simulated map's
      * roads
      */
@@ -128,6 +151,8 @@ public class FreeFormMapSimulator extends AbstractMapSimulator{
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the simulated map's
      * cross roads
      */
@@ -136,6 +161,8 @@ public class FreeFormMapSimulator extends AbstractMapSimulator{
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the simulated map's
      * central locations
      */
@@ -144,6 +171,8 @@ public class FreeFormMapSimulator extends AbstractMapSimulator{
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of the simulated map's
      * central locations
      */
@@ -152,24 +181,58 @@ public class FreeFormMapSimulator extends AbstractMapSimulator{
         return this.streets;
     }
 
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @return current Simulation's city radius in meters
+     */
     public int getCityRadius() {
         return cityRadius;
     }
 
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @param cityRadius - wanted city radius in meters
+     * sets the given cityRadius to be the current
+     *                   Simulation's city radius
+     * @return self
+     */
     public FreeFormMapSimulator setCityRadius(int cityRadius) {
         this.cityRadius = cityRadius;
         return this;
     }
 
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @return this city center
+     */
     public Point getCityCenter() {
         return cityCenter;
     }
 
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @param cityCenter - wanted new city center
+     * sets this simulation's city center to be the
+     *                   given parameter cityCenter
+     * @return self
+     */
     public FreeFormMapSimulator setCityCenter(Point cityCenter) {
         this.cityCenter = cityCenter;
         return this;
     }
 
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @param numOfCityBlocks - wanted maximum number of blocks
+     * sets this simulation's maximum number of blocks to be
+     *                        the given parameter
+     * @return self
+     */
     public FreeFormMapSimulator setNumOfCityBlocks(int numOfCityBlocks) {
         this.numOfCityBlocks = numOfCityBlocks;
         return this;
