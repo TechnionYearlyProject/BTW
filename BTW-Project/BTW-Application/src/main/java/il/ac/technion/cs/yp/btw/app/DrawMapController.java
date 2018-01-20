@@ -64,12 +64,12 @@ public class DrawMapController implements Initializable {
 //        root.getChildren().add(canvas); // add plain canvas
 
         final Affine accumulatedScales = new Affine();
-        accumulatedScales.appendScale(1000,1000);
+        accumulatedScales.appendScale(100000,100000);
         root.getTransforms().add(accumulatedScales);
         //root.autoSizeChildrenProperty();
         root.setOnScroll(event -> {
             double dy = event.getDeltaY();
-            double delta = dy>0.0 ? 1.2 : 0.8;
+            double delta = dy>0.0 ? 1.4 : 0.6;
             accumulatedScales.appendScale(delta,delta
                     ,event.getX(), event.getY());
         });
@@ -122,7 +122,7 @@ public class DrawMapController implements Initializable {
         System.out.println(mapString);
 
 //        Insert the new map to the database.
-        BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity33");
+        BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity_anat");
         dataBase.saveMap(mapString);
 
 //        BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity12");
