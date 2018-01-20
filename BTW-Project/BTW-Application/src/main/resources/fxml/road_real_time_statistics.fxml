@@ -17,12 +17,12 @@
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="30.0" layoutY="150.0" text="Average speed:" wrappingWidth="120.0">
+        <Text layoutX="30.0" layoutY="150.0" text="Average speed (km/h):" wrappingWidth="120.0">
             <font>
                 <Font size="15.0" />
             </font>
         </Text>
-        <Text layoutX="30.0" layoutY="200.0" text="Length(km):" wrappingWidth="140.0">
+        <Text layoutX="30.0" layoutY="200.0" text="Length (meters):" wrappingWidth="140.0">
             <font>
                 <Font size="15.0" />
             </font>

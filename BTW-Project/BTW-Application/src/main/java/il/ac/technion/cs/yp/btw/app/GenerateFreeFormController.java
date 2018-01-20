@@ -9,7 +9,6 @@ import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
 import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.FreeFormMapSimulator;
-import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
 import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.DoubleProperty;
@@ -114,8 +113,9 @@ public class GenerateFreeFormController implements Initializable{
         dataBase.saveMap(mapString);
 
         CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
-        CityMap cityMap = citySimulator.saveMap();
-        switchScreensToMap(event, cityMap);
+//        CityMap cityMap = citySimulator.saveMap();
+//        switchScreensToMap(event, cityMap);
+        switchScreensToMap(event, citySimulator);
 
 
     }
@@ -144,12 +144,12 @@ public class GenerateFreeFormController implements Initializable{
     }
 
 
-    private void switchScreensToMap(ActionEvent event, CityMap cityMap) {
+    private void switchScreensToMap(ActionEvent event, CitySimulator citySimulator) {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
         try {
             //TODO: maybe remove resource
             URL resource = getClass().getResource("/fxml/stageForDrawMap.fxml");
-            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, resource, anchor, cityMap);
+            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, resource, anchor, citySimulator);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,10 +181,10 @@ public class GenerateFreeFormController implements Initializable{
     }
 
     public void transitionAndSwitchToMap(Stage stageTheEventSourceNodeBelongs,
-                                         URL resource, Node rootNode, CityMap cityMap) throws IOException {
+                                         URL resource, Node rootNode, CitySimulator citySimulator) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stageForDrawMap.fxml"));
         DrawMapController drawMapController = new DrawMapController();
-        drawMapController.initCityMap(cityMap);
+        drawMapController.initCitySimulator(citySimulator);
         drawMapController.initStage(stageTheEventSourceNodeBelongs);
         loader.setController(drawMapController);
         try {
