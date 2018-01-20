@@ -25,10 +25,10 @@ public class QueryAllRoads extends Query{
         try{
             while (resultSet.next()){
                 String nameID = resultSet.getString("nameID");
-                int cord1x =  resultSet.getInt("cord1x");
-                int cord2x =  resultSet.getInt("cord2x");
-                int cord1y =  resultSet.getInt("cord1y");
-                int cord2y =  resultSet.getInt("cord2y");
+                double cord1x =  resultSet.getDouble("cord1x");
+                double cord2x =  resultSet.getDouble("cord2x");
+                double cord1y =  resultSet.getDouble("cord1y");
+                double cord2y =  resultSet.getDouble("cord2y");
                 int length =  resultSet.getInt("length");
                 int secStart =  resultSet.getInt("secStart");
                 int secEnd =  resultSet.getInt("secEnd");

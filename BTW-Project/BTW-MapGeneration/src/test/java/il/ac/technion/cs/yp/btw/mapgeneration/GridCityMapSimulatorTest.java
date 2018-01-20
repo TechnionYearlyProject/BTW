@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static il.ac.technion.cs.yp.btw.mapgeneration.AbstractMapSimulator.metersToDegrees;
 import static org.junit.Assert.*;
 
 /**
@@ -20,6 +21,7 @@ public class GridCityMapSimulatorTest {
     private static final int DEFAULT_NUM_OF_ROADS = DEFAULT_NUM_OF_STREETS * DEFAULT_NUM_OF_ROADS_IN_STREET;
     private static final int DEFAULT_NUM_OF_CROSSROADS = (DEFAULT_NUM_OF_STREETS/2)*(DEFAULT_NUM_OF_STREETS/2);
     private static final int DEFAULT_NUM_OF_TRAFFICLIGHTS = ((DEFAULT_NUM_OF_STREETS/2)-2)*((DEFAULT_NUM_OF_STREETS/2)-2)*4*4 + 4*((DEFAULT_NUM_OF_STREETS/2)-2)*3*3 + 4*2*2;
+    private static final int DEFAULT_ROAD_LENGTH = 600;
     private static Set<String> defaultStreetsNames;
     private static Set<String> defaultRoadsNames;
     private static Set<Point> defaultCrossRoadsPoints;
@@ -42,23 +44,23 @@ public class GridCityMapSimulatorTest {
         for (int i = 1 ; i <= DEFAULT_NUM_OF_STREETS/2 ; i++){
             for (int j = 1 ; j <= DEFAULT_NUM_OF_ROADS_IN_STREET/2 ; j++){
                 defaultRoadsNames.add(i+" "+streetBaseName+" section "+j);
-                defaultRoadsNames.add(i+" "+streetBaseName+" section "+j+"'");
+                defaultRoadsNames.add(i+" "+streetBaseName+" section "+j+"R");
             }
         }
         streetBaseName = "avenue";
         for (int i = 1 ; i <= DEFAULT_NUM_OF_STREETS/2 ; i++){
             for (int j = 1 ; j <= DEFAULT_NUM_OF_ROADS_IN_STREET/2 ; j++){
                 defaultRoadsNames.add(i+" "+streetBaseName+" section "+j);
-                defaultRoadsNames.add(i+" "+streetBaseName+" section "+j+"'");
+                defaultRoadsNames.add(i+" "+streetBaseName+" section "+j+"R");
             }
         }
     }
     @BeforeClass
     public static void setDefaultCrossRoadsPoints() throws Exception {
         defaultCrossRoadsPoints = new HashSet<>();
-        for (double x = 0 ; x < DEFAULT_NUM_OF_STREETS/2 ; x++){
-            for (double y = 0 ; y < DEFAULT_NUM_OF_STREETS/2 ; y++){
-                defaultCrossRoadsPoints.add(new PointImpl(x,y));
+        for (int x = 0 ; x < DEFAULT_NUM_OF_STREETS/2 ; x++ ){
+            for (int y = 0 ; y < DEFAULT_NUM_OF_STREETS/2 ; y++ ){
+                defaultCrossRoadsPoints.add(new PointImpl(x*metersToDegrees(DEFAULT_ROAD_LENGTH),y*metersToDegrees(DEFAULT_ROAD_LENGTH)));
             }
         }
     }

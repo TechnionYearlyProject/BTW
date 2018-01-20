@@ -25,14 +25,14 @@ public class QueryCentralLocation extends Query {
             resultSet.next();//check if it is necessary.
             String nameID = resultSet.getString("nameID");
             String street = resultSet.getString("street");
-            int cord1x = resultSet.getInt("cord1x");
-            int cord2x = resultSet.getInt("cord2x");
-            int cord3x = resultSet.getInt("cord3x");
-            int cord4x = resultSet.getInt("cord4x");
-            int cord1y = resultSet.getInt("cord1y");
-            int cord2y = resultSet.getInt("cord2y");
-            int cord3y = resultSet.getInt("cord3y");
-            int cord4y = resultSet.getInt("cord4y");
+            double cord1x = resultSet.getDouble("cord1x");
+            double cord2x = resultSet.getDouble("cord2x");
+            double cord3x = resultSet.getDouble("cord3x");
+            double cord4x = resultSet.getDouble("cord4x");
+            double cord1y = resultSet.getDouble("cord1y");
+            double cord2y = resultSet.getDouble("cord2y");
+            double cord3y = resultSet.getDouble("cord3y");
+            double cord4y = resultSet.getDouble("cord4y");
 
             Set<Point> points = new HashSet<Point>();
             points.add(new PointImpl(cord1x, cord1y));

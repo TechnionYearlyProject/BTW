@@ -90,7 +90,7 @@ public class NaiveTrafficLightManager implements TrafficLightManager {
     @Override
     public TrafficLightManager tick() {
         count++;
-        if (this.count > this.minimumOpenTime) {
+        if (this.count >= this.minimumOpenTime) {
             this.crossroads.forEach(this::turnToNextGreen);
             count = 0;
         }

@@ -31,8 +31,8 @@ public class QueryCrossRoad extends Query{
 
 
                 String nameID = resultSet.getString("nameID");
-                int cordx =  resultSet.getInt("cordx");
-                int cordy =  resultSet.getInt("cordy");
+                double cordx =  resultSet.getDouble("cordx");
+                double cordy =  resultSet.getDouble("cordy");
                 String sourceRoadId = nameID.split("from:|to:")[1];
                 //        resultSet.getString("from");
                 String destinationRoadIf = nameID.split("to:")[1];

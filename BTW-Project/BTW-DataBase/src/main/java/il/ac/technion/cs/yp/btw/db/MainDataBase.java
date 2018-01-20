@@ -22,6 +22,9 @@ public class MainDataBase{
 
     }
 
+    /**
+     * open connection to the server
+     */
     public static void openConnection(){
         // Connect to database
         String url = "jdbc:sqlserver://btwserver.database.windows.net:1433;" +
@@ -31,7 +34,8 @@ public class MainDataBase{
                 "encrypt=true;" +
                 "trustServerCertificate=false;" +
                 "hostNameInCertificate=*.database.windows.net;" +
-                "loginTimeout=30;";
+                "loginTimeout=30;" +
+                "resource_limit=false;";
         //Connection connection = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -125,6 +129,11 @@ public class MainDataBase{
         return result;
     }
 
+    /**
+     * * @author: shay
+     * @date: 20/1/18
+     * @param sqlQuery query in string just to save
+     */
     public static void saveDataFromQuery(String sqlQuery) {
         /*String url = "jdbc:sqlserver://btwserver.database.windows.net:1433;" +
                 "database=BTW;" +

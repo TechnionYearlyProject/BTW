@@ -322,6 +322,14 @@ public class DrawMapController implements Initializable {
     }
 
 
+
+    /**
+     * @author: shay
+     * @date: 20/1/18
+     * gets the logical object and draw all the corcles and lines from it
+     * @param cityMap - the citymap object we want to draw
+     * @return DrawMapController
+     */
     public DrawMapController draw(CityMap cityMap) {
         circles = new HashSet<>();
         lines = new HashSet<>();
@@ -371,6 +379,8 @@ public class DrawMapController implements Initializable {
     }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
      * finding minimum coordinate in order to zoom in map
      * @param trafficLights - set of traffic light
      * @return min coordinate x in set
@@ -385,6 +395,8 @@ public class DrawMapController implements Initializable {
     }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
      * finding maximum coordinate in order to zoom in map
      * @param trafficLights - set of traffic light
      * @return max coordinate x in set
@@ -399,6 +411,8 @@ public class DrawMapController implements Initializable {
     }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
      * finding minimum coordinate in order to zoom in map
      * @param trafficLights - set of traffic light
      * @return min coordinate y in set
@@ -413,6 +427,8 @@ public class DrawMapController implements Initializable {
     }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
      * finding maximum coordinate in order to zoom in map
      * @param trafficLights - set of traffic light
      * @return max coordinate x in set

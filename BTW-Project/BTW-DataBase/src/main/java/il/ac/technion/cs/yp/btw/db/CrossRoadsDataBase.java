@@ -21,7 +21,7 @@ public class CrossRoadsDataBase {
     public CrossRoadsDataBase(){
 
     }
-
+/*
     public static Set<Crossroad> getAllCrossRoads(String mapName) {
         Query query = new QueryAllTrafficLights(mapName);
         Set<TrafficLight> trafficLights = (Set<TrafficLight>) MainDataBase.queryDataBase(query);
@@ -42,6 +42,7 @@ public class CrossRoadsDataBase {
         Set<Crossroad> crossRoads = new HashSet(crossRoadsMap.values());
         return crossRoads;
     }
+    */
 
     public static Crossroad getCrossRoad(Point position, String mapName){
 

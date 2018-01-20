@@ -7,15 +7,15 @@ package il.ac.technion.cs.yp.btw.mapgeneration.voronoi;
  */
 public class BreakPoint {
     private final Voronoi v;
-    protected final Point s1, s2;
+    protected final VoronoiPoint s1, s2;
     private VoronoiEdge e;
     private boolean isEdgeLeft;
-    public final Point edgeBegin;
+    public final VoronoiPoint edgeBegin;
 
     private double cacheSweepLoc;
-    private Point cachePoint;
+    private VoronoiPoint cachePoint;
 
-    public BreakPoint(Point left, Point right, VoronoiEdge e, boolean isEdgeLeft, Voronoi v) {
+    public BreakPoint(VoronoiPoint left, VoronoiPoint right, VoronoiEdge e, boolean isEdgeLeft, Voronoi v) {
         this.v = v;
         this.s1 = left;
         this.s2 = right;
@@ -29,7 +29,7 @@ public class BreakPoint {
     }
 
 
-    public void finish(Point vert) {
+    public void finish(VoronoiPoint vert) {
         if (isEdgeLeft) {
             this.e.p1 = vert;
         }
@@ -39,7 +39,7 @@ public class BreakPoint {
     }
 
     public void finish() {
-        Point p = this.getPoint();
+        VoronoiPoint p = this.getPoint();
         if (isEdgeLeft) {
             this.e.p1 = p;
         }
@@ -48,7 +48,7 @@ public class BreakPoint {
         }
     }
 
-    public Point getPoint() {
+    public VoronoiPoint getPoint() {
         double l = v.getSweepLoc();
         if (l == cacheSweepLoc) {
             return cachePoint;
@@ -87,7 +87,7 @@ public class BreakPoint {
             }
             y = m*x + b;
         }
-        cachePoint = new Point(x, y);
+        cachePoint = new VoronoiPoint(x, y);
         return cachePoint;
     }
 

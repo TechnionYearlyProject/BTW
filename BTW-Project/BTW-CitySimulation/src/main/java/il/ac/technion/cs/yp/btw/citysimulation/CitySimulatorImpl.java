@@ -7,6 +7,7 @@ import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import il.ac.technion.cs.yp.btw.trafficlights.NaiveTrafficLightManager;
 import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
+import javafx.util.Pair;
 
 import java.util.*;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 public class CitySimulatorImpl implements CitySimulator {
     private Map<String, CityRoad> roads;
+    private Set<Road> fakeRoads;
     private Map<String, CityTrafficLight> trafficLights;
     private Map<String, CityCrossroad> crossroads;
     private TrafficLightManager trafficLightManager;
@@ -215,13 +217,13 @@ public class CitySimulatorImpl implements CitySimulator {
         @Override
         public CityTrafficLight setTrafficLightState(TrafficLightState state) {
             if (state.equals(TrafficLightState.RED)) {
-                if (timeOpen < minimumOpenTime && this.state.equals(TrafficLightState.GREEN)) {
-                    throw new IllegalStateException();//TODO better exception
-                } else {
-                    this.timeOpen = 0;
+//                if (timeOpen < minimumOpenTime && this.state.equals(TrafficLightState.GREEN)) {
+//                    throw new IllegalStateException();//TODO better exception
+//                } else {
+                this.timeOpen = 0;
 //                    this.timeOpen = this.state.equals(TrafficLightState.RED) ? 0 : this.timeOpen;
-                    this.totalThroughputInCurrentGreen = this.throughput;
-                }
+                this.totalThroughputInCurrentGreen = this.throughput;
+//                }
             }
             this.state = state;
             return this;
@@ -401,6 +403,7 @@ public class CitySimulatorImpl implements CitySimulator {
         this.roads = new HashMap<>();
         this.trafficLights = new HashMap<>();
         this.crossroads = new HashMap<>();
+        this.fakeRoads = roads;
 
         roads.forEach(this::getRealRoad);
         trafficLights.forEach(this::getRealTrafficLight);
@@ -497,6 +500,30 @@ public class CitySimulatorImpl implements CitySimulator {
             startFromNow += interval;
         }
         return added;
+    }
+
+    @Override
+    public List<Vehicle> addRandomVehicles(int numOfVehicles) throws PathNotFoundException {
+        List<VehicleDescriptor> descriptors = new ArrayList<>();
+        for (int i = 0; i < numOfVehicles; i++) {
+            descriptors.add(null);
+        }
+        List<Vehicle> currVehicles = new ArrayList<>();
+        boolean pathNotFound = true;
+        while (pathNotFound) {
+            Random rnd = new Random();
+            int rndInt1 = rnd.nextInt(this.fakeRoads.size());
+            int rndInt2 = rnd.nextInt(this.fakeRoads.size());
+            Road source = (Road) this.fakeRoads.toArray()[rndInt1];
+            Road destination = (Road) this.fakeRoads.toArray()[rndInt2];
+            try {
+                currVehicles = addSeveralVehicles(descriptors,  source, 0.0, destination, 1.0, 5);
+                pathNotFound = false;
+            } catch (PathNotFoundException e) {
+                pathNotFound = true;
+            }
+        }
+        return currVehicles;
     }
 
     /**
