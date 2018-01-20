@@ -90,7 +90,7 @@ public class TestDataCrossRoad {
         System.out.println(tl1.toString());
         MainDataBase.closeConnection();
     }
-
+/*
     @Test
     public void testGetAllCrossRoad() {
         MainDataBase.openConnection();
@@ -103,4 +103,5 @@ public class TestDataCrossRoad {
         }
         MainDataBase.closeConnection();
     }
+    */
 }
