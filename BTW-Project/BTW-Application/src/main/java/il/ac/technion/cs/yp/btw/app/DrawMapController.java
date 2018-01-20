@@ -202,7 +202,6 @@ public class DrawMapController implements Initializable {
 
     private void addRandomVehiclesToSimulation(int numOfVehicles) {
         Thread thread = new Thread(() -> {
-            //TODO: add vehicles to simulation
             try {
                 citySimulator.addRandomVehicles(numOfVehicles);
             } catch (PathNotFoundException e) {
@@ -212,7 +211,6 @@ public class DrawMapController implements Initializable {
             Platform.runLater(this::redrawMap);
         });
 
-        //TODO: remove comment when function should work
        thread.start();
     }
 
