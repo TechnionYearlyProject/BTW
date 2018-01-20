@@ -164,6 +164,7 @@ public class DrawMapController implements Initializable {
 //        Scene scene = new Scene(borderPane, stage.getWidth(), stage.getHeight(), Color.GREY);
         Scene scene = new Scene(root, stage.getWidth(), stage.getHeight(), Color.GREY);
 //        draw(cityMap);
+
         drawNow(cityMap);
 
         stage.show();
