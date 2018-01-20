@@ -22,7 +22,7 @@ public class TestCrossRoadsDataBase {
         //System.out.println(crossRoad.toString());
         MainDataBase.closeConnection();
     }
-
+/*
     @Test
     public void testGetAllCrossRoads(){
         MainDataBase.openConnection();
@@ -36,5 +36,5 @@ public class TestCrossRoadsDataBase {
         }
         MainDataBase.closeConnection();
     }
-
+*/
 }
