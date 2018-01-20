@@ -5,14 +5,14 @@ package il.ac.technion.cs.yp.btw.mapgeneration.voronoi;
  * on points in Voronoi diagram
  */
 public class Event implements Comparable<Event> {
-    public final Point p;
+    public final VoronoiPoint p;
 
-    public Event(Point p) {
+    public Event(VoronoiPoint p) {
         this.p = p;
     }
 
     @Override
     public int compareTo(Event o) {
-        return Point.minYOrderedCompareTo(this.p, o.p);
+        return VoronoiPoint.minYOrderedCompareTo(this.p, o.p);
     }
 }
