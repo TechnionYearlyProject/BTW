@@ -4,20 +4,18 @@ import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationCrossroadImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationRoadImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationStreetImpl;
-import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationTrafficLightImpl;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * map simulator of a grid shaped city
  */
-public class GridCityMapSimulator implements MapSimulator {
-    private static final int DEFAULT_NUM_OF_STREETS = 3;
-    private static final int DEFAULT_NUM_OF_AVENUES = 3;
-    private static final double DEFAULT_ROAD_LENGTH = 1;
+public class GridCityMapSimulator extends AbstractMapSimulator {
+    private static final int DEFAULT_NUM_OF_STREETS = 7;
+    private static final int DEFAULT_NUM_OF_AVENUES = 7;
+    private static final int DEFAULT_ROAD_LENGTH_IN_METERS = 600;
+    private static final double DEFAULT_ROAD_LENGTH_IN_DEGREES = metersToDegrees(DEFAULT_ROAD_LENGTH_IN_METERS);
     private static final double DEFAULT_START_X_COORDINATE = 0;
     private static final double DEFAULT_START_Y_COORDINATE = 0;
     private int numOfStreets;
@@ -26,11 +24,6 @@ public class GridCityMapSimulator implements MapSimulator {
     private double avenueLength;
     private double startXCoordinate;
     private double startYCoordinate;
-    private Set<TrafficLight> trafficLights;
-    private Set<Road> roads;
-    private Set<Crossroad> crossRoads;
-    private Set<CentralLocation> centralLocations;
-    private Set<Street> streets;
     /**
      * by using the constructor, the city simulation
      * is taking place
@@ -51,24 +44,18 @@ public class GridCityMapSimulator implements MapSimulator {
      * all roads are two-way
      */
     public GridCityMapSimulator() {
-        initializeAllSets();
+        super();
         this.numOfStreets = DEFAULT_NUM_OF_STREETS;
         this.numOfAvenues = DEFAULT_NUM_OF_AVENUES;
-        this.streetLength = DEFAULT_ROAD_LENGTH;
-        this.avenueLength = DEFAULT_ROAD_LENGTH;
+        this.streetLength = DEFAULT_ROAD_LENGTH_IN_DEGREES;
+        this.avenueLength = DEFAULT_ROAD_LENGTH_IN_DEGREES;
         this.startXCoordinate = DEFAULT_START_X_COORDINATE;
         this.startYCoordinate = DEFAULT_START_Y_COORDINATE;
     }
 
-    private void initializeAllSets() {
-        this.roads = new HashSet<>();
-        this.crossRoads = new HashSet<>();
-        this.trafficLights = new HashSet<>();
-        this.centralLocations = new HashSet<>();
-        this.streets = new HashSet<>();
-    }
 
-    public void build(){
+
+    public Map build(){
         initializeAllSets();
         declareAllCrossRoads(numOfStreets, numOfAvenues, streetLength, avenueLength);
         String roadBaseName;
@@ -84,30 +71,11 @@ public class GridCityMapSimulator implements MapSimulator {
                 ,this::avenueRoadAdvance ,this::avenueSectionAdvance);
         addTrafficLights();
         addCentralLocations();
+        return extractMap();
     }
 
     private void addCentralLocations() {
 
-    }
-
-    private void addTrafficLights() {
-        for(Crossroad cr : getCrossRoads()){
-            Set<Road> roadsEndsInCurrCrossroad =
-                    getRoads().stream()
-                            .filter(road -> road.getDestinationCrossroad().equals(cr))
-                            .collect(Collectors.toSet());
-            Set<Road> roadsStartInCurrCrossroad =
-                    getRoads().stream()
-                            .filter(road -> road.getSourceCrossroad().equals(cr))
-                            .collect(Collectors.toSet());
-            for (Road sourceRoad : roadsEndsInCurrCrossroad){
-                for (Road destRoad : roadsStartInCurrCrossroad){
-                    TrafficLight tl = new MapSimulationTrafficLightImpl(cr, sourceRoad, destRoad);
-                    cr.addTrafficLight(tl);
-                    this.trafficLights.add(tl);
-                }
-            }
-        }
     }
 
     private void addRoadsByDirection(int numOfRoads, int numOfSections, double sectionLength, double roadsDistance
@@ -143,35 +111,6 @@ public class GridCityMapSimulator implements MapSimulator {
         this.roads.add(rd2);
         street.addRoad(rd1);
         street.addRoad(rd2);
-    }
-
-    /**
-     * Calculate distance between two points in latitude and longitude taking
-     * into account height difference. If you are not interested in height
-     * difference pass 0.0. Uses Haversine method as its base.
-     *
-     * lat1, lon1 Start point lat2, lon2 End point el1 Start altitude in meters
-     * el2 End altitude in meters
-     * @return Distance in Meters
-     */
-    private static double distanceBetween2PointsOnEarth(double lat1, double lat2, double lon1,
-                                  double lon2, double el1, double el2) {
-
-        final int R = 6371; // Radius of the earth
-
-        double latDistance = Math.toRadians(lat2 - lat1);
-        double lonDistance = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = R * c * 1000; // convert to meters
-
-        double height = el1 - el2;
-
-        distance = Math.pow(distance, 2) + Math.pow(height, 2);
-
-        return Math.sqrt(distance);
     }
 
 
@@ -268,13 +207,13 @@ public class GridCityMapSimulator implements MapSimulator {
         return this;
     }
 
-    public GridCityMapSimulator setStreetLength(double streetLength) {
-        this.streetLength = streetLength;
+    public GridCityMapSimulator setStreetLength(int streetLength) {
+        this.streetLength = metersToDegrees(streetLength);
         return this;
     }
 
-    public GridCityMapSimulator setAvenueLength(double avenueLength) {
-        this.avenueLength = avenueLength;
+    public GridCityMapSimulator setAvenueLength(int avenueLength) {
+        this.avenueLength = metersToDegrees(avenueLength);
         return this;
     }
 
