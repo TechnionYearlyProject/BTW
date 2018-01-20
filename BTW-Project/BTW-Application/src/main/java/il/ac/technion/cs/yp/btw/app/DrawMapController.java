@@ -114,9 +114,14 @@ public class DrawMapController implements Initializable {
         playAndTickHbox.getChildren().addAll(tickButton, playButton);
 
         playCityTimeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
-            getTickTask();
-            redrawMap();
-            resetTickTask();
+
+            new Thread(() -> {
+                getTickTask();
+                Platform.runLater(() -> {
+                    redrawMap();
+                    resetTickTask();
+                });
+            }).start();
 //            tickTask = tickTask.thenApply(val -> {redrawMap(); return true;})
 //                    .thenApply(val -> {performMapTicks();
 //                        return true;});
