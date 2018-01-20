@@ -4,7 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Created by shay on 08/01/2018.
+ * @author: shay
+ * @date: 08/01/2018.
  * gets from the data base the distance between two roads.
  */
 public class QueryHeuristicDist extends Query{
