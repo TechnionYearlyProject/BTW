@@ -1,5 +1,7 @@
 package il.ac.technion.cs.yp.btw.app;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import il.ac.technion.cs.yp.btw.citysimulation.CityMap;
@@ -11,6 +13,7 @@ import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.FreeFormMapSimulator;
 import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,7 +34,8 @@ public class GenerateFreeFormController implements Initializable{
     @FXML private Node anchor;
     @FXML private JFXTextField NumberOfBlocks;
     @FXML private JFXTextField Radius;
-
+    @FXML private JFXButton generate_button;
+    @FXML private JFXSpinner progress_spinner;
     @FXML private JFXToggleButton blocksToggle, radiusToggle;
 
     int Number_of_blocks, radius_val;
@@ -99,24 +103,26 @@ public class GenerateFreeFormController implements Initializable{
         else {
             //TODO: for testing purposes
             System.out.println("input was valid");
+            generate_button.setDisable(true);
+            progress_spinner.setVisible(true);
         }
 
         FreeFormMapSimulator freeFormMapSimulator = new FreeFormMapSimulator();
         //TODO: add input to map simulator when Adam is done
 //        if(!NumberOfBlocks.isDisabled())
-        freeFormMapSimulator.build();
 
-        String mapString = parseCitySimulationToGeoJsonString(freeFormMapSimulator);
+        new Thread(() -> {
+            freeFormMapSimulator.build();
 
-        //Insert the new map to the database.
-        BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity897");
-        dataBase.saveMap(mapString);
+            String mapString = parseCitySimulationToGeoJsonString(freeFormMapSimulator);
 
-        CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
-//        CityMap cityMap = citySimulator.saveMap();
-//        switchScreensToMap(event, cityMap);
-        switchScreensToMap(event, citySimulator);
+            //Insert the new map to the database.
+            BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity897");
+            dataBase.saveMap(mapString);
 
+            CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
+            Platform.runLater(() -> switchScreensToMap(event, citySimulator));
+        }).start();
 
     }
 

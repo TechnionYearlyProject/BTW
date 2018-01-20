@@ -11,6 +11,7 @@ import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
 import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -37,6 +38,9 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 
 import static javafx.application.Application.launch;
 
@@ -50,9 +54,10 @@ public class DrawMapController implements Initializable {
     CityMap cityMap;
     CitySimulator citySimulator;
     Stage stage;
-    JFXButton playButton;
+    JFXButton playButton, tickButton;
     boolean isPlayButton;
     Timeline playCityTimeline;
+    CompletableFuture<Boolean> tickTask;
 
 //    void initCityMap(CityMap cityMap){
     void initCitySimulator(CitySimulator citySimulator){
@@ -96,7 +101,7 @@ public class DrawMapController implements Initializable {
         hBox.setPadding(new Insets(15, 12, 15, 12));
         hBox.setSpacing(10);
 
-        JFXButton tickButton = createRaisedJFXButtonWithIcon("/icons8-arrow-50.png");
+        tickButton = createRaisedJFXButtonWithIcon("/icons8-arrow-50.png");
         tickButton.setOnAction(event -> {
             tickButtonClicked(event);
         });
@@ -108,7 +113,13 @@ public class DrawMapController implements Initializable {
         hBox.getChildren().addAll(tickButton, playButton);
 
         playCityTimeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
-            performMapTicks();
+            getTickTask();
+            redrawMap();
+            resetTickTask();
+//            tickTask = tickTask.thenApply(val -> {redrawMap(); return true;})
+//                    .thenApply(val -> {performMapTicks();
+//                        return true;});
+
         }));
         playCityTimeline.setCycleCount(Timeline.INDEFINITE);
 
@@ -136,13 +147,31 @@ public class DrawMapController implements Initializable {
 
     }
 
+    private void resetTickTask() {
+        tickTask = CompletableFuture.supplyAsync(() -> {
+            performMapTicks();
+            return true;
+        });
+    }
+
+    private void getTickTask() {
+        try {
+            tickTask.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void playButtonClicked(ActionEvent event) {
         Image buttonImage;
         if(isPlayButton) {
             buttonImage = new Image(getClass().getResourceAsStream("/icons8-pause-50.png"));
+            tickButton.setDisable(true);
+            resetTickTask();
             playCityTimeline.play();
         } else {
             buttonImage = new Image(getClass().getResourceAsStream("/icons8-play-50.png"));
+            tickButton.setDisable(false);
             playCityTimeline.stop();
         }
         isPlayButton = !isPlayButton;
@@ -161,15 +190,35 @@ public class DrawMapController implements Initializable {
     }
 
     private void tickButtonClicked(ActionEvent event) {
-        if(isPlayButton) { //can only do a tick when play isn't enabled
+//        if(isPlayButton) { //can only do a tick when play isn't enabled
+//            performMapTicks();
+//        }
+
+//        performMapTicks();
+//        redrawMap();
+
+        Thread thread = new Thread(() -> {
             performMapTicks();
-        }
+            Platform.runLater(() -> {
+                redrawMap();
+            });
+        });
+        thread.start();
+//        try {
+//            CompletableFuture.supplyAsync(() -> {performMapTicks(); return true;}).
+//                    thenAccept(val -> redrawMap()).get();
+//        } catch (InterruptedException | ExecutionException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void performMapTicks() {
         int numberOfTicks = 10;
         citySimulator.tick(numberOfTicks);
         cityMap = citySimulator.saveMap();
+    }
+
+    private void redrawMap() {
         borderPane.getChildren().clear();
         draw(cityMap);
     }

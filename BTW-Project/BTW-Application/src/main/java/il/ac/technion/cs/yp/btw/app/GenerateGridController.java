@@ -1,5 +1,7 @@
 package il.ac.technion.cs.yp.btw.app;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
@@ -9,6 +11,7 @@ import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
 import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,6 +35,8 @@ public class GenerateGridController implements Initializable{
     @FXML private JFXTextField LengthOfStreets;
     @FXML private JFXTextField LengthOfAvenues;
 
+    @FXML private JFXSpinner progress_spinner;
+    @FXML private JFXButton generate_button;
     @FXML private JFXToggleButton numStreetsToggle, numAvenuesToggle, legnthStreetsToggle, legnthAvenuesToggle;
 
     int Number_of_streets, Number_of_avenues, Length_of_streets, Length_of_avenues;
@@ -134,6 +139,8 @@ public class GenerateGridController implements Initializable{
         else {
             //TODO: for testing purposes
             System.out.println("input was valid");
+            generate_button.setDisable(true);
+            progress_spinner.setVisible(true);
 //            return;
         }
 
@@ -143,7 +150,25 @@ public class GenerateGridController implements Initializable{
         if(!NumberOfAvenues.isDisabled()) gridCityMapSimulator.setNumOfAvenues(Number_of_avenues);
         if(!LengthOfAvenues.isDisabled()) gridCityMapSimulator.setAvenueLength(Length_of_avenues);
         if(!LengthOfStreets.isDisabled()) gridCityMapSimulator.setStreetLength(Length_of_streets);
-        gridCityMapSimulator.build();
+
+
+        new Thread(() -> {
+            gridCityMapSimulator.build();
+
+            String mapString = parseCitySimulationToGeoJsonString(gridCityMapSimulator);
+
+            System.out.println(mapString);
+
+            //Insert the new map to the database.
+            BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity2_2");
+            dataBase.saveMap(mapString);
+
+            CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
+            Platform.runLater(() -> switchScreensToMap(event, citySimulator));
+        }).start();
+
+
+        /*gridCityMapSimulator.build();
 
         String mapString = parseCitySimulationToGeoJsonString(gridCityMapSimulator);
 
@@ -153,12 +178,11 @@ public class GenerateGridController implements Initializable{
         BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity2_2");
         dataBase.saveMap(mapString);
 
-//        BTWDataBase dataBase = new BTWDataBaseImpl("test1");
-
         CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
+        switchScreensToMap(event, citySimulator);*/
+
 //        CityMap cityMap = citySimulator.saveMap();
 //        switchScreensToMap(event, cityMap);
-        switchScreensToMap(event, citySimulator);
 
 
         //DrawMapController mapDrawer = new DrawMapController(cityMap);
