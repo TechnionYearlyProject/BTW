@@ -3,6 +3,8 @@ package il.ac.technion.cs.yp.btw.mapgeneration.objects;
 import il.ac.technion.cs.yp.btw.classes.*;
 
 /**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
  * default implementation for the interface Road
  */
 public class MapSimulationRoadImpl implements Road {
@@ -23,9 +25,10 @@ public class MapSimulationRoadImpl implements Road {
         this.destinationCrossroad = destinationCrossroad;
     }
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * returns true if the given street number is part
      * of this road, false otherwise
-     *
      * @param streetNumber - the street number we check
      * @return true if it is inside the road's range
      * false o.w.
@@ -36,6 +39,8 @@ public class MapSimulationRoadImpl implements Road {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return the length in meters of the road
      */
     @Override
@@ -44,6 +49,8 @@ public class MapSimulationRoadImpl implements Road {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return the unique name of the road
      */
     @Override
@@ -52,6 +59,8 @@ public class MapSimulationRoadImpl implements Road {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return the Street this Road is in
      */
     @Override
@@ -60,6 +69,8 @@ public class MapSimulationRoadImpl implements Road {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * returns the right Weight for the given Time
      *
      * @param time - Time we want to check the load
@@ -73,6 +84,8 @@ public class MapSimulationRoadImpl implements Road {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return minimum possible Weight of Road
      */
     @Override
@@ -81,6 +94,8 @@ public class MapSimulationRoadImpl implements Road {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @param road - the road to which the heuristic distance is calculated
      * @return minimum possible Weight of Road
      */
@@ -90,6 +105,8 @@ public class MapSimulationRoadImpl implements Road {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return the MapSimulationCrossroadImpl this Road starts in
      */
     @Override
@@ -98,6 +115,8 @@ public class MapSimulationRoadImpl implements Road {
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return the MapSimulationCrossroadImpl this Road ends
      */
     @Override

@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
  * Point on a road map which represents
  * all TrafficLights located at the same point
  */
@@ -22,6 +24,8 @@ public class MapSimulationCrossroadImpl extends PointAbstract implements Crossro
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @return Set of all TrafficLights in this MapSimulationCrossroadImpl
      */
     @Override
@@ -30,6 +34,8 @@ public class MapSimulationCrossroadImpl extends PointAbstract implements Crossro
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * @param road - the Road from which the TrafficLights are going
      * @return Set of all TrafficLights from a specific road
      */
@@ -39,8 +45,11 @@ public class MapSimulationCrossroadImpl extends PointAbstract implements Crossro
     }
 
     /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
      * Adds the given MapSimulationTrafficLightImpl to this MapSimulationCrossroadImpl
      * @param tl - the MapSimulationTrafficLightImpl being added
+     * @return self
      */
     @Override
     public Crossroad addTrafficLight(TrafficLight tl){
@@ -51,11 +60,11 @@ public class MapSimulationCrossroadImpl extends PointAbstract implements Crossro
         return this;
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @return this Crossroad's name
+     */
     public String getName(){
     return this.name;
     }

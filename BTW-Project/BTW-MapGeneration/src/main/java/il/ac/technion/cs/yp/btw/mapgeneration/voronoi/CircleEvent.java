@@ -1,6 +1,8 @@
 package il.ac.technion.cs.yp.btw.mapgeneration.voronoi;
 
 /**
+ * @author Adam Elgressy
+ * @Date 20-1-2018
  * class to describe the traversing
  * on points in Voronoi diagram
  * when the case is equal distances
