@@ -130,7 +130,7 @@ public class FreeFormMapSimulator extends AbstractMapSimulator{
             Road rd1 = new MapSimulationRoadImpl(myStreet.getStreetName()
                     , calculateLengthBetween2Points(p1, p2)
                     , myStreet, cr1, cr2);
-            Road rd2 = new MapSimulationRoadImpl(myStreet.getStreetName()+"'"
+            Road rd2 = new MapSimulationRoadImpl(myStreet.getStreetName()+"R"
                     , calculateLengthBetween2Points(p1, p2)
                     , myStreet, cr2, cr1);
             this.roads.add(rd1);

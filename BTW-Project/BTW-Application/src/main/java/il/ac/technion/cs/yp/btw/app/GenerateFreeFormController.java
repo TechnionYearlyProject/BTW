@@ -108,7 +108,7 @@ public class GenerateFreeFormController implements Initializable{
         freeFormMapSimulator.build();
 
         String mapString = parseCitySimulationToGeoJsonString(freeFormMapSimulator);
-
+        System.out.println(mapString);
         //Insert the new map to the database.
         BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity897");
         dataBase.saveMap(mapString);
