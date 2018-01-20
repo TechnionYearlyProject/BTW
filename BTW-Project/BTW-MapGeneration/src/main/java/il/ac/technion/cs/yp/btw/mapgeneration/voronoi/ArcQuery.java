@@ -4,16 +4,16 @@ package il.ac.technion.cs.yp.btw.mapgeneration.voronoi;
  * Query class for Arc
  */
 public class ArcQuery extends ArcKey {
-    private final Point p;
-    public ArcQuery(Point p) {
+    private final VoronoiPoint p;
+    public ArcQuery(VoronoiPoint p) {
         this.p = p;
     }
 
-    protected Point getLeft() {
+    protected VoronoiPoint getLeft() {
         return p;
     }
 
-    protected Point getRight() {
+    protected VoronoiPoint getRight() {
         return p;
     }
 }

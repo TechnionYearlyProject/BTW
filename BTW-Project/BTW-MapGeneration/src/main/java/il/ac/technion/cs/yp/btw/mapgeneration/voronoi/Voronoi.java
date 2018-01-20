@@ -9,7 +9,7 @@ public class Voronoi {
     private static final double MAX_DIM = 10;
     private static final double MIN_DIM = -10;
     private double sweepLoc;
-    private final ArrayList<Point> sites;
+    private final ArrayList<VoronoiPoint> sites;
     private final ArrayList<VoronoiEdge> edgeList;
     private HashSet<BreakPoint> breakPoints;
     private TreeMap<ArcKey, CircleEvent> arcs;
@@ -20,7 +20,7 @@ public class Voronoi {
     }
 
 
-    public Voronoi(ArrayList<Point> sites) {
+    public Voronoi(ArrayList<VoronoiPoint> sites) {
         // initialize data structures;
         this.sites = sites;
         edgeList = new ArrayList<VoronoiEdge>(sites.size());
@@ -28,7 +28,7 @@ public class Voronoi {
         breakPoints = new HashSet<BreakPoint>();
         arcs = new TreeMap<ArcKey, CircleEvent>();
 
-        for (Point site : sites) {
+        for (VoronoiPoint site : sites) {
             if ((site.x > MAX_DIM || site.x < MIN_DIM) || (site.y > MAX_DIM || site.y < MIN_DIM))
                 throw new RuntimeException(String.format(
                     "Invalid site in input, sites must be between %f and %f", MIN_DIM, MAX_DIM ));
@@ -67,7 +67,7 @@ public class Voronoi {
         // Deal with the degenerate case where the first two points are at the same y value
         if (arcs.size() == 0 && arcAbove.site.y == cur.p.y) {
             VoronoiEdge newEdge = new VoronoiEdge(arcAbove.site, cur.p);
-            newEdge.p1 = new Point((cur.p.x + arcAbove.site.x)/2, Double.POSITIVE_INFINITY);
+            newEdge.p1 = new VoronoiPoint((cur.p.x + arcAbove.site.x)/2, Double.POSITIVE_INFINITY);
             BreakPoint newBreak = new BreakPoint(arcAbove.site, cur.p, newEdge, false, this);
             breakPoints.add(newBreak);
             this.edgeList.add(newEdge);
@@ -127,7 +127,7 @@ public class Voronoi {
         // or right point of the new edge.
         // If the edges being traces out by these two arcs take a right turn then we know
         // that the vertex is going to be above the current point
-        boolean turnsLeft = Point.ccw(arcLeft.right.edgeBegin, ce.p, arcRight.left.edgeBegin) == 1;
+        boolean turnsLeft = VoronoiPoint.ccw(arcLeft.right.edgeBegin, ce.p, arcRight.left.edgeBegin) == 1;
         // So if it turns left, we know the next vertex will be below this vertex
         // so if it's below and the slow is negative then this vertex is the left point
         boolean isLeftPoint = (turnsLeft) ? (e.m < 0) : (e.m > 0);
@@ -156,10 +156,10 @@ public class Voronoi {
     }
 
     private void checkForCircleEvent(Arc a) {
-        Point circleCenter = a.checkCircle();
+        VoronoiPoint circleCenter = a.checkCircle();
         if (circleCenter != null) {
             double radius = a.site.distanceTo(circleCenter);
-            Point circleEventPoint = new Point(circleCenter.x, circleCenter.y - radius);
+            VoronoiPoint circleEventPoint = new VoronoiPoint(circleCenter.x, circleCenter.y - radius);
             CircleEvent ce = new CircleEvent(a, circleEventPoint, circleCenter);
             arcs.put(a, ce);
             events.add(ce);

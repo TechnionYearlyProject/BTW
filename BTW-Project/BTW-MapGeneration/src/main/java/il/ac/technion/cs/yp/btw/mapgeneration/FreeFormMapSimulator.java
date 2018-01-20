@@ -1,72 +1,104 @@
 package il.ac.technion.cs.yp.btw.mapgeneration;
 
 import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.classes.Map;
 import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationCrossroadImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationRoadImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationStreetImpl;
-import il.ac.technion.cs.yp.btw.mapgeneration.objects.MapSimulationTrafficLightImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.voronoi.Voronoi;
 import il.ac.technion.cs.yp.btw.mapgeneration.voronoi.VoronoiEdge;
+import il.ac.technion.cs.yp.btw.mapgeneration.voronoi.VoronoiPoint;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FreeFormMapSimulator implements MapSimulator {
-    private static final int NUM_OF_CITY_BLOCKS = 200;
-    private Set<TrafficLight> trafficLights;
-    private Set<Road> roads;
-    private Set<Crossroad> crossRoads;
-    private Set<CentralLocation> centralLocations;
-    private Set<Street> streets;
-    private il.ac.technion.cs.yp.btw.classes.Point cityCenter;
-    private int cityRadius;
+public class FreeFormMapSimulator extends AbstractMapSimulator{
+    private static final int DEFAULT_NUM_OF_CITY_BLOCKS = 50;
+    private static final int DEFAULT_CITY_RADIUS = 5000;
+    private Point cityCenter;
+    private int cityRadius;//in meters
+    private int numOfCityBlocks;
 
     public FreeFormMapSimulator(){
-        this.roads = new HashSet<Road>();
-        this.crossRoads = new HashSet<Crossroad>();
-        this.trafficLights = new HashSet<TrafficLight>();
-        this.centralLocations = new HashSet<CentralLocation>();
-        this.streets = new HashSet<Street>();
+        super();
+        this.numOfCityBlocks = DEFAULT_NUM_OF_CITY_BLOCKS;
+        this.cityRadius = DEFAULT_CITY_RADIUS;
+        this.cityCenter = new PointImpl(0,0);
     }
-    public void build() {
-        int N = NUM_OF_CITY_BLOCKS;
-        ArrayList<il.ac.technion.cs.yp.btw.mapgeneration.voronoi.Point> sites = new ArrayList<il.ac.technion.cs.yp.btw.mapgeneration.voronoi.Point>();
+    public Map build() {
+        ArrayList<VoronoiPoint> sites = new ArrayList<VoronoiPoint>();
         Random rnd = new Random();
-        for (int i = 0; i < N; i++) {
-            double x = rnd.nextDouble() + rnd.nextInt(8);
-            double y = rnd.nextDouble() + rnd.nextInt(8);
-            sites.add(new il.ac.technion.cs.yp.btw.mapgeneration.voronoi.Point(x, y));
+        for (int i = 0; i < this.numOfCityBlocks; i++) {
+            double x = rnd.nextDouble()*metersToDegrees(this.cityRadius);
+            double y = rnd.nextDouble()*metersToDegrees(this.cityRadius);
+            sites.add(new VoronoiPoint(x, y));
         }
         Voronoi v = new Voronoi(sites);
         List<VoronoiEdge> edgeList = v.getEdgeList();
         declareAllCrossRoads(edgeList);
         buildRoadsOnCrossRoads(edgeList);
         addTrafficLights();
+        return extractMap();
     }
-    private void addTrafficLights() {
-        for(Crossroad cr : getCrossRoads()){
-            Set<Road> roadsEndsInCurrCrossroad =
-                    getRoads().stream()
-                            .filter(road -> road.getDestinationCrossroad().equals(cr))
-                            .collect(Collectors.toSet());
-            Set<Road> roadsStartInCurrCrossroad =
-                    getRoads().stream()
-                            .filter(road -> road.getSourceCrossroad().equals(cr))
-                            .collect(Collectors.toSet());
-            for (Road sourceRoad : roadsEndsInCurrCrossroad){
-                for (Road destRoad : roadsStartInCurrCrossroad){
-                    TrafficLight tl = new MapSimulationTrafficLightImpl(cr, sourceRoad, destRoad);
-                    cr.addTrafficLight(tl);
-                    this.trafficLights.add(tl);
+
+    private static List<VoronoiPoint> getCircleLineIntersectionPoint(VoronoiPoint pointA,
+                                                             VoronoiPoint pointB, Point center, double radius) {
+        double baX = pointB.x - pointA.x;
+        double baY = pointB.y - pointA.y;
+        double caX = center.getCoordinateX() - pointA.x;
+        double caY = center.getCoordinateY() - pointA.y;
+
+        double a = baX * baX + baY * baY;
+        double bBy2 = baX * caX + baY * caY;
+        double c = caX * caX + caY * caY - radius * radius;
+
+        double pBy2 = bBy2 / a;
+        double q = c / a;
+
+        double disc = pBy2 * pBy2 - q;
+        if (disc < 0) {
+            return Collections.emptyList();
+        }
+        // if disc == 0 ... dealt with later
+        double tmpSqrt = Math.sqrt(disc);
+        double abScalingFactor1 = -pBy2 + tmpSqrt;
+        double abScalingFactor2 = -pBy2 - tmpSqrt;
+
+        VoronoiPoint p1 = new VoronoiPoint(pointA.x - baX * abScalingFactor1, pointA.y
+                - baY * abScalingFactor1);
+        if (disc == 0) { // abScalingFactor1 == abScalingFactor2
+            return Collections.singletonList(p1);
+        }
+        VoronoiPoint p2 = new VoronoiPoint(pointA.x - baX * abScalingFactor2, pointA.y
+                - baY * abScalingFactor2);
+        return Arrays.asList(p1, p2);
+    }
+
+    private void declareAllCrossRoads(List<VoronoiEdge> edgeList) {
+        Set<Point> locationSet = new HashSet<>();
+        for (VoronoiEdge voronoiEdge : edgeList) {
+            Point p1,p2;
+            List<VoronoiPoint> intersectionPoints =
+                    getCircleLineIntersectionPoint(voronoiEdge.p1, voronoiEdge.p2
+                            , this.cityCenter, metersToDegrees(this.cityRadius));
+            if (intersectionPoints.size() == 2) {
+                voronoiEdge.p1.x = intersectionPoints.get(0).x;
+                voronoiEdge.p1.y = intersectionPoints.get(0).y;
+                voronoiEdge.p2.x = intersectionPoints.get(1).x;
+                voronoiEdge.p2.y = intersectionPoints.get(1).y;
+            } else if (intersectionPoints.size() == 1) {
+                if (calculateLengthBetween2Points(this.cityCenter, new PointImpl(voronoiEdge.p1.x, voronoiEdge.p1.y)) > metersToDegrees(this.cityRadius)) {
+                    voronoiEdge.p1.x = intersectionPoints.get(0).x;
+                    voronoiEdge.p1.y = intersectionPoints.get(0).y;
+                } else {
+                    voronoiEdge.p2.x = intersectionPoints.get(0).x;
+                    voronoiEdge.p2.y = intersectionPoints.get(0).y;
                 }
             }
-        }
-    }
-    private void declareAllCrossRoads(List<VoronoiEdge> edgeList) {
-        Set<il.ac.technion.cs.yp.btw.classes.Point> locationSet = new HashSet<>();
-        for (VoronoiEdge voronoiEdge : edgeList) {
-            locationSet.add(new PointImpl(voronoiEdge.p1.x, voronoiEdge.p1.y));
-            locationSet.add(new PointImpl(voronoiEdge.p2.x, voronoiEdge.p2.y));
+            p1 = new PointImpl(voronoiEdge.p1.x, voronoiEdge.p1.y);
+            p2 = new PointImpl(voronoiEdge.p2.x, voronoiEdge.p2.y);
+            locationSet.add(p1);
+            locationSet.add(p2);
         }
         this.crossRoads.addAll(
                 locationSet
@@ -87,18 +119,18 @@ public class FreeFormMapSimulator implements MapSimulator {
     }
 
     private void buildRoadsOnCrossRoads(List<VoronoiEdge> edgeList) {
-        Street myStreet = new MapSimulationStreetImpl("Krembo Street");
-        this.streets.add(myStreet);
         int roadNum = 1;
         for (VoronoiEdge voronoiEdge : edgeList) {
-            il.ac.technion.cs.yp.btw.classes.Point p1 = (new PointImpl(voronoiEdge.p1.x, voronoiEdge.p1.y));
-            il.ac.technion.cs.yp.btw.classes.Point p2 = (new PointImpl(voronoiEdge.p2.x, voronoiEdge.p2.y));
+            Street myStreet = new MapSimulationStreetImpl(roadNum+" Street");
+            this.streets.add(myStreet);
+            Point p1 = (new PointImpl(voronoiEdge.p1.x, voronoiEdge.p1.y));
+            Point p2 = (new PointImpl(voronoiEdge.p2.x, voronoiEdge.p2.y));
             Crossroad cr1 = getCrossroadByLocation(p1);
             Crossroad cr2 = getCrossroadByLocation(p2);
-            Road rd1 = new MapSimulationRoadImpl(myStreet.getStreetName() +" " + Integer.toString(roadNum)
+            Road rd1 = new MapSimulationRoadImpl(myStreet.getStreetName()
                     , calculateLengthBetween2Points(p1, p2)
                     , myStreet, cr1, cr2);
-            Road rd2 = new MapSimulationRoadImpl(myStreet.getStreetName() +" " +Integer.toString(roadNum)+"'"
+            Road rd2 = new MapSimulationRoadImpl(myStreet.getStreetName()+"R"
                     , calculateLengthBetween2Points(p1, p2)
                     , myStreet, cr2, cr1);
             this.roads.add(rd1);
@@ -108,38 +140,7 @@ public class FreeFormMapSimulator implements MapSimulator {
         }
     }
 
-    /**
-     * Calculate distance between two points in latitude and longitude taking
-     * into account height difference. If you are not interested in height
-     * difference pass 0.0. Uses Haversine method as its base.
-     * <p>
-     * lat1, lon1 Start point lat2, lon2 End point el1 Start altitude in meters
-     * el2 End altitude in meters
-     *
-     * @returns Distance in Meters
-     */
-    private static double distanceBetween2PointsOnEarth(double lat1, double lat2, double lon1,
-                                                        double lon2, double el1, double el2) {
-
-        final int R = 6371; // Radius of the earth
-
-        double latDistance = Math.toRadians(lat2 - lat1);
-        double lonDistance = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = R * c * 1000; // convert to meters
-
-        double height = el1 - el2;
-
-        distance = Math.pow(distance, 2) + Math.pow(height, 2);
-
-        return Math.sqrt(distance);
-    }
-
-
-    private static int calculateLengthBetween2Points(il.ac.technion.cs.yp.btw.classes.Point p1, il.ac.technion.cs.yp.btw.classes.Point p2) {
+    static int calculateLengthBetween2Points(il.ac.technion.cs.yp.btw.classes.Point p1, il.ac.technion.cs.yp.btw.classes.Point p2) {
         return (int) distanceBetween2PointsOnEarth(p1.getCoordinateX(), p2.getCoordinateX()
                 , p1.getCoordinateY(), p2.getCoordinateY(), 0, 0);
     }
@@ -184,5 +185,21 @@ public class FreeFormMapSimulator implements MapSimulator {
     @Override
     public Set<Street> getStreets() {
         return this.streets;
+    }
+
+    public int getCityRadius() {
+        return cityRadius;
+    }
+
+    public void setCityRadius(int cityRadius) {
+        this.cityRadius = cityRadius;
+    }
+
+    public Point getCityCenter() {
+        return cityCenter;
+    }
+
+    public void setCityCenter(Point cityCenter) {
+        this.cityCenter = cityCenter;
     }
 }

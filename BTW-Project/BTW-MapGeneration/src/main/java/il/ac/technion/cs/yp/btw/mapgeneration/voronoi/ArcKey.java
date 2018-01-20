@@ -4,14 +4,14 @@ package il.ac.technion.cs.yp.btw.mapgeneration.voronoi;
  * Arc key class to compare
  */
 public abstract class ArcKey implements Comparable<ArcKey> {
-    protected abstract Point getLeft();
-    protected abstract Point getRight();
+    protected abstract VoronoiPoint getLeft();
+    protected abstract VoronoiPoint getRight();
 
     public int compareTo(ArcKey that) {
-        Point myLeft = this.getLeft();
-        Point myRight = this.getRight();
-        Point yourLeft = that.getLeft();
-        Point yourRight = that.getRight();
+        VoronoiPoint myLeft = this.getLeft();
+        VoronoiPoint myRight = this.getRight();
+        VoronoiPoint yourLeft = that.getLeft();
+        VoronoiPoint yourRight = that.getRight();
 
         // If one arc contains the query then we'll say that they're the same
         if (((that.getClass() == ArcQuery.class) || (this.getClass() == ArcQuery.class)) &&
@@ -24,6 +24,6 @@ public abstract class ArcKey implements Comparable<ArcKey> {
         if (myLeft.x >= yourRight.x) return 1;
         if (myRight.x <= yourLeft.x) return -1;
 
-        return Point.midpoint(myLeft, myRight).compareTo(Point.midpoint(yourLeft, yourRight));
+        return VoronoiPoint.midpoint(myLeft, myRight).compareTo(VoronoiPoint.midpoint(yourLeft, yourRight));
     }
 }
