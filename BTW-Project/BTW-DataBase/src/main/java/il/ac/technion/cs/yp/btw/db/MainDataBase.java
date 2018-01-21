@@ -23,6 +23,10 @@ public class MainDataBase{
     }
 
     /**
+     * @author: shay
+     * @date: 20/1/18
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * open connection to the server
      */
     public static void openConnection(){
@@ -72,7 +76,14 @@ public class MainDataBase{
     * for every query there will be a sell function that calls to this function.
     */
 
-    /*the return value must be closed after the use is done*/
+
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * @author: shay
+     * @date: 20/1/18
+     *execute query and return the result as an instance of the matching object
+     *the return value must be closed after the use is done*/
     private static Object queryDataBaseServer(Query query){
 
         Statement statement = null;
@@ -108,7 +119,13 @@ public class MainDataBase{
         return result;
     }
 
-    /*the sell for the query example*/
+    /*
+     * @author: shay
+     * @date: 20/1/18
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     *create an instance of the object by the query's result
+     * the activate the  the query on the data base*/
     public static Object queryDataBase(Query query){
 
         Object result = null;

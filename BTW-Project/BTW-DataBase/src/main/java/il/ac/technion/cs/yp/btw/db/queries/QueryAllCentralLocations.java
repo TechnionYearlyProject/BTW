@@ -10,14 +10,22 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-/*get from the data base all the central locations*/
+/*get from the data base all the central locations
+* this class is not in use in the current semester*/
 public class QueryAllCentralLocations extends Query{
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * */
     public QueryAllCentralLocations(String mapName){
         super(mapName);
         query=this.query = "SELECT * FROM dbo."+ mapName + "Place";
     }
-
+    /*
+    * @author Sharon Hadar
+     * @Date 21/01/2018
+     * get the results fro the data base and construct the match centeral locations
+     * */
     @Override
     public Set<CentralLocation> arrangeRecievedData(ResultSet resultSet){
         Set<CentralLocation> centralLocations = new HashSet();

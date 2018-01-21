@@ -24,7 +24,11 @@ public class BTWDataBaseImpl implements BTWDataBase {
     private Set<Road> roads;
     private boolean roadsLoaded;
 
-
+    /**
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * a constructor to data bas3e object
+     */
     public BTWDataBaseImpl(String mapName){
 
 
@@ -40,14 +44,18 @@ public class BTWDataBaseImpl implements BTWDataBase {
         crossRoads = null;
     }
 
-    /**
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * close the connection to the cloud DB. need to close on end of run.
      */
     public void closeDataBaseConnection(){
         MainDataBase.closeConnection();
     }
 
-    /**
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * @return Set of all TrafficLights in the system
      */
     @Override
@@ -64,6 +72,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
     }
 
     /**
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * @param streetName - name of a street
      * @return the Street with the given name
      * TODO thinks of an error if doesn't exist, maybe throw new IllegalArgument()
@@ -74,6 +84,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
     }
 
     /**
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * @param locationName - the name of the central location
      *                     we are looking for
      * @return CentralLocation according to the given name
@@ -84,7 +96,9 @@ public class BTWDataBaseImpl implements BTWDataBase {
     }
 
     /**
-     ** @author: shay
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * @author: shay
      * @date: 20/1/18
      * get all roads in data base
      * @return set of all roads in data base
@@ -132,6 +146,9 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return this.crossRoads;
     }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     private void insertCrossRoadsToRoads(){
         //set.forEach(t -> map.put(t, t));
         Map<Point, Crossroad> crossRoadsOfLocation = new HashMap<>();
@@ -147,7 +164,9 @@ public class BTWDataBaseImpl implements BTWDataBase {
         }
 
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     private void insertRoadsToTrafficLights(){
         Map<String, Road> roadsLightsOfName = new HashMap<>();
         this.roads.
@@ -300,6 +319,11 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return this;
     }
 
+    /*
+    * @author Sharon Hadar
+    * @Date 21/01/2018
+    * fetch an existing map from the data base
+    * */
     @Override
     public boolean loadMap(){
 

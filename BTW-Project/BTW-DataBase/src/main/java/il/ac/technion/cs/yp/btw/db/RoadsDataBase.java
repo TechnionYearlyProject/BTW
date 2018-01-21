@@ -6,15 +6,18 @@ import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataRoad;
 import il.ac.technion.cs.yp.btw.db.queries.*;
 
-
+/*
+* this class handles the fetching of roads from th data base
+* */
 public class RoadsDataBase {
 
     /**
-     * @author: sharon
+     * @author: Sharon Hadar
      * @date: 21/1/18
      * get all roads in data base
      * @param mapName
      * @return set of roads
+     * get all the roads of a map from the data base
      */
     public static Set<Road> getAllRoads(String mapName){
 
@@ -23,7 +26,7 @@ public class RoadsDataBase {
     }
 
     /**
-     * @author: sharon
+     * @author: Sharon Hadar
      * @date: 21/1/18
      * get specific road by name from data base
      * @param mapName, nameID
@@ -36,7 +39,7 @@ public class RoadsDataBase {
     }
 
     /**
-     * @author: sharon
+     * @author: Sharon Hadar
      * @date: 21/1/18
      * get overload of the road
      * @param mapName, nameID

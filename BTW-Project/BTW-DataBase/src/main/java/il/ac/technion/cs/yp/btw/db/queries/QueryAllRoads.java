@@ -14,11 +14,19 @@ import java.util.Set;
 /*get from the data base all the roads*/
 public class QueryAllRoads extends Query{
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * */
     public QueryAllRoads(String mapName){
         super(mapName);
         query = "SELECT * FROM dbo."+ mapName + "Road";
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * construct a road by the information recieved from the data base
+     * */
     @Override
     public Set<Road> arrangeRecievedData(ResultSet resultSet){
         Set<Road> roads = new HashSet();

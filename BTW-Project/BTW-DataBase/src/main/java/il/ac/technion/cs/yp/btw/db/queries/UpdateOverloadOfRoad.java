@@ -12,11 +12,18 @@ import java.sql.SQLException;
 /*update a road's overload in the data base*/
 public class UpdateOverloadOfRoad extends Query {
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public UpdateOverloadOfRoad(String mapName, String nameID, long overload) {
         super(mapName);
         query = "UPDATE * dbo." + mapName + "Road SET overload = " + overload + " WHERE nameID = '" + nameID + "'";
     }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     *no informationn was received from the data base*/
     @Override
     public Road arrangeRecievedData(ResultSet resultSet){
         return null;

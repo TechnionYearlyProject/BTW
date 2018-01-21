@@ -20,6 +20,10 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
     private String nameID;
     private Road sourceRoad;
     private Road destinationRoad;
+
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public DataTrafficLight(String nameID, Point pos, String sourceRoadName, String destinationRoadName, long overload, String mapName) {
         super(pos);
         this.nameID = nameID;
@@ -30,6 +34,8 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
     }
 
     /**
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * @return the TrafficLightImpl's unique name
      * in the format:
      * from:@getSourceRoad() to:@getDestinationRoad()
@@ -41,15 +47,22 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
     }
 
     /**
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * @return the Road you got from to this
      *         TrafficLightImpl
      */
     @Override
     public Road getSourceRoad() { return this.sourceRoad; }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public void setSourceRoad(Road sourceRoad) { this.sourceRoad = sourceRoad; }
 
     /**
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * @return the destination Road you
      *         go to from this TrafficLightImpl
      */
@@ -58,13 +71,19 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
         return this.destinationRoad;
     }
 
+    /* @author Sharon Hadar
+     * @Date 21/01/2018*/
     public void setDestinationRoad(Road destinationRoad){
         this.destinationRoad = destinationRoad;
     }
 
-
+    /* @author Sharon Hadar
+     * @Date 21/01/2018*/
     public String getSourceRoadName() { return this.sourceRoadName; }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public String getDestinationRoadName(){
         return this.destinationRoadName;
     }
@@ -101,6 +120,10 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
         }
     }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     *return a string representing thr traffic light*/
     @Override
     public String toString(){
         String trafficLight = "";

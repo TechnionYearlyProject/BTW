@@ -4,6 +4,9 @@ import il.ac.technion.cs.yp.btw.classes.BTWWeight;
 
 import java.util.Set;
 
+/*
+* this class is not in use the current semester
+* */
 public class WeightsDataBase{
 
     public WeightsDataBase(){

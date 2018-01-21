@@ -21,6 +21,9 @@ public class DataCentralLocation extends  CentralLocation{
         this.street = street;
     }*/
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public DataCentralLocation(Set<Point> vertices, String name, String street, String mapName) {
         super(vertices, name);
         this.name = name;
@@ -29,6 +32,8 @@ public class DataCentralLocation extends  CentralLocation{
     }
 
     /**
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * @return the CentralLocation's unique name
      */
     public String getName() {

@@ -10,14 +10,21 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-/*get from the data base a centeral location by its name*/
+/*get from the data base a centeral location by its name
+* this class is not in use in the current semester*/
 public class QueryCentralLocation extends Query {
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * */
     public QueryCentralLocation(String mapName, String nameID){
         super(mapName);
         this.query = "SELECT * FROM dbo."+ mapName + "Place WHERE nameID = '" + nameID + "'";
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * construct a centeral location from the data base results*/
     @Override
     public CentralLocation arrangeRecievedData(ResultSet resultSet){
         CentralLocation centralLocation = null;

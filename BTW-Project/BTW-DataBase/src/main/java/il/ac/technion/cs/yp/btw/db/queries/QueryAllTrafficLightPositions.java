@@ -8,14 +8,22 @@ import java.sql.SQLException;
 import java.util.Set;
 import java.util.HashSet;
 
-/*get from the data base all the coordinates which has traffic lights on them. retuen them in a form of a point.*/
+/*get from the data base all the coordinates which has traffic lights on them. retuen them in a form of a point.
+* this class is not used in the current semester*/
 public class QueryAllTrafficLightPositions extends Query{
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public QueryAllTrafficLightPositions(String mapName){
         super(mapName);
         this.query = "SELECT * FROM dbo."+ mapName + "TrafficLight";
     }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * construct a traffic light by results from the data base*/
     @Override
     public Set<Point> arrangeRecievedData(ResultSet resultSet){
         Set<Point> positions = new HashSet();

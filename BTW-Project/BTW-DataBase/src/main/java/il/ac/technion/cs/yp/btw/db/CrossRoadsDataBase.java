@@ -13,7 +13,12 @@ import il.ac.technion.cs.yp.btw.db.queries.Query;
 import il.ac.technion.cs.yp.btw.db.queries.QueryAllTrafficLightPositions;
 import il.ac.technion.cs.yp.btw.db.queries.QueryAllTrafficLights;
 import il.ac.technion.cs.yp.btw.db.queries.QueryCrossRoad;
-
+/*
+ * @author Sharon Hadar
+ * @Date 21/01/2018
+ * this class is currently not used
+ * handles the fetching of cross roads from the data base
+ * */
 /*cross roads is an intersection of roads*/
 public class CrossRoadsDataBase {
 

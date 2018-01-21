@@ -9,14 +9,22 @@ import il.ac.technion.cs.yp.btw.classes.PointImpl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/*get from data base a traffic light by its name*/
+/*get from data base a traffic light by its name
+* this class is not in use in the current semester*/
 public class QueryTrafficLight extends Query {
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public QueryTrafficLight(String mapName, String nameID) {
         super(mapName);
         this.query = "SELECT * FROM dbo." + mapName + "TrafficLight WHERE nameID = '" + nameID + "'";
     }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * construct a traffic light by the result of the data base*/
     @Override
     public TrafficLight arrangeRecievedData(ResultSet resultSet){
         TrafficLight trafficLight = null;

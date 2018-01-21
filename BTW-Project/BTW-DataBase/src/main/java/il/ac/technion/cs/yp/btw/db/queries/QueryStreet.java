@@ -12,17 +12,25 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-/*get from data base a street by its name*/
+/*get from data base a street by its name
+* this class is not in use in the current semester*/
 public class QueryStreet extends Query{
 
     private String streetName;
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public QueryStreet(String mapName, String streetName) {
         super(mapName);
         query = "SELECT * FROM dbo." + mapName + "Road WHERE nameID LIKE '" + streetName + "%'";
         this.streetName = streetName;
     }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * construct a street from the result of the data base*/
     @Override
     public Street arrangeRecievedData(ResultSet resultSet){
 
