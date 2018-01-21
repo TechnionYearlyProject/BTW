@@ -14,7 +14,8 @@ public class TestDataTrafficLight {
 
     @Test
     public void testGetParameters() {
-        BTWDataBase btw = new BTWDataBaseImpl("test");
+        BTWDataBase btw = new BTWDataBaseImpl("test1");
+        btw.loadMap();
         Set<TrafficLight> tls = btw.getAllTrafficLights();
 
         for (TrafficLight tl: tls) {
@@ -40,10 +41,11 @@ public class TestDataTrafficLight {
 
     @Test
     public void testConstruct() {
-        TrafficLight tl = new DataTrafficLight("tl12009",new PointImpl(2,5.12313),"aa","cc",239732623,"test1");
+        DataTrafficLight tl = new DataTrafficLight("tl12009",new PointImpl(2,5.12313),"aa","cc",239732623,"test1");
         BTWDataBase b = new BTWDataBaseImpl("test1");
-        Road rd = tl.getDestinationRoad();
-        Road rs = tl.getSourceRoad();
+        b.loadMap();
+        String rd = tl.getDestinationRoadName();
+        String rs = tl.getSourceRoadName();
         Assert.assertNotNull(rd);
         Assert.assertNotNull(rs);
         String s = tl.toString();
