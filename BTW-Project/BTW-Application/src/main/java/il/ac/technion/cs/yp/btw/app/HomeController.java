@@ -1,29 +1,30 @@
 package il.ac.technion.cs.yp.btw.app;
 
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.*;
+import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
+import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
+import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
+import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -34,10 +35,15 @@ public class HomeController implements Initializable {
     private RadioButton grid_radio = new RadioButton("grid_radio");
     @FXML
     private RadioButton free_form_radio = new RadioButton("free_form_radio");
-    private boolean rbgrid_radio = false;
-    private boolean rbfree_form_radio = false;
-    @FXML
-    private JFXComboBox chooseMapCombo;
+
+//    @FXML
+//    private JFXComboBox chooseMapCombo;
+
+    @FXML private JFXTextField chooseMapTextBox;
+
+    @FXML private JFXSpinner loadSpinner;
+
+    @FXML private JFXButton load_button, generate_button;
 
     @FXML
     private Node anchor;
@@ -71,17 +77,13 @@ public class HomeController implements Initializable {
                                 Toggle old_toggle, Toggle new_toggle){
                 if(generate_city_toggle.getSelectedToggle() != null){
                     if(generate_city_toggle.getSelectedToggle().toString().equalsIgnoreCase("grid_radio")){
-                        rbgrid_radio = true;
-                        rbfree_form_radio = false;
                     }else if(generate_city_toggle.getSelectedToggle().toString().equalsIgnoreCase("free_form_radio")){
 
-                            rbgrid_radio = false;
-                            rbfree_form_radio = true;
-                        }
+                    }
                 }
             }
         });
-        chooseMapCombo.setStyle("-fx-font: 15px \"Arial\";");
+//        chooseMapCombo.setStyle("-fx-font: 15px \"Arial\";");
     }
 
     private void switchScreens(ActionEvent event, String fxmlLocation) {
@@ -116,5 +118,63 @@ public class HomeController implements Initializable {
         fadeOut.play();
     }
 
+
+    public void loadButtonClicked(ActionEvent actionEvent) {
+        load_button.setDisable(true);
+        generate_button.setDisable(true);
+        loadSpinner.setVisible(true);
+        new Thread(() -> {
+            BTWDataBase dataBase = new BTWDataBaseImpl(chooseMapTextBox.getText());
+            System.out.println("trying to load map: " + chooseMapTextBox.getText());
+            boolean result = dataBase.loadMap();
+            Platform.runLater(() -> {
+                if(!result) {
+                    load_button.setDisable(false);
+                    generate_button.setDisable(false);
+                    loadSpinner.setVisible(false);
+                    showErrorDialog("Failed to load: Map name is not in the Database");
+                } else {
+                    //TODO: switch screen to map
+                    new Thread(() -> {
+                        CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
+                        Platform.runLater(() -> switchScreensToMap(actionEvent, citySimulator));
+                    }).start();
+                }
+            });
+        }).start();
+    }
+
+    private void switchScreensToMap(ActionEvent event, CitySimulator citySimulator) {
+        Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        try {
+            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, citySimulator);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void transitionAndSwitchToMap(Stage stageTheEventSourceNodeBelongs,
+                                         CitySimulator citySimulator) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stageForDrawMap.fxml"));
+        DrawMapController drawMapController = new DrawMapController();
+        drawMapController.initCitySimulator(citySimulator);
+        drawMapController.initStage(stageTheEventSourceNodeBelongs);
+        loader.setController(drawMapController);
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void showErrorDialog(String errorMessage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Invalid input");
+        alert.setHeaderText(null);
+        alert.setContentText(errorMessage);
+
+        alert.showAndWait();
+    }
 
 }

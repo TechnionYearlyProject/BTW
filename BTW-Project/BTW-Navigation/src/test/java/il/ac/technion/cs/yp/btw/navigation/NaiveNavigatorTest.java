@@ -39,6 +39,10 @@ public class NaiveNavigatorTest {
 
 
     class TestingDB implements BTWDataBase {
+        @Override
+        public boolean loadMap() {
+            return false;
+        }
 
         @Override
         public Set<TrafficLight> getAllTrafficLights() {

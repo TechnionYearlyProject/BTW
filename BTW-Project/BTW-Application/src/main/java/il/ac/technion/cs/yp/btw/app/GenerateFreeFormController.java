@@ -120,7 +120,7 @@ public class GenerateFreeFormController implements Initializable{
             String mapString = parseCitySimulationToGeoJsonString(freeFormMapSimulator);
 
             //Insert the new map to the database.
-            BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity897");
+            BTWDataBase dataBase = new BTWDataBaseImpl("orel_free_map");
             dataBase.saveMap(mapString);
 
             CitySimulator citySimulator = new CitySimulatorImpl(dataBase);

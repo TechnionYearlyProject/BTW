@@ -161,7 +161,7 @@ public class GenerateGridController implements Initializable{
             System.out.println(mapString);
 
             //Insert the new map to the database.
-            BTWDataBase dataBase = new BTWDataBaseImpl("simulatedCity2_2");
+            BTWDataBase dataBase = new BTWDataBaseImpl("orel_grid_map");
             dataBase.saveMap(mapString);
 
             CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
