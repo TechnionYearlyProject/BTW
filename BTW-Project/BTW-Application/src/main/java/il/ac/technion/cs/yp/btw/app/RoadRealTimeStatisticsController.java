@@ -29,6 +29,7 @@ public class RoadRealTimeStatisticsController {
         this.vehiclesNum.setText(String.valueOf(numOfVehicles));
         DecimalFormat df = new DecimalFormat("#.000");
         String formattedSpeed = df.format(averageSpeed);
+        if(numOfVehicles == 0) formattedSpeed = "0";
         this.averageSpeed.setText(formattedSpeed);
 //        this.averageSpeed.setText(String.valueOf(averageSpeed));
         this.lengthInKm.setText(String.valueOf(length));

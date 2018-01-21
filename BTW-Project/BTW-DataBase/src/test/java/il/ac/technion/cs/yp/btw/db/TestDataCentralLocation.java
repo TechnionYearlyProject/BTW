@@ -14,7 +14,9 @@ import java.util.Set;
  * Created by shay on 15/01/2018.
  */
 public class TestDataCentralLocation {
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testCentralLocation() {
         Point a = new PointImpl(3,4);

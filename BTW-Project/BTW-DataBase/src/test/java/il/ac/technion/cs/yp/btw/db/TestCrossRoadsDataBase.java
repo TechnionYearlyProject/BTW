@@ -12,7 +12,9 @@ import java.util.Set;
 import static org.junit.Assert.assertNotNull;
 
 public class TestCrossRoadsDataBase {
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetCrossRoad(){
 //        Point position = new PointImpl(1.0,1.0);

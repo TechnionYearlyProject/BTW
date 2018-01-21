@@ -12,7 +12,8 @@ import java.sql.SQLException;
 import java.util.Set;
 import java.util.HashSet;
 
-/*get from data base a cross road by its position*/
+/*get from data base a cross road by its position
+* this class is not in use in the current semester*/
 public class QueryCrossRoad extends Query{
 
     private Point position;
@@ -23,6 +24,11 @@ public class QueryCrossRoad extends Query{
         this.position = position;
     }
 
+    /*
+    * @author Sharon Hadar
+    * @Date 21/01/2018
+    * construct a cross road from the data base results
+    * */
     @Override
     public Crossroad arrangeRecievedData(ResultSet resultSet){
         Set<TrafficLight> trafficLights = new HashSet();

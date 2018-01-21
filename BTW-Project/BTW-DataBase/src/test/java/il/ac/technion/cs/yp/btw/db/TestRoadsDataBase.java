@@ -14,7 +14,9 @@ import static org.junit.Assert.assertNotNull;
 
 
 public class TestRoadsDataBase {
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetAllRoads(){
         MainDataBase.openConnection();
@@ -27,7 +29,9 @@ public class TestRoadsDataBase {
         }
         MainDataBase.closeConnection();
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetRoad(){
         String mapName = "first";
@@ -47,7 +51,9 @@ public class TestRoadsDataBase {
         MainDataBase.closeConnection();
 
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetOverload(){
         String mapName = "first";
@@ -62,7 +68,9 @@ public class TestRoadsDataBase {
         //System.out.println("road6Overload = " + road6Overload);
         MainDataBase.closeConnection();
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetHeuristicDist(){
         String mapName = "test";

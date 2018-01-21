@@ -10,7 +10,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class TestCenteralLocationDataBase {
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetAllCenteralLocations(){
         MainDataBase.openConnection();
@@ -23,7 +25,9 @@ public class TestCenteralLocationDataBase {
         }
         MainDataBase.closeConnection();
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetCentralLocation(){
         //SELECT * FROM dbo.firstPlace WHERE nameID = 'GasStation'

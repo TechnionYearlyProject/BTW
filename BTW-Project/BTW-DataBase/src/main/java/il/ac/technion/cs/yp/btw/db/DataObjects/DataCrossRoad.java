@@ -15,16 +15,30 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
     private String mapName;
     private Set<TrafficLight> trafficLights;
     private String name;
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * construct cross road with an empty set of traffic lights*/
     public DataCrossRoad(Point position, String mapName) {
         super(position);
         this.trafficLights = new HashSet<>();
         this.mapName = mapName;
     }
+
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * construct the cross road with a pre given set of traffic lights but no name*/
     public DataCrossRoad(Point position, Set<TrafficLight> trafficLights, String mapName) {
         super(position);
         this.trafficLights = trafficLights;
         this.mapName = mapName;
     }
+
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * construct the cross roads with a given set of traffic light and a name*/
     public DataCrossRoad(Point position, Set<TrafficLight> trafficLights, String crossname, String mapName) {
         super(position);
         this.trafficLights = trafficLights;
@@ -32,17 +46,27 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
         this.name = crossname;
     }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * construct a cross road with an empty set of traffic lights*/
     public DataCrossRoad(Point position, boolean noTrafficLights, String mapName) {
         super(position);
         this.trafficLights = new HashSet<>();
         this.mapName = mapName;
     }
+
+    /* @author Sharon Hadar
+     * @Date 21/01/2018
+     * get the cross road name*/
     @Override
     public String getName() {
         return this.name;
     }
 
     /**
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * @return Set of all TrafficLights in this CrossroadImpl
      */
     @Override
@@ -51,6 +75,7 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
     }
 
     /**
+     *
      * get all traficlights in the crossroad which are going from road
      * @param road - the Road from which the TrafficLights are going
      * @return all trafic lights from the road
@@ -75,6 +100,10 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
         return this;
     }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * a string representing the cross road*/
     @Override
     public String toString() {
 
@@ -87,6 +116,10 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
         return crossRoad;
     }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * compare cross roads by coordinates*/
     @Override
     public boolean equals (Object o){
         if(!(o instanceof DataCrossRoad))

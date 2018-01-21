@@ -49,4 +49,6 @@ public interface MapSimulator {
      *          central locations
      */
     Set<Street> getStreets();
+
+    Map build();
 }

@@ -12,17 +12,30 @@ import java.util.HashSet;
 
 /*get from the data base all traffic lights*/
 public class QueryAllTrafficLights extends Query{
-
+    /*
+    * @author Sharon Hadar
+     * @Date 21/01/2018
+     * query all traffic lights from the database*/
     public QueryAllTrafficLights(String mapName){
         super(mapName);
         this.query = "SELECT * FROM dbo."+ mapName + "TrafficLight";
     }
 
+    /*
+    * @author Sharon Hadar
+    * @Date 21/01/2018
+    * query all traffic lights in a certain position*/
     public QueryAllTrafficLights(String mapName, Point position){
         super(mapName);
         this.query = "SELECT * FROM dbo." + mapName + "TrafficLight"
                 +" WHERE cordx = " +  position.getCoordinateX() + " AND " + "cordy = " + position.getCoordinateY();
     }
+
+    /*
+    * @author Sharon Hadar
+    * @Date 21/01/2018
+    * build the recieved data from the data base results
+    * */
     @Override
     public Set<TrafficLight> arrangeRecievedData(ResultSet resultSet){
         Set<TrafficLight> trafficLights = new HashSet();

@@ -12,7 +12,9 @@ import static org.junit.Assert.assertNotNull;
 
 
 public class TestStreetDataBase {
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetAllStreets(){
         MainDataBase.openConnection();
@@ -25,7 +27,9 @@ public class TestStreetDataBase {
         }
         MainDataBase.closeConnection();
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetRoad(){
 

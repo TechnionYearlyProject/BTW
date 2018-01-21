@@ -24,6 +24,9 @@ public class DataRoad implements Road {
     private int secEnd;
     private long overload;
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public DataRoad(String name, int roadLength,
                     String myStreet,
                     Point sourceCrossroadPosition,
@@ -37,6 +40,9 @@ public class DataRoad implements Road {
         this.mapName = mapName;
     }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public DataRoad(String name, int roadLength,
                     String myStreet,
                     Point sourceCrossroadId,
@@ -65,6 +71,8 @@ public class DataRoad implements Road {
     }
 
     /**
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * @return the length in meters of the road
      */
     @Override
@@ -73,6 +81,8 @@ public class DataRoad implements Road {
     }
 
     /**
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * @return the unique name of the road
      */
     @Override
@@ -81,6 +91,8 @@ public class DataRoad implements Road {
     }
 
     /**
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * @return the street this Road is in
      */
     @Override
@@ -145,6 +157,8 @@ public class DataRoad implements Road {
 
 
     /**
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * @return the CrossroadImpl this Road starts in
      */
     @Override
@@ -154,6 +168,8 @@ public class DataRoad implements Road {
     }
 
     /**
+     * @author Sharon Hadar
+     * @Date 21/01/2018
      * @return the CrossroadImpl this Road ends
      */
     @Override
@@ -163,13 +179,23 @@ public class DataRoad implements Road {
         //return CrossRoadsDataBase.getCrossRoad(destinationCrossroadId, mapName);
     }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public Point getSourceCrossroadPosition() {
         return this.sourceCrossroadPosition;
     }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public Point getDestinationCrossroadPosition(){
         return this.destinationCrossroadPosition;
     }
+
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Override
     public String toString(){
 

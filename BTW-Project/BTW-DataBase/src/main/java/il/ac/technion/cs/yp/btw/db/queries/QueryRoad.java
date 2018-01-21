@@ -9,14 +9,21 @@ import il.ac.technion.cs.yp.btw.classes.PointImpl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/*get from data base a road by its name*/
+/*get from data base a road by its name
+* this class is not in use in the current semester*/
 public class QueryRoad extends Query {
 
+    /** @author Sharon Hadar
+     * @Date 21/01/2018*/
     public QueryRoad(String mapName, String nameID) {
         super(mapName);
         query = "SELECT * FROM dbo." + mapName + "Road WHERE nameID = '" + nameID + "'";
     }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018
+     * construct a road by the results from the data base*/
     @Override
     public Road arrangeRecievedData(ResultSet resultSet){
         Road road = null;
