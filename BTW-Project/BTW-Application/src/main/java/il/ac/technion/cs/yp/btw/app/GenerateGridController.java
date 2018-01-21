@@ -251,6 +251,7 @@ public class GenerateGridController implements Initializable{
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+        mapFile.delete();
         return mapString;
     }
 

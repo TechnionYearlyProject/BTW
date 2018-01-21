@@ -3,16 +3,14 @@ package il.ac.technion.cs.yp.btw.geojson;
 import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.Scanner;
 import java.util.Set;
 
 /**
- * @author: Anat
- * @date: 20/1/18
+ * @author Anat
+ * @date 20/1/18
  * Implementing the GeoJson parser
  */
 
@@ -20,8 +18,8 @@ import java.util.Set;
 public class GeoJsonParserImpl implements GeoJsonConverter {
 
     /**
-     * @author: Anat
-     * @date: 20/1/18
+     * @author Anat
+     * @date 20/1/18
      * Create file that contains the appropriate geoJson
      * string for the given simulator.
      */
@@ -35,23 +33,26 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
         File file = new File("JsonFile.json");
 
         try {
-            boolean success = file.createNewFile();
-            assert (success);
+//            boolean success = file.createNewFile();
+//            assert (success);
 
-            FileWriter fileWriter = new FileWriter(file);
+            FileOutputStream fileWriter = new FileOutputStream(file);
+//            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file));
+//            FileWriter fileWriter = new FileWriter(file);
 
             //The { moved to the end, after delete the last ,
             String startFeature = "{\"type\": \"FeatureCollection\""+","+
                     "\"features\":[" ;
 
-            fileWriter.write(startFeature);
+            fileWriter.write(startFeature.getBytes());
+//            fileWriter.write(startFeature);
             fileWriter.flush();
 
             if(trafficLights!=null) {
                 for (TrafficLight tl : trafficLights) {
                     String jsonData =this.toStringTrafficLightFull(tl);
                     //write the data to json file
-                    fileWriter.write(jsonData);
+                    fileWriter.write(jsonData.getBytes());
                 }
             }
             fileWriter.flush();
@@ -59,7 +60,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
                 for (Road rd : roads) {
                     String jsonData = this.toStringRoadFull(rd);
                     //write the data to json file
-                    fileWriter.write(jsonData);
+                    fileWriter.write(jsonData.getBytes());
                 }
             }
             fileWriter.flush();
@@ -83,36 +84,52 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
                 for (CentralLocation cl : centralLocations) {
                     String jsonData = this.toStringLocation(cl);
                     //write the data to json file
-                    fileWriter.write(jsonData);
+                    fileWriter.write(jsonData.getBytes());
                 }
             }
-
+            fileWriter.flush();
+            fileWriter.close();
             //Deleting last ,
-            String content = new Scanner (file).useDelimiter("\\Z").next();
+            Scanner s = new Scanner(file);
+            String content = s.useDelimiter("\\Z").next();
+            s.close();
             String withoutLast = content.substring(0 , content.length() - 1);
 
-            FileWriter fileWriter2 = new FileWriter(file);
-            fileWriter2.write(withoutLast);
+            FileOutputStream fileWriter2 = new FileOutputStream(file);
+
+//            BufferedWriter fileWriter2 = new BufferedWriter(new FileWriter(file));
+//            FileWriter fileWriter2 = new FileWriter(file);
+            fileWriter2.write(withoutLast.getBytes());
+
+//            fileWriter2.write(withoutLast);
             fileWriter2.flush();
 
             //return the string that include all the data/
 
             String endFeature = "]}";
 
-            fileWriter2.write(endFeature);
+            fileWriter2.write(endFeature.getBytes());
             fileWriter2.flush();
+            fileWriter2.close();
         }catch (IOException e) {
             e.printStackTrace();
         }
-        return  file;
+//        try {
+//            Files.delete(file.toPath());
+//        } catch (IOException e) {
+//            System.out.println("BAD");
+//        }
+//        System.out.println("Hello World");
+//        file.delete();
+        return file;
     }
 
     /**
-     * @author: Anat
-     * @date: 20/1/18
+     * @author  Anat
+     * @date  20/1/18
      * Create GeoJson string for central locations.
-     * @Param: centralLocation- the location that we want geoJson string for.
-     * @return: string in geoJson format for the given central location.
+     * @param centralLocation- the location that we want geoJson string for.
+     * @return string in geoJson format for the given central location.
      */
     @Override
     public String toStringLocation(CentralLocation centralLocation) {
@@ -130,11 +147,11 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
     }
 
     /**
-     * @author: Anat
-     * @date: 20/1/18
+     * @author Anat
+     * @date 20/1/18
      * Create GeoJson full string for Road.
-     * @Param: road- the road that we want geoJson string for.
-     * @return: string in geoJson full format for the given road.
+     * @param road- the road that we want geoJson string for.
+     * @return string in geoJson full format for the given road.
      */
     @Override
     public String toStringRoadFull(Road road) {
@@ -146,11 +163,11 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
     }
 
     /**
-     * @author: Anat
-     * @date: 20/1/18
+     * @author Anat
+     * @date 20/1/18
      * Create GeoJson string for road.
-     * @Param: road- the road that we want geoJson string for.
-     * @return: string in geoJson format for the given road.
+     * @param road- the road that we want geoJson string for.
+     * @return string in geoJson format for the given road.
      */
     @Override
     public String toStringRoad(Road road) {
@@ -161,11 +178,11 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
     }
 
     /**
-     * @author: Anat
-     * @date: 20/1/18
+     * @author Anat
+     * @date 20/1/18
      * Create GeoJson full string for traffic light.
-     * @Param: trafficLight- the traffic light that we want geoJson string for.
-     * @return: string in geoJson full format for the given traffic light.
+     * @param trafficLight- the traffic light that we want geoJson string for.
+     * @return string in geoJson full format for the given traffic light.
      */
     @Override
     public String toStringTrafficLightFull(TrafficLight trafficLight) {
@@ -176,11 +193,11 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
     }
 
     /**
-     * @author: Anat
-     * @date: 20/1/18
+     * @author Anat
+     * @date 20/1/18
      * Create GeoJson string for traffic light.
-     * @Param: trafficLight- the traffic light that we want geoJson string for.
-     * @return: string in geoJson format for the given traffic light.
+     * @param trafficLight- the traffic light that we want geoJson string for.
+     * @return string in geoJson format for the given traffic light.
      */
     @Override
     public String toStringTrafficLight(TrafficLight trafficLight) {
@@ -190,11 +207,11 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
     }
 
     /**
-     * @author: Anat
-     * @date: 20/1/18
+     * @author Anat
+     * @date 20/1/18
      * Create GeoJson string for crossRoad.
-     * @Param: crossroad- the street that we want geoJson string for.
-     * @return: string in geoJson format for the given crossRoad.
+     * @param crossroad- the street that we want geoJson string for.
+     * @return string in geoJson format for the given crossRoad.
      */
     @Override
     public String toStringCrossRoad(Crossroad crossroad) {
@@ -204,11 +221,11 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
     }
 
     /**
-     * @author: Anat
-     * @date: 20/1/18
+     * @author Anat
+     * @date 20/1/18
      * Create GeoJson full string for street.
-     * @Param: street- the street that we want geoJson string for.
-     * @return: string in geoJson full format for the given street.
+     * @param street- the street that we want geoJson string for.
+     * @return string in geoJson full format for the given street.
      */
     @Override
     public String toStringStreetFull(Street street) {
@@ -223,11 +240,11 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
     }
 
     /**
-     * @author: Anat
-     * @date: 20/1/18
+     * @author Anat
+     * @date 20/1/18
      * Create GeoJson full string for street.
-     * @Param: street- the street that we want geoJson string for.
-     * @return: string in geoJson full format for the given street.
+     * @param street- the street that we want geoJson string for.
+     * @return string in geoJson full format for the given street.
      */
     @Override
     public String toStringStreet(Street street){
