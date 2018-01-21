@@ -15,6 +15,9 @@ import static org.junit.Assert.assertNotNull;
 
 public class TestTrafficLightDataBase {
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetAllTrafficLights(){
         MainDataBase.openConnection();
@@ -28,6 +31,9 @@ public class TestTrafficLightDataBase {
         MainDataBase.closeConnection();
     }
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetAllTrafficLightsInPosition(){
         MainDataBase.openConnection();
@@ -41,7 +47,9 @@ public class TestTrafficLightDataBase {
         }
         MainDataBase.closeConnection();
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetTrafficLight(){
         MainDataBase.openConnection();

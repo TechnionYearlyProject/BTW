@@ -23,8 +23,12 @@ import java.util.HashSet;
 
 import static org.junit.Assert.assertNotNull;
 
+
 public class TestDataBaseQuerying {
     //the test method name needs to begin with the word 'test'
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetAllRoadsSet(){
         TestResult result = new TestResult();
@@ -42,7 +46,9 @@ public class TestDataBaseQuerying {
         MainDataBase.closeConnection();
 
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetAllCenteralLocations(){
         TestResult result = new TestResult();
@@ -59,7 +65,9 @@ public class TestDataBaseQuerying {
         }
         MainDataBase.closeConnection();
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetAllTrafficLights(){
         TestResult result = new TestResult();
@@ -81,11 +89,16 @@ public class TestDataBaseQuerying {
 
 class QueryRoadExample extends Query{
 
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public QueryRoadExample(String mapName){
         super(mapName);
         query = "SELECT * FROM dbo."+ mapName + "Road";
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Override
     public Set<Road> arrangeRecievedData(ResultSet resultSet){
         Set<Road> roads = new HashSet();
@@ -133,12 +146,16 @@ class QueryRoadExample extends Query{
 
 
 class QueryCenteralLocationExample extends Query{
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public QueryCenteralLocationExample(String mapName){
         super(mapName);
         query = "SELECT * FROM dbo."+ mapName + "Place";
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Override
     public Set<CentralLocation> arrangeRecievedData(ResultSet resultSet){
         Set<CentralLocation> centralLocations = new HashSet();
@@ -191,12 +208,16 @@ class QueryCenteralLocationExample extends Query{
 
 
 class QueryTrafficLightExample extends Query{
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     public QueryTrafficLightExample(String mapName){
         super(mapName);
         query = "SELECT * FROM dbo."+ mapName + "TrafficLight";
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Override
     public Set<TrafficLight> arrangeRecievedData(ResultSet resultSet){
         Set<TrafficLight> trafficLights = new HashSet();

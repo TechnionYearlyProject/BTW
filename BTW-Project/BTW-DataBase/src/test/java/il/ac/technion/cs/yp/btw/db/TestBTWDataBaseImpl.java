@@ -8,6 +8,9 @@ import org.junit.Test;
 import java.util.Set;
 
 public class TestBTWDataBaseImpl {
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetAllTrafficLights() {
         BTWDataBaseImpl dataBase = new BTWDataBaseImpl("test1");
@@ -18,7 +21,9 @@ public class TestBTWDataBaseImpl {
         Assert.assertNotNull(trafficLights);
         dataBase.closeDataBaseConnection();
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetStreetByName() {
         String streetName = "aa";
@@ -27,7 +32,9 @@ public class TestBTWDataBaseImpl {
         Street street = dataBase.getStreetByName(streetName);
         Assert.assertNull(street);
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetCentralLocationByName() {
 
@@ -36,7 +43,9 @@ public class TestBTWDataBaseImpl {
         CentralLocation centralLocation = dataBase.getCentralLocationByName(centrallLocationName);
         Assert.assertNull(centralLocation);
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetAllRoads() {
         BTWDataBaseImpl dataBase = new BTWDataBaseImpl("test1");
@@ -45,7 +54,9 @@ public class TestBTWDataBaseImpl {
         roads = dataBase.getAllRoads();
         Assert.assertNotNull(roads);
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testGetAllCrossroads() {
         BTWDataBaseImpl dataBase = new BTWDataBaseImpl("test1");
@@ -54,7 +65,9 @@ public class TestBTWDataBaseImpl {
         crossRoads = dataBase.getAllCrossroads();
         Assert.assertNotNull(crossRoads);
     }
-
+    /*
+     * @author Sharon Hadar
+     * @Date 21/01/2018*/
     @Test
     public void testUpdateWeight() {
         BTWDataBase dataBase = new BTWDataBaseImpl("test1");
