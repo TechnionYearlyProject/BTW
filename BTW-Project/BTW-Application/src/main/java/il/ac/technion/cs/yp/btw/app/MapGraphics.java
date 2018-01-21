@@ -84,18 +84,22 @@ public class MapGraphics {
             Point newSource = getDeviationFromVectorEnd(currRoad.getDestinationCrossroad(), currRoad.getSourceCrossroad(),deviationAngle , deviationDistance);
             Point newDestination = getDeviationFromVectorEnd(currRoad.getSourceCrossroad(), currRoad.getDestinationCrossroad(), deviationAngle , deviationDistance);
 
-//            deviationAngle = 0.5;
-//            deviationDistance = 0.000125;
-//
-//            newSource = getDeviationFromVectorEnd(newSource,newDestination,deviationAngle , deviationDistance);
-//
-//            newDestination = getDeviationFromVectorEnd(newSource, newDestination, -deviationAngle , deviationDistance);
+
+            deviationAngle = 0.5;
+            deviationDistance = 0.000125;
+
+            newSource = getDeviationFromVectorEnd(newDestination, newSource,-deviationAngle , deviationDistance);
+            newDestination = getDeviationFromVectorEnd(newSource, newDestination, deviationAngle , deviationDistance);
 
 
             double xroad1 = newSource.getCoordinateX();
             double yroad1 = newSource.getCoordinateY();
             double xroad2 = newDestination.getCoordinateX();
             double yroad2 = newDestination.getCoordinateY();
+
+
+
+
 
             Line roadLine = new Line(xroad1,yroad1,xroad2,yroad2);
             roadLine.setStroke(Color.BLACK);
