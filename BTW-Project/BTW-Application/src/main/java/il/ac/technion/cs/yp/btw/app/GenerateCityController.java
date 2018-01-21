@@ -21,6 +21,10 @@ import java.net.URL;
 /**
  * Created by orel on 21/01/18.
  */
+/**@author: Orel
+ * @date: 20/1/18
+ * all methods that don't specify an other author are by Orel
+ */
 public abstract class GenerateCityController extends SwitchToMapController {
 
     @FXML protected JFXButton generate_button, back_button;
@@ -94,13 +98,22 @@ public abstract class GenerateCityController extends SwitchToMapController {
             }
             // Always close files.
             bufferedReader.close();
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
         mapFile.delete();
         return mapString;
+    }
+
+    protected String validateMapName(String text) {
+        String errorMessage = "";
+        mapName = text;
+        if(mapName.equals("")) {
+            errorMessage += "Map name can't be empty\n";
+        } if(!mapName.matches("[a-zA-Z0-9_]+")) {
+            errorMessage += "Map name must be alphanumeric\n" + "and without spaces";
+        }
+        return errorMessage;
     }
 
 }

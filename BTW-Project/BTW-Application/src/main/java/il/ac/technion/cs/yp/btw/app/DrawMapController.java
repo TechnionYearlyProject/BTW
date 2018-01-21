@@ -3,8 +3,6 @@ package il.ac.technion.cs.yp.btw.app;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import il.ac.technion.cs.yp.btw.citysimulation.*;
-import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,13 +11,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -28,25 +24,24 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
-import java.beans.EventHandler;
-import java.io.*;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
 
 import static javafx.application.Application.launch;
 
-public class DrawMapController implements Initializable {
-    private static final double MAX_SCALE = 10.0d;
-    private static final double MIN_SCALE = .1d;
+/**@author: Orel
+ * @date: 20/1/18
+ * all methods that don't specify an other author are by Orel
+ */
+public class DrawMapController extends ShowErrorController implements Initializable {
 
     BorderPane borderPane;
     Set<Circle> circles;
-    Set<Line> lines = new HashSet<Line>();
+    Set<Line> lines = new HashSet<>();
     CityMap cityMap;
     CitySimulator citySimulator;
     Stage stage;
@@ -77,27 +72,51 @@ public class DrawMapController implements Initializable {
      * @date: 20/1/18
      */
     public void start() {
-        AnchorPane root = new AnchorPane();
-        borderPane = new BorderPane();
-
-        borderPane.setStyle("-fx-background-color: transparent;");
-        root.setStyle("-fx-background-color: transparent;");
-
-        final Affine accumulatedScales = new Affine();
-        accumulatedScales.appendScale(100000,100000);
-        borderPane.getTransforms().add(accumulatedScales);
-        //borderPane.autoSizeChildrenProperty();
-        borderPane.setOnScroll(event -> {
-            double dy = event.getDeltaY();
-            double delta = dy>0.0 ? 1.4 : 0.6;
-            accumulatedScales.appendScale(delta,delta
-                    ,event.getX(), event.getY());
-        });
+        AnchorPane root = initScenePanesAndGetRoot();
 
         HBox playAndTickHbox = new HBox();
         playAndTickHbox.setPadding(new Insets(15, 12, 15, 12));
         playAndTickHbox.setSpacing(10);
 
+        initPlayAndTickButtons();
+
+        //inserting the buttons ot the HBox
+        playAndTickHbox.getChildren().addAll(tickButton, playButton);
+
+        initPlayActionTimeline();
+
+        HBox addVehiclesHbox = new HBox();
+        addVehiclesHbox.setPadding(new Insets(15, 12, 15, 12));
+        addVehiclesHbox.setSpacing(10);
+
+        initVehiclesButton();
+
+        initVehiclesTextField();
+
+        addVehiclesHbox.getChildren().addAll(addVehiclesButton, numOfVehiclesTextField);
+
+        //add the hboxes to the screen AnchorPane and anchor them
+        root.getChildren().addAll(borderPane, playAndTickHbox, addVehiclesHbox);
+        AnchorPane.setTopAnchor(borderPane, 0.0);
+
+        AnchorPane.setBottomAnchor(playAndTickHbox, 5.0);
+        AnchorPane.setRightAnchor(playAndTickHbox, 5.0);
+
+        AnchorPane.setBottomAnchor(addVehiclesHbox, 5.0);
+        AnchorPane.setLeftAnchor(addVehiclesHbox, 5.0);
+
+        Scene scene = new Scene(root, stage.getWidth(), stage.getHeight(), Color.GREY);
+
+        drawNow(cityMap);
+
+        stage.show();
+        stage.setScene(scene);
+    }
+
+    /**@author: Orel
+     * @date: 20/1/18
+     */
+    private void initPlayAndTickButtons() {
         tickButton = createRaisedJFXButtonWithIcon("/icons8-arrow-50.png");
         tickButton.setOnAction(event -> {
             tickButtonClicked(event);
@@ -107,8 +126,12 @@ public class DrawMapController implements Initializable {
             playButtonClicked(event);
         });
         isPlayButton = true;
-        playAndTickHbox.getChildren().addAll(tickButton, playButton);
+    }
 
+    /**@author: Orel
+     * @date: 20/1/18
+     */
+    private void initPlayActionTimeline() {
         playCityTimeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
 
             new Thread(() -> {
@@ -118,64 +141,44 @@ public class DrawMapController implements Initializable {
                     resetTickTask();
                 });
             }).start();
-//            tickTask = tickTask.thenApply(val -> {redrawMap(); return true;})
-//                    .thenApply(val -> {performMapTicks();
-//                        return true;});
 
         }));
         playCityTimeline.setCycleCount(Timeline.INDEFINITE);
-
-
-        HBox addVehiclesHbox = new HBox();
-        addVehiclesHbox.setPadding(new Insets(15, 12, 15, 12));
-        addVehiclesHbox.setSpacing(10);
-
-        //set up the button
-        initVehiclesButton();
-
-        //setting up the text field
-        initVehiclesTextField();
-
-
-        addVehiclesHbox.getChildren().addAll(addVehiclesButton, numOfVehiclesTextField);
-
-//        root.getChildren().addAll(borderPane, tickButton);
-        root.getChildren().addAll(borderPane, playAndTickHbox, addVehiclesHbox);
-        AnchorPane.setTopAnchor(borderPane, 0.0);
-
-        AnchorPane.setBottomAnchor(playAndTickHbox, 5.0);
-//        AnchorPane.setLeftAnchor(playAndTickHbox, 5.0);
-        AnchorPane.setRightAnchor(playAndTickHbox, 5.0);
-
-
-        AnchorPane.setBottomAnchor(addVehiclesHbox, 5.0);
-        AnchorPane.setLeftAnchor(addVehiclesHbox, 5.0);
-
-
-//        AnchorPane.setBottomAnchor(tickButton, 5.0);
-//        AnchorPane.setLeftAnchor(tickButton, 5.0);
-//        AnchorPane.setRightAnchor(tickButton, 5.0);
-
-//        Scene scene = new Scene(borderPane, 640, 640, Color.GREY);
-//        Scene scene = new Scene(borderPane, stage.getWidth(), stage.getHeight(), Color.GREY);
-        Scene scene = new Scene(root, stage.getWidth(), stage.getHeight(), Color.GREY);
-//        draw(cityMap);
-
-        drawNow(cityMap);
-
-        stage.show();
-        stage.setScene(scene);
-
-
     }
 
+    /**@author: Anat
+     * @date: 20/1/18
+     */
+    private AnchorPane initScenePanesAndGetRoot() {
+        AnchorPane root = new AnchorPane();
+        borderPane = new BorderPane();
+
+        borderPane.setStyle("-fx-background-color: transparent;");
+        root.setStyle("-fx-background-color: transparent;");
+
+        final Affine accumulatedScales = new Affine();
+        accumulatedScales.appendScale(100000,100000);
+        borderPane.getTransforms().add(accumulatedScales);
+        borderPane.setOnScroll(event -> {
+            double dy = event.getDeltaY();
+            double delta = dy>0.0 ? 1.4 : 0.6;
+            accumulatedScales.appendScale(delta,delta
+                    ,event.getX(), event.getY());
+        });
+        return root;
+    }
+    /**@author: Orel
+     * @date: 20/1/18
+     */
     private void initVehiclesTextField() {
         numOfVehiclesTextField = new JFXTextField();
         numOfVehiclesTextField.setPromptText("Vehicles amount (1 - 200)");
         numOfVehiclesTextField.setPrefSize(200, 50);
         numOfVehiclesTextField.setVisible(false);
     }
-
+    /**@author: Orel
+     * @date: 20/1/18
+     */
     private void initVehiclesButton() {
         addVehiclesButton = createRaisedJFXButtonWithText("Choose Vehicles To Add");
         addVehiclesButton.setOnAction(event -> {
@@ -199,7 +202,9 @@ public class DrawMapController implements Initializable {
             }
         });
     }
-
+    /**@author: Orel
+     * @date: 20/1/18
+     */
     private void addRandomVehiclesToSimulation(int numOfVehicles) {
         Thread thread = new Thread(() -> {
             try {
@@ -213,22 +218,18 @@ public class DrawMapController implements Initializable {
         thread.start();
     }
 
-    private void showErrorDialog(String errorMessage) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Invalid input");
-        alert.setHeaderText(null);
-        alert.setContentText(errorMessage);
-
-        alert.showAndWait();
-    }
-
+    /**@author: Orel
+     * @date: 20/1/18
+     */
     private void resetTickTask() {
         tickTask = CompletableFuture.supplyAsync(() -> {
             performMapTicks();
             return true;
         });
     }
-
+    /**@author: Orel
+     * @date: 20/1/18
+     */
     private void getTickTask() {
         try {
             tickTask.get();
@@ -236,7 +237,9 @@ public class DrawMapController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    /**@author: Orel
+     * @date: 20/1/18
+     */
     private void playButtonClicked(ActionEvent event) {
         Image buttonImage;
         if(isPlayButton) {
@@ -257,12 +260,8 @@ public class DrawMapController implements Initializable {
     }
 
     private JFXButton createRaisedJFXButtonWithIcon(String iconResourceLocation) {
-        JFXButton button = new JFXButton("");
+        JFXButton button = createRaisedJFXButtonWithText("");
         Image buttonImage = new Image(getClass().getResourceAsStream(iconResourceLocation));
-        button.setButtonType(JFXButton.ButtonType.RAISED);
-        button.setStyle("-fx-background-color: #ffffff");
-        button.setPrefSize(200, 50);
-        button.setRipplerFill(Color.BLACK);
         button.setGraphic(new ImageView(buttonImage));
         return button;
     }
@@ -282,15 +281,13 @@ public class DrawMapController implements Initializable {
         //if the last action was pause, we started a task but didn't draw it yet. finish that task and draw it.
         if(lastTickActionWasPause) {
             lastTickActionWasPause = false;
-//            redrawMap();
-//            tickButton.setDisable(false);
-            Thread thread = new Thread(() -> {
+            new Thread(() -> {
                 getTickTask();
                 Platform.runLater(() -> {
                     redrawMap();
                     tickButton.setDisable(false);
                 });
-            });
+            }).start();
         }
         try {
             Thread thread = new Thread(() -> {
@@ -305,12 +302,6 @@ public class DrawMapController implements Initializable {
             tickButton.setDisable(false);
             System.out.println("tick button caught exception " + e.getMessage());
         }
-//        try {
-//            CompletableFuture.supplyAsync(() -> {performMapTicks(); return true;}).
-//                    thenAccept(val -> redrawMap()).get();
-//        } catch (InterruptedException | ExecutionException e) {
-//            e.printStackTrace();
-//        }
     }
 
     private void performMapTicks() {
@@ -320,14 +311,12 @@ public class DrawMapController implements Initializable {
     }
 
     private void redrawMap() {
-//        borderPane.getChildren().clear();
         draw(cityMap);
     }
 
 
-
     /**
-     * @author: shay
+     * @author: shay & Orel (work in threads)
      * @date: 20/1/18
      * gets the logical object and draw all the corcles and lines from it
      * @param cityMap - the citymap object we want to draw
@@ -347,6 +336,13 @@ public class DrawMapController implements Initializable {
         return this;
     }
 
+    /**
+     * @author: shay
+     * @date: 20/1/18
+     * gets the logical object and draw all the corcles and lines from it
+     * @param cityMap - the citymap object we want to draw
+     * @return DrawMapController
+     */
     public DrawMapController drawNow(CityMap cityMap) {
         circles = new HashSet<>();
         lines = new HashSet<>();
@@ -371,77 +367,4 @@ public class DrawMapController implements Initializable {
         }
     }
 
-    // should be implemented outside
-    public Set<TrafficLight> getTrafficLights() {
-        return new HashSet<TrafficLight>();
-    }
-
-    // should be implemented outside
-    public Set<Road> getRoads() {
-        return new HashSet<Road>();
-    }
-
-    /**
-     * @author: shay
-     * @date: 20/1/18
-     * finding minimum coordinate in order to zoom in map
-     * @param trafficLights - set of traffic light
-     * @return min coordinate x in set
-     */
-    public double findMinX(Set<TrafficLight> trafficLights) {
-        double min = trafficLights.iterator().next().getCoordinateX();
-        for (TrafficLight tl: trafficLights) {
-            if (tl.getCoordinateX() < min)
-                min = tl.getCoordinateX();
-        }
-        return min;
-    }
-
-    /**
-     * @author: shay
-     * @date: 20/1/18
-     * finding maximum coordinate in order to zoom in map
-     * @param trafficLights - set of traffic light
-     * @return max coordinate x in set
-     */
-    public double findMaxX(Set<TrafficLight> trafficLights) {
-        double max = trafficLights.iterator().next().getCoordinateX();
-        for (TrafficLight tl: trafficLights) {
-            if (tl.getCoordinateX() > max)
-                max = tl.getCoordinateX();
-        }
-        return max;
-    }
-
-    /**
-     * @author: shay
-     * @date: 20/1/18
-     * finding minimum coordinate in order to zoom in map
-     * @param trafficLights - set of traffic light
-     * @return min coordinate y in set
-     */
-    public double findMinY(Set<TrafficLight> trafficLights) {
-        double min = trafficLights.iterator().next().getCoordinateY();
-        for (TrafficLight tl: trafficLights) {
-            if (tl.getCoordinateY() < min)
-                min = tl.getCoordinateY();
-        }
-        return min;
-    }
-
-    /**
-     * @author: shay
-     * @date: 20/1/18
-     * finding maximum coordinate in order to zoom in map
-     * @param trafficLights - set of traffic light
-     * @return max coordinate x in set
-     */
-    public double findMaxY(Set<TrafficLight> trafficLights) {
-        double max = trafficLights.iterator().next().getCoordinateY();
-        for (TrafficLight tl: trafficLights) {
-            if (tl.getCoordinateY() > max)
-                max = tl.getCoordinateY();
-        }
-        return max;
-    }
 }
