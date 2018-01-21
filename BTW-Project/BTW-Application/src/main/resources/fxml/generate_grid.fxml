@@ -37,13 +37,13 @@
                <HBox alignment="CENTER">
                    <children>
                        <JFXToggleButton fx:id="legnthStreetsToggle" />
-                       <JFXTextField fx:id="LengthOfStreets" disable="true" prefWidth="260" promptText="Length Of Street (50-500 meters)" />
+                       <JFXTextField fx:id="LengthOfStreets" disable="true" prefWidth="260" promptText="Length Of Street (100-2000 meters)" />
                    </children>
                </HBox>
                <HBox alignment="CENTER">
                    <children>
                        <JFXToggleButton fx:id="legnthAvenuesToggle" />
-                       <JFXTextField fx:id="LengthOfAvenues" disable="true" prefWidth="260.0" promptText="Length Of Avenues (100-1000 meters)" />
+                       <JFXTextField fx:id="LengthOfAvenues" disable="true" prefWidth="260.0" promptText="Length Of Avenues (100-2000 meters)" />
                    </children>
                </HBox>
                <HBox alignment="CENTER">

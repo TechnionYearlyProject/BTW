@@ -59,7 +59,7 @@ public abstract class GenerateCityController extends SwitchToMapController {
             System.out.println(mapString);
 
             //Insert the new map to the database.
-            if(mapName == null) mapName = "orel_grid_map";
+            if(mapName == null) mapName = "random_simulated_map";
             System.out.println("about to save the map: " + mapName);
             BTWDataBase dataBase = new BTWDataBaseImpl(mapName);
             dataBase.saveMap(mapString);

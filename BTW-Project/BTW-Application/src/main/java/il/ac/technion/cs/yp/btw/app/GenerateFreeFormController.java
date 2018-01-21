@@ -57,7 +57,7 @@ public class GenerateFreeFormController extends GenerateCityController implement
             try{
                 Number_of_blocks = Integer.parseInt(NumberOfBlocks.getText());
                 //checking boundaries
-                if(Number_of_blocks < 50 || Number_of_blocks > 250) throw new NumberFormatException();
+                if(Number_of_blocks < 30 || Number_of_blocks > 250) throw new NumberFormatException();
             } catch(NumberFormatException e) {
                 errorMessage += "Number of Blocks input is invalid\n";
             }

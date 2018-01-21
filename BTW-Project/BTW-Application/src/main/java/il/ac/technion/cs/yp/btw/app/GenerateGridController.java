@@ -63,7 +63,7 @@ public class GenerateGridController extends GenerateCityController implements In
             try{
                 Length_of_streets = Integer.parseInt(LengthOfStreets.getText());
                 //checking boundaries
-                if(Length_of_streets < 50 || Length_of_streets > 500) throw new NumberFormatException();
+                if(Length_of_streets < 100 || Length_of_streets > 2000) throw new NumberFormatException();
             } catch(NumberFormatException e) {
                 errorMessage += "Length of Streets input is invalid\n";
             }
@@ -72,7 +72,7 @@ public class GenerateGridController extends GenerateCityController implements In
             try{
                 Length_of_avenues = Integer.parseInt(LengthOfAvenues.getText());
                 //checking boundaries
-                if(Length_of_avenues < 100 || Length_of_avenues > 1000) throw new NumberFormatException();
+                if(Length_of_avenues < 100 || Length_of_avenues > 2000) throw new NumberFormatException();
             } catch(NumberFormatException e) {
                 errorMessage += "Length of Avenues input is invalid\n";
             }
