@@ -307,7 +307,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
         {
             for (Map.Entry<String,Long> secondEntry: firstEntry.getValue().entrySet())
             {
-                System.out.println(firstEntry.getKey() + " " + secondEntry.getKey() + " " + secondEntry.getValue());
+//                System.out.println(firstEntry.getKey() + " " + secondEntry.getKey() + " " + secondEntry.getValue());
                 String sql3do = "INSERT INTO dbo." + mapName + "Heuristics(sourceID,targetID,overload)" +
                         " VALUES (" + "'" + firstEntry.getKey()+ "', " + "'" +secondEntry.getKey() + "', "
                         + secondEntry.getValue().toString() + ");\n";

@@ -1,9 +1,9 @@
 package il.ac.technion.cs.yp.btw.trafficlights;
 
-
 /**
- * @author Guy Rephaeli and Adam Elgressy
- *
+ * @author Adam Elgressy and Guy Rephaeli
+ * @Date 20-1-2018
+ * interface for TrafficLight management
  */
 public interface TrafficLightManager {
     /**

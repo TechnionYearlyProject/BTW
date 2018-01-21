@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 /**
  * @author Adam Elgressy and Guy Rephaeli
  * @Date 20-1-2018
- *
  * Implement CitySimulation
  */
 
@@ -307,9 +306,8 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
-         * @author Guy Rephaeli
+         * @author Adam Elgressy and Guy Rephaeli
          * @Date 20-1-2018
-         *
          * @return minimum amount in seconds the TrafficLight
          * needs to be open
          */
@@ -357,7 +355,6 @@ public class CitySimulatorImpl implements CitySimulator {
         /**
          * @author Guy Rephaeli
          * @Date 20-1-2018
-         *
          * add a Vehicle to this Crossroad
          *
          * @param vehicle - the Vehicle to be added
@@ -394,9 +391,8 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
-         * @author Guy Rephaeli
+         * @author Adam Elgressy and Guy Rephaeli
          * @Date 20-1-2018
-         *
          * progress everything by a clock all TrafficLights
          * in this Crossroad, and manage the opening and closing
          * of TrafficLights during the tick
@@ -449,6 +445,8 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
+         * @author Adam Elgressy and Guy Rephaeli
+         * @Date 20-1-2018
          * Adds the given TrafficLightImpl to this CrossroadImpl
          *
          * @param tl - the TrafficLightImpl being added
@@ -603,9 +601,8 @@ public class CitySimulatorImpl implements CitySimulator {
     }
 
     /**
-     * @author Guy Rephaeli
+     * @author Adam Elgressy and Guy Rephaeli
      * @Date 20-1-2018
-     *
      * @param vehicleDescriptor - technical properties
      *                          of the Vehicle
      * @param source            - source address
@@ -622,9 +619,8 @@ public class CitySimulatorImpl implements CitySimulator {
     }
 
     /**
-     * @author Guy Rephaeli
+     * @author Adam Elgressy and Guy Rephaeli
      * @Date 20-1-2018
-     *
      * @param vehicleDescriptors - List of technical properties
      *                           of the Vehicles
      * @param source             - source address
@@ -683,9 +679,8 @@ public class CitySimulatorImpl implements CitySimulator {
     }
 
     /**
-     * @author Adam Elgresst and Guy Rephaeli
+     * @author Adam Elgressy and Guy Rephaeli
      * @Date 20-1-2018
-     *
      * @return CityMap to be saved for graphic uses
      */
     @Override
@@ -696,9 +691,8 @@ public class CitySimulatorImpl implements CitySimulator {
     }
 
     /**
-     * @author Adam Elgresst and Guy Rephaeli
+     * @author Adam Elgressy and Guy Rephaeli
      * @Date 20-1-2018
-     *
      * progress everything by a clock tick,
      * a clock tick is considered to be
      * an advancement of 1 second

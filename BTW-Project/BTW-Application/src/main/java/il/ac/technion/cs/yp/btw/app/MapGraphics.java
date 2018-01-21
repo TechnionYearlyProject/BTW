@@ -27,8 +27,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**@author: Anat
- * @date: 20/1/18
+/**
+ * @author Anat and Adam Elgressy
+ * @Date 20-1-2018
  * Class for creation of map graphic object.
  */
 public class MapGraphics {
@@ -71,8 +72,8 @@ public class MapGraphics {
     }
 
     /**
-     * @author: shay & Anat
-     * @date: 20/1/18
+     * @author Shay and Anat and Adam Elgressy
+     * @Date 20-1-2018
      * creating the array of lines to represent roads
      * @param roads - roads in the map
      */

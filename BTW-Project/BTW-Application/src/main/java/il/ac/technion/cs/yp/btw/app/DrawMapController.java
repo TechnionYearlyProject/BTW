@@ -68,8 +68,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
         start();
     }
 
-    /**@author: Anat & Orel
-     * @date: 20/1/18
+    /**
+     * @author Anat and Orel and Adam Elgressy
+     * @Date 20-1-2018
      */
     public void start() {
         AnchorPane root = initScenePanesAndGetRoot();
