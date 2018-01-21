@@ -37,9 +37,12 @@ public class GenerateFreeFormController implements Initializable{
     @FXML private JFXTextField Radius;
     @FXML private JFXButton generate_button, back_button;
     @FXML private JFXSpinner progress_spinner;
-    @FXML private JFXToggleButton blocksToggle, radiusToggle;
+    @FXML private JFXToggleButton blocksToggle, radiusToggle, mapNameToggle;
+    @FXML private JFXTextField mapNameTextField;
 
     int Number_of_blocks, radius_val;
+
+    String mapName;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -47,6 +50,8 @@ public class GenerateFreeFormController implements Initializable{
                 NumberOfBlocks.setDisable(!NumberOfBlocks.isDisabled()));
         radiusToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
                 Radius.setDisable(!Radius.isDisabled()));
+        mapNameToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
+                mapNameTextField.setDisable(!mapNameTextField.isDisabled()));
     }
 
     @FXML protected void BackClicked(ActionEvent event) {
@@ -78,6 +83,12 @@ public class GenerateFreeFormController implements Initializable{
                 if(radius_val < 2000 || radius_val > 7000) throw new NumberFormatException();
             } catch(NumberFormatException e) {
                 errorMessage += "Radius input is invalid\n";
+            }
+        }
+        if(!mapNameTextField.isDisabled()) {
+            mapName = mapNameTextField.getText();
+            if(mapName.equals("")) {
+                errorMessage += "Map name can't be empty\n";
             }
         }
         if(!errorMessage.equals("")) {
@@ -119,8 +130,10 @@ public class GenerateFreeFormController implements Initializable{
 
             String mapString = parseCitySimulationToGeoJsonString(freeFormMapSimulator);
 
-            //Insert the new map to the database.
-            BTWDataBase dataBase = new BTWDataBaseImpl("orel_free_map");
+            //insert new map to database
+            if(mapName == null) mapName = "orel_grid_map";
+            System.out.println("about to save the map: " + mapName);
+            BTWDataBase dataBase = new BTWDataBaseImpl(mapName);
             dataBase.saveMap(mapString);
 
             CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
