@@ -7,8 +7,8 @@ package il.ac.technion.cs.yp.btw.trafficlights;
  */
 public interface TrafficLightManager {
     /**
-     * @author Guy Rephaeli and Adam Elgressy
-     *
+     * @author Adam Elgressy and Guy Rephaeli
+     * @Date 20-1-2018
      * progress all TrafficLights, and manage
      * the future of execution between Crossroads
      * @return self

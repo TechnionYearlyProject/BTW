@@ -5,7 +5,7 @@ package il.ac.technion.cs.yp.btw.mapgeneration.voronoi;
  * @Date 20-1-2018
  * Arc key class to compare
  */
-public abstract class ArcKey implements Comparable<ArcKey> {
+abstract class ArcKey implements Comparable<ArcKey> {
     protected abstract VoronoiPoint getLeft();
     protected abstract VoronoiPoint getRight();
 

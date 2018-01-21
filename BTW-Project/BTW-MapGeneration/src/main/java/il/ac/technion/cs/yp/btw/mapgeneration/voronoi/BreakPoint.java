@@ -7,7 +7,7 @@ package il.ac.technion.cs.yp.btw.mapgeneration.voronoi;
  * a snapshot during creation of the
  * diagram
  */
-public class BreakPoint {
+class BreakPoint {
     private final Voronoi v;
     protected final VoronoiPoint s1, s2;
     private VoronoiEdge e;
