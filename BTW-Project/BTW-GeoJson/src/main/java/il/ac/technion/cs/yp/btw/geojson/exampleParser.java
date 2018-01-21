@@ -2,6 +2,7 @@ package il.ac.technion.cs.yp.btw.geojson;
 
 /**
  * Created by anat ana on 08/12/2017.
+ * Naive parser for start.
  */
 
 import java.lang.reflect.Type;
@@ -10,7 +11,6 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 
 
 public class exampleParser {

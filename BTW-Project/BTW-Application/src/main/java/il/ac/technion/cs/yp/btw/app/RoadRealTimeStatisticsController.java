@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 
 /**
  * Created by anat ana on 19/01/2018.
+ * Class for control the show of road statistics.
  */
 
 public class RoadRealTimeStatisticsController {

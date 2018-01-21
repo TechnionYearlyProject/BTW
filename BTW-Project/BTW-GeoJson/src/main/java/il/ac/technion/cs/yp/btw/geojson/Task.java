@@ -2,6 +2,7 @@ package il.ac.technion.cs.yp.btw.geojson;
 
 /**
  * Created by anat ana on 08/12/2017.
+ * Class for the naive parser.
  */
 
 public class Task {

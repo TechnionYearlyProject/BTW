@@ -13,6 +13,7 @@ import java.util.Set;
 
 /**
  * Created by anat ana on 14/01/2018.
+ * Tests for GeoJson parser.
  */
 
 /*

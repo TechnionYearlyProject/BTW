@@ -22,6 +22,9 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
      * @date 20/1/18
      * Create file that contains the appropriate geoJson
      * string for the given simulator.
+     * @Param: simulator- the simulator of the map that
+     * we want to create a geoJson file for her
+     * @return : File contains GeoJson String discribing the map.
      */
     public File buildGeoJsonFromSimulation(MapSimulator simulator) {
         Set<TrafficLight> trafficLights = simulator.getTrafficLights();
