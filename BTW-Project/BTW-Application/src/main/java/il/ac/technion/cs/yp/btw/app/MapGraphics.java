@@ -84,12 +84,12 @@ public class MapGraphics {
             Point newSource = getDeviationFromVectorEnd(currRoad.getDestinationCrossroad(), currRoad.getSourceCrossroad(),deviationAngle , deviationDistance);
             Point newDestination = getDeviationFromVectorEnd(currRoad.getSourceCrossroad(), currRoad.getDestinationCrossroad(), deviationAngle , deviationDistance);
 
-            deviationAngle = 0.5;
-            deviationDistance = 0.000125;
-
-            newSource = getDeviationFromVectorEnd(newSource,newDestination,deviationAngle , deviationDistance);
-
-            newDestination = getDeviationFromVectorEnd(newSource, newDestination, -deviationAngle , deviationDistance);
+//            deviationAngle = 0.5;
+//            deviationDistance = 0.000125;
+//
+//            newSource = getDeviationFromVectorEnd(newSource,newDestination,deviationAngle , deviationDistance);
+//
+//            newDestination = getDeviationFromVectorEnd(newSource, newDestination, -deviationAngle , deviationDistance);
 
 
             double xroad1 = newSource.getCoordinateX();
