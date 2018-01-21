@@ -91,6 +91,11 @@ public class NaiveNavigatorTest {
             heuristics = BTWGraphInfo.calculateHeuristics(this);
             return this;
         }
+
+        @Override
+        public boolean loadMap() {
+            return false;
+        }
     }
 
     static class TestingTrafficLight implements TrafficLight {

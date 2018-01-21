@@ -46,7 +46,7 @@ public class NaiveTrafficLightManager implements TrafficLightManager {
                 .flatMap(crossroad -> crossroad.getRealTrafficLights().stream())
                 .mapToInt(CityTrafficLight::getMinimumOpenTime)
                 .max()
-                .getAsInt(); // may throw - need to catch
+                .getAsInt() + 1; // may throw - need to catch
 
         this.currentGreenTrafficLightsOfCrossroad = this.currentIteratorOfCrossroad.entrySet()
                 .stream()

@@ -152,7 +152,7 @@ public class CitySimulatorImpl implements CitySimulator {
     }
 
     private class CityTrafficLightImpl implements CityTrafficLight {
-        private static final int DEFAULT_MINIMUM_OPEN_TIME = 20;
+        private static final int DEFAULT_MINIMUM_OPEN_TIME = 19;
         private static final double DEFAULT_THROUGHPUT = 0.5;
         private final double xCoord;
         private final double yCoord;
@@ -224,13 +224,13 @@ public class CitySimulatorImpl implements CitySimulator {
         @Override
         public CityTrafficLight setTrafficLightState(TrafficLightState state) {
             if (state.equals(TrafficLightState.RED)) {
-//                if (timeOpen < minimumOpenTime && this.state.equals(TrafficLightState.GREEN)) {
-//                    throw new IllegalStateException();//TODO better exception
-//                } else {
-                this.timeOpen = 0;
+                if (timeOpen < minimumOpenTime && this.state.equals(TrafficLightState.GREEN)) {
+                    throw new IllegalStateException();//TODO better exception
+                } else {
+                    this.timeOpen = 0;
 //                    this.timeOpen = this.state.equals(TrafficLightState.RED) ? 0 : this.timeOpen;
-                this.totalThroughputInCurrentGreen = this.throughput;
-//                }
+                    this.totalThroughputInCurrentGreen = this.throughput;
+                }
             }
             this.state = state;
             return this;
