@@ -8,7 +8,7 @@ import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 
 /**
- * Created by Guy Rephaeli on 15-Jan-18.
+ * @author Guy Rephaeli on 15-Jan-18.
  *
  * implementation of Vehicle
  */
@@ -25,6 +25,19 @@ public class VehicleImpl implements Vehicle {
     private CitySimulator simulator;
     private long startTime;
 
+    /**
+     * @author Guy Rephaeli
+     *
+     * @param descriptor - the descriptor of the vehicle
+     * @param source - the source road from which the vehicle should start driving
+     * @param sourceRoadRatio - the place on the source road from which the vehicle should start driving
+     * @param destination - the destination road to which the vehicle should eventually arrive
+     * @param destinationRoadRatio - the place on the destination road to which the vehicle should eventually arrive
+     * @param navigator - the navigator the calculates the route for the vehicle
+     * @param simulator - the simulator in which the vehicle is driving
+     * @param startTime - the global start time to start driving
+     * @throws PathNotFoundException
+     */
     public VehicleImpl(VehicleDescriptor descriptor,
                        Road source, double sourceRoadRatio,
                        Road destination, double destinationRoadRatio,
@@ -42,6 +55,12 @@ public class VehicleImpl implements Vehicle {
         this.startTime = startTime;
     }
 
+    /**
+     * @author Guy Rephaeli
+     *
+     * @param rd - the road to leave
+     * @return self
+     */
     private Vehicle leaveRoad(Road rd) {
         if (rd != null) {
             CityRoad realRoad = this.simulator.getRealRoad(rd);
@@ -51,6 +70,8 @@ public class VehicleImpl implements Vehicle {
     }
 
     /**
+     * @author Guy Rephaeli
+     *
      * @return VehicleDescriptor of this Vehicle,
      * which contain technical information
      * about the driven Vehicle
@@ -61,6 +82,8 @@ public class VehicleImpl implements Vehicle {
     }
 
     /**
+     * @author Guy Rephaeli
+     *
      * @return the Road this Vehicle is currently located in
      */
     @Override
@@ -68,12 +91,19 @@ public class VehicleImpl implements Vehicle {
         return this.currentRoad;
     }
 
+    /**
+     * @author Guy Rephaeli
+     *
+     * @return the next road on the route
+     */
     @Override
     public Road getNextRoad() {
         return this.nextRoad;
     }
 
     /**
+     * @author Guy Rephaeli
+     *
      * @return the destination Road of this Vehicle
      */
     @Override
@@ -82,6 +112,8 @@ public class VehicleImpl implements Vehicle {
     }
 
     /**
+     * @author Guy Rephaeli
+     *
      * Commit a drive on Road rd, on the part
      * described by the given ratios
      *
@@ -99,6 +131,13 @@ public class VehicleImpl implements Vehicle {
         return this;
     }
 
+    /**
+     * @author Guy Rephaeli
+     *
+     * commit a drive on the first road in the route
+     *
+     * @return self
+     */
     public Vehicle driveOnFirstRoad() {
         Road prev = this.currentRoad;
         this.leaveRoad(prev);
@@ -112,11 +151,20 @@ public class VehicleImpl implements Vehicle {
         return driveOnRoad(currentRoad, this.sourceRoadRatio, 1.0);
     }
 
+    /**
+     * @author Guy Rephaeli
+     *
+     * commit a drive on the last road in the route
+     *
+     * @return self
+     */
     public Vehicle driveOnLastRoad() {
         return driveOnRoad(this.destination, 0.0, this.destinationRoadRatio);
     }
 
     /**
+     * @author Guy Rephaeli
+     *
      * puts this Vehicle in wait on the given TrafficLight
      * until the TrafficLight is GREEN and this Vehicle
      * is at the top of the TrafficLight's lane
@@ -131,13 +179,24 @@ public class VehicleImpl implements Vehicle {
     }
 
     /**
-     * TODO not sure if possible because it is a single thread
+     * @author Guy Rephaeli
+     *
+     * tell if the vehicle is waiting on trafficlight
+     *
+     * @return self
      */
     @Override
     public boolean isWaitingForTrafficLight() {
         return this.isWaitingOnTrafficLight;
     }
 
+    /**
+     * @author Guy Rephaeli
+     *
+     * move to the next road on the route
+     *
+     * @return self
+     */
     @Override
     public Vehicle driveToNextRoad() {
         Road prev = this.currentRoad;
@@ -154,6 +213,11 @@ public class VehicleImpl implements Vehicle {
         return this;
     }
 
+    /**
+     * @author Guy Rephaeli
+     *
+     * @return the remaining time on the current road
+     */
     @Override
     public BTWWeight getRemainingTimeOnRoad() {
         try {
@@ -163,6 +227,13 @@ public class VehicleImpl implements Vehicle {
         }
     }
 
+    /**
+     * @author Guy Rephaeli
+     *
+     * progress on the current road in one second
+     *
+     * @return self
+     */
     @Override
     public Vehicle progressOnRoad() {
         long prevRemainingTime = this.remainingTimeOnRoad;
@@ -180,6 +251,14 @@ public class VehicleImpl implements Vehicle {
         return this;
     }
 
+    /**
+     * @author Guy Rephaeli
+     *
+     * start driving if drive time has arrived
+     *
+     * @param now - current time in the system
+     * @return indicator if drive time has arrived
+     */
     @Override
     public boolean driveOnTime(long now) {
         if (this.startTime > now) {

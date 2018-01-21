@@ -14,7 +14,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Created by Guy Rephaeli
+ * @author Adam Elgressy and Guy Rephaeli
+ * @Date 20-1-2018
  *
  * Implement CitySimulation
  */
@@ -101,24 +102,50 @@ public class CitySimulatorImpl implements CitySimulator {
             return this.destination;
         }
 
+        /**
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
+         * @param vehicle - vehicle to enter the road
+         * @return self
+         */
         @Override
         public CityRoad addVehicle(Vehicle vehicle) {
             this.vehicles.add(vehicle);
             return this;
         }
 
+        /**
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
+         * @param vehicle - vehicle to leave the road
+         * @return self
+         */
         @Override
         public CityRoad removeVehicle(Vehicle vehicle) {
             this.vehicles.remove(vehicle);
             return this;
         }
 
+        /**
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
+         * @return self
+         */
         @Override
         public CityRoad tick() {
             vehicles.forEach(Vehicle::progressOnRoad);
             return this;
         }
 
+        /**
+         * @author Adam Elgressy and Guy Rephaeli
+         * @Date 20-1-2018
+         *
+         * @return
+         */
         @Override
         public BTWWeight getCurrentWeight() {
             double currSpeed = getSpeed();
@@ -131,7 +158,7 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
-         * @author Adam Elgressy
+         * @author Adam Elgressy and Guy Rephaeli
          * @Date 20-1-2018
          * speedLimit in km/h on road
          * capacity - discrete
@@ -143,6 +170,9 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
          * @return StatisticalData of current object
          */
         @Override
@@ -216,6 +246,9 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
+         * @author Adam Elgressy and Guy Rephaeli
+         * @Date 20-1-2018
+         *
          * sets this Traffic light to the given state
          *
          * @param state - TrafficLightState, such as GREEN/RED
@@ -236,12 +269,27 @@ public class CitySimulatorImpl implements CitySimulator {
             return this;
         }
 
+        /**
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
+         * @param vehicle - vehicle to wait on traffic-light
+         * @return self
+         */
         @Override
         public CityTrafficLight addVehicle(Vehicle vehicle) {
             vehicles.add(vehicle);
             return this;
         }
 
+        /**
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
+         * progress the trafficLight vy 1 tick. Release waiting vehicles if exists and the trafficLight is GREEN
+         *
+         * @return self
+         */
         @Override
         public CityTrafficLight tick() {
             if (state.equals(TrafficLightState.GREEN)) {
@@ -259,6 +307,9 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
          * @return minimum amount in seconds the TrafficLight
          * needs to be open
          */
@@ -267,6 +318,12 @@ public class CitySimulatorImpl implements CitySimulator {
             return this.minimumOpenTime;
         }
 
+        /**
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
+         * @return the state of the trafficLight
+         */
         @Override
         public TrafficLightState getState() {
             return this.state;
@@ -298,6 +355,9 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
          * add a Vehicle to this Crossroad
          *
          * @param vehicle - the Vehicle to be added
@@ -318,6 +378,14 @@ public class CitySimulatorImpl implements CitySimulator {
             return this;
         }
 
+        /**
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
+         * realTrafficLight is the actual trafficLight instance that exists in the live map
+         *
+         * @return the set of all real trafficLights
+         */
         @Override
         public Set<CityTrafficLight> getRealTrafficLights() {
             return this.trafficLights.stream()
@@ -326,6 +394,9 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
          * progress everything by a clock all TrafficLights
          * in this Crossroad, and manage the opening and closing
          * of TrafficLights during the tick
@@ -341,6 +412,9 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
          * @return the name of the crossroad
          */
         @Override
@@ -349,7 +423,10 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
-         * @return Set of all TrafficLights in this CrossroadImpl
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
+         * @return Set of all TrafficLights in this Crossroad
          */
         @Override
         public Set<TrafficLight> getTrafficLights() {
@@ -357,6 +434,9 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
          * @param road - the Road from which the TrafficLights are going
          * @return Set of all TrafficLights from a specific road
          */
@@ -381,6 +461,9 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
+         * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
          * @return the x coordinate of this Point
          */
         @Override
@@ -389,6 +472,9 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
+         * * @author Guy Rephaeli
+         * @Date 20-1-2018
+         *
          * @return the y coordinate of this Point
          */
         @Override
@@ -406,6 +492,15 @@ public class CitySimulatorImpl implements CitySimulator {
         }
     }
 
+    /**
+     * * @author Guy Rephaeli
+     * @Date 20-1-2018
+     *
+     * @param roads - the roads in the map
+     * @param trafficLights - the traffic-lights in the map
+     * @param crossroads - the crossroads in the map
+     * @param navigationManager - the navigation manager that creates the navigators
+     */
     CitySimulatorImpl(Set<Road> roads, Set<TrafficLight> trafficLights, Set<Crossroad> crossroads, NavigationManager navigationManager){
         this.roads = new HashMap<>();
         this.trafficLights = new HashMap<>();
@@ -423,10 +518,23 @@ public class CitySimulatorImpl implements CitySimulator {
         this.clock = 0;
     }
 
+    /**
+     * @author Guy Rephaeli
+     * @Date 20-1-2018
+     *
+     * @param db - the db containing the map
+     */
     public CitySimulatorImpl(BTWDataBase db) {
         this(db.getAllRoads(), db.getAllTrafficLights(), db.getAllCrossroads(), new NaiveNavigationManager(db));
     }
 
+    /**
+     * @author Guy Rephaeli
+     * @Date 20-1-2018
+     *
+     * @param  road - the road to find in the real city
+     * @return the real road
+     */
     @Override
     public CityRoad getRealRoad(Road road) {
         String roadName = road.getRoadName();
@@ -437,6 +545,13 @@ public class CitySimulatorImpl implements CitySimulator {
         return this.roads.get(roadName);
     }
 
+    /**
+     * @author Guy Rephaeli
+     * @Date 20-1-2018
+     *
+     * @param  trafficLight - the traffic-light to find in the real city
+     * @return the real trafficLight
+     */
     @Override
     public CityTrafficLight getRealTrafficLight(TrafficLight trafficLight) {
         String trafficLightName = trafficLight.getName();
@@ -447,6 +562,13 @@ public class CitySimulatorImpl implements CitySimulator {
         return this.trafficLights.get(trafficLightName);
     }
 
+    /**
+     * @author Guy Rephaeli
+     * @Date 20-1-2018
+     *
+     * @param  crossroad - the crossroad to find in the real city
+     * @return the real crossroad
+     */
     @Override
     public CityCrossroad getRealCrossroad(Crossroad crossroad) {
         String crossroadName = crossroad.getName();
@@ -457,6 +579,19 @@ public class CitySimulatorImpl implements CitySimulator {
         return this.crossroads.get(crossroadName);
     }
 
+    /**
+     * @author Guy Rephaeli
+     * @Date 20-1-2018
+     *
+     * @param vehicleDescriptor - the descriptor of the vehicle we wish to create and add
+     * @param source - the source road from which the vehicle should start driving
+     * @param sourceRoadRatio - the place on the source road from which the vehicle should start driving
+     * @param destination - the destination road to which the vehicle should eventually arrive
+     * @param destinationRoadRatio - the place on the destination road to which the vehicle should eventually arrive
+     * @param time - the global time to start driving
+     * @return the added vehicle
+     * @throws PathNotFoundException
+     */
     private Vehicle addVehicleOnTime(VehicleDescriptor vehicleDescriptor, Road source, double sourceRoadRatio,
                               Road destination, double destinationRoadRatio, long time) throws PathNotFoundException {
         Vehicle newVehicle = new VehicleImpl(vehicleDescriptor,
@@ -468,6 +603,9 @@ public class CitySimulatorImpl implements CitySimulator {
     }
 
     /**
+     * @author Guy Rephaeli
+     * @Date 20-1-2018
+     *
      * @param vehicleDescriptor - technical properties
      *                          of the Vehicle
      * @param source            - source address
@@ -484,6 +622,9 @@ public class CitySimulatorImpl implements CitySimulator {
     }
 
     /**
+     * @author Guy Rephaeli
+     * @Date 20-1-2018
+     *
      * @param vehicleDescriptors - List of technical properties
      *                           of the Vehicles
      * @param source             - source address
@@ -509,6 +650,14 @@ public class CitySimulatorImpl implements CitySimulator {
         return added;
     }
 
+    /**
+     * @author Guy Rephaeli
+     * @Date 20-1-2018
+     *
+     * @param numOfVehicles - number of vehicles to enter
+     * @return the list of added vehicles
+     * @throws PathNotFoundException
+     */
     @Override
     public List<Vehicle> addRandomVehicles(int numOfVehicles) throws PathNotFoundException {
         List<VehicleDescriptor> descriptors = new ArrayList<>();
@@ -534,6 +683,9 @@ public class CitySimulatorImpl implements CitySimulator {
     }
 
     /**
+     * @author Adam Elgresst and Guy Rephaeli
+     * @Date 20-1-2018
+     *
      * @return CityMap to be saved for graphic uses
      */
     @Override
@@ -544,6 +696,9 @@ public class CitySimulatorImpl implements CitySimulator {
     }
 
     /**
+     * @author Adam Elgresst and Guy Rephaeli
+     * @Date 20-1-2018
+     *
      * progress everything by a clock tick,
      * a clock tick is considered to be
      * an advancement of 1 second

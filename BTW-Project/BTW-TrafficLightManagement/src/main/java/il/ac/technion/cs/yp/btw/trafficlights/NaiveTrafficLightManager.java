@@ -9,6 +9,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * @author Guy Rephaeli
+ *
  * Naive implementation of TrafficLightManager
  */
 
@@ -21,6 +23,11 @@ public class NaiveTrafficLightManager implements TrafficLightManager {
     private int minimumOpenTime;
     private int count;
 
+    /**
+     * @author Guy Rephaeli
+     *
+     * @param crossroads - the crossroads in the live map
+     */
     public NaiveTrafficLightManager(Set<CityCrossroad> crossroads) {
         this.crossroads = crossroads;
 
@@ -64,6 +71,8 @@ public class NaiveTrafficLightManager implements TrafficLightManager {
     }
 
     /**
+     * @author Guy Rephaeli
+     *
      * @param crossroad - the crossroad its traffic-lights are converted in a cyclic way: each set of traffic-lights is
      *                  turned to green for the minimal possible time, and then turns red so the next set could turn green
      * @return self
@@ -82,6 +91,8 @@ public class NaiveTrafficLightManager implements TrafficLightManager {
     }
 
     /**
+     * @author Guy Rephaeli
+     *
      * progress all TrafficLights, and manage
      * the future of execution between Crossroads
      *
