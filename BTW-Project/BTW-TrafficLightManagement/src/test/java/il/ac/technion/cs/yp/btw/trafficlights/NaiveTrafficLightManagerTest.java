@@ -37,7 +37,7 @@ public class NaiveTrafficLightManagerTest {
                 .thenReturn(road1);
 
         Mockito.when(trafficLight1.getMinimumOpenTime())
-                .thenReturn(2);
+                .thenReturn(1);
 
         Mockito.when(trafficLight1.setTrafficLightState(captorTS.capture()))
                 .thenAnswer(invocation -> {
@@ -50,7 +50,7 @@ public class NaiveTrafficLightManagerTest {
                 .thenReturn(road2);
 
         Mockito.when(trafficLight2.getMinimumOpenTime())
-                .thenReturn(2);
+                .thenReturn(1);
 
         Mockito.when(trafficLight2.setTrafficLightState(captorTS.capture()))
                 .thenAnswer(invocation -> {
@@ -63,7 +63,7 @@ public class NaiveTrafficLightManagerTest {
                 .thenReturn(road1);
 
         Mockito.when(trafficLight3.getMinimumOpenTime())
-                .thenReturn(2);
+                .thenReturn(1);
 
         Mockito.when(trafficLight3.setTrafficLightState(captorTS.capture()))
                 .thenAnswer(invocation -> {
@@ -76,7 +76,7 @@ public class NaiveTrafficLightManagerTest {
                 .thenReturn(road2);
 
         Mockito.when(trafficLight4.getMinimumOpenTime())
-                .thenReturn(2);
+                .thenReturn(1);
 
         Mockito.when(trafficLight4.setTrafficLightState(captorTS.capture()))
                 .thenAnswer(invocation -> {
