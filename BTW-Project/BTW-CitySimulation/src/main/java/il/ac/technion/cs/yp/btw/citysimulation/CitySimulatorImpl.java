@@ -13,6 +13,12 @@ import java.util.*;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Created by Guy Rephaeli
+ *
+ * Implement CitySimulation
+ */
+
 public class CitySimulatorImpl implements CitySimulator {
     private Map<String, CityRoad> roads;
     private Set<Road> fakeRoads;

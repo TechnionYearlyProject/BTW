@@ -9,6 +9,7 @@ import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 
 /**
  * Created by Guy Rephaeli on 15-Jan-18.
+ *
  * implementation of Vehicle
  */
 public class VehicleImpl implements Vehicle {
