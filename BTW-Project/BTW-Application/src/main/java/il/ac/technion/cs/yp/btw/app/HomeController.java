@@ -69,8 +69,6 @@ public class HomeController extends SwitchToMapController implements Initializab
         grid_radio.setUserData("grid_radio");
         grid_radio.setToggleGroup(generate_city_toggle);
         grid_radio.setUserData("free_form_radio");
-
-//        super.anchor = this.anchor;
     }
 
 

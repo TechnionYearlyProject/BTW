@@ -94,8 +94,6 @@ public abstract class GenerateCityController extends SwitchToMapController {
             }
             // Always close files.
             bufferedReader.close();
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
