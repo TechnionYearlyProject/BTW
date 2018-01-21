@@ -176,7 +176,7 @@ public class DrawMapController implements Initializable {
 
     private void initVehiclesTextField() {
         numOfVehiclesTextField = new JFXTextField();
-        numOfVehiclesTextField.setPromptText("Enter amount of vehicles");
+        numOfVehiclesTextField.setPromptText("Vehicles amount (1 - 200)");
         numOfVehiclesTextField.setPrefSize(200, 50);
         numOfVehiclesTextField.setVisible(false);
     }
@@ -192,9 +192,9 @@ public class DrawMapController implements Initializable {
                 int numOfVehicles;
                 try {
                     numOfVehicles = Integer.parseInt(numOfVehiclesTextField.getText());
-                    if(numOfVehicles < 1) throw new NumberFormatException();
+                    if(numOfVehicles < 1 || numOfVehicles > 200) throw new NumberFormatException();
                 } catch (NumberFormatException e) {
-                    showErrorDialog("Number of vehicles needs to be a number greater than 0");
+                    showErrorDialog("Number of vehicles needs to be a number between 1 and 200");
                     return;
                 }
                 numOfVehiclesTextField.setVisible(false);
