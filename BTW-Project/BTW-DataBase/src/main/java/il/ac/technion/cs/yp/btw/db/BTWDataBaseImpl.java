@@ -42,9 +42,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
 
     /**
      * close the connection to the cloud DB. need to close on end of run.
-     * @param mapName - the name of the current map
      */
-    public void closeDataBaseConnection(String mapName){
+    public void closeDataBaseConnection(){
         MainDataBase.closeConnection();
     }
 

@@ -95,4 +95,8 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
         return (this.getCoordinateX() == otherCrossRoad.getCoordinateX())&&(this.getCoordinateY() == otherCrossRoad.getCoordinateY());
     }
 
+    @Override
+    public int hashCode() {
+        return Double.valueOf(this.getCoordinateX()).hashCode() * 31 + Double.valueOf(this.getCoordinateY()).hashCode() * 17;
+    }
 }

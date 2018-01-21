@@ -12,10 +12,6 @@ import java.util.Set;
 
 public class TrafficLightsDataBase {
 
-    public TrafficLightsDataBase(String mapName){
-
-    }
-
     public static Set<TrafficLight>  getAllTrafficLights(String mapName){
         Query query = new QueryAllTrafficLights(mapName);
         return (Set<TrafficLight>) MainDataBase.queryDataBase(query);
@@ -32,10 +28,10 @@ public class TrafficLightsDataBase {
         Query query = new QueryTrafficLight(mapName, nameID);
         return (TrafficLight) MainDataBase.queryDataBase(query);
     }
-
-    public static long getOverload(String nameID, String mapName) {
-        Query query = new QueryOverloadOfTrafficLight(mapName, nameID);
-        return (Long) MainDataBase.queryDataBase(query);
-    }
+//
+//    public static long getOverload(String nameID, String mapName) {
+//        Query query = new QueryOverloadOfTrafficLight(mapName, nameID);
+//        return (Long) MainDataBase.queryDataBase(query);
+//    }
 
 }

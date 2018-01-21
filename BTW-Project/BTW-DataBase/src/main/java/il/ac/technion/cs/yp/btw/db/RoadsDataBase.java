@@ -9,11 +9,6 @@ import il.ac.technion.cs.yp.btw.db.queries.*;
 
 public class RoadsDataBase {
 
-
-    public RoadsDataBase(){
-
-    }
-
     /**
      * @author: sharon
      * @date: 21/1/18
@@ -63,17 +58,17 @@ public class RoadsDataBase {
         Query query = new QueryHeuristicDist(mapName,srcID, dstID);
         return (long) MainDataBase.queryDataBase(query);
     }
-
-    /**
-     * @author: Shay
-     * @date: 21/1/18
-     * update the overload on the map
-     * @param mapName, nameID, newOverload
-     *
-     */
-    public static void updateOverload(long newOverload, String nameID, String mapName){
-        Query query = new UpdateOverloadOfRoad(mapName, nameID, newOverload);
-        MainDataBase.queryDataBase(query);
-    }
+//
+//    /**
+//     * @author: Shay
+//     * @date: 21/1/18
+//     * update the overload on the map
+//     * @param mapName, nameID, newOverload
+//     *
+//     */
+//    public static void updateOverload(long newOverload, String nameID, String mapName){
+//        Query query = new UpdateOverloadOfRoad(mapName, nameID, newOverload);
+//        MainDataBase.queryDataBase(query);
+//    }
 
 }

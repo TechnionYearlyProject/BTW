@@ -16,13 +16,14 @@ public class TestBTWDataBaseImpl {
         Assert.assertNotNull(trafficLights);
         trafficLights = dataBase.getAllTrafficLights();
         Assert.assertNotNull(trafficLights);
+        dataBase.closeDataBaseConnection();
     }
 
     @Test
     public void testGetStreetByName() {
         String streetName = "aa";
-        BTWDataBaseImpl dataBase = new BTWDataBaseImpl("test1");
-//        dataBase.loadMap();
+        BTWDataBaseImpl dataBase = new BTWDataBaseImpl("anat_simulate");
+        dataBase.loadMap();
         Street street = dataBase.getStreetByName(streetName);
         Assert.assertNull(street);
     }

@@ -83,6 +83,19 @@ public class TestDataCrossRoad {
 
     @Test
     public void testDataCrossRoad() {
+        BTWDataBase db = new BTWDataBaseImpl("anat_simulate");
+        db.loadMap();
+        Set<Crossroad> crossroads = db.getAllCrossroads();
+        Set<Road> roads = db.getAllRoads();
+        for (Crossroad crossroad : crossroads) {
+            Assert.assertNotNull(crossroad.getName());
+            Assert.assertNotNull(crossroad.getTrafficLights());
+            for (Road road : roads) {
+                if (road.getDestinationCrossroad().equals(crossroad)) {
+                    Assert.assertNotNull(crossroad.getTrafficLightsFromRoad(road));
+                }
+            }
+        }
         MainDataBase.openConnection();
         Point position = new PointImpl(0.0,2.0);
         //TrafficLight t = TrafficLightsDataBase.getAllTrafficLights("mapName");
