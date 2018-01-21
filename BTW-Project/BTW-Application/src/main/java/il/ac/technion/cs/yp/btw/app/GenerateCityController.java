@@ -105,4 +105,15 @@ public abstract class GenerateCityController extends SwitchToMapController {
         return mapString;
     }
 
+    protected String validateMapName(String text) {
+        String errorMessage = "";
+        mapName = text;
+        if(mapName.equals("")) {
+            errorMessage += "Map name can't be empty\n";
+        } if(!mapName.matches("[a-zA-Z0-9_]+")) {
+            errorMessage += "Map name must be alphanumeric\n" + "and without spaces";
+        }
+        return errorMessage;
+    }
+
 }

@@ -82,10 +82,7 @@ public class GenerateGridController extends GenerateCityController implements In
             }
         }
         if(!mapNameTextField.isDisabled()) {
-            mapName = mapNameTextField.getText();
-            if(mapName.equals("")) {
-                errorMessage += "Map name can't be empty\n";
-            }
+            errorMessage += validateMapName(mapNameTextField.getText());
         }
         if(!errorMessage.equals("")) {
             showErrorDialog(errorMessage);

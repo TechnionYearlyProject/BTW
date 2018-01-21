@@ -56,10 +56,7 @@ public class GenerateFreeFormController extends GenerateCityController implement
             }
         }
         if(!mapNameTextField.isDisabled()) {
-            mapName = mapNameTextField.getText();
-            if(mapName.equals("")) {
-                errorMessage += "Map name can't be empty\n";
-            }
+            errorMessage += validateMapName(mapNameTextField.getText());
         }
         if(!errorMessage.equals("")) {
             showErrorDialog(errorMessage);
