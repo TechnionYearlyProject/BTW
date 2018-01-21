@@ -34,6 +34,12 @@
                         <JFXTextField fx:id="Radius" disable="true" prefWidth="260" promptText="Radius (2000-7000 meters)" />
                     </children>
                 </HBox>
+                <HBox alignment="CENTER">
+                    <children>
+                        <JFXToggleButton fx:id="mapNameToggle" />
+                        <JFXTextField fx:id="mapNameTextField" disable="true" prefWidth="260.0" promptText="Name of map in Database" />
+                    </children>
+                </HBox>
             </children>
         </VBox>
         <ImageView fx:id="logo" fitHeight="307.0" fitWidth="250.0" layoutX="461.0" layoutY="466.0" pickOnBounds="true" preserveRatio="true">

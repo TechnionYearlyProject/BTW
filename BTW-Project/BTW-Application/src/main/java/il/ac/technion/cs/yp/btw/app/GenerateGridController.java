@@ -34,10 +34,12 @@ public class GenerateGridController implements Initializable{
     @FXML private JFXTextField NumberOfAvenues;
     @FXML private JFXTextField LengthOfStreets;
     @FXML private JFXTextField LengthOfAvenues;
-
+    @FXML private JFXTextField mapNameTextField;
     @FXML private JFXSpinner progress_spinner;
     @FXML private JFXButton generate_button, back_button;
-    @FXML private JFXToggleButton numStreetsToggle, numAvenuesToggle, legnthStreetsToggle, legnthAvenuesToggle;
+    @FXML private JFXToggleButton numStreetsToggle, numAvenuesToggle, legnthStreetsToggle, legnthAvenuesToggle, mapNameToggle;
+
+    String mapName;
 
     int Number_of_streets, Number_of_avenues, Length_of_streets, Length_of_avenues;
 
@@ -51,6 +53,8 @@ public class GenerateGridController implements Initializable{
                 LengthOfStreets.setDisable(!LengthOfStreets.isDisabled()));
         legnthAvenuesToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
                 LengthOfAvenues.setDisable(!LengthOfAvenues.isDisabled()));
+        mapNameToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
+                mapNameTextField.setDisable(!mapNameTextField.isDisabled()));
     }
 
     @FXML protected void BackClicked(ActionEvent event) {
@@ -100,6 +104,12 @@ public class GenerateGridController implements Initializable{
                 if(Length_of_avenues < 100 || Length_of_avenues > 1000) throw new NumberFormatException();
             } catch(NumberFormatException e) {
                 errorMessage += "Length of Avenues input is invalid\n";
+            }
+        }
+        if(!mapNameTextField.isDisabled()) {
+            mapName = mapNameTextField.getText();
+            if(mapName.equals("")) {
+                errorMessage += "Map name can't be empty\n";
             }
         }
         if(!errorMessage.equals("")) {
@@ -161,7 +171,9 @@ public class GenerateGridController implements Initializable{
             System.out.println(mapString);
 
             //Insert the new map to the database.
-            BTWDataBase dataBase = new BTWDataBaseImpl("orel_grid_map");
+            if(mapName == null) mapName = "orel_grid_map";
+            System.out.println("about to save the map: " + mapName);
+            BTWDataBase dataBase = new BTWDataBaseImpl(mapName);
             dataBase.saveMap(mapString);
 
             CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
