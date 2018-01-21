@@ -44,6 +44,7 @@ public class FreeFormMapSimulator extends AbstractMapSimulator{
      *         simulating a FreeFormMap with the
      *         current parameters
      */
+    @Override
     public Map build() {
         initializeAllSets();
         ArrayList<VoronoiPoint> sites = new ArrayList<VoronoiPoint>();

@@ -31,18 +31,14 @@ import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GenerateFreeFormController implements Initializable{
-    @FXML private Node anchor;
+public class GenerateFreeFormController extends GenerateCityController implements Initializable{
     @FXML private JFXTextField NumberOfBlocks;
     @FXML private JFXTextField Radius;
-    @FXML private JFXButton generate_button, back_button;
-    @FXML private JFXSpinner progress_spinner;
     @FXML private JFXToggleButton blocksToggle, radiusToggle, mapNameToggle;
     @FXML private JFXTextField mapNameTextField;
 
     int Number_of_blocks, radius_val;
 
-    String mapName;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -54,18 +50,8 @@ public class GenerateFreeFormController implements Initializable{
                 mapNameTextField.setDisable(!mapNameTextField.isDisabled()));
     }
 
-    @FXML protected void BackClicked(ActionEvent event) {
-        Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        try {
-            String fxmlLocation = "/fxml/home_layout.fxml";
-            URL resource = getClass().getResource(fxmlLocation);
-            transitionAnimationAndSwitch(fxmlLocation, stageTheEventSourceNodeBelongs, resource, anchor);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    boolean getAndValidateUserInput(ActionEvent event) {
+    @Override
+    protected boolean getAndValidateUserInput(ActionEvent event) {
         String errorMessage = "";
         if(!NumberOfBlocks.isDisabled()) {
             try{
@@ -92,132 +78,18 @@ public class GenerateFreeFormController implements Initializable{
             }
         }
         if(!errorMessage.equals("")) {
-            showErrorDialog(errorMessage, event);
+            showErrorDialog(errorMessage);
             return false;
         }
         return true;
     }
 
-
-
-    private void showErrorDialog(String errorMessage, ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Invalid input");
-        alert.setHeaderText(null);
-        alert.setContentText(errorMessage);
-
-        alert.showAndWait();
-    }
-
-
-    @FXML protected void GenerateClicked(ActionEvent event) {
-        if(!getAndValidateUserInput(event)) return; //if user input isn't valid there's nothing to do
-        else {
-            //TODO: for testing purposes
-            System.out.println("input was valid");
-            generate_button.setDisable(true);
-            back_button.setDisable(true);
-            progress_spinner.setVisible(true);
-        }
-
+    @Override
+    protected MapSimulator createMapSimulator() {
         FreeFormMapSimulator freeFormMapSimulator = new FreeFormMapSimulator();
-        //TODO: add input to map simulator when Adam is done
         if(!NumberOfBlocks.isDisabled()) freeFormMapSimulator.setNumOfCityBlocks(Number_of_blocks);
         if(!Radius.isDisabled()) freeFormMapSimulator.setCityRadius(radius_val);
-
-        new Thread(() -> {
-            freeFormMapSimulator.build();
-
-            String mapString = parseCitySimulationToGeoJsonString(freeFormMapSimulator);
-
-            //insert new map to database
-            if(mapName == null) mapName = "orel_grid_map";
-            System.out.println("about to save the map: " + mapName);
-            BTWDataBase dataBase = new BTWDataBaseImpl(mapName);
-            dataBase.saveMap(mapString);
-
-            CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
-            Platform.runLater(() -> switchScreensToMap(event, citySimulator));
-        }).start();
-
-    }
-
-    /**@author: Anat
-     * @date: 20/1/18
-     * @param mapSimulator - simulator for parsing
-     * @return GeoJson string format for the given simulator
-     */
-    private String parseCitySimulationToGeoJsonString(MapSimulator mapSimulator) {
-        GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
-        File mapFile = geoJsonParser.buildGeoJsonFromSimulation(mapSimulator);
-        String mapString = "";
-        FileReader fileReader = null;
-        try {
-            String line;
-            fileReader = new FileReader(mapFile);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            while((line = bufferedReader.readLine()) != null) {
-                mapString = mapString+line;
-            }
-            // Always close files.
-            bufferedReader.close();
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        return mapString;
-    }
-
-
-    private void switchScreensToMap(ActionEvent event, CitySimulator citySimulator) {
-        Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        try {
-            //TODO: maybe remove resource
-            URL resource = getClass().getResource("/fxml/stageForDrawMap.fxml");
-            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, resource, anchor, citySimulator);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void transitionAnimationAndSwitch(String fxmlLocation, Stage stageTheEventSourceNodeBelongs,
-                                             URL resource, Node rootNode) throws IOException {
-        Parent root = FXMLLoader.load(resource);
-        transitionAndSwitchInner(stageTheEventSourceNodeBelongs, rootNode, root);
-    }
-
-    private void transitionAndSwitchInner(Stage stageTheEventSourceNodeBelongs, Node rootNode, Parent root) {
-        int length = 300;
-        FadeTransition fadeOut = new FadeTransition(Duration.millis(length), rootNode);
-        fadeOut.setFromValue(1.0);
-        fadeOut.setToValue(0.0);
-        fadeOut.setOnFinished(event1 -> {
-                    FadeTransition fadeIn = new FadeTransition(Duration.millis(length), root);
-                    fadeIn.setFromValue(0.0);
-                    fadeIn.setToValue(1.0);
-                    fadeIn.play();
-                    DoubleProperty opacity = root.opacityProperty();
-                    opacity.set(0);
-                    Scene scene = new Scene(root);
-                    stageTheEventSourceNodeBelongs.setScene(scene);
-                }
-        );
-        fadeOut.play();
-    }
-
-    public void transitionAndSwitchToMap(Stage stageTheEventSourceNodeBelongs,
-                                         URL resource, Node rootNode, CitySimulator citySimulator) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stageForDrawMap.fxml"));
-        DrawMapController drawMapController = new DrawMapController();
-        drawMapController.initCitySimulator(citySimulator);
-        drawMapController.initStage(stageTheEventSourceNodeBelongs);
-        loader.setController(drawMapController);
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return freeFormMapSimulator;
     }
 
 }
