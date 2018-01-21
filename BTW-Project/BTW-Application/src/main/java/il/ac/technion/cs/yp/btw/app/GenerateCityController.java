@@ -21,6 +21,10 @@ import java.net.URL;
 /**
  * Created by orel on 21/01/18.
  */
+/**@author: Orel
+ * @date: 20/1/18
+ * all methods that don't specify an other author are by Orel
+ */
 public abstract class GenerateCityController extends SwitchToMapController {
 
     @FXML protected JFXButton generate_button, back_button;

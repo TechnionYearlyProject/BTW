@@ -19,6 +19,10 @@ import java.net.URL;
 /**
  * Created by orel on 21/01/18.
  */
+/**@author: Orel
+ * @date: 20/1/18
+ * all methods that don't specify an other author are by Orel
+ */
 public abstract class SwitchToMapController extends ShowErrorController {
 
     @FXML

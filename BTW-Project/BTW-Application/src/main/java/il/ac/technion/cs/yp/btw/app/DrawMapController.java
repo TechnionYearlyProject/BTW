@@ -33,6 +33,10 @@ import java.util.concurrent.ExecutionException;
 
 import static javafx.application.Application.launch;
 
+/**@author: Orel
+ * @date: 20/1/18
+ * all methods that don't specify an other author are by Orel
+ */
 public class DrawMapController extends ShowErrorController implements Initializable {
 
     BorderPane borderPane;
@@ -109,6 +113,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
         stage.setScene(scene);
     }
 
+    /**@author: Orel
+     * @date: 20/1/18
+     */
     private void initPlayAndTickButtons() {
         tickButton = createRaisedJFXButtonWithIcon("/icons8-arrow-50.png");
         tickButton.setOnAction(event -> {
@@ -121,6 +128,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
         isPlayButton = true;
     }
 
+    /**@author: Orel
+     * @date: 20/1/18
+     */
     private void initPlayActionTimeline() {
         playCityTimeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
 
@@ -136,6 +146,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
         playCityTimeline.setCycleCount(Timeline.INDEFINITE);
     }
 
+    /**@author: Anat
+     * @date: 20/1/18
+     */
     private AnchorPane initScenePanesAndGetRoot() {
         AnchorPane root = new AnchorPane();
         borderPane = new BorderPane();
@@ -154,14 +167,18 @@ public class DrawMapController extends ShowErrorController implements Initializa
         });
         return root;
     }
-
+    /**@author: Orel
+     * @date: 20/1/18
+     */
     private void initVehiclesTextField() {
         numOfVehiclesTextField = new JFXTextField();
         numOfVehiclesTextField.setPromptText("Vehicles amount (1 - 200)");
         numOfVehiclesTextField.setPrefSize(200, 50);
         numOfVehiclesTextField.setVisible(false);
     }
-
+    /**@author: Orel
+     * @date: 20/1/18
+     */
     private void initVehiclesButton() {
         addVehiclesButton = createRaisedJFXButtonWithText("Choose Vehicles To Add");
         addVehiclesButton.setOnAction(event -> {
@@ -185,7 +202,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
             }
         });
     }
-
+    /**@author: Orel
+     * @date: 20/1/18
+     */
     private void addRandomVehiclesToSimulation(int numOfVehicles) {
         Thread thread = new Thread(() -> {
             try {
@@ -199,13 +218,18 @@ public class DrawMapController extends ShowErrorController implements Initializa
         thread.start();
     }
 
+    /**@author: Orel
+     * @date: 20/1/18
+     */
     private void resetTickTask() {
         tickTask = CompletableFuture.supplyAsync(() -> {
             performMapTicks();
             return true;
         });
     }
-
+    /**@author: Orel
+     * @date: 20/1/18
+     */
     private void getTickTask() {
         try {
             tickTask.get();
@@ -213,7 +237,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
             e.printStackTrace();
         }
     }
-
+    /**@author: Orel
+     * @date: 20/1/18
+     */
     private void playButtonClicked(ActionEvent event) {
         Image buttonImage;
         if(isPlayButton) {
@@ -290,7 +316,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
 
 
     /**
-     * @author: shay
+     * @author: shay & Orel (work in threads)
      * @date: 20/1/18
      * gets the logical object and draw all the corcles and lines from it
      * @param cityMap - the citymap object we want to draw
@@ -310,6 +336,13 @@ public class DrawMapController extends ShowErrorController implements Initializa
         return this;
     }
 
+    /**
+     * @author: shay
+     * @date: 20/1/18
+     * gets the logical object and draw all the corcles and lines from it
+     * @param cityMap - the citymap object we want to draw
+     * @return DrawMapController
+     */
     public DrawMapController drawNow(CityMap cityMap) {
         circles = new HashSet<>();
         lines = new HashSet<>();
