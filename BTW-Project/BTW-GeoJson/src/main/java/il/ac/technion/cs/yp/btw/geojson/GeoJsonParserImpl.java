@@ -11,11 +11,20 @@ import java.util.Scanner;
 import java.util.Set;
 
 /**
+ * @author: Anat
+ * @date: 20/1/18
  * Implementing the GeoJson parser
  */
+
+
 public class GeoJsonParserImpl implements GeoJsonConverter {
 
-/********why return String?*********/
+    /**
+     * @author: Anat
+     * @date: 20/1/18
+     * Create file that contains the appropriate geoJson
+     * string for the given simulator.
+     */
     public File buildGeoJsonFromSimulation(MapSimulator simulator) {
         Set<TrafficLight> trafficLights = simulator.getTrafficLights();
         Set<Road> roads = simulator.getRoads();
@@ -23,7 +32,6 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
         Set<Crossroad> crossRoads = simulator.getCrossRoads();
         Set<CentralLocation> centralLocations = simulator.getCentralLocations();
 
-        //TODO: multiple files? add random number to map name?
         File file = new File("JsonFile.json");
 
         try {
@@ -99,6 +107,13 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
         return  file;
     }
 
+    /**
+     * @author: Anat
+     * @date: 20/1/18
+     * Create GeoJson string for central locations.
+     * @Param: centralLocation- the location that we want geoJson string for.
+     * @return: string in geoJson format for the given central location.
+     */
     @Override
     public String toStringLocation(CentralLocation centralLocation) {
         Point p1,p2,p3,p4;
@@ -114,6 +129,13 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
                 "\"properties\":{"+"\"name\":"+"\""+centralLocation.getName()+"\"},\n";
     }
 
+    /**
+     * @author: Anat
+     * @date: 20/1/18
+     * Create GeoJson full string for Road.
+     * @Param: road- the road that we want geoJson string for.
+     * @return: string in geoJson full format for the given road.
+     */
     @Override
     public String toStringRoadFull(Road road) {
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
@@ -123,6 +145,13 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
                 "\"length\":"+"\""+road.getRoadLength()+"\","+"\"overload\":"+0/*road.getMinimumWeight()*/+"}},\n";
     }
 
+    /**
+     * @author: Anat
+     * @date: 20/1/18
+     * Create GeoJson string for road.
+     * @Param: road- the road that we want geoJson string for.
+     * @return: string in geoJson format for the given road.
+     */
     @Override
     public String toStringRoad(Road road) {
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
@@ -131,6 +160,13 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
                 "\"properties\":{"+"\"name\":"+0/*road.getMinimumWeight()*/+"}},\n";
     }
 
+    /**
+     * @author: Anat
+     * @date: 20/1/18
+     * Create GeoJson full string for traffic light.
+     * @Param: trafficLight- the traffic light that we want geoJson string for.
+     * @return: string in geoJson full format for the given traffic light.
+     */
     @Override
     public String toStringTrafficLightFull(TrafficLight trafficLight) {
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
@@ -139,6 +175,13 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
                 "\"overload\":"+0/*road.getMinimumWeight()*/+"}},\n";
     }
 
+    /**
+     * @author: Anat
+     * @date: 20/1/18
+     * Create GeoJson string for traffic light.
+     * @Param: trafficLight- the traffic light that we want geoJson string for.
+     * @return: string in geoJson format for the given traffic light.
+     */
     @Override
     public String toStringTrafficLight(TrafficLight trafficLight) {
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
@@ -146,6 +189,13 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
                 "\"properties\":{"+"\"name\":"+"\""+trafficLight.getName()+"\"}},\n";
     }
 
+    /**
+     * @author: Anat
+     * @date: 20/1/18
+     * Create GeoJson string for crossRoad.
+     * @Param: crossroad- the street that we want geoJson string for.
+     * @return: string in geoJson format for the given crossRoad.
+     */
     @Override
     public String toStringCrossRoad(Crossroad crossroad) {
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"Point\","+"\"coordinates\""+":"+
@@ -153,6 +203,13 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
                 "\"properties\":{"+"\"name\":"+"\""+crossroad.getName()+"\"}},\n";
     }
 
+    /**
+     * @author: Anat
+     * @date: 20/1/18
+     * Create GeoJson full string for street.
+     * @Param: street- the street that we want geoJson string for.
+     * @return: string in geoJson full format for the given street.
+     */
     @Override
     public String toStringStreetFull(Street street) {
         String roadsNames = "";
@@ -165,6 +222,13 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
                 "\"included_streets\":"+"\""+roadsNames+"\"}},\n";
     }
 
+    /**
+     * @author: Anat
+     * @date: 20/1/18
+     * Create GeoJson full string for street.
+     * @Param: street- the street that we want geoJson string for.
+     * @return: string in geoJson full format for the given street.
+     */
     @Override
     public String toStringStreet(Street street){
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\"},"+

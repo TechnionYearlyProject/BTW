@@ -142,7 +142,11 @@ public class GenerateFreeFormController implements Initializable{
 
     }
 
-
+    /**@author: Anat
+     * @date: 20/1/18
+     * @param mapSimulator - simulator for parsing
+     * @return GeoJson string format for the given simulator
+     */
     private String parseCitySimulationToGeoJsonString(MapSimulator mapSimulator) {
         GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
         File mapFile = geoJsonParser.buildGeoJsonFromSimulation(mapSimulator);

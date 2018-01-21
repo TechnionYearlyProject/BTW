@@ -27,6 +27,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**@author: Anat
+ * @date: 20/1/18
+ * Class for creation of map graphic object.
+ */
 public class MapGraphics {
     private List<Pair<Circle,String>> circles;
     private List<Pair<Line,String>> lines;
@@ -56,8 +60,6 @@ public class MapGraphics {
         for (CityTrafficLight currTrafficLight: trafficLights) {
             Point point = calculateTrafficLightLocation(currTrafficLight);
             Circle circle = new Circle(point.getCoordinateX(), point.getCoordinateY(),0.0001);
-            //System.out.println("original X : "+currTrafficLight.getCoordinateX()+"original Y : "+currTrafficLight.getCoordinateY());
-            //System.out.println("X : "+point.getCoordinateX()+"Y : "+point.getCoordinateY());
             if (currTrafficLight.getState() == CityTrafficLight.TrafficLightState.GREEN)
                 circle.setFill(Color.GREEN);
             else
@@ -69,7 +71,7 @@ public class MapGraphics {
     }
 
     /**
-     * @author: shay
+     * @author: shay & Anat
      * @date: 20/1/18
      * creating the array of lines to represent roads
      * @param roads - roads in the map
@@ -84,21 +86,16 @@ public class MapGraphics {
             Point newSource = getDeviationFromVectorEnd(currRoad.getDestinationCrossroad(), currRoad.getSourceCrossroad(),deviationAngle , deviationDistance);
             Point newDestination = getDeviationFromVectorEnd(currRoad.getSourceCrossroad(), currRoad.getDestinationCrossroad(), deviationAngle , deviationDistance);
 
-
             deviationAngle = 0.5;
             deviationDistance = 0.000125;
 
             newSource = getDeviationFromVectorEnd(newDestination, newSource,-deviationAngle , deviationDistance);
             newDestination = getDeviationFromVectorEnd(newSource, newDestination, deviationAngle , deviationDistance);
 
-
             double xroad1 = newSource.getCoordinateX();
             double yroad1 = newSource.getCoordinateY();
             double xroad2 = newDestination.getCoordinateX();
             double yroad2 = newDestination.getCoordinateY();
-
-
-
 
 
             Line roadLine = new Line(xroad1,yroad1,xroad2,yroad2);
@@ -149,7 +146,8 @@ public class MapGraphics {
         return lines;
     }
 
-    /**
+    /**@author: Anat & Sharon
+     * @date: 20/1/18
      * returns the degree value in radians
      * of the given line on, from the x-axis
      * @param trafficLight - the line we check is its source road
@@ -159,6 +157,7 @@ public class MapGraphics {
      *         y1 = ax+b1
      *         y2 = -(1/a)*x+b2
      */
+
     private Point calculateTrafficLightLocation(TrafficLight trafficLight) {
         Road sourceRoad = trafficLight.getSourceRoad();
         double deviationAngle = 0.85;
@@ -200,6 +199,13 @@ public class MapGraphics {
         return this;
     }
 
+    /**
+     * @author: Anat & Sharon
+     * @date: 20/1/18
+     * Create GeoJson full string for Road.
+     * @Param: road- the road that we want geoJson string for.
+     * @return: string in geoJson full format for the given road.
+     */
     //the angle is always  to the vector angle.
     private Point getDeviationFromVectorEnd(Point source, Point destination, double deviationAngle , double deviationDistance){
         double x1 = source.getCoordinateX();

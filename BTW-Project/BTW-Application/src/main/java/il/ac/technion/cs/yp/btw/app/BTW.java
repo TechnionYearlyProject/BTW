@@ -57,11 +57,6 @@ public class BTW extends Application {
         main.getChildren().add(jfoenixButton);
 
         JFXButton button = new JFXButton("RAISED BUTTON");
-//        button.setStyle("-fx-background-color: #ffffff ");
-//        button.getStyleClass().add("button-raised ");
-//        button.getStyleClass().add("-fx-background-color: #ffffff button-raised ");
-//        button.setBackground(Color.WHITE);
-//        button.getStyleClass().add("-fx-background-color: #ffffff;");
 
         button.setButtonType(JFXButton.ButtonType.RAISED);
         button.setStyle("-fx-background-color: #ffffff");

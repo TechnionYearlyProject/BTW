@@ -2,15 +2,9 @@ package il.ac.technion.cs.yp.btw.app;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.NumberValidator;
 import il.ac.technion.cs.yp.btw.citysimulation.*;
-import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
-import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
-import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
-import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
-import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -19,9 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -81,6 +73,9 @@ public class DrawMapController implements Initializable {
         start();
     }
 
+    /**@author: Anat & Orel
+     * @date: 20/1/18
+     */
     public void start() {
         AnchorPane root = new AnchorPane();
         borderPane = new BorderPane();

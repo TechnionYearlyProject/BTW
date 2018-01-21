@@ -227,7 +227,11 @@ public class GenerateGridController implements Initializable{
 
     }
 
-
+    /**@author: Anat
+     * @date: 20/1/18
+     * @param gridCityMapSimulator - simulator for parsing
+     * @return GeoJson string format for the given simulator
+     */
     private String parseCitySimulationToGeoJsonString(GridCityMapSimulator gridCityMapSimulator) {
         GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
         File mapFile = geoJsonParser.buildGeoJsonFromSimulation(gridCityMapSimulator);
