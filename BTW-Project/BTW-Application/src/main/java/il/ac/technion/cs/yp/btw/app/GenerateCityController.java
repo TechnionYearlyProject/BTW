@@ -68,6 +68,8 @@ public abstract class GenerateCityController extends SwitchToMapController {
             BTWDataBase dataBase = new BTWDataBaseImpl(mapName);
             dataBase.saveMap(mapString);
 
+            dataBase.getTablesNames();
+
             CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
             Platform.runLater(() -> switchScreensToMap(event, citySimulator));
         }).start();

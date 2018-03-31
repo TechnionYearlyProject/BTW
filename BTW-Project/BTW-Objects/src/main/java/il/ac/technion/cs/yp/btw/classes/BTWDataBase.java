@@ -57,4 +57,10 @@ public interface BTWDataBase {
      * load existing map
      */
     public boolean loadMap();
+
+    /**
+     * gets all table names existing in DB
+     * @return set of table names
+     */
+    public Set<String> getTablesNames();
 }
