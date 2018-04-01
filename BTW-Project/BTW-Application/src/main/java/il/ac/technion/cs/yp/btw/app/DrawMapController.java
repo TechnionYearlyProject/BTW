@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Affine;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -47,9 +48,11 @@ public class DrawMapController extends ShowErrorController implements Initializa
     Stage stage;
     JFXButton playButton, tickButton, addVehiclesButton;
     JFXTextField numOfVehiclesTextField;
+    Text timeText;
     boolean isPlayButton;
     Timeline playCityTimeline;
     CompletableFuture<Boolean> tickTask;
+    int currentTicks;
 
     boolean lastTickActionWasPause = false;
 
@@ -91,13 +94,13 @@ public class DrawMapController extends ShowErrorController implements Initializa
         addVehiclesHbox.setSpacing(10);
 
         initVehiclesButton();
-
         initVehiclesTextField();
+        initTimeText();
 
         addVehiclesHbox.getChildren().addAll(addVehiclesButton, numOfVehiclesTextField);
 
         //add the hboxes to the screen AnchorPane and anchor them
-        root.getChildren().addAll(borderPane, playAndTickHbox, addVehiclesHbox);
+        root.getChildren().addAll(borderPane, playAndTickHbox, addVehiclesHbox, timeText);
         AnchorPane.setTopAnchor(borderPane, 0.0);
 
         AnchorPane.setBottomAnchor(playAndTickHbox, 5.0);
@@ -106,12 +109,22 @@ public class DrawMapController extends ShowErrorController implements Initializa
         AnchorPane.setBottomAnchor(addVehiclesHbox, 5.0);
         AnchorPane.setLeftAnchor(addVehiclesHbox, 5.0);
 
+        //for now it's in the top right
+        AnchorPane.setTopAnchor(timeText, 5.0);
+        AnchorPane.setRightAnchor(timeText, 5.0);
+
         Scene scene = new Scene(root, stage.getWidth(), stage.getHeight(), Color.GREY);
 
         drawNow(cityMap);
 
         stage.show();
         stage.setScene(scene);
+    }
+
+    private void initTimeText() {
+        timeText = new Text("00:00:00");
+        timeText.setFill(Color.WHITE);
+        timeText.setStyle("-fx-font: 30 arial;");
     }
 
     /**@author: Orel
@@ -145,6 +158,16 @@ public class DrawMapController extends ShowErrorController implements Initializa
 
         }));
         playCityTimeline.setCycleCount(Timeline.INDEFINITE);
+    }
+
+    /**@author: Orel
+     * @date: 1/4/18
+     */
+    private String getTimeString() {
+        int seconds = currentTicks % 60 ;
+        int minutes = (currentTicks / (60)) % 60;
+        int hours = (currentTicks / (60*60)) % 24;
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
     /**@author: Anat
@@ -289,6 +312,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
                     tickButton.setDisable(false);
                 });
             }).start();
+            return;
         }
         try {
             Thread thread = new Thread(() -> {
@@ -309,9 +333,11 @@ public class DrawMapController extends ShowErrorController implements Initializa
         int numberOfTicks = 10;
         citySimulator.tick(numberOfTicks);
         cityMap = citySimulator.saveMap();
+        currentTicks += numberOfTicks;
     }
 
     private void redrawMap() {
+        timeText.setText(getTimeString());
         draw(cityMap);
     }
 
