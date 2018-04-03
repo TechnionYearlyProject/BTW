@@ -15,7 +15,8 @@ public class DataRoad implements Road {
     private String mapName;
     private String name;
     private int roadLength;
-    private String myStreet;
+    private String streetName;
+    private Street street;
     private Point sourceCrossroadPosition;
     private Point destinationCrossroadPosition;
     private Crossroad sourceCrossroad;
@@ -28,13 +29,14 @@ public class DataRoad implements Road {
      * @author Sharon Hadar
      * @Date 21/01/2018*/
     public DataRoad(String name, int roadLength,
-                    String myStreet,
+                    String streetName,
                     Point sourceCrossroadPosition,
                     Point destinationCrossroadPosition,
                     String mapName){
         this.name = name;
         this.roadLength = roadLength;
-        this.myStreet = myStreet;
+        this.streetName = streetName;
+        this.street = null;
         this.sourceCrossroadPosition = sourceCrossroadPosition;
         this.destinationCrossroadPosition = destinationCrossroadPosition;
         this.mapName = mapName;
@@ -44,14 +46,14 @@ public class DataRoad implements Road {
      * @author Sharon Hadar
      * @Date 21/01/2018*/
     public DataRoad(String name, int roadLength,
-                    String myStreet,
+                    String streetName,
                     Point sourceCrossroadId,
                     Point destinationCrossroadId,
                     int secStart,
                     int secEnd,
                     long overload,
                     String mapName){
-        this(name,roadLength, myStreet,sourceCrossroadId,destinationCrossroadId,mapName);
+        this(name,roadLength, streetName,sourceCrossroadId,destinationCrossroadId,mapName);
         this.secStart = secStart;
         this.secEnd = secEnd;
         this.overload = overload;
@@ -97,8 +99,21 @@ public class DataRoad implements Road {
      */
     @Override
     public Street getStreet() {
-        return StreetsDataBase.getStreet(myStreet, mapName);
+        return this.street;
     }
+
+    /*@Author
+    *@Date 30/3/2018
+    * return the street name of the road as a String
+     */
+    public String getStreetName(){
+        return this.streetName;
+    }
+
+    public void setStreet(Street street){
+        this.street = street;
+    }
+
     /**
      * returns the right Weight for the given Time
      *
@@ -125,8 +140,6 @@ public class DataRoad implements Road {
      */
     @Override
     public BTWWeight getMinimumWeight() {
-
-//        overload = RoadsDataBase.getOverload(name, mapName);
         overload = Double.valueOf(this.getRoadLength() / (DEFAULT_SPEED_LIMIT / 3.6)).longValue();
         try{
             return BTWWeight.of(overload);
@@ -164,7 +177,6 @@ public class DataRoad implements Road {
     @Override
     public Crossroad getSourceCrossroad() {
         return this.sourceCrossroad;
-        //return CrossRoadsDataBase.getCrossRoad(sourceCrossroadId, mapName);
     }
 
     /**
@@ -176,7 +188,6 @@ public class DataRoad implements Road {
     public Crossroad getDestinationCrossroad() {
 
         return this.destinationCrossroad;
-        //return CrossRoadsDataBase.getCrossRoad(destinationCrossroadId, mapName);
     }
 
     /*
@@ -203,9 +214,12 @@ public class DataRoad implements Road {
         road += "road: ";
         road += "name = " + name +" ";
         road += "roadLength = " +roadLength + " ";
-        road += "myStreet = " + myStreet + " ";
+        road += "streetName = " + streetName + " ";
         road += "sourceCrossroadId = (" + sourceCrossroadPosition.getCoordinateX() + "," + sourceCrossroadPosition.getCoordinateY() + ") ";
         road += "destinationCrossroadId = (" + destinationCrossroadPosition.getCoordinateX() + "," + destinationCrossroadPosition.getCoordinateY() + ") ";
+        road += "secStart = " + secStart + " ";
+        road += "secEnd = " + secEnd + " ";
+        road += "overload = " + overload + " ";
         return road;
 
     }
