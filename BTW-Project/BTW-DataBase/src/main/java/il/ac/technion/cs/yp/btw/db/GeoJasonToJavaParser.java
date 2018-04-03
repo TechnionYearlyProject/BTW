@@ -185,7 +185,10 @@ public class GeoJasonToJavaParser {
         Point[] points = parsePointFromLineStringGeometry(geometry);
         Point sourceCrossroadId = points[sourceCoordIndex];
         Point destinationCrossroadId = points[destinationCoordIndex];
-        int secStart =  Integer.parseInt(name.split("section ")[1].split("R")[0]);
+        int secStart = 0;
+        if(name.contains("section")) {
+            secStart = Integer.parseInt(name.split("section ")[1].split("R")[0]);
+        }
         int secEnd = secStart;
         long overload = properties.get("overload").getAsLong();
         return new DataRoad(name, roadLength, myStreet, sourceCrossroadId, destinationCrossroadId, secStart, secEnd, overload, mapName);
