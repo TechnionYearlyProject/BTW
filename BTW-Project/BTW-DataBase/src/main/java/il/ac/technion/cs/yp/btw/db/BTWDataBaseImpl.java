@@ -3,6 +3,7 @@ package il.ac.technion.cs.yp.btw.db;
 import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataCrossRoad;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataRoad;
+import il.ac.technion.cs.yp.btw.db.DataObjects.DataStreet;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataTrafficLight;
 import il.ac.technion.cs.yp.btw.db.queries.Query;
 import il.ac.technion.cs.yp.btw.db.queries.QueryAllTables;
@@ -18,13 +19,14 @@ public class BTWDataBaseImpl implements BTWDataBase {
 
     private String mapName;
     private Connection connection;
-    private boolean updatedHeuristics;
     private Set<TrafficLight> trafficLights;
     private boolean trafficLightsLoaded;
     private Set<Crossroad> crossRoads;
     private boolean crossRoadsLoaded;
     private Set<Road> roads;
     private boolean roadsLoaded;
+    private Map<String, Map<String,Long>> heuristics;
+    private boolean updatedHeuristics;
 
     /**
      * @author Sharon Hadar
@@ -129,8 +131,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
         }
         this.crossRoadsLoaded = true;
         Set<Crossroad> crossRoads = new HashSet<>();
-        String name = "cross";
-        Integer count = 1;
+        String name = "cross ";
         Map<Pair<Double, Double>, List<TrafficLight>> trafficLightsOfLocation = this.getAllTrafficLights()
                 .stream()
                 .collect(Collectors.groupingBy(trafficLight ->
@@ -139,8 +140,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
         for (Map.Entry<Pair<Double, Double>, List<TrafficLight>> entry: trafficLightsOfLocation.entrySet()) {
             Point p = new PointImpl(entry.getKey().getKey(),entry.getKey().getValue());
             Set<TrafficLight> tlsOfCrossRoad = new HashSet<TrafficLight>(entry.getValue());
-            String crossRoadName = name+count.toString();
-            count++;
+            String crossRoadName = name+p.toString();
             Crossroad crossRoad = new DataCrossRoad(p,tlsOfCrossRoad,crossRoadName,mapName);
             crossRoads.add(crossRoad);
         }
@@ -152,12 +152,9 @@ public class BTWDataBaseImpl implements BTWDataBase {
      * @author Sharon Hadar
      * @Date 21/01/2018*/
     private void insertCrossRoadsToRoads(){
-        //set.forEach(t -> map.put(t, t));
         Map<Point, Crossroad> crossRoadsOfLocation = new HashMap<>();
         this.crossRoads.
                 forEach(crossRoad -> crossRoadsOfLocation.put(new PointImpl(crossRoad.getCoordinateX(), crossRoad.getCoordinateY()),crossRoad ));
-
-//        Iterator<Road> roadIterator = this.roads.iterator();
         for (Road road : this.roads) {
             Point sourcePosition = ((DataRoad)road).getSourceCrossroadPosition();
             ((DataRoad)road).setSourceCrossRoad(crossRoadsOfLocation.get(sourcePosition));
@@ -173,7 +170,6 @@ public class BTWDataBaseImpl implements BTWDataBase {
         Map<String, Road> roadsLightsOfName = new HashMap<>();
         this.roads.
                 forEach(road -> roadsLightsOfName.put(road.getRoadName(),road ));
-//        Iterator<TrafficLight> trafficLightIterator = this.trafficLights.iterator();
         for (TrafficLight trafficLight : this.trafficLights) {
 
             String sourceRoadName = ((DataTrafficLight)trafficLight).getSourceRoadName();
@@ -197,6 +193,29 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return null;
     }
 
+    /*@Author: Sharon Hadar
+    *@Date: 30/3/2018
+    *gets a map represented as a json string and parse it to java classes of crossroad, trafficlight and road
+    * returns the BTWDataBase itself updated
+    */
+    @Override
+    public BTWDataBase parseMap(String geoJson){
+
+        GeoJasonToJavaParser parser = new GeoJasonToJavaParser(mapName, geoJson);
+        this.trafficLights = parser.getTrafficLights();
+        this.trafficLightsLoaded = true;
+        this.crossRoads = parser.getCrossRoads();
+        this.crossRoadsLoaded = true;
+        this.roads = parser.getRoads();
+        this.roadsLoaded = true;
+        insertCrossRoadsToRoads();
+        insertRoadsToTrafficLights();
+        insertStreetsToRoads();
+        /*the trafficlights are inserted to the crossroads in the parser constructor*/
+        return this;
+    }
+
+
     /**
      * @author: shay
      * @date: 20/1/18
@@ -204,7 +223,6 @@ public class BTWDataBaseImpl implements BTWDataBase {
      * @param geoJson - string containing the map represented in Json
      * @return this object
      */
-
     @Override
     public BTWDataBase saveMap(String geoJson) {
         String addMapName = "INSERT INTO dbo.AdminTables(mapName) VALUES('"+ mapName +"');\n";
@@ -284,7 +302,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "\t) WHERE (typeoftoken = 'LineString');\n";
         String sqlQuery = addMapName + createTraffic + createPlace + createRoad + createJson;
         MainDataBase.saveDataFromQuery(sqlQuery);
-        loadMap();
+        saveHeuristics();
         return this;
     }
 
@@ -296,9 +314,14 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public BTWDataBase updateHeuristics() {
-        if(this.updatedHeuristics)
+        if (this.updatedHeuristics)
             return this;
-        Map<String, Map<String,Long>> heuristics = BTWGraphInfo.calculateHeuristics(this);
+        this.heuristics = BTWGraphInfo.calculateHeuristics(this);
+        this.updatedHeuristics = true;
+        return this;
+    }
+
+    private void saveHeuristics(){
         String mapName = this.mapName;  // need to know the name of the map...
         String sql1 = "DROP TABLE IF EXISTS dbo." + mapName + "Heuristics;";
         String sql2 = "CREATE TABLE " + mapName + "Heuristics(sourceID varchar(50) NOT NULL, " +
@@ -306,7 +329,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
         MainDataBase.saveDataFromQuery(sql1);
         MainDataBase.saveDataFromQuery(sql2);
         String sql3 = "";
-        for (Map.Entry<String,Map<String,Long>> firstEntry: heuristics.entrySet())
+        for (Map.Entry<String,Map<String,Long>> firstEntry: this.heuristics.entrySet())
         {
             for (Map.Entry<String,Long> secondEntry: firstEntry.getValue().entrySet())
             {
@@ -318,8 +341,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
             }
         }
         MainDataBase.saveDataFromQuery(sql3);
-        this.updatedHeuristics = true;
-        return this;
+        return;
     }
 
     /**
@@ -357,7 +379,26 @@ public class BTWDataBaseImpl implements BTWDataBase {
         }
         insertCrossRoadsToRoads();
         insertRoadsToTrafficLights();
+        insertStreetsToRoads();
         return true;
+    }
+
+    private void insertStreetsToRoads(){
+        Map<String, Street> streets = new HashMap<>();
+        Iterator<Road> dataRoads = this.roads.iterator();
+        while(dataRoads.hasNext()){
+            DataRoad dataRoad = (DataRoad)dataRoads.next();
+            String streetName = dataRoad.getStreetName();
+            Street street = null;
+            if(streets.containsKey(streetName)){
+                street = streets.get(streetName);
+
+            }else{
+                street = new DataStreet(streetName, mapName);
+            }
+            street.addRoad(dataRoad);
+            dataRoad.setStreet(street);
+        }
     }
 
 

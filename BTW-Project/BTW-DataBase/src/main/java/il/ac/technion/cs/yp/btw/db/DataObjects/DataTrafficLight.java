@@ -41,10 +41,7 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
      * from:@getSourceRoad() to:@getDestinationRoad()
      */
     @Override
-    public String getName(){return
-            "from:"+getSourceRoad().getRoadName()
-                    +" to:"+getDestinationRoad().getRoadName();
-    }
+    public String getName(){return this.nameID;}
 
     /**
      * @author Sharon Hadar
