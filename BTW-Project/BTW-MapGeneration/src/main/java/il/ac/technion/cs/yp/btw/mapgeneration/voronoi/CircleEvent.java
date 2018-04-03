@@ -8,7 +8,7 @@ package il.ac.technion.cs.yp.btw.mapgeneration.voronoi;
  * when the case is equal distances
  * from to site Points
  */
-public class CircleEvent extends Event {
+class CircleEvent extends Event {
     public final Arc arc;
     public final VoronoiPoint vert;
 

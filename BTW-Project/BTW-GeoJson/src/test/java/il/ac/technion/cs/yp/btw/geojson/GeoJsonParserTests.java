@@ -7,11 +7,13 @@ import org.junit.*;
 import org.mockito.Mockito;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Created by anat ana on 14/01/2018.
+ * Tests for GeoJson parser.
  */
 
 /*
@@ -38,13 +40,14 @@ public class GeoJsonParserTests {
     /*Objects for second simulator*/
     private TrafficLight oneTrafficLight;
     private Set<TrafficLight> oneTraffics;
+    private File file;
 
 
     /*
      *Setup for tests
      */
     public GeoJsonParserTests() throws BTWIllegalTimeException {
-
+        this.file = null;
         /************Setup variables for First simulator*********/
         simulatorOneRoad = Mockito.mock(MapSimulator.class);
         oneRoad = Mockito.mock(Road.class);
@@ -96,35 +99,54 @@ public class GeoJsonParserTests {
     /*
      *Initial test - checks that the file creation is working
      */
+
+    @Before
+    public void setUp() {
+        this.file = null;
+    }
+
+    @After
+    public void tearDown() {
+        if (this.file != null) {
+            try {
+                Files.delete(this.file.toPath());
+            } catch (IOException e) {
+                System.out.println("BAD");
+            }
+            System.out.println("Hello World");
+        }
+    }
+
     @Test
     public void AppTest()
     {
         GridCityMapSimulator mapSimulator = new GridCityMapSimulator();
         mapSimulator.build();
         GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
-        File emptyFile = geoJsonParser.buildGeoJsonFromSimulation(mapSimulator);
+        this.file = geoJsonParser.buildGeoJsonFromSimulation(mapSimulator);
     }
 
     @Test
     public void oneRoadMapTest (){
         GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
-        File emptyFile = geoJsonParser.buildGeoJsonFromSimulation(simulatorOneRoad);
+        this.file = geoJsonParser.buildGeoJsonFromSimulation(simulatorOneRoad);
 
         String mapString = "";
         FileReader fileReader = null;
         try {
-            String line;
-            fileReader = new FileReader(emptyFile);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            while((line = bufferedReader.readLine()) != null) {
-                mapString = mapString+line;
+            int line;
+//            String line;
+//            fileReader = new FileReader(this.file);
+            FileInputStream bufferedReader = new FileInputStream(this.file);
+//            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            while((line = bufferedReader.read()) != -1) {
+//            while((line = bufferedReader.readLine()) != null) {
+                mapString = mapString + Character.toString((char) line);
             }
             // Always close files.
             bufferedReader.close();
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
         } catch (IOException e1) {
-            e1.printStackTrace();
+            Assert.fail();
         }
 
         Assert.assertEquals(mapString,oneRoadMap);
@@ -133,23 +155,23 @@ public class GeoJsonParserTests {
     @Test
     public void oneTrafficLightMapTest (){
         GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
-        File emptyFile = geoJsonParser.buildGeoJsonFromSimulation(simulatorOneTrafficLight);
+        this.file = geoJsonParser.buildGeoJsonFromSimulation(simulatorOneTrafficLight);
 
         String mapString = "";
         FileReader fileReader = null;
         try {
-            String line;
-            fileReader = new FileReader(emptyFile);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            while((line = bufferedReader.readLine()) != null) {
-                mapString = mapString+line;
+            int line;
+//            fileReader = new FileReader(this.file);
+            FileInputStream bufferedReader = new FileInputStream(this.file);
+//            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            while((line = bufferedReader.read()) != -1) {
+//            while((line = bufferedReader.readLine()) != null) {
+                mapString = mapString + Character.toString((char) line);
             }
             // Always close files.
             bufferedReader.close();
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
         } catch (IOException e1) {
-            e1.printStackTrace();
+            Assert.fail();
         }
 
         Assert.assertEquals(mapString,oneTrafficLightMap);

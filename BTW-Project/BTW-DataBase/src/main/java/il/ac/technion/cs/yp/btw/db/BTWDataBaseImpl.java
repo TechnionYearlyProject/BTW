@@ -5,6 +5,8 @@ import il.ac.technion.cs.yp.btw.db.DataObjects.DataCrossRoad;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataRoad;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataStreet;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataTrafficLight;
+import il.ac.technion.cs.yp.btw.db.queries.Query;
+import il.ac.technion.cs.yp.btw.db.queries.QueryAllTables;
 import il.ac.technion.cs.yp.btw.navigation.BTWGraphInfo;
 import javafx.util.Pair;
 
@@ -223,6 +225,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public BTWDataBase saveMap(String geoJson) {
+        String addMapName = "INSERT INTO dbo.AdminTables(mapName) VALUES('"+ mapName +"');\n";
         String createTraffic = "DROP TABLE IF EXISTS "+ mapName + "TrafficLight;\n"+
                 "CREATE TABLE " + mapName + "TrafficLight"
                 +"(nameID varchar(100) NOT NULL,\n" +
@@ -297,7 +300,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "\tsecEnd smallint '$.properties.secEnd',\n" +
                 "\toverload bigint '$.properties.overload'\n" +
                 "\t) WHERE (typeoftoken = 'LineString');\n";
-        String sqlQuery = createTraffic + createPlace + createRoad + createJson;
+        String sqlQuery = addMapName + createTraffic + createPlace + createRoad + createJson;
         MainDataBase.saveDataFromQuery(sqlQuery);
         saveHeuristics();
         return this;
@@ -330,7 +333,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
         {
             for (Map.Entry<String,Long> secondEntry: firstEntry.getValue().entrySet())
             {
-                System.out.println(firstEntry.getKey() + " " + secondEntry.getKey() + " " + secondEntry.getValue());
+//                System.out.println(firstEntry.getKey() + " " + secondEntry.getKey() + " " + secondEntry.getValue());
                 String sql3do = "INSERT INTO dbo." + mapName + "Heuristics(sourceID,targetID,overload)" +
                         " VALUES (" + "'" + firstEntry.getKey()+ "', " + "'" +secondEntry.getKey() + "', "
                         + secondEntry.getValue().toString() + ");\n";
@@ -339,6 +342,19 @@ public class BTWDataBaseImpl implements BTWDataBase {
         }
         MainDataBase.saveDataFromQuery(sql3);
         return;
+    }
+
+    /**
+     * @author: shay
+     * @date: 20/1/18
+     * update the heuristics table for the specific map in DB
+     * @return this object
+     */
+    @Override
+    public Set<String> getTablesNames() {
+        Query query = new QueryAllTables("AdminTables");
+        Set<String> tables = (Set<String>) MainDataBase.queryDataBase(query);
+        return tables;
     }
 
     /*

@@ -12,17 +12,18 @@ import java.text.DecimalFormat;
 
 /**
  * Created by anat ana on 19/01/2018.
+ * Class for control the show of road statistics.
  */
 
 public class RoadRealTimeStatisticsController {
     @FXML private Text vehiclesNum, averageSpeed, lengthInKm;
-
+    /**@author: Orel, Anat.
+     *  - Orel implemented actually showing the function input on screen
+     * @date: 20/1/18
+     */
     public void generateView(int length, double averageSpeed, int numOfVehicles, Parent root) throws IOException {
-
         Scene scene = new Scene(root);
-
         Stage stage = new Stage();
-
         stage.setScene(scene);
         stage.show();
 
@@ -31,7 +32,6 @@ public class RoadRealTimeStatisticsController {
         String formattedSpeed = df.format(averageSpeed);
         if(numOfVehicles == 0) formattedSpeed = "0";
         this.averageSpeed.setText(formattedSpeed);
-//        this.averageSpeed.setText(String.valueOf(averageSpeed));
         this.lengthInKm.setText(String.valueOf(length));
 
     }

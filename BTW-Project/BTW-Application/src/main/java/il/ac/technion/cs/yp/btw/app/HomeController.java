@@ -1,33 +1,26 @@
 package il.ac.technion.cs.yp.btw.app;
 
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSpinner;
+import com.jfoenix.controls.JFXTextField;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
-import javafx.animation.FadeTransition;
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**@author: Orel
+ * @date: 20/1/18
+ * all methods that don't specify an other author are by Orel
+ */
 public class HomeController extends SwitchToMapController implements Initializable {
     @FXML
     private ToggleGroup generate_city_toggle;
@@ -41,9 +34,6 @@ public class HomeController extends SwitchToMapController implements Initializab
     @FXML private JFXSpinner loadSpinner;
 
     @FXML private JFXButton load_button, generate_button;
-
-//    @FXML
-//    private Node anchor;
 
     public HomeController(){
         this.generate_city_toggle = new ToggleGroup();
@@ -69,8 +59,6 @@ public class HomeController extends SwitchToMapController implements Initializab
         grid_radio.setUserData("grid_radio");
         grid_radio.setToggleGroup(generate_city_toggle);
         grid_radio.setUserData("free_form_radio");
-
-//        super.anchor = this.anchor;
     }
 
 

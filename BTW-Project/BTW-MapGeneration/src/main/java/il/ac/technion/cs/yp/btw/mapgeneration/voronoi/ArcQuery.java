@@ -5,7 +5,7 @@ package il.ac.technion.cs.yp.btw.mapgeneration.voronoi;
  * @Date 20-1-2018
  * Query class for Arc
  */
-public class ArcQuery extends ArcKey {
+class ArcQuery extends ArcKey {
     private final VoronoiPoint p;
     public ArcQuery(VoronoiPoint p) {
         this.p = p;

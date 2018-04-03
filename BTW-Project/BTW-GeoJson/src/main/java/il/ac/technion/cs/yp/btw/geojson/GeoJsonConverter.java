@@ -6,6 +6,8 @@ import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 import java.io.File;
 
 /**
+ * * @author: Anat
+ * @date: 20/1/18
  * GeoJsonConverter layer interface for the BTW project
  */
 public interface GeoJsonConverter {

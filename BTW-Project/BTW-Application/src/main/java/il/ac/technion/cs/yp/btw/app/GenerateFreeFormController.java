@@ -1,36 +1,20 @@
 package il.ac.technion.cs.yp.btw.app;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
-import il.ac.technion.cs.yp.btw.citysimulation.CityMap;
-import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
-import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
-import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
-import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
-import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.FreeFormMapSimulator;
-import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
 import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
-import javafx.animation.FadeTransition;
-import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
-import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**@author: Orel
+ * @date: 20/1/18
+ * all methods that don't specify an other author are by Orel
+ */
 public class GenerateFreeFormController extends GenerateCityController implements Initializable{
     @FXML private JFXTextField NumberOfBlocks;
     @FXML private JFXTextField Radius;
@@ -72,10 +56,7 @@ public class GenerateFreeFormController extends GenerateCityController implement
             }
         }
         if(!mapNameTextField.isDisabled()) {
-            mapName = mapNameTextField.getText();
-            if(mapName.equals("")) {
-                errorMessage += "Map name can't be empty\n";
-            }
+            errorMessage += validateMapName(mapNameTextField.getText());
         }
         if(!errorMessage.equals("")) {
             showErrorDialog(errorMessage);

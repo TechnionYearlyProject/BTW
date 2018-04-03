@@ -11,6 +11,10 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**@author: Orel
+ * @date: 20/1/18
+ * all methods that don't specify an other author are by Orel
+ */
 public class GenerateGridController extends GenerateCityController implements Initializable{
 
     @FXML private JFXTextField NumberOfStreets;
@@ -78,10 +82,7 @@ public class GenerateGridController extends GenerateCityController implements In
             }
         }
         if(!mapNameTextField.isDisabled()) {
-            mapName = mapNameTextField.getText();
-            if(mapName.equals("")) {
-                errorMessage += "Map name can't be empty\n";
-            }
+            errorMessage += validateMapName(mapNameTextField.getText());
         }
         if(!errorMessage.equals("")) {
             showErrorDialog(errorMessage);

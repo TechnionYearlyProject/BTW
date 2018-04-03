@@ -57,7 +57,17 @@ public class GridCityMapSimulator extends AbstractMapSimulator {
         this.startYCoordinate = DEFAULT_START_Y_COORDINATE;
     }
 
-
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * in order to get a built simulated map there
+     * is a need to call this build() function
+     * for all of the Sets which describe the map
+     * to be updated with valid values
+     * @return Map with all updated Sets after
+     *         simulating a FreeFormMap with the
+     *         current parameters
+     */
     @Override
     public Map build(){
         initializeAllSets();
@@ -212,20 +222,53 @@ public class GridCityMapSimulator extends AbstractMapSimulator {
     private Point streetSectionAdvance(Point p){
         return new PointImpl(p.getCoordinateX()+this.streetLength,p.getCoordinateY());
     }
+
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @param numOfStreets - new number of streets
+     * sets the simulation's number of streets
+     *                     to be numOfStreets
+     * @return self
+     */
     public GridCityMapSimulator setNumOfStreets(int numOfStreets){
         this.numOfStreets = numOfStreets;
         return this;
     }
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @param numOfAvenues - new number of avenues
+     * sets the simulation's number of avenues
+     *                     to be numOfAvenues
+     * @return self
+     */
     public GridCityMapSimulator setNumOfAvenues(int numOfAvenues) {
         this.numOfAvenues = numOfAvenues;
         return this;
     }
 
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @param streetLength - new street length
+     * sets the simulation's street length
+     *                     to be streetLength
+     * @return self
+     */
     public GridCityMapSimulator setStreetLength(int streetLength) {
         this.streetLength = metersToDegrees(streetLength);
         return this;
     }
 
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @param avenueLength - new avenue length
+     * sets the simulation's avenue length
+     *                     to be avenueLength
+     * @return self
+     */
     public GridCityMapSimulator setAvenueLength(int avenueLength) {
         this.avenueLength = metersToDegrees(avenueLength);
         return this;

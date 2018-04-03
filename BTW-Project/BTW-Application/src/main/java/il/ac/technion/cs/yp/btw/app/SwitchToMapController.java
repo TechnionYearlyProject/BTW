@@ -19,7 +19,11 @@ import java.net.URL;
 /**
  * Created by orel on 21/01/18.
  */
-public abstract class SwitchToMapController {
+/**@author: Orel
+ * @date: 20/1/18
+ * all methods that don't specify an other author are by Orel
+ */
+public abstract class SwitchToMapController extends ShowErrorController {
 
     @FXML
     protected Node anchor;
@@ -79,12 +83,5 @@ public abstract class SwitchToMapController {
     }
 
 
-    protected void showErrorDialog(String errorMessage) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Invalid input");
-        alert.setHeaderText(null);
-        alert.setContentText(errorMessage);
 
-        alert.showAndWait();
-    }
 }

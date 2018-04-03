@@ -40,6 +40,10 @@ public class NaiveNavigatorTest {
 
     class TestingDB implements BTWDataBase {
         @Override
+        public Set<String> getTablesNames() {
+            return null;
+        }
+        @Override
         public Set<TrafficLight> getAllTrafficLights() {
             return new HashSet<>(Arrays.asList(
                     trafficLight1_2,

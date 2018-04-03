@@ -5,7 +5,7 @@ package il.ac.technion.cs.yp.btw.mapgeneration.voronoi;
  * @Date 20-1-2018
  * Arc on Voronoi diagram
  */
-public class Arc extends ArcKey {
+class Arc extends ArcKey {
     private final Voronoi v;
     public BreakPoint left, right;
     public final VoronoiPoint site;
