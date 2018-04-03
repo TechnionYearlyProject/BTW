@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -59,6 +60,8 @@ public class HomeController extends SwitchToMapController implements Initializab
         grid_radio.setUserData("grid_radio");
         grid_radio.setToggleGroup(generate_city_toggle);
         grid_radio.setUserData("free_form_radio");
+        BTWDataBase dbForTables = new BTWDataBaseImpl("dbForTables");   // Shay - TO DO: separate tables names from the constructor
+        TextFields.bindAutoCompletion(chooseMapTextBox,dbForTables.getTablesNames());
     }
 
 
