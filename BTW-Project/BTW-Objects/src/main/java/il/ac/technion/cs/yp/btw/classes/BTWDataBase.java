@@ -42,6 +42,13 @@ public interface BTWDataBase {
     BTWDataBase updateWeight();
 
     /**
+     * parse from geoJson to java classes
+     * @param geoJson - string containing the map represented in Json
+     * @return
+     */
+    BTWDataBase parseMap(String geoJson);
+
+    /**
      * save map from geoJson to DB tables
      * @param geoJson - string containing the map represented in Json
      *        mapName - string representing the name of the map

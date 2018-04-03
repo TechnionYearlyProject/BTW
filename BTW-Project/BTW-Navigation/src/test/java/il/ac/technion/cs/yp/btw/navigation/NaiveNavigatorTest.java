@@ -59,6 +59,11 @@ public class NaiveNavigatorTest {
         }
 
         @Override
+        public BTWDataBase parseMap(String geoJson){
+            return this;
+        }
+
+        @Override
         public Street getStreetByName(String streetName) {
             return null;
         }

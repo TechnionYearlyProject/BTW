@@ -15,7 +15,7 @@ public class DataStreet implements Street {
     private String name;
     private Set<Road> roads;
 
-    /** @author Sharon Hadar
+    /** @author Sharon Hadarn
      * @Date 21/01/2018*/
     public DataStreet (String name, String mapName){
         this(name,new HashSet<>(), mapName);
