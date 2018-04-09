@@ -8,8 +8,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,6 +28,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
@@ -46,7 +50,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
     CityMap cityMap;
     CitySimulator citySimulator;
     Stage stage;
-    JFXButton playButton, tickButton, addVehiclesButton;
+    JFXButton playButton, tickButton, addVehiclesButton, backButton;
     JFXTextField numOfVehiclesTextField;
     Text timeText;
     boolean isPlayButton;
@@ -83,6 +87,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
         playAndTickHbox.setSpacing(10);
 
         initPlayAndTickButtons();
+        initBackButton();
 
         //inserting the buttons ot the HBox
         playAndTickHbox.getChildren().addAll(tickButton, playButton);
@@ -100,7 +105,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
         addVehiclesHbox.getChildren().addAll(addVehiclesButton, numOfVehiclesTextField);
 
         //add the hboxes to the screen AnchorPane and anchor them
-        root.getChildren().addAll(borderPane, playAndTickHbox, addVehiclesHbox, timeText);
+        root.getChildren().addAll(borderPane, playAndTickHbox, addVehiclesHbox, timeText, backButton);
         AnchorPane.setTopAnchor(borderPane, 0.0);
 
         AnchorPane.setBottomAnchor(playAndTickHbox, 5.0);
@@ -112,6 +117,10 @@ public class DrawMapController extends ShowErrorController implements Initializa
         //for now it's in the top right
         AnchorPane.setTopAnchor(timeText, 5.0);
         AnchorPane.setRightAnchor(timeText, 5.0);
+
+        //back button alignment
+        AnchorPane.setTopAnchor(backButton, 5.0);
+        AnchorPane.setLeftAnchor(backButton, 5.0);
 
         Scene scene = new Scene(root, stage.getWidth(), stage.getHeight(), Color.GREY);
 
@@ -140,6 +149,32 @@ public class DrawMapController extends ShowErrorController implements Initializa
             playButtonClicked(event);
         });
         isPlayButton = true;
+    }
+
+    /**@author: Orel
+     * @date: 3/4/18
+     */
+    private void initBackButton() {
+        backButton = createRaisedJFXButtonWithIcon("/icons8-back-filled-50.png");
+        backButton.setOnAction(event -> {
+            backButtonClicked(event);
+        });
+        backButton.setMaxWidth(60);
+        backButton.setMaxHeight(60);
+    }
+
+    private void backButtonClicked(ActionEvent event) {
+        Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        URL resource = getClass().getResource("/fxml/home_layout.fxml");
+        try {
+            Parent root = FXMLLoader.load(resource);
+            Scene scene = new Scene(root);
+            stageTheEventSourceNodeBelongs.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/home_layout.fxml"));
+
     }
 
     /**@author: Orel
