@@ -7,21 +7,14 @@ import il.ac.technion.cs.yp.btw.classes.Point;
 import il.ac.technion.cs.yp.btw.classes.PointImpl;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
-import javafx.animation.FadeTransition;
-import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 import javafx.util.Pair;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -100,7 +93,8 @@ public class MapGraphics {
 
 
             Line roadLine = new Line(xroad1,yroad1,xroad2,yroad2);
-            roadLine.setStroke(Color.BLACK);
+            //roadLine.setStroke(Color.BLACK);
+            chooseRoadColor(roadLine,currRoad.getCurrentWeight().seconds());
             roadLine.setStrokeWidth(0.00025);
             roadLine.toBack();
 
@@ -233,5 +227,31 @@ public class MapGraphics {
         double newX = x2+deviationDistance*Math.cos(vectorAngle);
         double newY = y2+deviationDistance*Math.sin(vectorAngle);
         return new PointImpl(newX,newY);
+    }
+
+    /**
+     * @author: shay
+     * Need to determine colors by weight
+     */
+    private static final long ORANGE_THRESHOLD = 7000;
+    private static final long RED_THRESHOLD = 700000;
+    private static final long DEEPRED_THRESHOLD = 7000000;
+
+    /**
+     * @author: shay
+     * @date: 09/04/2018
+     * determines color to the road by its load
+     * @param roadLine the line we need to color
+     * @param overload long number, the overload of the road
+     */
+    private void chooseRoadColor(Line roadLine, long overload) {
+        roadLine.setStroke(Color.BLACK);
+        if (overload > ORANGE_THRESHOLD)
+            roadLine.setStroke(Color.ORANGE);
+        if (overload > RED_THRESHOLD)
+            roadLine.setStroke(Color.ORANGERED);
+        if (overload > DEEPRED_THRESHOLD)
+            roadLine.setStroke(Color.DARKRED);
+
     }
 }
