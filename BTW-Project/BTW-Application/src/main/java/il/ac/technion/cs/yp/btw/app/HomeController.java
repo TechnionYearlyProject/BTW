@@ -61,7 +61,8 @@ public class HomeController extends SwitchToMapController implements Initializab
         grid_radio.setToggleGroup(generate_city_toggle);
         grid_radio.setUserData("free_form_radio");
         BTWDataBase dbForTables = new BTWDataBaseImpl("dbForTables");   // Shay - TO DO: separate tables names from the constructor
-        TextFields.bindAutoCompletion(chooseMapTextBox,dbForTables.getTablesNames());
+        if (dbForTables.getTablesNames() != null)
+            TextFields.bindAutoCompletion(chooseMapTextBox,dbForTables.getTablesNames());
     }
 
 

@@ -6,10 +6,9 @@ package il.ac.technion.cs.yp.btw.db;
 import il.ac.technion.cs.yp.btw.db.queries.Query;
 
 import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
 import java.sql.DriverManager;
-import com.microsoft.sqlserver.jdbc.*;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /*this class is responsible for the connection to ths SQL server*/
 public class MainDataBase{
@@ -31,9 +30,9 @@ public class MainDataBase{
      */
     public static void openConnection(){
         // Connect to database
-        String url = "jdbc:sqlserver://btwserver.database.windows.net:1433;" +
+        String url = "jdbc:sqlserver://btwservernew.database.windows.net:1433;" +
                 "database=BTW;" +
-                "user=shay@btwserver;" +
+                "user=shay@btwservernew;" +
                 "password=S123456!;" +
                 "encrypt=true;" +
                 "trustServerCertificate=false;" +
