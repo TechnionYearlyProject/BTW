@@ -16,12 +16,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Affine;
 import javafx.stage.Stage;
@@ -244,6 +244,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
             boolean textFieldWasVisible = numOfVehiclesTextField.isVisible();
             if(!textFieldWasVisible) {
                 numOfVehiclesTextField.setVisible(true);
+                //numOfVehiclesTextField.setBackground();
+                numOfVehiclesTextField.setFont(Font.font("Verdana", FontWeight.BOLD,13.5));
+                numOfVehiclesTextField.setStyle("-fx-text-inner-color: red;");
                 addVehiclesButton.setText("Add Vehicles");
             } else {
                 int numOfVehicles;
