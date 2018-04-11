@@ -56,9 +56,19 @@ public interface BTWDataBase {
     BTWDataBase saveMap(String geoJson);
 
     /**
-     * update the heuristics
+     * update the heuristics in DB
      */
     BTWDataBase updateHeuristics();
+
+    /**
+     * creates tables in DB to hold statistics for roads and traffic lights
+     */
+    BTWDataBase createStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights);
+
+    /**
+     * updates the statistics tables
+     */
+    BTWDataBase updateStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights);
 
     /**
      * load existing map

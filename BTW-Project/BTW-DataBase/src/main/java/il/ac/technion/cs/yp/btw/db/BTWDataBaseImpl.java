@@ -321,6 +321,34 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return this;
     }
 
+    /**
+     * @author: shay
+     * @date: 11/4/18
+     * creates tables in DB to hold statistics for roads and traffic lights
+     * @return this object
+     */
+    @Override
+    public BTWDataBase createStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights) {
+        return null;
+    }
+
+    /**
+     * @author: shay
+     * @date: 11/4/18
+     * update the statistics in DB
+     * @return this object
+     */
+    @Override
+    public BTWDataBase updateStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights) {
+        return null;
+    }
+
+    /**
+     * @author: shay
+     * @date: 20/1/18
+     * update the heuristics table for the specific map in DB
+     * @return this object
+     */
     private void saveHeuristics(){
         String mapName = this.mapName;  // need to know the name of the map...
         String sql1 = "DROP TABLE IF EXISTS dbo." + mapName + "Heuristics;";

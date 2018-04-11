@@ -101,6 +101,16 @@ public class NaiveNavigatorTest {
         }
 
         @Override
+        public BTWDataBase createStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights) {
+            return null;
+        }
+
+        @Override
+        public BTWDataBase updateStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights) {
+            return null;
+        }
+
+        @Override
         public boolean loadMap() {
             return false;
         }
