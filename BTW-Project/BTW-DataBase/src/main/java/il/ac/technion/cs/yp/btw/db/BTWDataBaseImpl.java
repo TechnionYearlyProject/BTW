@@ -120,6 +120,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
     }
 
     /**
+     * @Author: shay
+     * @Data: 13/04/2018
      * get all crossroads in data base
      * @return set of all crossroads in data base
      */
@@ -193,11 +195,12 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return null;
     }
 
-    /*@Author: Sharon Hadar
+    /**
+     * @Author: Sharon Hadar
     *@Date: 30/3/2018
     *gets a map represented as a json string and parse it to java classes of crossroad, trafficlight and road
     * returns the BTWDataBase itself updated
-    */
+    **/
     @Override
     public BTWDataBase parseMap(String geoJson){
 
@@ -325,17 +328,30 @@ public class BTWDataBaseImpl implements BTWDataBase {
      * @author: shay
      * @date: 11/4/18
      * creates tables in DB to hold statistics for roads and traffic lights
+     * each road has and each traffic light have table
+     * every table should save overloads by time
      * @return this object
      */
     @Override
     public BTWDataBase createStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights) {
-        return null;
+        String query = "";
+        for (Road road: roads) {
+            query += "CREATE TABLE " + mapName + "Road" + road.getRoadName() + "(time integer NOT NULL, " +
+                    "overload bigint NUT NULL, PRIMARY KEY(time));\n";
+        }
+        for (TrafficLight trafficLight: trafficLights) {
+            query += "CREATE TABLE " + mapName + "TL" + trafficLight.getName() + "(time integer NOT NULL, " +
+                    "overload bigint NUT NULL, PRIMARY KEY(time));\n";
+        }
+        MainDataBase.saveDataFromQuery(query);
+        return this;
     }
 
     /**
      * @author: shay
      * @date: 11/4/18
      * update the statistics in DB
+     * the function will save the new overloads to every road and every traffic light.
      * @return this object
      */
     @Override
@@ -385,7 +401,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return tables;
     }
 
-    /*
+    /**
     * @author Sharon Hadar
     * @Date 21/01/2018
     * fetch an existing map from the data base
@@ -411,6 +427,11 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return true;
     }
 
+    /**
+     * @Author: Sharon
+     * @Date: 13/04/2018
+     *
+     */
     private void insertStreetsToRoads(){
         Map<String, Street> streets = new HashMap<>();
         Iterator<Road> dataRoads = this.roads.iterator();
