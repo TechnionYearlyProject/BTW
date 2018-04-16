@@ -7,7 +7,6 @@ import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -73,7 +72,7 @@ public class VehicleImplTest {
                 });
 
         // realCrossroad
-        Mockito.when(realCrossroad.addVehicle(captorV.capture()))
+        Mockito.when(realCrossroad.addVehicleOnTrafficLight(captorV.capture()))
                 .thenAnswer(invocation -> realCrossroad);
 
         // trafficlight
