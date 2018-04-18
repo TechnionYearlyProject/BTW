@@ -217,6 +217,13 @@ public class BTWDataBaseImpl implements BTWDataBase {
         /*the trafficlights are inserted to the crossroads in the parser constructor*/
         //saveHeuristics();
         //createStatisticsTables(roads,trafficLights);
+
+        new Thread("DB save") {
+            public void run() {
+                saveMap(geoJson);
+                createStatisticsTables(roads,trafficLights);
+            }
+        }.start();
         return this;
     }
 
@@ -307,7 +314,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "\t) WHERE (typeoftoken = 'LineString');\n";
         String sqlQuery = addMapName + createTraffic + createPlace + createRoad + createJson;
         MainDataBase.saveDataFromQuery(sqlQuery);
-        //saveHeuristics();
+        saveHeuristics();
         return this;
     }
 
@@ -339,11 +346,11 @@ public class BTWDataBaseImpl implements BTWDataBase {
         String queryCreate = "";
         String queryInsert = "";
         for (Road road: roads) {
-            queryCreate += "CREATE TABLE " + mapName + "Road" + road.getRoadName() + "(time integer NOT NULL, " +
+            queryCreate += "CREATE TABLE " + mapName + "Road" + road.getRoadName().replaceAll("\\s+","") + "(time integer NOT NULL, " +
                     "overload bigint NUT NULL, PRIMARY KEY(time));\n";
             Integer time = 0;
             while (time <= 86400) {
-                queryInsert += "INSERT INTO dbo." + mapName + "Road" + road.getRoadName() + "(time,overload)" +
+                queryInsert += "INSERT INTO dbo." + mapName + "Road" + road.getRoadName().replaceAll("\\s+","") + "(time,overload)" +
                         " VALUES (" + time.toString() +", " + road.getMinimumWeight() + ");\n";
                 time += 1800;
             }
