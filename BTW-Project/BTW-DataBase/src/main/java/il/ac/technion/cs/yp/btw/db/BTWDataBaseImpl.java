@@ -215,6 +215,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
         insertRoadsToTrafficLights();
         insertStreetsToRoads();
         /*the trafficlights are inserted to the crossroads in the parser constructor*/
+        //saveHeuristics();
+        //createStatisticsTables(roads,trafficLights);
         return this;
     }
 
@@ -305,7 +307,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "\t) WHERE (typeoftoken = 'LineString');\n";
         String sqlQuery = addMapName + createTraffic + createPlace + createRoad + createJson;
         MainDataBase.saveDataFromQuery(sqlQuery);
-        saveHeuristics();
+        //saveHeuristics();
         return this;
     }
 
@@ -334,16 +336,30 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public BTWDataBase createStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights) {
-        String query = "";
+        String queryCreate = "";
+        String queryInsert = "";
         for (Road road: roads) {
-            query += "CREATE TABLE " + mapName + "Road" + road.getRoadName() + "(time integer NOT NULL, " +
+            queryCreate += "CREATE TABLE " + mapName + "Road" + road.getRoadName() + "(time integer NOT NULL, " +
                     "overload bigint NUT NULL, PRIMARY KEY(time));\n";
+            Integer time = 0;
+            while (time <= 86400) {
+                queryInsert += "INSERT INTO dbo." + mapName + "Road" + road.getRoadName() + "(time,overload)" +
+                        " VALUES (" + time.toString() +", " + road.getMinimumWeight() + ");\n";
+                time += 1800;
+            }
         }
         for (TrafficLight trafficLight: trafficLights) {
-            query += "CREATE TABLE " + mapName + "TL" + trafficLight.getName() + "(time integer NOT NULL, " +
+            queryCreate += "CREATE TABLE " + mapName + "TL" + trafficLight.getName() + "(time integer NOT NULL, " +
                     "overload bigint NUT NULL, PRIMARY KEY(time));\n";
+            Integer time = 0;
+            while (time <= 86400) {
+                queryInsert += "INSERT INTO dbo." + mapName + "Road" + trafficLight.getName() + "(time,overload)" +
+                        " VALUES (" + time.toString() + ", " + trafficLight.getMinimumWeight() + ");\n";
+                time += 1800;
+            }
         }
-        MainDataBase.saveDataFromQuery(query);
+
+        MainDataBase.saveDataFromQuery(queryCreate+queryInsert);
         return this;
     }
 
@@ -355,7 +371,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
      * @return this object
      */
     @Override
-    public BTWDataBase updateStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights) {
+        public BTWDataBase updateStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights) {
         return null;
     }
 
