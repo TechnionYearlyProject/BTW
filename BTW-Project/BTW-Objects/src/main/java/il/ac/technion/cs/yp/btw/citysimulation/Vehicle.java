@@ -74,7 +74,7 @@ public interface Vehicle {
     Vehicle driveToNextRoad();
 
     /**
-     * @return how much time onthe current road is needed to finish it
+     * @return how much time on the current road is needed to finish it
      */
     BTWWeight getRemainingTimeOnRoad();
 
