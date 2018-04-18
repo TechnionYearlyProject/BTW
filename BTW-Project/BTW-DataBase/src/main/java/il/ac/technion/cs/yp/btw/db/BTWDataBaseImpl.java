@@ -9,6 +9,7 @@ import il.ac.technion.cs.yp.btw.db.queries.Query;
 import il.ac.technion.cs.yp.btw.db.queries.QueryAllTables;
 import il.ac.technion.cs.yp.btw.navigation.BTWGraphInfo;
 import javafx.util.Pair;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.util.*;
@@ -16,6 +17,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BTWDataBaseImpl implements BTWDataBase {
+
+    final static Logger logger = Logger.getLogger("DataBase");
 
     private String mapName;
     private Connection connection;
@@ -35,7 +38,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     public BTWDataBaseImpl(String mapName){
 
-
+        logger.debug("Begin DB");
         this.mapName = mapName;
         MainDataBase.openConnection();
         this.updatedHeuristics = false;
