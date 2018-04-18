@@ -15,6 +15,7 @@
     <module>BTW-Application</module>
     <module>BTW-CitySimulation</module>
       <module>BTW-TrafficLightManagement</module>
+      <module>BTW-Statistics</module>
   </modules>
   <packaging>pom</packaging>
 

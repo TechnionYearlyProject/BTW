@@ -23,4 +23,31 @@ public class BTWTime extends BTWTimeUnit{
     public static BTWTime of(long value) throws BTWIllegalTimeException {
         return new BTWTime(value);
     }
+
+    public static BTWTime of(long hours, long minutes, long seconds) throws BTWIllegalTimeException {
+        if (hours < 0 || hours > 23) {
+            throw new BTWIllegalTimeException("Number of hours must be between 0 and 23");
+        }
+
+        if (minutes < 0 || minutes > 59) {
+            throw new BTWIllegalTimeException("Number of minutes must be between 0 and 59");
+        }
+
+        if (seconds < 0 || seconds > 59) {
+            throw new BTWIllegalTimeException("Number of seconds must be between 0 and 59");
+        }
+        return new BTWTime(hours);
+    }
+
+    public Long getHoutsOnly() {
+        return this.seconds / 3600;
+    }
+
+    public Long getMinutesOnly() {
+        return (this.seconds % 60) / 60;
+    }
+
+    public Long getSecondsOnly() {
+        return this.seconds % 3600;
+    }
 }

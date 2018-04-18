@@ -177,7 +177,6 @@ public class VehicleImpl implements Vehicle {
      */
     @Override
     public Vehicle waitOnTrafficLight(Crossroad crossroad) {
-        Road rd = this.currentRoad;
         this.simulator.reportOnRoad(this.currentRoad, this.timeOnCurrentRoad);
 
         CityCrossroad realCrossroad = this.simulator.getRealCrossroad(crossroad);
@@ -191,7 +190,7 @@ public class VehicleImpl implements Vehicle {
     /**
      * @author Guy Rephaeli
      *
-     * tell if the vehicle is waiting on trafficlight
+     * tell if the vehicle is waiting on a trafficlight
      *
      * @return self
      */
