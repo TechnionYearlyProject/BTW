@@ -17,6 +17,7 @@ import org.controlsfx.control.textfield.TextFields;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**@author: Orel
  * @date: 20/1/18
@@ -60,9 +61,14 @@ public class HomeController extends SwitchToMapController implements Initializab
         grid_radio.setUserData("grid_radio");
         grid_radio.setToggleGroup(generate_city_toggle);
         grid_radio.setUserData("free_form_radio");
-        BTWDataBase dbForTables = new BTWDataBaseImpl("dbForTables");   // Shay - TO DO: separate tables names from the constructor
-        if (dbForTables.getTablesNames() != null)
-            TextFields.bindAutoCompletion(chooseMapTextBox,dbForTables.getTablesNames());
+        new Thread(() -> {
+            BTWDataBase dbForTables = new BTWDataBaseImpl("dbForTables");   // Shay - TO DO: separate tables names from the constructor
+            Set<String> tablesNames = dbForTables.getTablesNames();
+            Platform.runLater(() -> {
+                if (tablesNames != null)
+                    TextFields.bindAutoCompletion(chooseMapTextBox, tablesNames);
+            });
+        }).start();
     }
 
 
