@@ -4,6 +4,7 @@ package il.ac.technion.cs.yp.btw.db;
 
 
 import il.ac.technion.cs.yp.btw.db.queries.Query;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,6 +13,8 @@ import java.sql.Statement;
 
 /*this class is responsible for the connection to ths SQL server*/
 public class MainDataBase{
+
+    final static Logger logger = Logger.getLogger("MainDataBase");
 
     private static Connection connection;
 
@@ -50,9 +53,10 @@ public class MainDataBase{
                 try {
                     connection.close();
                 } catch (Exception e1) {
-                    System.out.println("failed to connect the server ");
+                    logger.error("DataBase Connection Error",e1);
                 }
             }
+            logger.error("DataBase Connection Error NULL",e);
             connection = null;
         }
     }
@@ -64,7 +68,7 @@ public class MainDataBase{
                 //System.out.println("successfuly closed connection to the server");
                 connection = null;
             } catch (Exception e1) {
-                System.out.println("failed to close connection to the server");
+                logger.error("DataBase Failed to close connection",e1);
             }
         }
 
@@ -94,23 +98,23 @@ public class MainDataBase{
                 resultSet = statement.executeQuery(query.getQuery());
                 result = query.arrangeRecievedData(resultSet);
             }catch(Exception e){
-                System.out.println("failed to to execute query" + query.getClass().getName());
+                logger.error("Failed to execute the query:" + query.getClass().getName());
             }
         }
         catch (Exception e) {
-            System.out.println("failed to connect the server for query " + query.getClass().getName());
+            logger.error("Failed to connect for query: " + query.getClass().getName());
         }finally {
             if (statement != null){
                 try {
                     statement.close();
                 } catch(Exception e) {
-                    System.out.println("failed to close statement for query " + query.getClass().getName());
+                    logger.error("Failed to close statement for query: " + query.getClass().getName());
                 }
             }
             if (resultSet != null){
                 try {
                 } catch(Exception e) {
-                    System.out.println("failed to close result set for query " + query.getClass().getName());
+                    logger.error("Failed to close result set for query " + query.getClass().getName());
                 }
             }
         }
@@ -118,13 +122,14 @@ public class MainDataBase{
         return result;
     }
 
-    /*
-     * @author: shay
+    /**
+     * @author: Shay
      * @date: 20/1/18
      * @author Sharon Hadar
      * @Date 21/01/2018
      *create an instance of the object by the query's result
-     * the activate the  the query on the data base*/
+     * the activate the  the query on the data base
+     * */
     public static Object queryDataBase(Query query){
 
         Object result = null;
@@ -132,7 +137,7 @@ public class MainDataBase{
             result = queryDataBaseServer(query);
 
         }catch (Exception e) {
-            e.printStackTrace();
+            logger.error("QueryDataBase exception", e);
         }/*finally{
             if (resultSet != null){
                 try {
@@ -151,19 +156,8 @@ public class MainDataBase{
      * @param sqlQuery query in string just to save
      */
     public static void saveDataFromQuery(String sqlQuery) {
-        /*String url = "jdbc:sqlserver://btwserver.database.windows.net:1433;" +
-                "database=BTW;" +
-                "user=shay@btwserver;" +
-                "password=S123456!;" +
-                "encrypt=true;" +
-                "trustServerCertificate=false;" +
-                "hostNameInCertificate=*.database.windows.net;" +
-                "loginTimeout=30;";*/
-        //Connection connection = null;
-
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            //connection = DriverManager.getConnection(url);
             String schema = connection.getSchema();
 
             try (Statement statement = connection.createStatement();
@@ -171,7 +165,7 @@ public class MainDataBase{
             }
         }
         catch (Exception e) {
-            //e.printStackTrace();
+            logger.error("DataBase Error for saving data", e);
         }
     }
 }

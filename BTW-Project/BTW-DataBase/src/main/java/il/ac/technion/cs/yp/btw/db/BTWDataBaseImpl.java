@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class BTWDataBaseImpl implements BTWDataBase {
 
-    final static Logger logger = Logger.getLogger("DataBase");
+    final static Logger logger = Logger.getLogger("BTWDataBaseImpl");
 
     private String mapName;
     private Connection connection;
@@ -38,9 +38,10 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     public BTWDataBaseImpl(String mapName){
 
-        logger.debug("Begin DB");
+        logger.debug("BTWDataBase Constructor");
         this.mapName = mapName;
         MainDataBase.openConnection();
+        logger.debug("BTWDataBase open connection");
         this.updatedHeuristics = false;
 
         roadsLoaded = false;
@@ -223,6 +224,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
 
         new Thread("DB save") {
             public void run() {
+                logger.debug("BTWDataBase New Thread Saving Map Information...");
                 saveMap(geoJson);
                 createStatisticsTables(roads,trafficLights);
             }
@@ -317,6 +319,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
                 "\t) WHERE (typeoftoken = 'LineString');\n";
         String sqlQuery = addMapName + createTraffic + createPlace + createRoad + createJson;
         MainDataBase.saveDataFromQuery(sqlQuery);
+        logger.debug("BTWDataBase Complete Saving Map Information ");
         saveHeuristics();
         return this;
     }
@@ -329,10 +332,12 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public BTWDataBase updateHeuristics() {
+        logger.debug("BTWDataBase Start Updating Heuristics");
         if (this.updatedHeuristics)
             return this;
         this.heuristics = BTWGraphInfo.calculateHeuristics(this);
         this.updatedHeuristics = true;
+        logger.debug("BTWDataBase Complete Updating Heuristics");
         return this;
     }
 
@@ -346,30 +351,32 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public BTWDataBase createStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights) {
+        logger.debug("BTWDataBase Start Statistics Tables");
         String queryCreate = "";
         String queryInsert = "";
         for (Road road: roads) {
             queryCreate += "CREATE TABLE " + mapName + "Road" + road.getRoadName().replaceAll("\\s+","") + "(time integer NOT NULL, " +
-                    "overload bigint NUT NULL, PRIMARY KEY(time));\n";
+                    "overload bigint NOT NULL, PRIMARY KEY(time));\n";
             Integer time = 0;
             while (time <= 86400) {
                 queryInsert += "INSERT INTO dbo." + mapName + "Road" + road.getRoadName().replaceAll("\\s+","") + "(time,overload)" +
-                        " VALUES (" + time.toString() +", " + road.getMinimumWeight() + ");\n";
+                        " VALUES (" + time.toString() +", " + road.getMinimumWeight().seconds() + ");\n";
                 time += 1800;
             }
         }
         for (TrafficLight trafficLight: trafficLights) {
-            queryCreate += "CREATE TABLE " + mapName + "TL" + trafficLight.getName() + "(time integer NOT NULL, " +
-                    "overload bigint NUT NULL, PRIMARY KEY(time));\n";
+            queryCreate += "CREATE TABLE " + mapName + "TL" + trafficLight.getName().replaceAll("\\s+","").replaceAll(":","") +
+                    "(time integer NOT NULL, overload bigint NOT NULL, PRIMARY KEY(time));\n";
             Integer time = 0;
             while (time <= 86400) {
-                queryInsert += "INSERT INTO dbo." + mapName + "Road" + trafficLight.getName() + "(time,overload)" +
-                        " VALUES (" + time.toString() + ", " + trafficLight.getMinimumWeight() + ");\n";
+                queryInsert += "INSERT INTO dbo." + mapName + "TL" + trafficLight.getName().replaceAll("\\s+","").replaceAll(":","") +
+                        "(time,overload) VALUES (" + time.toString() + ", " + trafficLight.getMinimumWeight().seconds() + ");\n";
                 time += 1800;
             }
         }
-
+        logger.debug(queryCreate+queryInsert);
         MainDataBase.saveDataFromQuery(queryCreate+queryInsert);
+        logger.debug("BTWDataBase Complete Statistics Tables");
         return this;
     }
 
@@ -392,6 +399,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
      * @return this object
      */
     private void saveHeuristics(){
+        logger.debug("BTWDataBase Start Saving Heuristics");
         String mapName = this.mapName;  // need to know the name of the map...
         String sql1 = "DROP TABLE IF EXISTS dbo." + mapName + "Heuristics;";
         String sql2 = "CREATE TABLE " + mapName + "Heuristics(sourceID varchar(50) NOT NULL, " +
@@ -411,6 +419,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
             }
         }
         MainDataBase.saveDataFromQuery(sql3);
+        logger.debug("BTWDataBase Complete Saving Heuristics");
         return;
     }
 
@@ -434,7 +443,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
     * */
     @Override
     public boolean loadMap(){
-
+        logger.debug("BTWDataBase Start loadMap()");
         roads = getAllRoads();
         if(roads == null){
             return false;
@@ -450,6 +459,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
         insertCrossRoadsToRoads();
         insertRoadsToTrafficLights();
         insertStreetsToRoads();
+        logger.debug("BTWDataBase End loadMap()");
         return true;
     }
 
