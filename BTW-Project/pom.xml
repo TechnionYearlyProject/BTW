@@ -15,6 +15,7 @@
     <module>BTW-Application</module>
     <module>BTW-CitySimulation</module>
       <module>BTW-TrafficLightManagement</module>
+      <module>BTW-Statistics</module>
   </modules>
   <packaging>pom</packaging>
 
@@ -43,6 +44,11 @@
       <groupId>com.google.inject</groupId>
       <artifactId>guice</artifactId>
       <version>4.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
     </dependency>
   </dependencies>
 

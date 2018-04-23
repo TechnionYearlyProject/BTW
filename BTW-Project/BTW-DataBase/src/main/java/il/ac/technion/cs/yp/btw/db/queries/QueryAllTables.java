@@ -1,10 +1,4 @@
 package il.ac.technion.cs.yp.btw.db.queries;
-import il.ac.technion.cs.yp.btw.classes.Point;
-import il.ac.technion.cs.yp.btw.classes.PointImpl;
-import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.db.DataObjects.DataRoad;
-
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;

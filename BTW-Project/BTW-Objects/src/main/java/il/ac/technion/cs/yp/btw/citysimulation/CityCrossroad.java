@@ -9,11 +9,11 @@ import java.util.Set;
  */
 public interface CityCrossroad extends Crossroad, StatisticsProviding<CrossroadData> {
     /**
-     * add a Vehicle to this Crossroad
+     * add a Vehicle to this Crossroad and return the traffic-light on which the vehicle is going to wait
      * @param vehicle - the Vehicle to be added
-     * @return self
+     * @return the traffic-light the vehicle is going to wait on
      */
-    CityCrossroad addVehicle(Vehicle vehicle);
+    CityTrafficLight addVehicleOnTrafficLight(Vehicle vehicle);
 
     /**
      * @return real instances of all traffic-lights in the crossroad

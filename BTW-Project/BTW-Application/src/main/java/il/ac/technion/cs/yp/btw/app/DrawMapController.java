@@ -163,6 +163,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
         backButton.setMaxHeight(60);
     }
 
+    /**@author: Orel
+     * @date: 3/4/18
+     */
     private void backButtonClicked(ActionEvent event) {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
         URL resource = getClass().getResource("/fxml/home_layout.fxml");
@@ -173,8 +176,6 @@ public class DrawMapController extends ShowErrorController implements Initializa
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/home_layout.fxml"));
-
     }
 
     /**@author: Orel

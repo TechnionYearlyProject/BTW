@@ -108,4 +108,34 @@ public interface CitySimulator {
         }
         return this;
     }
+
+    /**
+     * @author Guy Rephaeli
+     * @Date 16-4-2018
+     *
+     * @return the current time of the system
+     */
+    Long getCurrentTime();
+
+    /**
+     * receive a report on a road
+     * @author Guy Rephaeli
+     * @Date 16-4-2018
+     *
+     * @param rd - the road being reported
+     * @param time - the reported time
+     * @return self
+     */
+    CitySimulator reportOnRoad(Road rd, Long time);
+
+    /**
+     * receive a report on a traffic-light
+     * @author Guy Rephaeli
+     * @Date 16-4-2018
+     *
+     * @param tl - the traffic-light being reported
+     * @param time - the reported time
+     * @return self
+     */
+    CitySimulator reportOnTrafficLight(TrafficLight tl, Long time);
 }

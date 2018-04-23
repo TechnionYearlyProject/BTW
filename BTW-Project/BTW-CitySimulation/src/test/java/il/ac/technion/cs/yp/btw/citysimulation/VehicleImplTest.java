@@ -7,7 +7,6 @@ import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -28,6 +27,7 @@ public class VehicleImplTest {
     private CityRoad realRoad1;
     private CityRoad realRoad2;
     private CityCrossroad realCrossroad;
+    private CityTrafficLight realTrafficLight;
     private List<Road> route;
     private Iterator<Road> routeIter;
     private Navigator navigator;
@@ -73,8 +73,8 @@ public class VehicleImplTest {
                 });
 
         // realCrossroad
-        Mockito.when(realCrossroad.addVehicle(captorV.capture()))
-                .thenAnswer(invocation -> realCrossroad);
+        Mockito.when(realCrossroad.addVehicleOnTrafficLight(captorV.capture()))
+                .thenAnswer(invocation -> realTrafficLight);
 
         // trafficlight
         Mockito.when(trafficLight.getSourceRoad())
@@ -82,6 +82,8 @@ public class VehicleImplTest {
 
         Mockito.when(trafficLight.getDestinationRoad())
                 .thenReturn(road2);
+
+        // realTrafficLight
 
         // road1
         Mockito.when(road1.getSourceCrossroad())
@@ -146,6 +148,7 @@ public class VehicleImplTest {
         this.realRoad1 = Mockito.mock(CityRoad.class);
         this.realRoad2 = Mockito.mock(CityRoad.class);
         this.realCrossroad = Mockito.mock(CityCrossroad.class);
+        this.realTrafficLight = Mockito.mock(CityTrafficLight.class);
         configMock();
     }
 
@@ -170,8 +173,10 @@ public class VehicleImplTest {
         }
         Assert.assertNull(tested.getCurrentRoad());
         Assert.assertEquals(road1, tested.getNextRoad());
-        Assert.assertEquals(road1, tested.driveToNextRoad().getCurrentRoad());
+        tested.driveOnTime(0L);
+        Assert.assertEquals(road1, tested.getCurrentRoad());
         Assert.assertEquals(road2, tested.getNextRoad());
+        tested.waitOnTrafficLight(crossroad);
         Assert.assertEquals(road2, tested.driveToNextRoad().getCurrentRoad());
         Assert.assertNull(tested.getNextRoad());
     }
@@ -212,7 +217,8 @@ public class VehicleImplTest {
             Assert.fail();
         }
         Assert.assertFalse(tested.isWaitingForTrafficLight());
-        Assert.assertTrue(tested.driveToNextRoad().waitOnTrafficLight(this.crossroad).isWaitingForTrafficLight());
+        tested.driveOnTime(0L);
+        Assert.assertTrue(tested.waitOnTrafficLight(this.crossroad).isWaitingForTrafficLight());
     }
 
     @Test
@@ -223,7 +229,8 @@ public class VehicleImplTest {
         } catch (PathNotFoundException e) {
             Assert.fail();
         }
-        Assert.assertEquals(road1, tested.driveToNextRoad().getCurrentRoad());
+        tested.driveOnTime(0L);
+        Assert.assertEquals(road1, tested.getCurrentRoad());
         Assert.assertEquals(Long.valueOf(2L), tested.getRemainingTimeOnRoad().seconds());
         Assert.assertEquals(road1, tested.progressOnRoad().getCurrentRoad());
         Assert.assertEquals(Long.valueOf(1L), tested.getRemainingTimeOnRoad().seconds());

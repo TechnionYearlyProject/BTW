@@ -361,7 +361,7 @@ public class CitySimulatorImpl implements CitySimulator {
          * @return self
          */
         @Override
-        public CityCrossroad addVehicle(Vehicle vehicle) {
+        public CityTrafficLight addVehicleOnTrafficLight(Vehicle vehicle) {
             Set<TrafficLight> possibleTrafficLights = this.getTrafficLightsFromRoad(vehicle.getCurrentRoad());
             TrafficLight toWaitOn = null;
             for (TrafficLight trafficLight : possibleTrafficLights) {
@@ -372,7 +372,7 @@ public class CitySimulatorImpl implements CitySimulator {
             }
             CityTrafficLight realTL = getRealTrafficLight(toWaitOn);
             realTL.addVehicle(vehicle);
-            return this;
+            return realTL;
         }
 
         /**
@@ -712,6 +712,23 @@ public class CitySimulatorImpl implements CitySimulator {
         });
         this.vehiclesToEnter.removeAll(drivingVehicles);
         this.vehicles.addAll(drivingVehicles);
+        return this;
+    }
+
+    @Override
+    public Long getCurrentTime() {
+        return this.clock;
+    }
+
+    @Override
+    public CitySimulator reportOnRoad(Road rd, Long time) {
+        // TODO
+        return this;
+    }
+
+    @Override
+    public CitySimulator reportOnTrafficLight(TrafficLight tl, Long time) {
+        // TODO
         return this;
     }
 

@@ -3,6 +3,7 @@ package il.ac.technion.cs.yp.btw.citysimulation;
 import il.ac.technion.cs.yp.btw.classes.BTWWeight;
 import il.ac.technion.cs.yp.btw.classes.Crossroad;
 import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 
 public interface Vehicle {
     /**
@@ -73,7 +74,7 @@ public interface Vehicle {
     Vehicle driveToNextRoad();
 
     /**
-     * @return how much time onthe current road is needed to finish it
+     * @return how much time on the current road is needed to finish it
      */
     BTWWeight getRemainingTimeOnRoad();
 

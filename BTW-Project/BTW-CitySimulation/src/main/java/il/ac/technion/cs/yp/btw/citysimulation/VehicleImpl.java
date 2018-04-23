@@ -1,11 +1,10 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
-import il.ac.technion.cs.yp.btw.classes.BTWIllegalTimeException;
-import il.ac.technion.cs.yp.btw.classes.BTWWeight;
-import il.ac.technion.cs.yp.btw.classes.Crossroad;
-import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
+
+import java.util.Optional;
 
 /**
  * @author Guy Rephaeli on 15-Jan-18.
@@ -15,15 +14,18 @@ import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 public class VehicleImpl implements Vehicle {
     private VehicleDescriptor descriptor;
     private Road currentRoad;
+    private Optional<TrafficLight> currentTrafficLight;
     private Road nextRoad;
     private Road destination;
     private Double sourceRoadRatio;
     private Double destinationRoadRatio;
     private Navigator navigator;
+    private Long timeOnCurrentRoad;
     private Long remainingTimeOnRoad;
     private boolean isWaitingOnTrafficLight;
     private CitySimulator simulator;
     private long startTime;
+    private long currentTrafficLightStartingTime;
 
     /**
      * @author Guy Rephaeli
@@ -48,11 +50,14 @@ public class VehicleImpl implements Vehicle {
         this.destinationRoadRatio = destinationRoadRatio;
         this.navigator = navigator;
         this.currentRoad = null;
+        this.currentTrafficLight = Optional.empty();
         this.nextRoad = navigator.getNextRoad();
         this.remainingTimeOnRoad = 0L;
+        this.timeOnCurrentRoad = 0L;
         this.isWaitingOnTrafficLight = false;
         this.simulator = simulator;
         this.startTime = startTime;
+        this.currentTrafficLightStartingTime = 0L;
     }
 
     /**
@@ -125,8 +130,8 @@ public class VehicleImpl implements Vehicle {
     @Override
     public Vehicle driveOnRoad(Road rd, double ratioStart, double ratioEnd) {
         CityRoad realRoad = this.simulator.getRealRoad(rd);
-        BTWWeight weight = realRoad.getCurrentWeight();
-        this.remainingTimeOnRoad = Double.valueOf((ratioEnd - ratioStart) * weight.seconds()).longValue();
+        this.timeOnCurrentRoad =  realRoad.getCurrentWeight().seconds();
+        this.remainingTimeOnRoad = Double.valueOf((ratioEnd - ratioStart) * this.timeOnCurrentRoad).longValue();
         realRoad.addVehicle(this);
         return this;
     }
@@ -172,16 +177,20 @@ public class VehicleImpl implements Vehicle {
      */
     @Override
     public Vehicle waitOnTrafficLight(Crossroad crossroad) {
+        this.simulator.reportOnRoad(this.currentRoad, this.timeOnCurrentRoad);
+
         CityCrossroad realCrossroad = this.simulator.getRealCrossroad(crossroad);
         this.isWaitingOnTrafficLight = true;
-        realCrossroad.addVehicle(this);
+        CityTrafficLight tl = realCrossroad.addVehicleOnTrafficLight(this);
+        this.currentTrafficLight = Optional.of(tl);
+        this.currentTrafficLightStartingTime = this.simulator.getCurrentTime();
         return this;
     }
 
     /**
      * @author Guy Rephaeli
      *
-     * tell if the vehicle is waiting on trafficlight
+     * tell if the vehicle is waiting on a trafficlight
      *
      * @return self
      */
@@ -199,6 +208,10 @@ public class VehicleImpl implements Vehicle {
      */
     @Override
     public Vehicle driveToNextRoad() {
+        long timeTakenOnTrafficLight = this.simulator.getCurrentTime() - this.currentTrafficLightStartingTime;
+        this.simulator.reportOnTrafficLight(this.currentTrafficLight.get(), timeTakenOnTrafficLight);
+        this.currentTrafficLight = Optional.empty();
+
         Road prev = this.currentRoad;
         this.leaveRoad(prev);
         this.isWaitingOnTrafficLight = false;

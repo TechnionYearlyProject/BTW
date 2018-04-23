@@ -161,7 +161,7 @@ public class CityCrossroadImplTest {
     @Test
     public void vehicleAndTickTest() {
         CityCrossroad tested = simulator.getRealCrossroad(this.crossroad);
-        Assert.assertNotNull(tested.addVehicle(this.vehicle));
+        Assert.assertNotNull(tested.addVehicleOnTrafficLight(this.vehicle));
         CityTrafficLight t = simulator.getRealTrafficLight(this.trafficLight);
         t.setTrafficLightState(CityTrafficLight.TrafficLightState.GREEN);
         tested.tick();

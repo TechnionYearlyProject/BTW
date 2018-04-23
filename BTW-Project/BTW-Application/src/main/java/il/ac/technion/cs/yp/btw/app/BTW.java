@@ -5,12 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 /**
  * @author: Orel
  * @date: 20/1/18
  */
 public class BTW extends Application {
+    final static Logger logger = Logger.getLogger(BTW.class);
     public static void main(String[] args) {
         launch(args);
     }
@@ -18,7 +20,7 @@ public class BTW extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/home_layout.fxml"));
-
+        logger.debug("BTW Begins Here");
         Scene scene = new Scene(root);
 
         stage.setTitle("By The Way");
