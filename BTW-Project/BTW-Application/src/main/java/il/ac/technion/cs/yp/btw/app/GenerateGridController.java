@@ -1,5 +1,6 @@
 package il.ac.technion.cs.yp.btw.app;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
@@ -7,7 +8,11 @@ import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -17,12 +22,13 @@ import java.util.ResourceBundle;
  */
 public class GenerateGridController extends GenerateCityController implements Initializable{
 
+    public JFXButton numStreetsHelper;
     @FXML private JFXTextField NumberOfStreets;
     @FXML private JFXTextField NumberOfAvenues;
     @FXML private JFXTextField LengthOfStreets;
     @FXML private JFXTextField LengthOfAvenues;
     @FXML private JFXTextField mapNameTextField;
-    @FXML private JFXToggleButton numStreetsToggle, numAvenuesToggle, legnthStreetsToggle, legnthAvenuesToggle, mapNameToggle;
+    @FXML private JFXToggleButton numStreetsToggle, numAvenuesToggle, legnthStreetsToggle, legnthAvenuesToggle, mapNameToggle, helpButton;
 
 
     int Number_of_streets, Number_of_avenues, Length_of_streets, Length_of_avenues;
@@ -100,4 +106,36 @@ public class GenerateGridController extends GenerateCityController implements In
         if(!LengthOfStreets.isDisabled()) gridCityMapSimulator.setStreetLength(Length_of_streets);
         return gridCityMapSimulator;
     }
+
+    /**@author: Anat
+     * @date: 10/4/18
+     */
+
+    private void initHelpButtonForRoadLength() {
+
+    }
+
+    public void generateView(String string, Parent root) throws IOException {
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+
+        if(string.equals("1")){
+
+        }
+        if(string.equals("2")){
+
+        }
+        if(string.equals("3")){
+
+        }
+        if(string.equals("4")){
+
+        }
+
+    }
+
+
+
 }

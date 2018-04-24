@@ -239,6 +239,8 @@ public class DrawMapController extends ShowErrorController implements Initializa
         numOfVehiclesTextField.setPrefSize(200, 50);
         numOfVehiclesTextField.setVisible(false);
     }
+
+
     /**@author: Orel
      * @date: 20/1/18
      */
@@ -268,6 +270,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
             }
         });
     }
+
     /**@author: Orel
      * @date: 20/1/18
      */

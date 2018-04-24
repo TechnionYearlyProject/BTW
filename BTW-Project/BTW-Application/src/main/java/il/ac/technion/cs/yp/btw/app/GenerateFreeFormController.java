@@ -1,5 +1,6 @@
 package il.ac.technion.cs.yp.btw.app;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import il.ac.technion.cs.yp.btw.mapgeneration.FreeFormMapSimulator;
@@ -7,7 +8,11 @@ import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -20,6 +25,7 @@ public class GenerateFreeFormController extends GenerateCityController implement
     @FXML private JFXTextField Radius;
     @FXML private JFXToggleButton blocksToggle, radiusToggle, mapNameToggle;
     @FXML private JFXTextField mapNameTextField;
+   // @FXML private JFXButton helpButton;
 
     int Number_of_blocks, radius_val;
 
@@ -73,4 +79,40 @@ public class GenerateFreeFormController extends GenerateCityController implement
         return freeFormMapSimulator;
     }
 
+    /**@author: Anat
+     * @date: 10/4/18
+     */
+    /*
+    private void initHelpButtonForRoadLength() {
+        helpButton = createRaisedJFXButtonWithText("?");
+        helpButton.setOnAction(event -> {
+            try {
+                generateView("1",initScenePanesAndGetRoot());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+    }
+    public void generateView(String string, Parent root) throws IOException {
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+
+        if(string.equals("1")){
+
+        }
+        if(string.equals("2")){
+
+        }
+        if(string.equals("3")){
+
+        }
+        if(string.equals("4")){
+
+        }
+
+    }
+*/
 }
