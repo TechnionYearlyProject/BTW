@@ -58,6 +58,10 @@ public class DrawMapController extends ShowErrorController implements Initializa
     CompletableFuture<Boolean> tickTask;
     int currentTicks;
 
+    //the interval of ticks for the action of each button
+    private int playButtonTicksInterval = 2;
+    private int tickButtonTickInterval = 10;
+
     boolean lastTickActionWasPause = false;
 
     void initCitySimulator(CitySimulator citySimulator){
@@ -156,11 +160,10 @@ public class DrawMapController extends ShowErrorController implements Initializa
      */
     private void initBackButton() {
         backButton = createRaisedJFXButtonWithIcon("/icons8-back-filled-50.png");
-        backButton.setOnAction(event -> {
-            backButtonClicked(event);
-        });
+        backButton.setOnAction(this::backButtonClicked);
         backButton.setMaxWidth(60);
         backButton.setMaxHeight(60);
+        backButton.setStyle("-fx-background-color: transparent");
     }
 
     /**@author: Orel
@@ -182,7 +185,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
      * @date: 20/1/18
      */
     private void initPlayActionTimeline() {
-        playCityTimeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
+        playCityTimeline = new Timeline(new KeyFrame(Duration.seconds(playButtonTicksInterval), event -> {
 
             new Thread(() -> {
                 getTickTask();
@@ -286,7 +289,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
      */
     private void resetTickTask() {
         tickTask = CompletableFuture.supplyAsync(() -> {
-            performMapTicks();
+            performMapTicks(playButtonTicksInterval);
             return true;
         });
     }
@@ -325,6 +328,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
     private JFXButton createRaisedJFXButtonWithIcon(String iconResourceLocation) {
         JFXButton button = createRaisedJFXButtonWithText("");
         Image buttonImage = new Image(getClass().getResourceAsStream(iconResourceLocation));
+
         button.setGraphic(new ImageView(buttonImage));
         return button;
     }
@@ -355,7 +359,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
         }
         try {
             Thread thread = new Thread(() -> {
-                performMapTicks();
+                performMapTicks(tickButtonTickInterval);
                 Platform.runLater(() -> {
                     redrawMap();
                     tickButton.setDisable(false);
@@ -366,10 +370,11 @@ public class DrawMapController extends ShowErrorController implements Initializa
             tickButton.setDisable(false);
             System.out.println("tick button caught exception " + e.getMessage());
         }
+
     }
 
-    private void performMapTicks() {
-        int numberOfTicks = 10;
+    private void performMapTicks(int numberOfTicks) {
+//        int numberOfTicks = 10;
         citySimulator.tick(numberOfTicks);
         cityMap = citySimulator.saveMap();
         currentTicks += numberOfTicks;

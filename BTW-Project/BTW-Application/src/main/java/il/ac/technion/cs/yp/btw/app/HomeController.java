@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import org.apache.log4j.Logger;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.net.URL;
@@ -36,6 +37,8 @@ public class HomeController extends SwitchToMapController implements Initializab
     @FXML private JFXSpinner loadSpinner;
 
     @FXML private JFXButton load_button, generate_button;
+
+    final static Logger logger = Logger.getLogger("HomeController");
 
     public HomeController(){
         this.generate_city_toggle = new ToggleGroup();
@@ -65,8 +68,10 @@ public class HomeController extends SwitchToMapController implements Initializab
             BTWDataBase dbForTables = new BTWDataBaseImpl("dbForTables");   // Shay - TO DO: separate tables names from the constructor
             Set<String> tablesNames = dbForTables.getTablesNames();
             Platform.runLater(() -> {
-                if (tablesNames != null)
+                if (tablesNames != null) {
+                    logger.debug("Tables names are loaded, should bind to auto complete");
                     TextFields.bindAutoCompletion(chooseMapTextBox, tablesNames);
+                }
             });
         }).start();
     }
