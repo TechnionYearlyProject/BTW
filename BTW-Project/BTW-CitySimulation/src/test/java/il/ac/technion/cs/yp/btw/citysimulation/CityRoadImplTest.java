@@ -3,6 +3,7 @@ package il.ac.technion.cs.yp.btw.citysimulation;
 import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
+import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -124,7 +125,8 @@ public class CityRoadImplTest {
         crossroads.add(this.crossroad1);
         crossroads.add(this.crossroad2);
         NavigationManager navigationManager = Mockito.mock(NavigationManager.class);
-        this.simulator = new CitySimulatorImpl(roads, trafficLights, crossroads, navigationManager);
+        StatisticsCalculator calculator = Mockito.mock(StatisticsCalculator.class);
+        this.simulator = new CitySimulatorImpl(roads, trafficLights, crossroads, navigationManager, calculator);
     }
 
     @Before
