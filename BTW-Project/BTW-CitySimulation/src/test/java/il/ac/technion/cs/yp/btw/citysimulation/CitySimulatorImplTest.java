@@ -8,6 +8,7 @@ import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
+import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +25,7 @@ public class CitySimulatorImplTest {
     private Set<TrafficLight> trafficLights;
     private Set<Crossroad> crossroads;
     private NavigationManager navigationManager;
+    private TrafficLightManager trafficLightManager;
     private StatisticsCalculator calculator;
     private Navigator navigator1;
     private Navigator navigator2;
@@ -141,6 +143,7 @@ public class CitySimulatorImplTest {
         this.crossroad = Mockito.mock(Crossroad.class);
         this.trafficLight = Mockito.mock(TrafficLight.class);
         this.navigationManager = Mockito.mock(NavigationManager.class);
+        this.trafficLightManager = Mockito.mock(TrafficLightManager.class);
         this.calculator = Mockito.mock(StatisticsCalculator.class);
         this.navigator1 = Mockito.mock(Navigator.class);
         this.navigator2 = Mockito.mock(Navigator.class);
@@ -170,7 +173,7 @@ public class CitySimulatorImplTest {
 
     @Test
     public void addVehicleAndTickTest() {
-        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.calculator);
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator);
         Vehicle vehicle;
         try {
             vehicle = tested.addVehicle(this.descriptor1, this.road1, 0.0, this.road2, 1.0);
@@ -189,7 +192,7 @@ public class CitySimulatorImplTest {
 
     @Test
     public void addSeveralVehiclesTest() {
-        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.calculator);
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator);
         Vehicle vehicle1;
         Vehicle vehicle2;
         List<VehicleDescriptor> descriptors = new ArrayList<>();
@@ -228,7 +231,7 @@ public class CitySimulatorImplTest {
 
     @Test
     public void saveMapTest() {
-        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.calculator);
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator);
         CityMap map = tested.saveMap();
         Assert.assertEquals(2, map.getAllRoads().size());
         Assert.assertEquals(1, map.getAllTrafficLights().size());

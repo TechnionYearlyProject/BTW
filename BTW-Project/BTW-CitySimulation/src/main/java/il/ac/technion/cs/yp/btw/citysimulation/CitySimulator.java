@@ -32,6 +32,8 @@ public interface CitySimulator {
      * */
     CityCrossroad getRealCrossroad(Crossroad crossroad);
 
+    CitySimulator addVehiclesFromList(/* TODO: ADAM */);
+
     /**
      * @author Adam Elgressy and Guy Rephaeli
      * @Date 20-1-2018

@@ -7,6 +7,12 @@ import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
+import il.ac.technion.cs.yp.btw.navigation.NaiveNavigationManager;
+import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
+import il.ac.technion.cs.yp.btw.statistics.NaiveStatisticsCalculator;
+import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
+import il.ac.technion.cs.yp.btw.trafficlights.NaiveTrafficLightManager;
+import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,8 +23,10 @@ import org.apache.log4j.Logger;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**@author: Orel
  * @date: 20/1/18
@@ -93,7 +101,14 @@ public class HomeController extends SwitchToMapController implements Initializab
                     showErrorDialog("Failed to load: Map name is not in the Database");
                 } else {
                     new Thread(() -> {
-                        CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
+                        NavigationManager navigationManager = new NaiveNavigationManager(dataBase);
+                        TrafficLightManager trafficLightManager = new NaiveTrafficLightManager();
+                        StatisticsCalculator calculator = new NaiveStatisticsCalculator(dataBase);
+                        CitySimulator citySimulator = new CitySimulatorImpl(dataBase, navigationManager, trafficLightManager, calculator);
+                        trafficLightManager.insertCrossroads(dataBase.getAllCrossroads()
+                                .stream()
+                                .map(citySimulator::getRealCrossroad)
+                                .collect(Collectors.toSet()));
                         Platform.runLater(() -> switchScreensToMap(actionEvent, citySimulator));
                     }).start();
                 }

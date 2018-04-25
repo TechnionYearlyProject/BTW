@@ -28,7 +28,7 @@ public class CitySimulatorImpl implements CitySimulator {
     private TrafficLightManager trafficLightManager;
     private NavigationManager navigationManager;
     private Set<Vehicle> vehicles; //all vehicles that drove/drive
-    private Set<Vehicle> vehiclesToEnter;
+    private List<Vehicle> vehiclesToEnter;
     private long clock;
     private Map<Road, StatisticalReport> currentReportOfRoad;
     private Map<TrafficLight, StatisticalReport> currentReportOfTrafficLight;
@@ -504,7 +504,8 @@ public class CitySimulatorImpl implements CitySimulator {
      * @param crossroads - the crossroads in the map
      * @param navigationManager - the navigation manager that creates the navigators
      */
-    CitySimulatorImpl(Set<Road> roads, Set<TrafficLight> trafficLights, Set<Crossroad> crossroads, NavigationManager navigationManager, StatisticsCalculator calculator){
+    CitySimulatorImpl(Set<Road> roads, Set<TrafficLight> trafficLights, Set<Crossroad> crossroads,
+                      NavigationManager navigationManager, TrafficLightManager trafficLightManager, StatisticsCalculator calculator){
         this.roads = new HashMap<>();
         this.trafficLights = new HashMap<>();
         this.crossroads = new HashMap<>();
@@ -518,9 +519,9 @@ public class CitySimulatorImpl implements CitySimulator {
         crossroads.forEach(this::getRealCrossroad);
 
         this.vehicles = new HashSet<>();
-        this.vehiclesToEnter = new HashSet<>();
+        this.vehiclesToEnter = new ArrayList<>();
         this.navigationManager = navigationManager;
-        this.trafficLightManager = new NaiveTrafficLightManager(new HashSet<>(this.crossroads.values()));
+        this.trafficLightManager = trafficLightManager;
         this.clock = 0;
     }
 
@@ -530,8 +531,8 @@ public class CitySimulatorImpl implements CitySimulator {
      *
      * @param db - the db containing the map
      */
-    public CitySimulatorImpl(BTWDataBase db) {
-        this(db.getAllRoads(), db.getAllTrafficLights(), db.getAllCrossroads(), new NaiveNavigationManager(db), new NaiveStatisticsCalculator(db));
+    public CitySimulatorImpl(BTWDataBase db, NavigationManager navigationManager, TrafficLightManager trafficLightManager, StatisticsCalculator calculator) {
+        this(db.getAllRoads(), db.getAllTrafficLights(), db.getAllCrossroads(), navigationManager, trafficLightManager, calculator);
     }
 
     /**
@@ -585,6 +586,67 @@ public class CitySimulatorImpl implements CitySimulator {
         return this.crossroads.get(crossroadName);
     }
 
+    @Override
+    public CitySimulator addVehiclesFromList(/* TODO:ADAM */) {
+        // Don't forget to initialize the navigator. See addVehicleOnTime
+        return this;
+    }
+
+    /**
+     * @author Guy Rephaeli and Adam Elgressy
+     * @date 25.4.2018
+     *
+     * @param vehicle - the vehicle to be added to the waiting vehicles list
+     * @return self
+     */
+    /**
+     * @author Guy Rephaeli and Adam Elgressy
+     * @date 25.4.2018
+     *
+     * Find the index to enter the vehicle at using binary search
+     *
+     * @param time - the time to be serched fo
+     * @param low - low index for binary search
+     * @param middle - middle index for binary search
+     * @param high - high index for binary search
+     * @return - the index to enter the vehicle in
+     */
+    private int getVehicleIndex(long time, int low, int middle, int high) {
+        if (low >= high - 1) {
+            return high;
+        }
+        if (this.vehiclesToEnter.get(middle).getStartingTime().seconds() == time) {
+            return middle;
+        }
+        if (this.vehiclesToEnter.get(middle).getStartingTime().seconds() < time) {
+            int newLow = middle;
+            return this.getVehicleIndex(time, newLow, (newLow + high) / 2, high);
+        }
+        if (this.vehiclesToEnter.get(middle).getStartingTime().seconds() > time) {
+            int newHigh = middle;
+            return this.getVehicleIndex(time, low, (low + newHigh) / 2, newHigh);
+        }
+        return -1;
+    }
+
+    /**
+     * @author Guy Rephaeli and Adam Elgressy
+     * @date 25.4.2018
+     *
+     * Add the vehicle to the list while maintaining order
+     *
+     * @param vehicle - the vehicle to be added to the waiting vehicles list
+     * @return self
+     */
+    private CitySimulator addVehicleSorted(Vehicle vehicle) {
+        int low = 0;
+        int high = this.vehiclesToEnter.size();
+        int middle = (low + high) / 2;
+        int indexToEnter = this.getVehicleIndex(vehicle.getStartingTime().seconds(), low, middle, high);
+        this.vehiclesToEnter.add(indexToEnter, vehicle);
+        return this;
+    }
+
     /**
      * @author Guy Rephaeli
      * @Date 20-1-2018
@@ -604,7 +666,7 @@ public class CitySimulatorImpl implements CitySimulator {
                 source, sourceRoadRatio, destination, destinationRoadRatio,
                 this.navigationManager.getNavigator(vehicleDescriptor, source, sourceRoadRatio, destination, destinationRoadRatio),
                 this, time);
-        this.vehiclesToEnter.add(newVehicle);
+        this.addVehicleSorted(newVehicle);
         return newVehicle;
     }
 
@@ -724,11 +786,22 @@ public class CitySimulatorImpl implements CitySimulator {
         roads.values().forEach(CityRoad::tick);
         this.trafficLightManager.tick();
         Set<Vehicle> drivingVehicles = new HashSet<>();
-        this.vehiclesToEnter.forEach(vehicle -> {
-            if (vehicle.driveOnTime(this.clock)) {
-                drivingVehicles.add(vehicle);
+
+        boolean readyToDrive = (this.vehiclesToEnter.size() > 0);
+        while (readyToDrive) {
+            Vehicle currentWaitingVehicle = this.vehiclesToEnter.get(0);
+            readyToDrive = currentWaitingVehicle.driveOnTime(this.clock);
+            if (readyToDrive) {
+                drivingVehicles.add(currentWaitingVehicle);
+                this.vehiclesToEnter.remove(0);
             }
-        });
+            readyToDrive &= (this.vehiclesToEnter.size() > 0);
+        }
+//        this.vehiclesToEnter.forEach(vehicle -> {
+//            if (vehicle.driveOnTime(this.clock)) {
+//                drivingVehicles.add(vehicle);
+//            }
+//        });
         this.vehiclesToEnter.removeAll(drivingVehicles);
         this.vehicles.addAll(drivingVehicles);
         return this;
