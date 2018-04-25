@@ -1,6 +1,7 @@
 package il.ac.technion.cs.yp.btw.navigation;
 
 import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.statistics.StatisticsProvider;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -106,7 +107,12 @@ public class NaiveNavigatorTest {
         }
 
         @Override
-        public BTWDataBase updateStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights) {
+        public BTWDataBase updateStatisticsTables(StatisticsProvider provider) {
+            return null;
+        }
+
+        @Override
+        public StatisticsProvider getStatisticsFromDB() {
             return null;
         }
 

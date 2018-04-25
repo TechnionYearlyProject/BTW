@@ -8,6 +8,7 @@ import il.ac.technion.cs.yp.btw.db.DataObjects.DataTrafficLight;
 import il.ac.technion.cs.yp.btw.db.queries.Query;
 import il.ac.technion.cs.yp.btw.db.queries.QueryAllTables;
 import il.ac.technion.cs.yp.btw.navigation.BTWGraphInfo;
+import il.ac.technion.cs.yp.btw.statistics.StatisticsProvider;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
 
@@ -358,7 +359,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
             queryCreate += "CREATE TABLE " + mapName + "Road" + road.getRoadName().replaceAll("\\s+","") + "(time integer NOT NULL, " +
                     "overload bigint NOT NULL, PRIMARY KEY(time));\n";
             Integer time = 0;
-            while (time <= 86400) {
+            while (time < 86400) {
                 queryInsert += "INSERT INTO dbo." + mapName + "Road" + road.getRoadName().replaceAll("\\s+","") + "(time,overload)" +
                         " VALUES (" + time.toString() +", " + road.getMinimumWeight().seconds() + ");\n";
                 time += 1800;
@@ -368,7 +369,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
             queryCreate += "CREATE TABLE " + mapName + "TL" + trafficLight.getName().replaceAll("\\s+","").replaceAll(":","") +
                     "(time integer NOT NULL, overload bigint NOT NULL, PRIMARY KEY(time));\n";
             Integer time = 0;
-            while (time <= 86400) {
+            while (time < 86400) {
                 queryInsert += "INSERT INTO dbo." + mapName + "TL" + trafficLight.getName().replaceAll("\\s+","").replaceAll(":","") +
                         "(time,overload) VALUES (" + time.toString() + ", " + trafficLight.getMinimumWeight().seconds() + ");\n";
                 time += 1800;
@@ -382,13 +383,26 @@ public class BTWDataBaseImpl implements BTWDataBase {
 
     /**
      * @author: shay
-     * @date: 11/4/18
+     * @date: 25/4/18
      * update the statistics in DB
-     * the function will save the new overloads to every road and every traffic light.
+     * the function will get the StatisticsProvider object
+     * and will save the new overloads to every road and every traffic light.
      * @return this object
      */
     @Override
-        public BTWDataBase updateStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights) {
+    public BTWDataBase updateStatisticsTables(StatisticsProvider provider) {
+        return null;
+    }
+
+    /**
+     * @author: shay
+     * @date: 25/4/18
+     * get the statistics from DB to statistics provider
+     * the function will get the current information from DB to the provider.
+     * @return StatisticsProvider object
+     */
+    @Override
+    public StatisticsProvider getStatisticsFromDB() {
         return null;
     }
 
