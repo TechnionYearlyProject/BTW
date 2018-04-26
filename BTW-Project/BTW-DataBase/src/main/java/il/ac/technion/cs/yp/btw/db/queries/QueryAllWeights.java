@@ -24,6 +24,7 @@ public class QueryAllWeights extends Query {
                 long overload =  resultSet.getLong("overload");
                 BTWWeight weight = BTWWeight.of(overload);
                 weights[i] = weight;
+                i++;
             }
             if (i != 48) {
                 logger.error("Something Went Wrong with retrieving weights from DB");
