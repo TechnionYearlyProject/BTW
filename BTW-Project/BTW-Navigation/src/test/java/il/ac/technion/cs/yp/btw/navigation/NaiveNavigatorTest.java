@@ -44,6 +44,12 @@ public class NaiveNavigatorTest {
         public Set<String> getTablesNames() {
             return null;
         }
+
+        @Override
+        public String getMapName() {
+            return null;
+        }
+
         @Override
         public Set<TrafficLight> getAllTrafficLights() {
             return new HashSet<>(Arrays.asList(

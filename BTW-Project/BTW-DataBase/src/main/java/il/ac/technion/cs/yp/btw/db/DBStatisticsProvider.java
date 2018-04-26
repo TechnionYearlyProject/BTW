@@ -1,23 +1,52 @@
 package il.ac.technion.cs.yp.btw.db;
 
-import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
-import il.ac.technion.cs.yp.btw.classes.BTWTime;
-import il.ac.technion.cs.yp.btw.classes.BTWWeight;
-import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.db.queries.QueryAllWeights;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsProvider;
+import org.apache.log4j.Logger;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by shay on 26/04/2018.
  */
 public class DBStatisticsProvider implements StatisticsProvider {
 
-    private BTWWeight[] weights = new BTWWeight[48];
+    final static Logger logger = Logger.getLogger("DBStatisticsProvider");
     private Map<String,BTWWeight[]> roadsMap;
     private Map<String,BTWWeight[]> trafficLightsMap;
 
     public DBStatisticsProvider(BTWDataBase db) {
+        try {
+            logger.debug("Start DBStatisticsProvider constructor");
+            Set<Road> roads = db.getAllRoads();
+            Set<TrafficLight> trafficLights = db.getAllTrafficLights();
+
+            logger.debug("Insert all roads and their weights to map");
+            for (Road road: roads) {
+                String tableName = db.getMapName() + "Road" + road.getRoadName().replaceAll("\\s+","");
+                BTWWeight[] weights;
+                weights = (BTWWeight[])MainDataBase.queryDataBase(new QueryAllWeights(tableName));
+                roadsMap.put(road.getRoadName(),weights);
+                logger.trace("Insert Road: " + road.getRoadName());
+            }
+
+            logger.debug("Insert all traffic lights and their weights to map");
+            for (TrafficLight trafficLight: trafficLights) {
+                String tableName = db.getMapName() + "TL" + trafficLight.getName().replaceAll("\\s+","").replaceAll(":","");
+                BTWWeight[] weights;
+                weights = (BTWWeight[])MainDataBase.queryDataBase(new QueryAllWeights(tableName));
+                trafficLightsMap.put(trafficLight.getName(),weights);
+                logger.trace("Insert TrafficLight: " + trafficLight.getName());
+            }
+
+            logger.debug("End DBStatisticsProvider constructor");
+        }
+        catch (Exception e) {
+            logger.error(e);
+        }
+
 
     }
 

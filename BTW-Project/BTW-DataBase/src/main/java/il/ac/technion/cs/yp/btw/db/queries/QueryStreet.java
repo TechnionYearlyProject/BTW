@@ -55,7 +55,7 @@ public class QueryStreet extends Query{
 
             }
         }catch(SQLException e){
-            System.out.println("query has failed");
+            logger.error("query has failed");
         }
         return new DataStreet(streetName, roads, mapName);
     }

@@ -500,5 +500,14 @@ public class BTWDataBaseImpl implements BTWDataBase {
         }
     }
 
+    /**
+     * @Author: Shay
+     * @Date: 26/4/18
+     * @return map name
+     */
+    @Override
+    public String getMapName() {
+        return mapName;
+    }
 
 }

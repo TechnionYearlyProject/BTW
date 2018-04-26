@@ -112,4 +112,11 @@ public interface BTWDataBase {
      * @return set of table names
      */
     public Set<String> getTablesNames();
+
+    /**
+     * @Author: Shay
+     * @Date: 26/4/18
+     * get name of map
+     */
+    public String getMapName();
 }
