@@ -1,5 +1,7 @@
 package il.ac.technion.cs.yp.btw.db.queries;
 
+import org.apache.log4j.Logger;
+
 import java.sql.ResultSet;
 /*
 * the query string is of the form: "SELECT * FROM dbo."+ mapName + "Road WHERE nameID = 'Ayalonn'";
@@ -11,6 +13,7 @@ import java.sql.ResultSet;
 * @Date 21/01/2018
 * */
 public abstract class Query {
+    final static Logger logger = Logger.getLogger("Query");
     static protected String query;
     static protected String mapName = "";
     public Query(String mapName){
