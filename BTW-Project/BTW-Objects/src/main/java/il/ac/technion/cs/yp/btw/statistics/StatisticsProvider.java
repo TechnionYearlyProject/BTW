@@ -3,6 +3,7 @@ package il.ac.technion.cs.yp.btw.statistics;
 import il.ac.technion.cs.yp.btw.classes.BTWTime;
 import il.ac.technion.cs.yp.btw.classes.BTWWeight;
 import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 
 /**
  * @author Guy Rephaeli
@@ -15,5 +16,5 @@ public interface StatisticsProvider {
 
     BTWWeight expectedTimeOnRoadAt(BTWTime time, Road rd);
 
-    BTWWeight expectedTimeOnTrafficLightAt(BTWTime time, Road rd);
+    BTWWeight expectedTimeOnTrafficLightAt(BTWTime time, TrafficLight tl);
 }

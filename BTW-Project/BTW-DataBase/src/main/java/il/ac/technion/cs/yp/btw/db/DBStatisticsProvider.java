@@ -70,7 +70,8 @@ public class DBStatisticsProvider implements StatisticsProvider {
      */
     @Override
     public BTWWeight expectedTimeOnRoadAt(BTWTime time, Road rd) {
-        return null;
+        long index = time.seconds()/1800;
+        return roadsMap.get(rd.getRoadName())[(int)index];
     }
 
     /**
@@ -81,7 +82,9 @@ public class DBStatisticsProvider implements StatisticsProvider {
      * @return BTWWeight object - the weight of the traffic light.
      */
     @Override
-    public BTWWeight expectedTimeOnTrafficLightAt(BTWTime time, Road rd) {
-        return null;
+    public BTWWeight expectedTimeOnTrafficLightAt(BTWTime time, TrafficLight tl) {
+
+        long index = time.seconds()/1800;
+        return trafficLightsMap.get(tl.getName())[(int)index];
     }
 }
