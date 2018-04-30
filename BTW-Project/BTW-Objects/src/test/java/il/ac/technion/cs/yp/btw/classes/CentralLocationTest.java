@@ -33,7 +33,7 @@ public class CentralLocationTest {
         tested = new CentralLocation(this.vertices, "Tested");
         String[] verticesNames = tested.toString().split(" ");
         List<String> vertexList = new ArrayList<>(Arrays.asList(verticesNames));
-        Assert.assertEquals(2, vertexList.size());
+        Assert.assertEquals(4, vertexList.size());
         for (Point vertex : vertices) {
             Assert.assertTrue(vertexList.contains(vertex.toString()));
         }

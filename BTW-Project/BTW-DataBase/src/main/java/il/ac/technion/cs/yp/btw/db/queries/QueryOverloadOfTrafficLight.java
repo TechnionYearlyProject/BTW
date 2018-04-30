@@ -27,7 +27,7 @@ public class QueryOverloadOfTrafficLight extends Query {
             resultSet.next();
             overloadOfTL =  resultSet.getLong("overload");
         }catch(SQLException e){
-            System.out.println("query has failed");
+            logger.error("query has failed");
         }
         return overloadOfTL;
 

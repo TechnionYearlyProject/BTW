@@ -1,9 +1,6 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
-import il.ac.technion.cs.yp.btw.classes.BTWWeight;
-import il.ac.technion.cs.yp.btw.classes.Crossroad;
-import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.classes.TrafficLight;
+import il.ac.technion.cs.yp.btw.classes.*;
 
 public interface Vehicle {
     /**
@@ -90,4 +87,11 @@ public interface Vehicle {
      * @return indicator if time for driving has come
      */
     boolean driveOnTime(long now);
+
+    /**
+     * return the time in which the driving starts
+     *
+     * @return the time in which the driving starts
+     */
+    BTWTime getStartingTime();
 }

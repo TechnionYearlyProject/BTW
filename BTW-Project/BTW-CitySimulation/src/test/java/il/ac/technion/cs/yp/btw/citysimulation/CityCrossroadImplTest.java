@@ -7,6 +7,8 @@ import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
+import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
+import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +24,8 @@ import java.util.Set;
 public class CityCrossroadImplTest {
     private CitySimulator simulator;
     private NavigationManager navigationManager;
+    private TrafficLightManager trafficLightManager;
+    private StatisticsCalculator calculator;
     private Navigator navigator;
     private VehicleDescriptor descriptor;
     private Road road1;
@@ -135,6 +139,8 @@ public class CityCrossroadImplTest {
         this.crossroad = Mockito.mock(Crossroad.class);
         this.trafficLight = Mockito.mock(TrafficLight.class);
         this.navigationManager = Mockito.mock(NavigationManager.class);
+        this.trafficLightManager = Mockito.mock(TrafficLightManager.class);
+        this.calculator = Mockito.mock(StatisticsCalculator.class);
         this.navigator = Mockito.mock(Navigator.class);
         this.vehicle= Mockito.mock(Vehicle.class);
         this.ticked = false;
@@ -150,7 +156,7 @@ public class CityCrossroadImplTest {
         trafficLights.add(this.trafficLight);
         Set<Crossroad> crossroads = new HashSet<>();
         crossroads.add(this.crossroad);
-        this.simulator = new CitySimulatorImpl(roads, trafficLights, crossroads, navigationManager);
+        this.simulator = new CitySimulatorImpl(roads, trafficLights, crossroads, this.navigationManager, this.trafficLightManager, this.calculator);
     }
 
     @Before

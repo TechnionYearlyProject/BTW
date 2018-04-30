@@ -45,7 +45,7 @@ public class QueryRoad extends Query {
 
                 road = new DataRoad (nameID, length,myStreet, sourceCrossroadId, destinationCrossroadId, secStart, secEnd, overload, mapName);
         }catch(SQLException e){
-            System.out.println("query has failed");
+            logger.error("query has failed");
         }
         return road;
 

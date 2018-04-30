@@ -9,6 +9,12 @@ import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
 import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
 import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
+import il.ac.technion.cs.yp.btw.navigation.NaiveNavigationManager;
+import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
+import il.ac.technion.cs.yp.btw.statistics.NaiveStatisticsCalculator;
+import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
+import il.ac.technion.cs.yp.btw.trafficlights.NaiveTrafficLightManager;
+import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +23,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
+import java.util.stream.Collectors;
 
 /**
  * Created by orel on 21/01/18.
@@ -70,7 +77,15 @@ public abstract class GenerateCityController extends SwitchToMapController {
 
             dataBase.getTablesNames();
 
-            CitySimulator citySimulator = new CitySimulatorImpl(dataBase);
+
+            NavigationManager navigationManager = new NaiveNavigationManager(dataBase);
+            TrafficLightManager trafficLightManager = new NaiveTrafficLightManager();
+            StatisticsCalculator calculator = new NaiveStatisticsCalculator(dataBase);
+            CitySimulator citySimulator = new CitySimulatorImpl(dataBase, navigationManager, trafficLightManager, calculator);
+            trafficLightManager.insertCrossroads(dataBase.getAllCrossroads()
+                    .stream()
+                    .map(citySimulator::getRealCrossroad)
+                    .collect(Collectors.toSet()));
             Platform.runLater(() -> switchScreensToMap(event, citySimulator));
         }).start();
 

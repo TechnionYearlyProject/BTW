@@ -23,12 +23,56 @@ public class NaiveTrafficLightManager implements TrafficLightManager {
     private int minimumOpenTime;
     private int count;
 
+    public NaiveTrafficLightManager() {
+        this.crossroads = new HashSet<>();
+        this.trafficLightsOfCrossroadByRoad = new HashMap<>();
+        this.currentGreenTrafficLightsOfCrossroad = new HashMap<>();
+        this.currentIteratorOfCrossroad = new HashMap<>();
+        this.minimumOpenTime = -1;
+        this.count = 0;
+    }
+
+
     /**
      * @author Guy Rephaeli
      *
      * @param crossroads - the crossroads in the live map
      */
     public NaiveTrafficLightManager(Set<CityCrossroad> crossroads) {
+        this();
+        this.insertCrossroads(crossroads);
+    }
+
+    /**
+     * @author Guy Rephaeli
+     * @Date 20-1-2018
+     * @param crossroad - the crossroad its traffic-lights are converted in a cyclic way: each set of traffic-lights is
+     *                  turned to green for the minimal possible time, and then turns red so the next set could turn green
+     * @return self
+     */
+    private NaiveTrafficLightManager turnToNextGreen(CityCrossroad crossroad) {
+        this.currentGreenTrafficLightsOfCrossroad.get(crossroad)
+                .forEach(trafficLight -> trafficLight.setTrafficLightState(CityTrafficLight.TrafficLightState.RED));
+        Iterator<HashSet<CityTrafficLight>> iter = currentIteratorOfCrossroad.get(crossroad);
+        if (! iter.hasNext()) {
+            this.currentIteratorOfCrossroad.put(crossroad, this.trafficLightsOfCrossroadByRoad.get(crossroad).iterator());
+        }
+        this.currentGreenTrafficLightsOfCrossroad.put(crossroad, this.currentIteratorOfCrossroad.get(crossroad).next());
+        this.currentGreenTrafficLightsOfCrossroad.get(crossroad)
+                .forEach(trafficLight -> trafficLight.setTrafficLightState(CityTrafficLight.TrafficLightState.GREEN));
+        return this;
+    }
+
+    /**
+     * @author Adam Elgressy and Guy Rephaeli
+     * @Date 25-4-2018
+     *
+     * Insert the crossroads to manage
+     * @param crossroads - the crossroads to manage
+     * @return self
+     */
+    @Override
+    public TrafficLightManager insertCrossroads(Set<CityCrossroad> crossroads) {
         this.crossroads = crossroads;
 
         this.trafficLightsOfCrossroadByRoad = crossroads
@@ -66,27 +110,6 @@ public class NaiveTrafficLightManager implements TrafficLightManager {
                 this.currentGreenTrafficLightsOfCrossroad.get(crossroad)
                         .forEach(trafficLight ->
                                 trafficLight.setTrafficLightState(CityTrafficLight.TrafficLightState.GREEN)));
-
-        this.count = 0;
-    }
-
-    /**
-     * @author Guy Rephaeli
-     * @Date 20-1-2018
-     * @param crossroad - the crossroad its traffic-lights are converted in a cyclic way: each set of traffic-lights is
-     *                  turned to green for the minimal possible time, and then turns red so the next set could turn green
-     * @return self
-     */
-    private NaiveTrafficLightManager turnToNextGreen(CityCrossroad crossroad) {
-        this.currentGreenTrafficLightsOfCrossroad.get(crossroad)
-                .forEach(trafficLight -> trafficLight.setTrafficLightState(CityTrafficLight.TrafficLightState.RED));
-        Iterator<HashSet<CityTrafficLight>> iter = currentIteratorOfCrossroad.get(crossroad);
-        if (! iter.hasNext()) {
-            this.currentIteratorOfCrossroad.put(crossroad, this.trafficLightsOfCrossroadByRoad.get(crossroad).iterator());
-        }
-        this.currentGreenTrafficLightsOfCrossroad.put(crossroad, this.currentIteratorOfCrossroad.get(crossroad).next());
-        this.currentGreenTrafficLightsOfCrossroad.get(crossroad)
-                .forEach(trafficLight -> trafficLight.setTrafficLightState(CityTrafficLight.TrafficLightState.GREEN));
         return this;
     }
 

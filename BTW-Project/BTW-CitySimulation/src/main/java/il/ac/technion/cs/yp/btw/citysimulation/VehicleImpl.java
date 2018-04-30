@@ -280,4 +280,16 @@ public class VehicleImpl implements Vehicle {
         driveOnFirstRoad();
         return true;
     }
+
+    /**
+     * @author Guy Rephaeli
+     * @date 25.4.2018
+     * return the time in which the driving starts
+     *
+     * @return the time in which the driving starts
+     */
+    @Override
+    public BTWTime getStartingTime() {
+        return BTWTime.of(this.startTime);
+    }
 }
