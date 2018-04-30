@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class GenerateGridController extends GenerateCityController implements In
     @FXML private JFXTextField LengthOfStreets;
     @FXML private JFXTextField LengthOfAvenues;
     @FXML private JFXTextField mapNameTextField;
-    @FXML private JFXToggleButton numStreetsToggle, numAvenuesToggle, legnthStreetsToggle, legnthAvenuesToggle, mapNameToggle, helpButton;
+    @FXML private JFXToggleButton numStreetsToggle, numAvenuesToggle, legnthStreetsToggle, legnthAvenuesToggle;
 
 
     int Number_of_streets, Number_of_avenues, Length_of_streets, Length_of_avenues;
@@ -43,8 +44,6 @@ public class GenerateGridController extends GenerateCityController implements In
                 LengthOfStreets.setDisable(!LengthOfStreets.isDisabled()));
         legnthAvenuesToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
                 LengthOfAvenues.setDisable(!LengthOfAvenues.isDisabled()));
-        mapNameToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
-                mapNameTextField.setDisable(!mapNameTextField.isDisabled()));
     }
 
 
@@ -97,6 +96,20 @@ public class GenerateGridController extends GenerateCityController implements In
         return true;
     }
 
+    /**@author: Anat
+     * @date: 01/05/2018
+     */
+  /*  @FXML
+    protected void showHelpDialog(String helpMessage){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help");
+        alert.setHeaderText(null);
+        alert.setContentText(helpMessage);
+        alert.showAndWait();
+    }
+    */
+
+
     @Override
     protected MapSimulator createMapSimulator() {
         GridCityMapSimulator gridCityMapSimulator = new GridCityMapSimulator();
@@ -108,34 +121,50 @@ public class GenerateGridController extends GenerateCityController implements In
     }
 
     /**@author: Anat
-     * @date: 10/4/18
+     * @date: 27/4/2018
      */
-
-    private void initHelpButtonForRoadLength() {
-
+    @FXML
+    public void showHelpDialogForNumAvenues(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help");
+        alert.setHeaderText(null);
+        alert.setContentText("NumAvenues");
+        alert.showAndWait();
     }
 
-    public void generateView(String string, Parent root) throws IOException {
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
-
-        if(string.equals("1")){
-
-        }
-        if(string.equals("2")){
-
-        }
-        if(string.equals("3")){
-
-        }
-        if(string.equals("4")){
-
-        }
-
+    /**@author: Anat
+     * @date: 27/4/2018
+     */
+    @FXML
+    public void showHelpDialogForLengthAvenues(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help");
+        alert.setHeaderText(null);
+        alert.setContentText("LengthAvenues");
+        alert.showAndWait();
     }
 
+    /**@author: Anat
+     * @date: 27/4/2018
+     */
+    @FXML
+    public void showHelpDialogFornumStreets(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help");
+        alert.setHeaderText(null);
+        alert.setContentText("NumStreets");
+        alert.showAndWait();
+    }
 
-
+    /**@author: Anat
+     * @date: 27/4/2018
+     */
+    @FXML
+    public void showHelpDialogForLengthStreets(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help");
+        alert.setHeaderText(null);
+        alert.setContentText("LengthStreets");
+        alert.showAndWait();
+    }
 }

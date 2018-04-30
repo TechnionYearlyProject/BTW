@@ -24,28 +24,28 @@
            <children>
                <HBox alignment="CENTER">
                    <children>
-                       <JFXButton fx:id="numStreetsHelper" text="?" ripplerFill="BLACK" style="-fx-background-color: #ffffff;"></JFXButton>
+                       <JFXButton fx:id="numStreetsHelper" onAction="#showHelpDialogFornumStreets" text="?" ripplerFill="BLACK" style="-fx-background-color: #ffffff;"></JFXButton>
                        <JFXToggleButton fx:id="numStreetsToggle" />
                        <JFXTextField fx:id="NumberOfStreets" disable="true" prefWidth="260" promptText="Number Of Streets (2-50)" />
                    </children>
                </HBox>
                <HBox alignment="CENTER">
                    <children>
-                       <JFXButton fx:id="numAvenuesHelper" text="?" ripplerFill="BLACK" style="-fx-background-color: #ffffff;"></JFXButton>
+                       <JFXButton fx:id="numAvenuesHelper" onAction="#showHelpDialogForNumAvenues" text="?" ripplerFill="BLACK" style="-fx-background-color: #ffffff;"></JFXButton>
                        <JFXToggleButton fx:id="numAvenuesToggle" />
                        <JFXTextField fx:id="NumberOfAvenues" disable="true" prefWidth="260" promptText="Number Of Avenues (2-50)" />
                    </children>
                </HBox>
                <HBox alignment="CENTER">
                    <children>
-                       <JFXButton fx:id="lengthStreetsHelper" text="?" ripplerFill="BLACK" style="-fx-background-color: #ffffff;"></JFXButton>
+                       <JFXButton fx:id="lengthStreetsHelper" onAction="#showHelpDialogForLengthStreets" text="?" ripplerFill="BLACK" style="-fx-background-color: #ffffff;"></JFXButton>
                        <JFXToggleButton fx:id="legnthStreetsToggle" />
                        <JFXTextField fx:id="LengthOfStreets" disable="true" prefWidth="260" promptText="Length Of Street (100-2000 meters)" />
                    </children>
                </HBox>
                <HBox alignment="CENTER">
                    <children>
-                       <JFXButton fx:id="legnthAvenuesHelper" text="?" ripplerFill="BLACK" style="-fx-background-color: #ffffff;"></JFXButton>
+                       <JFXButton fx:id="legnthAvenuesHelper" onAction="#showHelpDialogForLengthAvenues" text="?" ripplerFill="BLACK" style="-fx-background-color: #ffffff;"></JFXButton>
                        <JFXToggleButton fx:id="legnthAvenuesToggle" />
                        <JFXTextField fx:id="LengthOfAvenues" disable="true" prefWidth="260.0" promptText="Length Of Avenues (100-2000 meters)" />
                    </children>
