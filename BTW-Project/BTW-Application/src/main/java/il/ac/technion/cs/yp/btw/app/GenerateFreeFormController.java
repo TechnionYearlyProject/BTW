@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -80,39 +81,26 @@ public class GenerateFreeFormController extends GenerateCityController implement
     }
 
     /**@author: Anat
-     * @date: 10/4/18
+     * @date: 01/5/2018
      */
-    /*
-    private void initHelpButtonForRoadLength() {
-        helpButton = createRaisedJFXButtonWithText("?");
-        helpButton.setOnAction(event -> {
-            try {
-                generateView("1",initScenePanesAndGetRoot());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        });
+    @FXML
+    public void showHelpDialogForRadius(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help");
+        alert.setHeaderText(null);
+        alert.setContentText("Radius");
+        alert.showAndWait();
     }
-    public void generateView(String string, Parent root) throws IOException {
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
 
-        if(string.equals("1")){
-
-        }
-        if(string.equals("2")){
-
-        }
-        if(string.equals("3")){
-
-        }
-        if(string.equals("4")){
-
-        }
-
+    /**@author: Anat
+     * @date: 01/5/2018
+     */
+    @FXML
+    public void showHelpDialogForNumBlocks(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help");
+        alert.setHeaderText(null);
+        alert.setContentText("NumberOfBlocks");
+        alert.showAndWait();
     }
-*/
 }

@@ -24,12 +24,14 @@
             <children>
                 <HBox alignment="CENTER">
                     <children>
+                        <JFXButton fx:id="numBlocksHelper" onAction="#showHelpDialogForNumBlocks" text="?" ripplerFill="BLACK" style="-fx-background-color: #B6B6B4;"/>
                         <JFXToggleButton fx:id="blocksToggle"/>
                         <JFXTextField fx:id="NumberOfBlocks" disable="true" prefWidth="260" promptText="Maximum Number of Blocks (30-250)" />
                     </children>
                 </HBox>
                 <HBox alignment="CENTER">
                     <children>
+                        <JFXButton fx:id="RadiusHelper" onAction="#showHelpDialogForRadius" text="?" ripplerFill="BLACK" style="-fx-background-color: #B6B6B4;"/>
                         <JFXToggleButton fx:id="radiusToggle"/>
                         <JFXTextField fx:id="Radius" disable="true" prefWidth="260" promptText="Radius (2000-7000 meters)" />
                     </children>
