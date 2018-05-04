@@ -165,7 +165,7 @@ public class MainDataBase{
             }
         }
         catch (Exception e) {
-            logger.error("DataBase Error for saving data", e);
+            logger.error("DataBase Error for saving data");
         }
     }
 }
