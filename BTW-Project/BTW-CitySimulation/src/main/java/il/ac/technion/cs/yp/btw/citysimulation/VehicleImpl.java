@@ -26,6 +26,7 @@ public class VehicleImpl implements Vehicle {
     private CitySimulator simulator;
     private long startTime;
     private long currentTrafficLightStartingTime;
+    private long currentRoadStartingTime;
 
     /**
      * @author Guy Rephaeli
@@ -58,6 +59,7 @@ public class VehicleImpl implements Vehicle {
         this.simulator = simulator;
         this.startTime = startTime;
         this.currentTrafficLightStartingTime = 0L;
+        this.currentRoadStartingTime = 0L;
     }
 
     /**
@@ -177,7 +179,8 @@ public class VehicleImpl implements Vehicle {
      */
     @Override
     public Vehicle waitOnTrafficLight(Crossroad crossroad) {
-        this.simulator.reportOnRoad(this.currentRoad, this.timeOnCurrentRoad);
+        long timeTakenOnRoad = this.simulator.getCurrentTime() - this.currentRoadStartingTime;
+        this.simulator.reportOnRoad(this.currentRoad, timeTakenOnRoad);
 
         CityCrossroad realCrossroad = this.simulator.getRealCrossroad(crossroad);
         this.isWaitingOnTrafficLight = true;
@@ -216,6 +219,7 @@ public class VehicleImpl implements Vehicle {
         this.leaveRoad(prev);
         this.isWaitingOnTrafficLight = false;
         this.currentRoad = this.nextRoad;
+        this.currentRoadStartingTime = this.simulator.getCurrentTime();
         if (this.currentRoad.equals(this.destination)) {
             this.nextRoad = null;
             this.driveOnLastRoad();
@@ -258,7 +262,7 @@ public class VehicleImpl implements Vehicle {
                 return this;
             }
             if (prevRemainingTime > 0) {
-                waitOnTrafficLight(currentRoad.getDestinationCrossroad());
+                this.waitOnTrafficLight(this.currentRoad.getDestinationCrossroad());
             }
         }
         return this;
