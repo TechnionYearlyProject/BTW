@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public class BTWDataBaseImpl implements BTWDataBase {
 
     final static Logger logger = Logger.getLogger("BTWDataBaseImpl");
+    static boolean StatisticsMode = false;
 
     private String mapName;
     private Connection connection;
@@ -352,6 +353,10 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public BTWDataBase createStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights) {
+        if (!StatisticsMode) {
+            logger.debug("BTWDataBase doesn't create statistics table because StatisticsMode is false");
+            return this;
+        }
         logger.debug("BTWDataBase Start Statistics Tables");
         String queryCreate = "";
         String queryInsert = "";
@@ -391,7 +396,16 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public BTWDataBase updateStatisticsTables(StatisticsProvider provider) {
-        return null;
+        if (!StatisticsMode) {
+            logger.debug("BTWDataBase doesn't update statistics table because StatisticsMode is false");
+            return this;
+        }
+
+        // need to implement here
+        // get the Provider and save for each road and for each traffic light the current weight
+        // will make query: UPDATE tablename weight=newWeight WHERE time=timeinseconds
+
+        return this;
     }
 
     /**
@@ -403,7 +417,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public StatisticsProvider getStatisticsFromDB() {
-        return null;
+
+        return new DBStatisticsProvider(this);
     }
 
     /**
