@@ -815,20 +815,22 @@ public class CitySimulatorImpl implements CitySimulator {
     @Override
     public CitySimulator reportOnRoad(Road rd, Long time) {
         if (! this.currentReportOfRoad.containsKey(rd)) {
-            StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock));
+            StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
             this.currentReportOfRoad.put(rd, report);
         }
-        this.currentReportOfRoad.get(rd).update(BTWWeight.of(time - (time % this.timeWindow)));
+//        this.currentReportOfRoad.get(rd).update(BTWWeight.of(time - (time % this.timeWindow)));
+        this.currentReportOfRoad.get(rd).update(BTWWeight.of(time));
         return this;
     }
 
     @Override
     public CitySimulator reportOnTrafficLight(TrafficLight tl, Long time) {
         if (! this.currentReportOfTrafficLight.containsKey(tl)) {
-            StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock));
+            StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
             this.currentReportOfTrafficLight.put(tl, report);
         }
-        this.currentReportOfTrafficLight.get(tl).update(BTWWeight.of(time - (time % this.timeWindow)));
+//        this.currentReportOfTrafficLight.get(tl).update(BTWWeight.of(time - (time % this.timeWindow)));
+        this.currentReportOfTrafficLight.get(tl).update(BTWWeight.of(time));
         return this;
     }
 
