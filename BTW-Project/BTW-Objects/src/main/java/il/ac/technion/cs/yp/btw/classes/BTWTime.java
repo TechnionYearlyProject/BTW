@@ -50,4 +50,22 @@ public class BTWTime extends BTWTimeUnit{
     public Long getSecondsOnly() {
         return this.seconds % 3600;
     }
+
+    public BTWTime startTimeWindow(long timeWindow) {
+        return new BTWTime(this.seconds - (this.seconds % timeWindow));
+    }
+
+    @Override
+    public int hashCode(){
+        return this.seconds().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (! (o instanceof BTWTime)) {
+            return false;
+        }
+        BTWTime t = (BTWTime)o;
+        return this.seconds().equals(t.seconds());
+    }
 }

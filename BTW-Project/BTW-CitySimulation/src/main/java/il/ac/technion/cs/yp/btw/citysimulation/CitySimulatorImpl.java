@@ -32,7 +32,7 @@ public class CitySimulatorImpl implements CitySimulator {
     private long clock;
     private Map<Road, StatisticalReport> currentReportOfRoad;
     private Map<TrafficLight, StatisticalReport> currentReportOfTrafficLight;
-    private int timeWindow = 15 * 60;
+    private long timeWindow;
     private StatisticsCalculator calculator; // maybe should be singleton
 
     private class CityRoadImpl implements CityRoad {
@@ -505,7 +505,7 @@ public class CitySimulatorImpl implements CitySimulator {
      * @param navigationManager - the navigation manager that creates the navigators
      */
     CitySimulatorImpl(Set<Road> roads, Set<TrafficLight> trafficLights, Set<Crossroad> crossroads,
-                      NavigationManager navigationManager, TrafficLightManager trafficLightManager, StatisticsCalculator calculator){
+                      NavigationManager navigationManager, TrafficLightManager trafficLightManager, StatisticsCalculator calculator, long timeWindow){
         this.roads = new HashMap<>();
         this.trafficLights = new HashMap<>();
         this.crossroads = new HashMap<>();
@@ -523,6 +523,7 @@ public class CitySimulatorImpl implements CitySimulator {
         this.navigationManager = navigationManager;
         this.trafficLightManager = trafficLightManager;
         this.clock = 0;
+        this.timeWindow = timeWindow;
     }
 
     /**
@@ -532,7 +533,7 @@ public class CitySimulatorImpl implements CitySimulator {
      * @param db - the db containing the map
      */
     public CitySimulatorImpl(BTWDataBase db, NavigationManager navigationManager, TrafficLightManager trafficLightManager, StatisticsCalculator calculator) {
-        this(db.getAllRoads(), db.getAllTrafficLights(), db.getAllCrossroads(), navigationManager, trafficLightManager, calculator);
+        this(db.getAllRoads(), db.getAllTrafficLights(), db.getAllCrossroads(), navigationManager, trafficLightManager, calculator, db.getStatisticsPeriod());
     }
 
     /**
