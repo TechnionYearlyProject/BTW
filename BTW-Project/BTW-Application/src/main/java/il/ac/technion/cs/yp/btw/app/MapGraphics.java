@@ -233,9 +233,9 @@ public class MapGraphics {
      * @author: shay & Anat
      * Need to determine colors by weight
      */
-    private static final long YELLOW_THRESHOLD = 40;
-    private static final long ORANGE_THRESHOLD = 45;
-    private static final long RED_THRESHOLD = 50;
+    private static final long YELLOW_THRESHOLD = 45;
+    private static final long ORANGE_THRESHOLD = 50;
+    private static final long RED_THRESHOLD = 55;
 
     /**
      * @author: shay

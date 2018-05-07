@@ -8,14 +8,17 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -57,6 +60,8 @@ public class DrawMapController extends ShowErrorController implements Initializa
     Timeline playCityTimeline;
     CompletableFuture<Boolean> tickTask;
     int currentTicks;
+
+    double startDragX,startDragY, endDragX, endDragY;
 
     //the interval of ticks for the action of each button
     private int playButtonTicksInterval = 2;
@@ -228,6 +233,96 @@ public class DrawMapController extends ShowErrorController implements Initializa
             accumulatedScales.appendScale(delta,delta
                     ,event.getX(), event.getY());
         });
+
+       //borderPane.setOnMouseDragOver(event -> {
+           // borderPane.setLayoutY(event.getY()+200);
+            //borderPane.setTranslateX(event.getX()+200);
+//            Node node = (Node) event.getSource();
+//            node.setTranslateX(event.getSceneX()/4);
+//            node.setTranslateY(event.getSceneY()/4);
+//            event.consume();
+
+            //event.consume();
+
+        //});
+
+        /**@author: Anat
+         * @date: 6/5/18
+         */
+
+        root.setOnDragDetected(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+        /* drag was detected, start a drag-and-drop gesture*/
+        /* allow any transfer mode */
+                Dragboard db = root.startDragAndDrop(TransferMode.ANY);
+
+        /* Put a string on a dragboard */
+                ClipboardContent content = new ClipboardContent();
+                content.putString("BLABLABLABLA");
+                db.setContent(content);
+
+                startDragX = event.getSceneX();
+                startDragY = event.getSceneY();
+
+                event.consume();
+            }
+        });
+
+        /**@author: Anat
+         * @date: 6/5/18
+         */
+        root.setOnDragOver(new EventHandler<DragEvent>() {
+            public void handle(DragEvent event) {
+        /* data is dragged over the target */
+                if (true) {
+            /* allow for both copying and moving, whatever user chooses */
+                    event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                }
+                event.consume();
+            }
+        });
+
+        /**@author: Anat
+         * @date: 6/5/18
+         */
+        root.setOnDragDropped(new EventHandler<DragEvent>() {
+            public void handle(DragEvent event) {
+        /* data dropped */
+        /* if there is a string data on dragboard, read it and use it */
+                Dragboard db = event.getDragboard();
+                boolean success = false;
+
+                double sourceX = borderPane.getLayoutX();
+                double sourceY = borderPane.getLayoutY();
+                endDragX= event.getSceneX();
+                endDragY = event.getSceneY();
+
+                if((startDragX<endDragX)&&(startDragY<endDragY)){
+                    borderPane.setLayoutX(borderPane.getLayoutX()+(endDragX-startDragX)*2);
+                    //borderPane.setLayoutX(borderPane.getLayoutY()+(endDragY-startDragY)*2);
+                }
+
+                else if((startDragX>endDragX)&&(startDragY<endDragY)){
+                    borderPane.setLayoutX(borderPane.getLayoutX()-(startDragX-endDragX)*2);
+                    //borderPane.setLayoutX(borderPane.getLayoutY()+(endDragY-startDragY)*2);
+                }
+
+                else if((startDragX<endDragX)&&(startDragY>endDragY)){
+                    borderPane.setLayoutX(borderPane.getLayoutX()+(endDragX-startDragX)*2);
+                    //borderPane.setLayoutX(borderPane.getLayoutY()-(startDragY-endDragY)*2);
+                }
+
+                else {
+                    borderPane.setLayoutX(borderPane.getLayoutX()-(startDragX-endDragX)*2);
+                    //borderPane.setLayoutX(borderPane.getLayoutY()-(startDragY-endDragY)*2);
+                }
+
+                event.setDropCompleted(success);
+
+                event.consume();
+            }
+        });
+
         return root;
     }
     /**@author: Orel
