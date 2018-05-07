@@ -5,6 +5,7 @@ import il.ac.technion.cs.yp.btw.db.queries.QueryAllWeights;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsProvider;
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,11 +18,25 @@ public class DBStatisticsProvider implements StatisticsProvider {
     private Map<String,BTWWeight[]> roadsMap;
     private Map<String,BTWWeight[]> trafficLightsMap;
 
+    /**
+     * @Author: Shay
+     * @Date: 26/4/18
+     * DBStatisticsProvider Constructor with DB
+     * @param db - BTWDataBase
+     */
     public DBStatisticsProvider(BTWDataBase db) {
         try {
             logger.debug("Start DBStatisticsProvider constructor");
             Set<Road> roads = db.getAllRoads();
             Set<TrafficLight> trafficLights = db.getAllTrafficLights();
+
+            roadsMap = new HashMap<>();
+            trafficLightsMap = new HashMap<>();
+
+            if (db == null) {
+                logger.debug("db parameter is NULL!");
+                return;
+            }
 
             logger.debug("Insert all roads and their weights to map");
             for (Road road: roads) {
@@ -42,6 +57,49 @@ public class DBStatisticsProvider implements StatisticsProvider {
             }
 
             logger.debug("End DBStatisticsProvider constructor");
+        }
+        catch (Exception e) {
+            logger.error(e);
+        }
+
+
+    }
+
+    /**
+     * @Author: Shay
+     * @Date: 26/4/18
+     * constructor without DB
+     * @param roads - set of roads
+     * @param trafficlights - set of trafficlights
+     */
+    public DBStatisticsProvider(Set<Road> roads, Set<TrafficLight> trafficlights) {
+        try {
+            logger.debug("Start DBStatisticsProvider Dummy constructor");
+
+            roadsMap = new HashMap<>();
+            trafficLightsMap = new HashMap<>();
+
+            logger.debug("Insert Dummy roads to map");
+            if (roads == null) {
+                logger.debug("no roads");
+                return;
+            }
+            for (Road road: roads) {
+                BTWWeight[] weights = new BTWWeight[] {BTWWeight.of(1)};
+                roadsMap.put(road.getRoadName(),weights);
+            }
+
+            if (trafficlights == null) {
+                logger.debug("no traffic lights");
+                return;
+            }
+            logger.debug("Insert all traffic lights and their weights to map");
+            for (TrafficLight trafficLight: trafficlights) {
+                BTWWeight[] weights = new BTWWeight[] {BTWWeight.of(1)};
+                roadsMap.put(trafficLight.getName(),weights);
+            }
+
+            logger.debug("End DBStatisticsProvider Dummy constructor");
         }
         catch (Exception e) {
             logger.error(e);
