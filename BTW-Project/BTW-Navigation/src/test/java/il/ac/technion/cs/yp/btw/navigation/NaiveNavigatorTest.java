@@ -51,6 +51,11 @@ public class NaiveNavigatorTest {
         }
 
         @Override
+        public long getStatisticsPeriod() {
+            return 1800;
+        }
+
+        @Override
         public Set<TrafficLight> getAllTrafficLights() {
             return new HashSet<>(Arrays.asList(
                     trafficLight1_2,

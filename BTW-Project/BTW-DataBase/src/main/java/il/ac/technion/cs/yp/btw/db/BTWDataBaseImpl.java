@@ -525,4 +525,9 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return mapName;
     }
 
+    @Override
+    public long getStatisticsPeriod() {
+        return 1800;
+    }
+
 }

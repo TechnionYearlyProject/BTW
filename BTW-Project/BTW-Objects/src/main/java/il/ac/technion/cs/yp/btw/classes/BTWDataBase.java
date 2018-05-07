@@ -119,4 +119,13 @@ public interface BTWDataBase {
      * get name of map
      */
     public String getMapName();
+
+    /**
+     * @Author: Shay
+     * @Date: 7/5/18
+     * get the statistics period in DB
+     */
+    public long getStatisticsPeriod();
 }
+
+
