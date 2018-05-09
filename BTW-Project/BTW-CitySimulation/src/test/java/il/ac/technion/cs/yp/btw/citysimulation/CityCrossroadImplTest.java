@@ -34,6 +34,7 @@ public class CityCrossroadImplTest {
     private TrafficLight trafficLight;
     private Vehicle vehicle;
     private boolean ticked;
+    private long timeWindow = 15 * 60;
 
     private void configMock() throws PathNotFoundException {
         // navigationManager
@@ -156,7 +157,7 @@ public class CityCrossroadImplTest {
         trafficLights.add(this.trafficLight);
         Set<Crossroad> crossroads = new HashSet<>();
         crossroads.add(this.crossroad);
-        this.simulator = new CitySimulatorImpl(roads, trafficLights, crossroads, this.navigationManager, this.trafficLightManager, this.calculator);
+        this.simulator = new CitySimulatorImpl(roads, trafficLights, crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow);
     }
 
     @Before

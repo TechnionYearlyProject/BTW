@@ -44,6 +44,7 @@ public class CitySimulatorImplTest {
     private Map<TrafficLight, BTWWeight> weightOfTrafficLight;
     private Map<TrafficLight, BTWTime> reportTimeOfTrafficLight;
     private Map<TrafficLight, Integer> reportersOnTrafficLight;
+    private long timeWindow = 15 * 60;
 
 
     private void configMock() throws PathNotFoundException {
@@ -207,7 +208,7 @@ public class CitySimulatorImplTest {
 
     @Test
     public void addVehicleAndTickTest() {
-        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator);
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow);
         Vehicle vehicle;
         try {
             vehicle = tested.addVehicle(this.descriptor1, this.road1, 0.0, this.road2, 1.0);
@@ -228,7 +229,7 @@ public class CitySimulatorImplTest {
 
     @Test
     public void addSeveralVehiclesTest() {
-        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator);
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow);
         Vehicle vehicle1;
         Vehicle vehicle2;
         List<VehicleDescriptor> descriptors = new ArrayList<>();
@@ -267,7 +268,7 @@ public class CitySimulatorImplTest {
 
     @Test
     public void saveMapTest() {
-        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator);
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow);
         CityMap map = tested.saveMap();
         Assert.assertEquals(2, map.getAllRoads().size());
         Assert.assertEquals(1, map.getAllTrafficLights().size());
@@ -276,7 +277,7 @@ public class CitySimulatorImplTest {
 
     @Test
     public void reportTest() {
-        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator);
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow);
         for (int i = 0; i < 15 * 60; i++) {
             long time = 3 + (i % 2);
             tested.reportOnRoad(this.road1, time);

@@ -2,6 +2,7 @@ package il.ac.technion.cs.yp.btw.statistics;
 
 import il.ac.technion.cs.yp.btw.classes.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -33,8 +34,7 @@ public class NaiveStatisticsCalculator implements StatisticsCalculator {
      */
     @Override
     public StatisticsProvider getStatistics() {
-        // TODO
-        return null;
+        return new StatisticsProviderImpl(this.db.getStatisticsPeriod(), this.roadExpectedWeightOfTime, this.trafficLightExpectedWeightOfTime);
     }
 
     /**
@@ -47,7 +47,16 @@ public class NaiveStatisticsCalculator implements StatisticsCalculator {
      */
     @Override
     public StatisticsCalculator adRoadReport(Road rd, StatisticalReport report) {
-        // TODO
+        BTWTime time = report.getTimeOfReport().startTimeWindow(this.db.getStatisticsPeriod());
+        if (! this.roadExpectedWeightOfTime.containsKey(time)) {
+            this.roadExpectedWeightOfTime.put(time, new HashMap<Road, BTWWeight>());
+        }
+        Map<Road, BTWWeight> weightOfRoad = this.roadExpectedWeightOfTime.get(time);
+        if (weightOfRoad.containsKey(rd)) {
+            throw new BTWIllegalStatisticsException("Specific statistics can not be reported twice without resetting");
+        } else {
+            weightOfRoad.put(rd, report.timeTaken());
+        }
         return this;
     }
 
@@ -61,7 +70,16 @@ public class NaiveStatisticsCalculator implements StatisticsCalculator {
      */
     @Override
     public StatisticsCalculator adTrafficLightReport(TrafficLight tl, StatisticalReport report) {
-        // TODO
+        BTWTime time = report.getTimeOfReport().startTimeWindow(this.db.getStatisticsPeriod());
+        if (! this.trafficLightExpectedWeightOfTime.containsKey(time)) {
+            this.trafficLightExpectedWeightOfTime.put(time, new HashMap<TrafficLight, BTWWeight>());
+        }
+        Map<TrafficLight, BTWWeight> weightOfRoad = this.trafficLightExpectedWeightOfTime.get(time);
+        if (weightOfRoad.containsKey(tl)) {
+            throw new BTWIllegalStatisticsException("Specific statistics can not be reported twice without resetting");
+        } else {
+            weightOfRoad.put(tl, report.timeTaken());
+        }
         return this;
     }
 }
