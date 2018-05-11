@@ -401,10 +401,34 @@ public class BTWDataBaseImpl implements BTWDataBase {
             return this;
         }
 
-        // need to implement here
-        // get the Provider and save for each road and for each traffic light the current weight
-        // will make query: UPDATE tablename weight=newWeight WHERE time=timeinseconds
+        logger.debug("BTWDataBase Start Update Statistics in DB");
 
+        String queryUpdateRoad = "";
+        String queryUpdateTL = "";
+        for (Road road: roads) {
+            Integer time = 0;
+            while (time < 86400) {
+                BTWTime btwTime = BTWTime.of(time);
+                queryUpdateRoad += "UPDATE dbo." + mapName + "Road" + road.getRoadName().replaceAll("\\s+","") + " SET " +
+                        "overload="+ provider.expectedTimeOnRoadAt(btwTime,road) +
+                        " WHERE time=" +time.toString() + ";\n";
+                time += 1800;
+            }
+        }
+        for (TrafficLight trafficLight: trafficLights) {
+            Integer time = 0;
+            while (time < 86400) {
+                BTWTime btwTime = BTWTime.of(time);
+                queryUpdateTL += "UPDATE dbo." + mapName + "TL" + trafficLight.getName().replaceAll("\\s+","").replaceAll(":","") +
+                        " SET " +
+                        "overload="+ provider.expectedTimeOnTrafficLightAt(btwTime,trafficLight) +
+                        " WHERE time=" +time.toString() + ";\n";
+                time += 1800;
+            }
+        }
+        logger.debug(queryUpdateRoad+queryUpdateTL);
+        MainDataBase.saveDataFromQuery(queryUpdateRoad+queryUpdateTL);
+        logger.debug("BTWDataBase Complete Updating Statistics Tables in DB");
         return this;
     }
 
