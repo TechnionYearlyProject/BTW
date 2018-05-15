@@ -1,12 +1,7 @@
 package il.ac.technion.cs.yp.btw.db.DataObjects;
 
-import java.sql.Time;
-
 import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.db.RoadsDataBase;
-import il.ac.technion.cs.yp.btw.db.StreetsDataBase;
-import il.ac.technion.cs.yp.btw.db.CrossRoadsDataBase;
-import il.ac.technion.cs.yp.btw.classes.BTWTime;
 /**
  * default implementation for the interface Road
  */
@@ -24,6 +19,7 @@ public class DataRoad implements Road {
     private int secStart;
     private int secEnd;
     private long overload;
+    private BTWWeight[] weights;
 
     /*
      * @author Sharon Hadar
@@ -40,6 +36,7 @@ public class DataRoad implements Road {
         this.sourceCrossroadPosition = sourceCrossroadPosition;
         this.destinationCrossroadPosition = destinationCrossroadPosition;
         this.mapName = mapName;
+        this.weights = null;
     }
 
     /*
@@ -57,6 +54,7 @@ public class DataRoad implements Road {
         this.secStart = secStart;
         this.secEnd = secEnd;
         this.overload = overload;
+        this.weights = null;
 
     }
     /**
@@ -115,6 +113,8 @@ public class DataRoad implements Road {
     }
 
     /**
+     * @Author: shay
+     * @Date: 09/05/18
      * returns the right Weight for the given Time
      *
      * @param time - Time we want to check the load
@@ -124,18 +124,24 @@ public class DataRoad implements Road {
      */
     @Override
     public BTWWeight getWeightByTime(BTWTime time) {
+        if (weights != null) {
+            long index = time.seconds()/1800 -1;
+            if (index >= 0) return weights[(int)index];
+            else return weights[0];
 
+        }
         overload = RoadsDataBase.getOverload(name, mapName);
         BTWWeight roadOverload = null;
         try{
             roadOverload = BTWWeight.of(overload);
         }catch(BTWIllegalTimeException e){
-
         }
         return roadOverload;
     }
 
     /**
+     * @Author: shay
+     * @Date: 09/05/18
      * @return minimum possible Weight of Road
      */
     @Override
@@ -148,6 +154,11 @@ public class DataRoad implements Road {
         }
     }
 
+    /**
+     * @Author: shay
+     * @Date: 09/05/18
+     * @return the distance between this road to the parameter road
+     */
     @Override
     public BTWWeight getHeuristicDist(Road road) {
         Long dist = RoadsDataBase.getHeuristicDist(name,road.getRoadName(),mapName);

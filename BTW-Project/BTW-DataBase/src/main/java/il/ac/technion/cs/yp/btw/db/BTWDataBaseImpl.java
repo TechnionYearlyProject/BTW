@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public class BTWDataBaseImpl implements BTWDataBase {
 
     final static Logger logger = Logger.getLogger("BTWDataBaseImpl");
+    static boolean StatisticsMode = false;
 
     private String mapName;
     private Connection connection;
@@ -352,6 +353,10 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public BTWDataBase createStatisticsTables(Set<Road> roads, Set<TrafficLight> trafficLights) {
+        if (!StatisticsMode) {
+            logger.debug("BTWDataBase doesn't create statistics table because StatisticsMode is false");
+            return this;
+        }
         logger.debug("BTWDataBase Start Statistics Tables");
         String queryCreate = "";
         String queryInsert = "";
@@ -391,7 +396,40 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public BTWDataBase updateStatisticsTables(StatisticsProvider provider) {
-        return null;
+        if (!StatisticsMode) {
+            logger.debug("BTWDataBase doesn't update statistics table because StatisticsMode is false");
+            return this;
+        }
+
+        logger.debug("BTWDataBase Start Update Statistics in DB");
+
+        String queryUpdateRoad = "";
+        String queryUpdateTL = "";
+        for (Road road: roads) {
+            Integer time = 0;
+            while (time < 86400) {
+                BTWTime btwTime = BTWTime.of(time);
+                queryUpdateRoad += "UPDATE dbo." + mapName + "Road" + road.getRoadName().replaceAll("\\s+","") + " SET " +
+                        "overload="+ provider.expectedTimeOnRoadAt(btwTime,road) +
+                        " WHERE time=" +time.toString() + ";\n";
+                time += 1800;
+            }
+        }
+        for (TrafficLight trafficLight: trafficLights) {
+            Integer time = 0;
+            while (time < 86400) {
+                BTWTime btwTime = BTWTime.of(time);
+                queryUpdateTL += "UPDATE dbo." + mapName + "TL" + trafficLight.getName().replaceAll("\\s+","").replaceAll(":","") +
+                        " SET " +
+                        "overload="+ provider.expectedTimeOnTrafficLightAt(btwTime,trafficLight) +
+                        " WHERE time=" +time.toString() + ";\n";
+                time += 1800;
+            }
+        }
+        logger.debug(queryUpdateRoad+queryUpdateTL);
+        MainDataBase.saveDataFromQuery(queryUpdateRoad+queryUpdateTL);
+        logger.debug("BTWDataBase Complete Updating Statistics Tables in DB");
+        return this;
     }
 
     /**
@@ -403,7 +441,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public StatisticsProvider getStatisticsFromDB() {
-        return null;
+
+        return new DBStatisticsProvider(this);
     }
 
     /**
@@ -508,6 +547,11 @@ public class BTWDataBaseImpl implements BTWDataBase {
     @Override
     public String getMapName() {
         return mapName;
+    }
+
+    @Override
+    public long getStatisticsPeriod() {
+        return 1800;
     }
 
 }

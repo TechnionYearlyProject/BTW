@@ -32,6 +32,7 @@ public class CityRoadImplTest {
     private Vehicle v5;
     private Vehicle v6;
     private boolean ticked;
+    private long timeWindow = 15 * 60;
 
     private void configMock() throws PathNotFoundException {
         //crossroad1
@@ -128,7 +129,7 @@ public class CityRoadImplTest {
         NavigationManager navigationManager = Mockito.mock(NavigationManager.class);
         TrafficLightManager trafficLightManager= Mockito.mock(TrafficLightManager.class);
         StatisticsCalculator calculator = Mockito.mock(StatisticsCalculator.class);
-        this.simulator = new CitySimulatorImpl(roads, trafficLights, crossroads, navigationManager, trafficLightManager, calculator);
+        this.simulator = new CitySimulatorImpl(roads, trafficLights, crossroads, navigationManager, trafficLightManager, calculator, this.timeWindow);
     }
 
     @Before

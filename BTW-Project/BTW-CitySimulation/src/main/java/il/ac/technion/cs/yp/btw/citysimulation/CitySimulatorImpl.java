@@ -32,7 +32,7 @@ public class CitySimulatorImpl implements CitySimulator {
     private long clock;
     private Map<Road, StatisticalReport> currentReportOfRoad;
     private Map<TrafficLight, StatisticalReport> currentReportOfTrafficLight;
-    private int timeWindow = 15 * 60;
+    private long timeWindow;
     private StatisticsCalculator calculator; // maybe should be singleton
 
     private class CityRoadImpl implements CityRoad {
@@ -505,7 +505,7 @@ public class CitySimulatorImpl implements CitySimulator {
      * @param navigationManager - the navigation manager that creates the navigators
      */
     CitySimulatorImpl(Set<Road> roads, Set<TrafficLight> trafficLights, Set<Crossroad> crossroads,
-                      NavigationManager navigationManager, TrafficLightManager trafficLightManager, StatisticsCalculator calculator){
+                      NavigationManager navigationManager, TrafficLightManager trafficLightManager, StatisticsCalculator calculator, long timeWindow){
         this.roads = new HashMap<>();
         this.trafficLights = new HashMap<>();
         this.crossroads = new HashMap<>();
@@ -523,6 +523,7 @@ public class CitySimulatorImpl implements CitySimulator {
         this.navigationManager = navigationManager;
         this.trafficLightManager = trafficLightManager;
         this.clock = 0;
+        this.timeWindow = timeWindow;
     }
 
     /**
@@ -532,7 +533,7 @@ public class CitySimulatorImpl implements CitySimulator {
      * @param db - the db containing the map
      */
     public CitySimulatorImpl(BTWDataBase db, NavigationManager navigationManager, TrafficLightManager trafficLightManager, StatisticsCalculator calculator) {
-        this(db.getAllRoads(), db.getAllTrafficLights(), db.getAllCrossroads(), navigationManager, trafficLightManager, calculator);
+        this(db.getAllRoads(), db.getAllTrafficLights(), db.getAllCrossroads(), navigationManager, trafficLightManager, calculator, db.getStatisticsPeriod());
     }
 
     /**
@@ -815,20 +816,22 @@ public class CitySimulatorImpl implements CitySimulator {
     @Override
     public CitySimulator reportOnRoad(Road rd, Long time) {
         if (! this.currentReportOfRoad.containsKey(rd)) {
-            StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock));
+            StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
             this.currentReportOfRoad.put(rd, report);
         }
-        this.currentReportOfRoad.get(rd).update(BTWWeight.of(time - (time % this.timeWindow)));
+//        this.currentReportOfRoad.get(rd).update(BTWWeight.of(time - (time % this.timeWindow)));
+        this.currentReportOfRoad.get(rd).update(BTWWeight.of(time));
         return this;
     }
 
     @Override
     public CitySimulator reportOnTrafficLight(TrafficLight tl, Long time) {
         if (! this.currentReportOfTrafficLight.containsKey(tl)) {
-            StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock));
+            StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
             this.currentReportOfTrafficLight.put(tl, report);
         }
-        this.currentReportOfTrafficLight.get(tl).update(BTWWeight.of(time - (time % this.timeWindow)));
+//        this.currentReportOfTrafficLight.get(tl).update(BTWWeight.of(time - (time % this.timeWindow)));
+        this.currentReportOfTrafficLight.get(tl).update(BTWWeight.of(time));
         return this;
     }
 

@@ -31,6 +31,8 @@ public class VehicleImplTest {
     private List<Road> route;
     private Iterator<Road> routeIter;
     private Navigator navigator;
+    private long timeSpent;
+    private long clock;
 
 
     class TestingVehicleDescriptor implements VehicleDescriptor {
@@ -63,6 +65,9 @@ public class VehicleImplTest {
 
     private void configMock() {
         ArgumentCaptor<Vehicle> captorV = ArgumentCaptor.forClass(Vehicle.class);
+        ArgumentCaptor<Long> captorL = ArgumentCaptor.forClass(Long.class);
+        ArgumentCaptor<Road> captorR = ArgumentCaptor.forClass(Road.class);
+        ArgumentCaptor<TrafficLight> captorT = ArgumentCaptor.forClass(TrafficLight.class);
 
         //crossroad
         Mockito.when(crossroad.getTrafficLightsFromRoad(road1))
@@ -124,16 +129,34 @@ public class VehicleImplTest {
                 .thenAnswer(invocation -> routeIter.next());
 
         // simulator
+        Mockito.when(simulator.tick())
+                .thenAnswer(invocation -> {
+                    this.clock++;
+                    return simulator;
+                });
+        Mockito.when(simulator.getCurrentTime())
+                .thenAnswer(invocation -> this.clock);
         Mockito.when(simulator.getRealRoad(road1))
                 .thenAnswer(invocation -> realRoad1);
         Mockito.when(simulator.getRealRoad(road2))
                 .thenAnswer(invocation -> realRoad2);
         Mockito.when(simulator.getRealCrossroad(crossroad))
                 .thenAnswer(invocation -> realCrossroad);
+        Mockito.when(simulator.reportOnRoad(captorR.capture(), captorL.capture()))
+                .thenAnswer(invocation -> {
+                    timeSpent = captorL.getValue();
+                    return simulator;
+                });
+        Mockito.when(simulator.reportOnTrafficLight(captorT.capture(), captorL.capture()))
+                .thenAnswer(invocation -> {
+                    timeSpent = captorL.getValue();
+                    return simulator;
+                });
 
     }
 
     public VehicleImplTest() {
+        this.timeSpent = 0;
         this.route = new ArrayList<>();
         crossroad = Mockito.mock(Crossroad.class);
         trafficLight = Mockito.mock(TrafficLight.class);
@@ -189,6 +212,7 @@ public class VehicleImplTest {
         } catch (PathNotFoundException e) {
             Assert.fail();
         }
+        Assert.assertEquals(Long.valueOf(1), tested.getStartingTime().seconds());
         Assert.assertFalse(tested.driveOnTime(0L));
         Assert.assertNull(tested.getCurrentRoad());
         Assert.assertEquals(road1, tested.getNextRoad());
@@ -218,7 +242,10 @@ public class VehicleImplTest {
         }
         Assert.assertFalse(tested.isWaitingForTrafficLight());
         tested.driveOnTime(0L);
-        Assert.assertTrue(tested.waitOnTrafficLight(this.crossroad).isWaitingForTrafficLight());
+        this.simulator.tick();
+        tested.waitOnTrafficLight(this.crossroad);
+        Assert.assertTrue(tested.isWaitingForTrafficLight());
+        Assert.assertEquals(1L, this.timeSpent);
     }
 
     @Test
@@ -237,7 +264,9 @@ public class VehicleImplTest {
         Assert.assertFalse(tested.isWaitingForTrafficLight());
         Assert.assertTrue(tested.progressOnRoad().isWaitingForTrafficLight());
         Assert.assertEquals(Long.valueOf(0L), tested.getRemainingTimeOnRoad().seconds());
+        this.simulator.tick();
         Assert.assertEquals(Long.valueOf(1L), tested.driveToNextRoad().getRemainingTimeOnRoad().seconds());
+        Assert.assertEquals(1L, this.timeSpent);
         Assert.assertEquals(tested, tested.progressOnRoad());
         Assert.assertFalse(tested.isWaitingForTrafficLight());
         Assert.assertEquals(tested, tested.progressOnRoad());
