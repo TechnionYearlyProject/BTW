@@ -1,5 +1,6 @@
 package il.ac.technion.cs.yp.btw.app;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import il.ac.technion.cs.yp.btw.mapgeneration.FreeFormMapSimulator;
@@ -7,7 +8,12 @@ import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -20,6 +26,7 @@ public class GenerateFreeFormController extends GenerateCityController implement
     @FXML private JFXTextField Radius;
     @FXML private JFXToggleButton blocksToggle, radiusToggle, mapNameToggle;
     @FXML private JFXTextField mapNameTextField;
+   // @FXML private JFXButton helpButton;
 
     int Number_of_blocks, radius_val;
 
@@ -73,4 +80,27 @@ public class GenerateFreeFormController extends GenerateCityController implement
         return freeFormMapSimulator;
     }
 
+    /**@author: Anat
+     * @date: 01/5/2018
+     */
+    @FXML
+    public void showHelpDialogForRadius(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help");
+        alert.setHeaderText(null);
+        alert.setContentText("Radius");
+        alert.showAndWait();
+    }
+
+    /**@author: Anat
+     * @date: 01/5/2018
+     */
+    @FXML
+    public void showHelpDialogForNumBlocks(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help");
+        alert.setHeaderText(null);
+        alert.setContentText("NumberOfBlocks");
+        alert.showAndWait();
+    }
 }

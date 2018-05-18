@@ -230,28 +230,28 @@ public class MapGraphics {
     }
 
     /**
-     * @author: shay
+     * @author: shay & Anat
      * Need to determine colors by weight
      */
-    private static final long ORANGE_THRESHOLD = 7000;
-    private static final long RED_THRESHOLD = 700000;
-    private static final long DEEPRED_THRESHOLD = 7000000;
+    private static final long YELLOW_THRESHOLD = 45;
+    private static final long ORANGE_THRESHOLD = 50;
+    private static final long RED_THRESHOLD = 55;
 
     /**
      * @author: shay
      * @date: 09/04/2018
      * determines color to the road by its load
      * @param roadLine the line we need to color
-     * @param overload long number, the overload of the road
+     * @param numOfCars long number, the overload of the road
      */
-    private void chooseRoadColor(Line roadLine, long overload) {
+    private void chooseRoadColor(Line roadLine, long numOfCars) {
         roadLine.setStroke(Color.BLACK);
-        if (overload > ORANGE_THRESHOLD)
+        if (numOfCars > YELLOW_THRESHOLD)
+            roadLine.setStroke(Color.YELLOW);
+        if (numOfCars > ORANGE_THRESHOLD)
             roadLine.setStroke(Color.ORANGE);
-        if (overload > RED_THRESHOLD)
-            roadLine.setStroke(Color.ORANGERED);
-        if (overload > DEEPRED_THRESHOLD)
-            roadLine.setStroke(Color.DARKRED);
+        if (numOfCars > RED_THRESHOLD)
+            roadLine.setStroke(Color.RED);
 
     }
 }
