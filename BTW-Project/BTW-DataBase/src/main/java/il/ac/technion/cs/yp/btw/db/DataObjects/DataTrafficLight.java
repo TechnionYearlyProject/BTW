@@ -1,10 +1,6 @@
 package il.ac.technion.cs.yp.btw.db.DataObjects;
 
-import java.sql.Time;
-
 import il.ac.technion.cs.yp.btw.classes.*;
-import il.ac.technion.cs.yp.btw.db.RoadsDataBase;
-import il.ac.technion.cs.yp.btw.db.TrafficLightsDataBase;
 
 
 /**
@@ -20,6 +16,7 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
     private String nameID;
     private Road sourceRoad;
     private Road destinationRoad;
+    private BTWWeight[] weights;
 
     /*
      * @author Sharon Hadar
@@ -86,6 +83,8 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
     }
 
     /**
+     * @Date: 18/05/18
+     * @Author: Shay
      * returns the right Weight for the given Time
      * @param time - Time we want to check the load
      *             on the traffic light at
@@ -98,6 +97,8 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
     }
 
     /**
+     * @Date: 18/05/18
+     * @Author: Shay
      * @return minimum possible Weight of TrafficLightImpl
      */
     @Override
@@ -116,6 +117,30 @@ public class DataTrafficLight extends PointAbstract implements TrafficLight {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * @Date: 18/05/18
+     * @Author: Shay
+     * set updated weights array to the DataTrafficLight
+     * Pay Attention: Only For DataTrafficLight!
+     * @return this DataTrafficLight
+     */
+    public DataTrafficLight setWeights(BTWWeight[] tlWeights) {
+        this.weights = tlWeights;
+        return this;
+    }
+
+    /**
+     * @Date: 18/05/18
+     * @Author: Shay
+     * get updated weights array of this DataTrafficLight
+     * Pay Attention: Only For DataTrafficLight!
+     * @return the BTWWeight array of the TL
+     */
+    public BTWWeight[] getWeights() {
+        return this.weights;
+    }
+
 
     /*
      * @author Sharon Hadar

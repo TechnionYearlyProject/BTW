@@ -1,6 +1,8 @@
 package il.ac.technion.cs.yp.btw.db;
 
 import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.db.DataObjects.DataRoad;
+import il.ac.technion.cs.yp.btw.db.DataObjects.DataTrafficLight;
 import il.ac.technion.cs.yp.btw.db.queries.QueryAllWeights;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsProvider;
 import org.apache.log4j.Logger;
@@ -15,8 +17,9 @@ import java.util.Set;
 public class DBStatisticsProvider implements StatisticsProvider {
 
     final static Logger logger = Logger.getLogger("DBStatisticsProvider");
-    private Map<String,BTWWeight[]> roadsMap;
-    private Map<String,BTWWeight[]> trafficLightsMap;
+    private Map<DataRoad,BTWWeight[]> roadsMap;
+    private Map<DataTrafficLight,BTWWeight[]> trafficLightsMap;
+    private long granularity;
 
     /**
      * @Author: Shay
@@ -29,21 +32,18 @@ public class DBStatisticsProvider implements StatisticsProvider {
             logger.debug("Start DBStatisticsProvider constructor");
             Set<Road> roads = db.getAllRoads();
             Set<TrafficLight> trafficLights = db.getAllTrafficLights();
+            this.granularity = db.getStatisticsPeriod();
 
             roadsMap = new HashMap<>();
             trafficLightsMap = new HashMap<>();
-
-            if (db == null) {
-                logger.debug("db parameter is NULL!");
-                return;
-            }
 
             logger.debug("Insert all roads and their weights to map");
             for (Road road: roads) {
                 String tableName = db.getMapName() + "Road" + road.getRoadName().replaceAll("\\s+","");
                 BTWWeight[] weights;
                 weights = (BTWWeight[])MainDataBase.queryDataBase(new QueryAllWeights(tableName));
-                roadsMap.put(road.getRoadName(),weights);
+                ((DataRoad)road).setWeights(weights);
+                roadsMap.put((DataRoad)road,weights);
                 logger.trace("Insert Road: " + road.getRoadName());
             }
 
@@ -52,7 +52,8 @@ public class DBStatisticsProvider implements StatisticsProvider {
                 String tableName = db.getMapName() + "TL" + trafficLight.getName().replaceAll("\\s+","").replaceAll(":","");
                 BTWWeight[] weights;
                 weights = (BTWWeight[])MainDataBase.queryDataBase(new QueryAllWeights(tableName));
-                trafficLightsMap.put(trafficLight.getName(),weights);
+                ((DataTrafficLight)trafficLight).setWeights(weights);
+                trafficLightsMap.put((DataTrafficLight)trafficLight,weights);
                 logger.trace("Insert TrafficLight: " + trafficLight.getName());
             }
 
@@ -70,9 +71,9 @@ public class DBStatisticsProvider implements StatisticsProvider {
      * @Date: 26/4/18
      * constructor without DB
      * @param roads - set of roads
-     * @param trafficlights - set of trafficlights
+     * @param trafficLights - set of trafficlights
      */
-    public DBStatisticsProvider(Set<Road> roads, Set<TrafficLight> trafficlights) {
+    public DBStatisticsProvider(Set<Road> roads, Set<TrafficLight> trafficLights) {
         try {
             logger.debug("Start DBStatisticsProvider Dummy constructor");
 
@@ -86,17 +87,17 @@ public class DBStatisticsProvider implements StatisticsProvider {
             }
             for (Road road: roads) {
                 BTWWeight[] weights = new BTWWeight[] {BTWWeight.of(1)};
-                roadsMap.put(road.getRoadName(),weights);
+                roadsMap.put((DataRoad)road,weights);
             }
 
-            if (trafficlights == null) {
+            if (trafficLights == null) {
                 logger.debug("no traffic lights");
                 return;
             }
             logger.debug("Insert all traffic lights and their weights to map");
-            for (TrafficLight trafficLight: trafficlights) {
+            for (TrafficLight trafficLight: trafficLights) {
                 BTWWeight[] weights = new BTWWeight[] {BTWWeight.of(1)};
-                roadsMap.put(trafficLight.getName(),weights);
+                trafficLightsMap.put((DataTrafficLight)trafficLight,weights);
             }
 
             logger.debug("End DBStatisticsProvider Dummy constructor");
@@ -116,7 +117,7 @@ public class DBStatisticsProvider implements StatisticsProvider {
      */
     @Override
     public Long granularity() {
-        return null;
+        return this.granularity;
     }
 
     /**
@@ -129,7 +130,7 @@ public class DBStatisticsProvider implements StatisticsProvider {
     @Override
     public BTWWeight expectedTimeOnRoadAt(BTWTime time, Road rd) {
         long index = time.seconds()/1800;
-        return roadsMap.get(rd.getRoadName())[(int)index];
+        return roadsMap.get(rd)[(int)index];
     }
 
     /**
@@ -143,6 +144,6 @@ public class DBStatisticsProvider implements StatisticsProvider {
     public BTWWeight expectedTimeOnTrafficLightAt(BTWTime time, TrafficLight tl) {
 
         long index = time.seconds()/1800;
-        return trafficLightsMap.get(tl.getName())[(int)index];
+        return trafficLightsMap.get(tl)[(int)index];
     }
 }

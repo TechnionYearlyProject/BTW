@@ -235,11 +235,21 @@ public class DataRoad implements Road {
 
     }
 
+    /**
+     * @Date: 18/05/18
+     * @Author: Shay
+     * @return int hashcode
+     */
     @Override
     public int hashCode(){
         return this.getRoadName().hashCode();
     }
 
+    /**
+     * @Date: 18/05/18
+     * @Author: Shay
+     * equals function for comparing roads
+     */
     @Override
     public boolean equals(Object o){
         if (! (o instanceof Road)) {
@@ -248,4 +258,28 @@ public class DataRoad implements Road {
         Road r = (Road)o;
         return this.getRoadName().equals(r.getRoadName());
     }
+
+    /**
+     * @Date: 18/05/18
+     * @Author: Shay
+     * set updated weights array to the DataRoad
+     * Pay Attention: Only For DataRoads!
+     * @return this DataRoad
+     */
+    public DataRoad setWeights(BTWWeight[] roadWeights) {
+        this.weights = roadWeights;
+        return this;
+    }
+
+    /**
+     * @Date: 18/05/18
+     * @Author: Shay
+     * get updated weights array of this DataRoad
+     * Pay Attention: Only For DataRoads!
+     * @return BTWWeight array of the road
+     */
+    public BTWWeight[] getWeights() {
+        return this.weights;
+    }
+
 }
