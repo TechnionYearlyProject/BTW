@@ -137,6 +137,8 @@ public class DrawMapController extends ShowErrorController implements Initializa
 
         stage.show();
         stage.setScene(scene);
+
+        stage.setResizable(true);
     }
 
     private void initTimeText() {
@@ -178,6 +180,10 @@ public class DrawMapController extends ShowErrorController implements Initializa
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
         URL resource = getClass().getResource("/fxml/home_layout.fxml");
         try {
+            stageTheEventSourceNodeBelongs.setHeight(700);
+            stageTheEventSourceNodeBelongs.setWidth(1200);
+            stageTheEventSourceNodeBelongs.setMaximized(false);
+            stageTheEventSourceNodeBelongs.setResizable(false);
             Parent root = FXMLLoader.load(resource);
             Scene scene = new Scene(root);
             stageTheEventSourceNodeBelongs.setScene(scene);
