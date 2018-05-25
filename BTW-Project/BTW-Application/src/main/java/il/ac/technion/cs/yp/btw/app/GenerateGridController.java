@@ -128,7 +128,8 @@ public class GenerateGridController extends GenerateCityController implements In
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         alert.setHeaderText(null);
-        alert.setContentText("NumAvenues");
+        alert.setContentText("Enter the number of avenues you \nwant to have on your map.\n" +
+                "Avenues are Located vertically in a grid city");
         alert.showAndWait();
     }
 
@@ -140,7 +141,8 @@ public class GenerateGridController extends GenerateCityController implements In
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         alert.setHeaderText(null);
-        alert.setContentText("LengthAvenues");
+        alert.setContentText("Enter the length of avenues you \n"+
+                "want to have in your map.");
         alert.showAndWait();
     }
 
@@ -152,7 +154,8 @@ public class GenerateGridController extends GenerateCityController implements In
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         alert.setHeaderText(null);
-        alert.setContentText("NumStreets");
+        alert.setContentText("Enter the number of streets you \nwant to have on your map.\n" +
+                "Streets are Located horizontally in a grid city");
         alert.showAndWait();
     }
 
@@ -164,7 +167,8 @@ public class GenerateGridController extends GenerateCityController implements In
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         alert.setHeaderText(null);
-        alert.setContentText("LengthStreets");
+        alert.setContentText("Enter the length of streets you \n"+
+                "want to have in your map.");
         alert.showAndWait();
     }
 
