@@ -32,7 +32,13 @@ public interface CitySimulator {
      * */
     CityCrossroad getRealCrossroad(Crossroad crossroad);
 
-    CitySimulator addVehiclesFromList(/* TODO: ADAM */);
+    /**
+     * @author Adam Elgressy
+     * @Date 27-4-2018
+     * @param entriesList - parsed vehicle entries to add to simulation
+     * @return this
+     */
+    CitySimulator addVehiclesFromVehicleEntriesList(List<VehicleEntry> entriesList) throws PathNotFoundException;
 
     /**
      * @author Adam Elgressy and Guy Rephaeli

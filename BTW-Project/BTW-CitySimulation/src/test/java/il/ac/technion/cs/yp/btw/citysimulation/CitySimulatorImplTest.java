@@ -16,6 +16,10 @@ import org.mockito.Mockito;
 import java.util.*;
 import java.util.Map;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.ArgumentMatchers.anyString;
+
 /**
  * Created by Guy Rephaeli on 16-Jan-18.
  * Testing CitySimulationImpl
@@ -29,6 +33,7 @@ public class CitySimulatorImplTest {
     private StatisticsCalculator calculator;
     private Navigator navigator1;
     private Navigator navigator2;
+    private Navigator navigator3;
     private VehicleDescriptor descriptor1;
     private VehicleDescriptor descriptor2;
     private Road road1;
@@ -58,6 +63,9 @@ public class CitySimulatorImplTest {
 
         Mockito.when(navigationManager.getNavigator(this.descriptor2, road1, 0.0, road2, 1.0))
                 .thenAnswer(invocation -> this.navigator2);
+
+        Mockito.when(navigationManager.getNavigator(any(),Mockito.argThat(road -> road.getRoadName().equals("r 2")),anyDouble(),any(),anyDouble()))
+                .thenAnswer(invocation -> this.navigator3);
 
         //crossroad
         Mockito.when(crossroad.getName())
@@ -101,7 +109,7 @@ public class CitySimulatorImplTest {
 
         // road1
         Mockito.when(road1.getRoadName())
-                .thenReturn("r-1");
+                .thenReturn("r 1");
 
         Mockito.when(road1.getMinimumWeight())
                 .thenAnswer(invocation -> BTWWeight.of(18L));
@@ -120,7 +128,7 @@ public class CitySimulatorImplTest {
 
         // road2
         Mockito.when(road2.getRoadName())
-                .thenReturn("r-2");
+                .thenReturn("r 2");
 
         Mockito.when(road2.getMinimumWeight())
                 .thenAnswer(invocation -> BTWWeight.of(18L));
@@ -143,6 +151,10 @@ public class CitySimulatorImplTest {
 
         // navigator2
         Mockito.when(navigator2.getNextRoad())
+                .thenAnswer(invocation -> routeIter2.next());
+
+        // navigator3
+        Mockito.when(navigator3.getNextRoad())
                 .thenAnswer(invocation -> routeIter2.next());
 
         //calculator
@@ -176,6 +188,7 @@ public class CitySimulatorImplTest {
         this.calculator = Mockito.mock(StatisticsCalculator.class);
         this.navigator1 = Mockito.mock(Navigator.class);
         this.navigator2 = Mockito.mock(Navigator.class);
+        this.navigator3 = Mockito.mock(Navigator.class);
         this.route.add(this.road1);
         this.route.add(this.road2);
         this.routeIter1 = route.iterator();
@@ -327,5 +340,35 @@ public class CitySimulatorImplTest {
         Assert.assertEquals(Integer.valueOf(15 * 30), this.reportersOnRoad.get(this.road1));
 
         Assert.assertEquals(Long.valueOf(15 * 60), this.reportTimeOfRoad.get(this.road1).seconds());
+    }
+
+    @Test(expected = RoadNameDoesntExistException.class)
+    public void invalidVehicleEntryListTest() throws PathNotFoundException {
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow);
+        List<VehicleEntry> entriesList = new ArrayList<>();
+        VehicleEntry entry = Mockito.mock(VehicleEntry.class);
+        Mockito.when(entry.getDestinationRoadName()).thenReturn(Optional.of(new RoadName("1 Street")));
+        Mockito.when(entry.getSourceRoadName()).thenReturn(Optional.of(new RoadName("1 Street")));
+        Mockito.when(entry.getSourceRoadRatio()).thenReturn(Optional.of(new Ratio(0.2)));
+        Mockito.when(entry.getDestinationRoadRatio()).thenReturn(Optional.of(new Ratio(0.14)));
+        Mockito.when(entry.getTimeOfDrivingStart()).thenReturn(Optional.of(BTWTime.of("00:00:01")));
+        entriesList.add(entry);
+
+        tested.addVehiclesFromVehicleEntriesList(entriesList);
+    }
+
+    @Test
+    public void validVehicleEntryListTest() throws PathNotFoundException {
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow);
+        List<VehicleEntry> entriesList = new ArrayList<>();
+        VehicleEntry entry = Mockito.mock(VehicleEntry.class);
+        Mockito.when(entry.getSourceRoadName()).thenReturn(Optional.of(new RoadName("r 2")));
+        Mockito.when(entry.getDestinationRoadName()).thenReturn(Optional.of(new RoadName("r 1")));
+        Mockito.when(entry.getSourceRoadRatio()).thenReturn(Optional.of(new Ratio(0.0)));
+        Mockito.when(entry.getDestinationRoadRatio()).thenReturn(Optional.of(new Ratio(1.0)));
+        Mockito.when(entry.getTimeOfDrivingStart()).thenReturn(Optional.of(BTWTime.of("00:00:01")));
+        entriesList.add(entry);
+
+        tested.addVehiclesFromVehicleEntriesList(entriesList);
     }
 }
