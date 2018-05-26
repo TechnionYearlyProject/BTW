@@ -241,6 +241,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
      * @date: 3/4/18
      */
     private void backButtonClicked(ActionEvent event) {
+        playCityTimeline.stop();
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
         URL resource = getClass().getResource("/fxml/home_layout.fxml");
         try {

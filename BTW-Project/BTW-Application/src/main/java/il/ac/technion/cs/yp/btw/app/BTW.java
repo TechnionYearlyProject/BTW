@@ -26,8 +26,8 @@ public class BTW extends Application {
 
         stage.setTitle("By The Way");
         stage.setScene(scene);
-        stage.show();
         stage.setResizable(false);
-
+        stage.setHeight(700);
+        stage.show();
     }
 }

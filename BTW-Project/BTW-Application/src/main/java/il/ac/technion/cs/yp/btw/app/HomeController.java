@@ -172,6 +172,7 @@ public class HomeController extends SwitchToMapController implements Initializab
                 return;
             }
             dataBase.getTablesNames();
+            dataBase.updateHeuristics();
             NavigationManager navigationManager = new NaiveNavigationManager(dataBase);
             TrafficLightManager trafficLightManager = new NaiveTrafficLightManager();
             StatisticsCalculator calculator = new NaiveStatisticsCalculator(dataBase);

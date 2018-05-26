@@ -37,7 +37,7 @@
                 <Font size="20.0" />
             </font>
         </Text>
-        <JFXSpinner fx:id="loadSpinner" layoutX="570.0" layoutY="600.0" visible="false" />
+        <JFXSpinner fx:id="loadSpinner" layoutX="570.0" layoutY="590.0" visible="false" />
 
         <JFXButton fx:id="load_button" buttonType="RAISED" layoutX="88.0" layoutY="430.0" onAction="#loadButtonClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Load" />
         <JFXButton fx:id="load_file_button" buttonType="RAISED" layoutX="459.0" layoutY="430.0" onAction="#loadFileButtonClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Load File" />
