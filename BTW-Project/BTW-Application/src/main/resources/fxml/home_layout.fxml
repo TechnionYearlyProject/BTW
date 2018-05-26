@@ -16,7 +16,7 @@
 <AnchorPane fx:id="anchor" maxHeight="700" maxWidth="1200" minHeight="700" minWidth="1200" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.ac.technion.cs.yp.btw.app.HomeController">
     <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="179.0" layoutX="-13.0" layoutY="-10.0" stroke="#949494" strokeType="INSIDE" width="1219.0" />
-        <Text layoutX="419.0" layoutY="101.0" text="Choose Map" wrappingWidth="422.0">
+        <Text layoutX="449.0" layoutY="101.0" text="Choose Map" wrappingWidth="422.0">
             <font>
                 <Font size="52.0" />
             </font></Text>
@@ -25,33 +25,38 @@
                 <Image url="/BTWLogo.png" />
             </image>
         </ImageView>
-        <Text layoutX="152.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Load Existing Map">
+        <Text layoutX="152.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Load Map from DB">
             <font>
                 <Font size="20.0" />
             </font>
         </Text>
         <JFXTextField fx:id="chooseMapTextBox" layoutX="99.0" layoutY="268.0" prefHeight="25.0" prefWidth="236.0" promptText="Insert Map Name" />
-        <JFXTextField fx:id="MapFromFileTextBox" layoutX="460.0" layoutY="268.0" prefHeight="25.0" prefWidth="236.0" promptText="Insert Map Name" />
+        <JFXTextField fx:id="mapFromFileTextBox" layoutX="460.0" layoutY="268.0" prefHeight="25.0" prefWidth="236.0" promptText="Insert Map URL" />
         <Text layoutX="523.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Load Map From File">
             <font>
                 <Font size="20.0" />
             </font>
         </Text>
-        <JFXSpinner fx:id="loadSpinner" layoutX="570.0" layoutY="238.0" visible="false" />
+        <JFXSpinner fx:id="loadSpinner" layoutX="570.0" layoutY="600.0" visible="false" />
 
         <JFXButton fx:id="load_button" buttonType="RAISED" layoutX="88.0" layoutY="430.0" onAction="#loadButtonClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Load" />
-        <JFXButton fx:id="load_file_button" buttonType="RAISED" layoutX="459.0" layoutY="430.0" onAction="#loadButtonClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Load File" />
+        <JFXButton fx:id="load_file_button" buttonType="RAISED" layoutX="459.0" layoutY="430.0" onAction="#loadFileButtonClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Load File" />
         <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="82.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="/icons8-map-50.png" />
+                <Image url="/icons8-clouds-50.png" />
             </image>
         </ImageView>
         <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="831.0" layoutY="198.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="/icons8-map-50.png" />
+                <Image url="/icons8-shuffle-50.png" />
             </image>
         </ImageView>
         <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="453.0" layoutY="198.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="/icons8-reset-filled-50.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="373.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="/icons8-map-50.png" />
             </image>
@@ -83,6 +88,7 @@
                </toggleGroup></JFXRadioButton>
             </children>
         </VBox>
+      <JFXButton fx:id="attachButton" layoutX="668.0" layoutY="259.0" mnemonicParsing="false" onAction="#attachButtonClicked" text="" />
 
     </children>
 </AnchorPane>

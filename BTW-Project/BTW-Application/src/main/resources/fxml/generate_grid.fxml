@@ -13,16 +13,22 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchor" maxHeight="700" maxWidth="1200" minHeight="700" minWidth="1200" style="-fx-background-color: white;" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.ac.technion.cs.yp.btw.app.GenerateGridController">
+<AnchorPane fx:id="anchor" maxHeight="700" maxWidth="1200" minHeight="700" minWidth="1200" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.ac.technion.cs.yp.btw.app.GenerateGridController">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="179.0" layoutX="-13.0" layoutY="-10.0" stroke="#949494" strokeType="INSIDE" width="1219.0" />
-        <Text layoutX="363.0" layoutY="88.0" text="Generate Grid City" wrappingWidth="506.0">
+        <Text layoutX="379.0" layoutY="102.0" text="Generate Grid City" wrappingWidth="506.0">
             <font>
                 <Font size="52.0" />
             </font></Text>
         <ImageView fx:id="logo" fitHeight="252.0" fitWidth="214.0" layoutX="-7.0" layoutY="-36.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="/BTWLogo.png" />
+            </image>
+        </ImageView>
+
+        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="308.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="/icons8-shuffle-50.png" />
             </image>
         </ImageView>
 
@@ -65,7 +71,7 @@
            </children>
        </VBox>
       <JFXSpinner fx:id="progress_spinner" layoutX="1000.0" layoutY="500.0" progress="0.0" visible="false" />
-      <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="55.0" onAction="#BackClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
+      <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" onAction="#BackClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
       <JFXButton fx:id="generate_button" buttonType="RAISED" layoutX="887.0" layoutY="311.0" onAction="#GenerateClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Generate!" />
       <Text layoutX="85.0" layoutY="335.0" strokeMiterLimit="0.0" text="If an option isn't selected a default value will be chosen" textAlignment="CENTER" wrappingWidth="278.0000231266022">
          <font>

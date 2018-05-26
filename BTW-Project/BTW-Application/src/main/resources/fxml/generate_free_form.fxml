@@ -16,13 +16,19 @@
 <AnchorPane fx:id="anchor" maxHeight="700" maxWidth="1200" minHeight="700" minWidth="1200" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.ac.technion.cs.yp.btw.app.GenerateFreeFormController">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="179.0" layoutX="-13.0" layoutY="-10.0" stroke="#949494" strokeType="INSIDE" width="1219.0" />
-        <Text layoutX="395.0" layoutY="67.0" text="Generate Free Form City" wrappingWidth="442.0000073760748">
+        <Text layoutX="375.0" layoutY="67.0" text="Generate Free Form City" textAlignment="CENTER" wrappingWidth="442.0000073760748">
             <font>
                 <Font size="52.0" />
             </font></Text>
         <ImageView fx:id="logo" fitHeight="252.0" fitWidth="214.0" layoutX="-7.0" layoutY="-36.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="/BTWLogo.png" />
+            </image>
+        </ImageView>
+        
+        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="308.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="/icons8-shuffle-50.png" />
             </image>
         </ImageView>
 
