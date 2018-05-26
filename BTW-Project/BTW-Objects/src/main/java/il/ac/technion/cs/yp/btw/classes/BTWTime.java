@@ -20,7 +20,8 @@ public class BTWTime extends BTWTimeUnit{
         if (secs >= 86400) {
             secs = secs % 86400;
         }
-        return new BTWTime(secs);
+        this.seconds = secs;
+        return this;
     }
 
     public static BTWTime of(long value) throws BTWIllegalTimeException {

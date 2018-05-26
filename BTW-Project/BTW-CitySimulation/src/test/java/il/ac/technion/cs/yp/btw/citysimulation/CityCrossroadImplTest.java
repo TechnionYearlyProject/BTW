@@ -1,9 +1,6 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
-import il.ac.technion.cs.yp.btw.classes.BTWWeight;
-import il.ac.technion.cs.yp.btw.classes.Crossroad;
-import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.classes.TrafficLight;
+import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
@@ -38,7 +35,7 @@ public class CityCrossroadImplTest {
 
     private void configMock() throws PathNotFoundException {
         // navigationManager
-        Mockito.when(navigationManager.getNavigator(this.descriptor, road1, 0.0, road2, 1.0))
+        Mockito.when(navigationManager.getNavigator(this.descriptor, road1, 0.0, road2, 1.0, BTWTime.of(0)))
                 .thenAnswer(invocation -> this.navigator);
 
         //crossroad

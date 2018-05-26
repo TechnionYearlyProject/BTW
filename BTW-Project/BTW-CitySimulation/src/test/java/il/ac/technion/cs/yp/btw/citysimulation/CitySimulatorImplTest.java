@@ -58,13 +58,13 @@ public class CitySimulatorImplTest {
         ArgumentCaptor<StatisticalReport> captorReport = ArgumentCaptor.forClass(StatisticalReport.class);
 
         // navigationManager
-        Mockito.when(navigationManager.getNavigator(this.descriptor1, road1, 0.0, road2, 1.0))
+        Mockito.when(navigationManager.getNavigator(this.descriptor1, road1, 0.0, road2, 1.0, BTWTime.of(1)))
                 .thenAnswer(invocation -> this.navigator1);
 
-        Mockito.when(navigationManager.getNavigator(this.descriptor2, road1, 0.0, road2, 1.0))
+        Mockito.when(navigationManager.getNavigator(this.descriptor2, road1, 0.0, road2, 1.0, BTWTime.of(2)))
                 .thenAnswer(invocation -> this.navigator2);
 
-        Mockito.when(navigationManager.getNavigator(any(),Mockito.argThat(road -> road.getRoadName().equals("r 2")),anyDouble(),any(),anyDouble()))
+        Mockito.when(navigationManager.getNavigator(any(),Mockito.argThat(road -> road.getRoadName().equals("r 2")),anyDouble(),any(),anyDouble(),any()))
                 .thenAnswer(invocation -> this.navigator3);
 
         //crossroad

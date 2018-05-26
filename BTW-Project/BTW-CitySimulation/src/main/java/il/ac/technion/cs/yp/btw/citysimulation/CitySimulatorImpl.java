@@ -669,7 +669,7 @@ public class CitySimulatorImpl implements CitySimulator {
                                      Road destination, double destinationRoadRatio, long time) throws PathNotFoundException {
         Vehicle newVehicle = new VehicleImpl(vehicleDescriptor,
                 source, sourceRoadRatio, destination, destinationRoadRatio,
-                this.navigationManager.getNavigator(vehicleDescriptor, source, sourceRoadRatio, destination, destinationRoadRatio),
+                this.navigationManager.getNavigator(vehicleDescriptor, source, sourceRoadRatio, destination, destinationRoadRatio, BTWTime.of(time)),
                 this, time);
         this.addVehicleSorted(newVehicle);
         return newVehicle;

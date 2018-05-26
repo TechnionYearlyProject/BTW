@@ -178,7 +178,7 @@ public class NaiveNavigatorTest {
 
         @Override
         public BTWWeight getWeightByTime(BTWTime time) {
-            return null;
+            return weight;
         }
 
         @Override
@@ -227,7 +227,7 @@ public class NaiveNavigatorTest {
 
         @Override
         public BTWWeight getWeightByTime(BTWTime time) {
-            return null;
+            return weight;
         }
 
         @Override
@@ -366,7 +366,7 @@ public class NaiveNavigatorTest {
         expectedRoute.add("3");
         expectedRoute.add("5");
         try {
-            Navigator navigator = manager.getNavigator(null, road1, 0.0, road5, 0.0);
+            Navigator navigator = manager.getNavigator(null, road1, 0.0, road5, 0.0, BTWTime.of(0));
             Iterator<String> expectedRoad = expectedRoute.iterator();
             while (! navigator.hasArrived()) {
                 Road nextRoad = navigator.getNextRoad();
@@ -382,7 +382,7 @@ public class NaiveNavigatorTest {
     public void testNoPath() {
         NavigationManager manager = new NaiveNavigationManager(db);
         try {
-            Navigator navigator = manager.getNavigator(null, road2, 0.0, road3, 0.0);
+            Navigator navigator = manager.getNavigator(null, road2, 0.0, road3, 0.0, BTWTime.of(0));
             Assert.fail();
         } catch (PathNotFoundException e) {
             Assert.assertEquals("No path from 2 to 3", e.getMessage());
@@ -401,7 +401,7 @@ public class NaiveNavigatorTest {
             expectedRoute.add("2");
             expectedRoute.add("4");
             expectedRoute.add("5");
-            Navigator navigator = manager.getNavigator(null, road1, 0.0, road5, 0.0);
+            Navigator navigator = manager.getNavigator(null, road1, 0.0, road5, 0.0, BTWTime.of(0));
             Iterator<String> expectedRoad = expectedRoute.iterator();
             while (! navigator.hasArrived()) {
                 Road nextRoad = navigator.getNextRoad();
