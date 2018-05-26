@@ -321,6 +321,8 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
+         * @author Adam Elgressy
+         * @date 30-4-2018
          * @return the number of waiting vehicles
          * in this Traffic Light
          */
