@@ -3,6 +3,7 @@ package il.ac.technion.cs.yp.btw.app;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import il.ac.technion.cs.yp.btw.citysimulation.*;
+import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -61,13 +62,20 @@ public class DrawMapController extends ShowErrorController implements Initializa
     JFXButton playButton, tickButton, addVehiclesButton, backButton;
     JFXTextField numOfVehiclesTextField;
     VBox addVehiclesHbox;
+    BTWDataBase mapDatabase;
+
     double addVechilesBoxSpacing = 40;
-    @FXML
+//    @FXML
     Text timeText;
+    @FXML
+    Text verifyMapText;
+    @FXML
+    ImageView mapImage;
     boolean isPlayButton;
     Timeline playCityTimeline;
     CompletableFuture<Boolean> tickTask;
     int currentTicks;
+    boolean isVerifyMap = true;
 
     double startDragX,startDragY, endDragX, endDragY;
 
@@ -84,6 +92,14 @@ public class DrawMapController extends ShowErrorController implements Initializa
 
     void initStage(Stage stage) {
         this.stage = stage;
+    }
+
+    void initIsVerifyMap(boolean verify) {
+        isVerifyMap = verify;
+    }
+
+    void initMapDatabase(BTWDataBase db) {
+        mapDatabase = db;
     }
 
 
@@ -127,14 +143,18 @@ public class DrawMapController extends ShowErrorController implements Initializa
 
         //add the hboxes to the screen AnchorPane and anchor them
 //        root.getChildren().addAll(borderPane, playAndTickHbox, addVehiclesHbox, timeText, backButton);
-        root.getChildren().addAll(playAndTickHbox, addVehiclesHbox);
-        AnchorPane.setTopAnchor(borderPane, 0.0);
+        if(isVerifyMap) {
+            setupVerifyScreen(root);
+        } else {
+            root.getChildren().addAll(playAndTickHbox, addVehiclesHbox);
+            AnchorPane.setTopAnchor(borderPane, 0.0);
 
-        AnchorPane.setTopAnchor(playAndTickHbox, 40.0);
-        AnchorPane.setRightAnchor(playAndTickHbox, 5.0);
+            AnchorPane.setTopAnchor(playAndTickHbox, 40.0);
+            AnchorPane.setRightAnchor(playAndTickHbox, 5.0);
 
-        AnchorPane.setTopAnchor(addVehiclesHbox, addVechilesBoxSpacing);
-        AnchorPane.setLeftAnchor(addVehiclesHbox, 200.0);
+            AnchorPane.setTopAnchor(addVehiclesHbox, addVechilesBoxSpacing);
+            AnchorPane.setLeftAnchor(addVehiclesHbox, 200.0);
+        }
 
         //for now it's in the top right
 //        AnchorPane.setTopAnchor(timeText, 5.0);
@@ -152,6 +172,36 @@ public class DrawMapController extends ShowErrorController implements Initializa
         stage.setScene(scene);
 
         stage.setResizable(true);
+    }
+
+    private void setupVerifyScreen(AnchorPane root) {
+        JFXButton acceptButton = createRaisedJFXButtonWithText("Accept Map");
+        acceptButton.setPrefSize(250, 50);
+        acceptButton.setOnAction(event -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choose_simulation.fxml"));
+            ChooseSimulationController controller = new ChooseSimulationController();
+            controller.initMapDatabase(mapDatabase);
+            controller.initStage(stage);
+            stage.setResizable(false);
+            stage.setMaximized(false);
+            stage.setWidth(1200);
+            stage.setHeight(700);
+            loader.setController(controller);
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            switchScreens(event, "/fxml/choose_simulation.fxml");
+        });
+        verifyMapText.setVisible(true);
+        mapImage.setVisible(true);
+        root.getChildren().addAll(acceptButton, backButton);
+        AnchorPane.setBottomAnchor(acceptButton, 40.0);
+        AnchorPane.setRightAnchor(acceptButton, 40.0);
+        AnchorPane.setTopAnchor(backButton, 60.0);
+        AnchorPane.setRightAnchor(backButton, 50.0);
+
     }
 
     private void initTimeText() {

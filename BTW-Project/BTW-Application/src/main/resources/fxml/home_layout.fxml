@@ -68,17 +68,11 @@
         </Text>
         <JFXButton fx:id="generate_button" buttonType="RAISED" layoutX="849.0" layoutY="431.0" onAction="#generateButtonClick" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Generate" />
         <VBox layoutX="897.0" layoutY="251.0">
-            <fx:define>
-                <ToggleGroup fx:id="generate_city_toggle" />
-            </fx:define>
             <children>
                 <JFXRadioButton fx:id="grid_radio" prefHeight="36.0" prefWidth="131.0" text="Grid Road">
                <font>
                   <Font size="15.0" />
-               </font>
-               <toggleGroup>
-                  <ToggleGroup fx:id="generate_city_toggle_2" />
-               </toggleGroup></JFXRadioButton>
+               </font></JFXRadioButton>
                 <JFXRadioButton fx:id="free_form_radio" prefHeight="36.0" prefWidth="161.0" text="Free Form">
                <font>
                   <Font size="15.0" />

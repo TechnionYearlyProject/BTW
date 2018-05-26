@@ -120,7 +120,7 @@ public class HomeController extends SwitchToMapController implements Initializab
                                 .stream()
                                 .map(citySimulator::getRealCrossroad)
                                 .collect(Collectors.toSet()));
-                        Platform.runLater(() -> switchScreensToMap(actionEvent, citySimulator));
+                        Platform.runLater(() -> switchScreensToMap(actionEvent, citySimulator, dataBase));
                     }).start();
                 }
             });
@@ -180,7 +180,7 @@ public class HomeController extends SwitchToMapController implements Initializab
                     .stream()
                     .map(citySimulator::getRealCrossroad)
                     .collect(Collectors.toSet()));
-            Platform.runLater(() -> switchScreensToMap(actionEvent, citySimulator));
+            Platform.runLater(() -> switchScreensToMap(actionEvent, citySimulator, dataBase));
         }).start();
 
     }

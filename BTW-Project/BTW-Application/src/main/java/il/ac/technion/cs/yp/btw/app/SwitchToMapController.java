@@ -1,6 +1,7 @@
 package il.ac.technion.cs.yp.btw.app;
 
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
+import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
@@ -38,10 +39,14 @@ public abstract class SwitchToMapController extends ShowErrorController {
         }
     }
 
-    protected void switchScreensToMap(ActionEvent event, CitySimulator citySimulator) {
+    protected void switchScreensToMap(ActionEvent event, CitySimulator citySimulator, BTWDataBase db) {
+        switchScreensToMap(event, citySimulator, db, true);
+    }
+
+    protected void switchScreensToMap(ActionEvent event, CitySimulator citySimulator, BTWDataBase db, boolean isVerify) {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
         try {
-            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, citySimulator);
+            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, citySimulator, db, isVerify);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,29 +56,35 @@ public abstract class SwitchToMapController extends ShowErrorController {
                                                     URL resource, Node rootNode) throws IOException {
         Parent root;
         root = FXMLLoader.load(resource);
+        transitionToParent(stageTheEventSourceNodeBelongs, rootNode, root);
+    }
+
+    public static void transitionToParent(Stage stageTheEventSourceNodeBelongs, Node rootNode, Parent targetParent) {
         int length = 300;
         FadeTransition fadeOut = new FadeTransition(Duration.millis(length), rootNode);
         fadeOut.setFromValue(1.0);
         fadeOut.setToValue(0.0);
         fadeOut.setOnFinished(event1 -> {
-            FadeTransition fadeIn = new FadeTransition(Duration.millis(length), root);
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(length), targetParent);
             fadeIn.setFromValue(0.0);
             fadeIn.setToValue(1.0);
             fadeIn.play();
-            DoubleProperty opacity = root.opacityProperty();
+            DoubleProperty opacity = targetParent.opacityProperty();
             opacity.set(0);
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(targetParent);
             stageTheEventSourceNodeBelongs.setScene(scene);
         });
         fadeOut.play();
     }
 
     public void transitionAndSwitchToMap(Stage stageTheEventSourceNodeBelongs,
-                                         CitySimulator citySimulator) throws IOException {
+                                         CitySimulator citySimulator, BTWDataBase db, boolean isVerify) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stageForDrawMap.fxml"));
         DrawMapController drawMapController = new DrawMapController();
         drawMapController.initCitySimulator(citySimulator);
         drawMapController.initStage(stageTheEventSourceNodeBelongs);
+        drawMapController.initMapDatabase(db);
+        drawMapController.initIsVerifyMap(isVerify);
         loader.setController(drawMapController);
         try {
             loader.load();

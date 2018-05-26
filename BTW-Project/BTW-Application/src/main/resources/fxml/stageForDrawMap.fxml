@@ -12,10 +12,18 @@
     <children>
         <BorderPane fx:id="borderPane" />
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="179.0" layoutX="-13.0" layoutY="-10.0" stroke="#949494" strokeType="INSIDE" width="2000.0" />
-
+        <Text fx:id="verifyMapText" visible="false" layoutX="489.0" layoutY="102.0" text="Verify Map" wrappingWidth="300.0">
+            <font>
+                <Font size="52.0" />
+            </font></Text>
         <ImageView fx:id="logo" fitHeight="252.0" fitWidth="214.0" layoutX="-7.0" layoutY="-36.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="/BTWLogo.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="mapImage" visible="false" fitHeight="60.0" fitWidth="60.0" layoutX="413.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="/icons8-map-50.png" />
             </image>
         </ImageView>
     </children>
