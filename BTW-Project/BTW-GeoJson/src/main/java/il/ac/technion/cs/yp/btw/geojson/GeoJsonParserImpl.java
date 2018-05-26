@@ -302,7 +302,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
         }.getType();
         try{
             logger.debug("Try to read with Gson the file content");
-            gs.fromJson(fileContents, listType);}
+            gs.fromJson("["+fileContents+"]", listType);}
         catch (JsonSyntaxException e){
             throw new FileNotOfJsonSyntaxException(e.getMessage());
         }

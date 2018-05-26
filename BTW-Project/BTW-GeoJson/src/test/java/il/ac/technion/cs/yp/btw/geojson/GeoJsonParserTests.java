@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * @author Adam Elgressy and anat
@@ -123,7 +124,7 @@ public class GeoJsonParserTests {
     @Test
     public void AppTest()
     {
-        GridCityMapSimulator mapSimulator = new GridCityMapSimulator();
+        GridCityMapSimulator mapSimulator = new GridCityMapSimulator().setAvenueLength(1200).setStreetLength(500).setNumOfAvenues(7).setNumOfStreets(14);
         mapSimulator.build();
         GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
         this.file = geoJsonParser.buildGeoJsonFromSimulation(mapSimulator);
@@ -185,6 +186,14 @@ public class GeoJsonParserTests {
         GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
         String fileContent = geoJsonParser.getDataFromFile(GeoJsonParserTests.class.getResource("emptyFile.geojson"));
         assertEquals("[]",fileContent);
+    }
+
+    @Test
+    public void validFullSizeMapFileTest(){
+        GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
+        String fileContent = geoJsonParser.getDataFromFile(GeoJsonParserTests.class.getResource("validFullSizeMap.geojson"));
+        assertNotEquals("[]",fileContent);
+        assertNotEquals("",fileContent);
     }
 
     @Test(expected = MapFileNotWithGeoJsonExtensionException.class)
