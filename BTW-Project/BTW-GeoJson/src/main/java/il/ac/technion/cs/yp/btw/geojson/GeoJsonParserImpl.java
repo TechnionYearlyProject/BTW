@@ -1,22 +1,29 @@
 package il.ac.technion.cs.yp.btw.geojson;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
+import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.nio.file.Files;
+import java.lang.reflect.Type;
+import java.net.URL;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
 /**
- * @author Anat
+ * @author Anat and Adam Elgressy
  * @date 20/1/18
  * Implementing the GeoJson parser
  */
 
 
 public class GeoJsonParserImpl implements GeoJsonConverter {
-
+    final static Logger logger = Logger.getLogger("GeoJsonParserImpl");
     /**
      * @author Anat
      * @date 20/1/18
@@ -254,5 +261,51 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\"},"+
                 "\"properties\":{"+"\"name\":"+"\""+street.getStreetName()+"\"}},\n";
     }
+
+    /**
+     * @author Adam Elgressy
+     * @Date 24-4-2018
+     * @param pathToFile - the URL of the file to check, and read from
+     *                   the geojson data.
+     * @return String of the geojson map file, located at the given URL
+     * @throws MapFileNotFoundException - when the given path does  not exist, or if
+     *                              pathToFile is null.
+     * @throws MapFileNotWithGeoJsonExtensionException - whe the map file doesn't
+     *                              ends with the .geojson extension
+     * @throws FileNotOfJsonSyntaxException - when the geojson data is not following
+     *                              the Json syntax rules
+     */
+    public String getDataFromFile(URL pathToFile) throws MapParsingException{
+        if(pathToFile == null) {
+            logger.debug("GeoJsonParser gets null parameter");
+            throw new MapFileNotFoundException("path to map file doesn't exist");
+        }
+        logger.debug("GeoJsonParser tries to open the file from the given URL:"+pathToFile.toString());
+        File mapFile = new File(pathToFile.getFile());
+        if(!mapFile.exists()){
+            logger.debug("the URL:"+pathToFile.toString()+" leads to a non existing file");
+            throw new MapFileNotFoundException("path to map file doesn't exist");
+        }
+        String name = mapFile.getName();
+        logger.debug("The URL is valid, now checking extension");
+        if(!name.endsWith(".geojson")){
+            throw new MapFileNotWithGeoJsonExtensionException("map file doesn't end with .geojson");
+        }
+        String fileContents = "";
+        try {
+            logger.debug("Reading all lines of the file from:"+pathToFile.toString());
+            fileContents = new Scanner(mapFile).useDelimiter("\\Z").next();
+        } catch (FileNotFoundException ignored) {}
+        logger.debug("Begin Gson initialization");
+        Gson gs = new GsonBuilder().create();
+        Type listType = new TypeToken<List>() {
+        }.getType();
+        try{
+            logger.debug("Try to read with Gson the file content");
+            gs.fromJson(fileContents, listType);}
+        catch (JsonSyntaxException e){
+            throw new FileNotOfJsonSyntaxException(e.getMessage());
+        }
+        return fileContents;
+    }
 }
-//return file name- full path
