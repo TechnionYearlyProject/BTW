@@ -9,6 +9,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -47,7 +48,11 @@ import static javafx.application.Application.launch;
  */
 public class DrawMapController extends ShowErrorController implements Initializable {
 
+    @FXML
+    AnchorPane anchor;
+    @FXML
     BorderPane borderPane;
+
     Set<Circle> circles;
     Set<Line> lines = new HashSet<>();
     CityMap cityMap;
@@ -55,6 +60,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
     Stage stage;
     JFXButton playButton, tickButton, addVehiclesButton, backButton;
     JFXTextField numOfVehiclesTextField;
+    VBox addVehiclesHbox;
+    double addVechilesBoxSpacing = 40;
+    @FXML
     Text timeText;
     boolean isPlayButton;
     Timeline playCityTimeline;
@@ -93,43 +101,48 @@ public class DrawMapController extends ShowErrorController implements Initializa
 
         HBox playAndTickHbox = new HBox();
         playAndTickHbox.setPadding(new Insets(15, 12, 15, 12));
-        playAndTickHbox.setSpacing(10);
+        playAndTickHbox.setSpacing(30);
 
         initPlayAndTickButtons();
         initBackButton();
-
-        //inserting the buttons ot the HBox
-        playAndTickHbox.getChildren().addAll(tickButton, playButton);
-
-        initPlayActionTimeline();
-
-        HBox addVehiclesHbox = new HBox();
-        addVehiclesHbox.setPadding(new Insets(15, 12, 15, 12));
-        addVehiclesHbox.setSpacing(10);
 
         initVehiclesButton();
         initVehiclesTextField();
         initTimeText();
 
+        //inserting the buttons ot the HBox
+        ImageView img = new ImageView("/icons8-time-50.png");
+        HBox timeBox = new HBox();
+        timeBox.getChildren().addAll(img,timeText);
+        playAndTickHbox.getChildren().addAll(timeBox , tickButton, playButton, backButton);
+
+        initPlayActionTimeline();
+
+//        HBox addVehiclesHbox = new HBox();
+        addVehiclesHbox = new VBox();
+        addVehiclesHbox.setPadding(new Insets(15, 12, 15, 12));
+        addVehiclesHbox.setSpacing(30);
+
         addVehiclesHbox.getChildren().addAll(addVehiclesButton, numOfVehiclesTextField);
 
         //add the hboxes to the screen AnchorPane and anchor them
-        root.getChildren().addAll(borderPane, playAndTickHbox, addVehiclesHbox, timeText, backButton);
+//        root.getChildren().addAll(borderPane, playAndTickHbox, addVehiclesHbox, timeText, backButton);
+        root.getChildren().addAll(playAndTickHbox, addVehiclesHbox);
         AnchorPane.setTopAnchor(borderPane, 0.0);
 
-        AnchorPane.setBottomAnchor(playAndTickHbox, 5.0);
+        AnchorPane.setTopAnchor(playAndTickHbox, 40.0);
         AnchorPane.setRightAnchor(playAndTickHbox, 5.0);
 
-        AnchorPane.setBottomAnchor(addVehiclesHbox, 5.0);
-        AnchorPane.setLeftAnchor(addVehiclesHbox, 5.0);
+        AnchorPane.setTopAnchor(addVehiclesHbox, addVechilesBoxSpacing);
+        AnchorPane.setLeftAnchor(addVehiclesHbox, 200.0);
 
         //for now it's in the top right
-        AnchorPane.setTopAnchor(timeText, 5.0);
-        AnchorPane.setRightAnchor(timeText, 5.0);
+//        AnchorPane.setTopAnchor(timeText, 5.0);
+//        AnchorPane.setRightAnchor(timeText, 5.0);
 
         //back button alignment
-        AnchorPane.setTopAnchor(backButton, 5.0);
-        AnchorPane.setLeftAnchor(backButton, 5.0);
+//        AnchorPane.setTopAnchor(backButton, 5.0);
+//        AnchorPane.setLeftAnchor(backButton, 5.0);
 
         Scene scene = new Scene(root, stage.getWidth(), stage.getHeight(), Color.GREY);
 
@@ -143,8 +156,8 @@ public class DrawMapController extends ShowErrorController implements Initializa
 
     private void initTimeText() {
         timeText = new Text("00:00:00");
-        timeText.setFill(Color.WHITE);
-        timeText.setStyle("-fx-font: 30 arial;");
+//        timeText.setFill(Color.WHITE);
+        timeText.setStyle("-fx-font: 52 arial;");
     }
 
     /**@author: Orel
@@ -166,7 +179,8 @@ public class DrawMapController extends ShowErrorController implements Initializa
      * @date: 3/4/18
      */
     private void initBackButton() {
-        backButton = createRaisedJFXButtonWithIcon("/icons8-back-filled-50.png");
+//        backButton = createRaisedJFXButtonWithIcon("/icons8-back-filled-50.png");
+        backButton = createRaisedJFXButtonWithIcon("/icons8-home-50.png");
         backButton.setOnAction(this::backButtonClicked);
         backButton.setMaxWidth(60);
         backButton.setMaxHeight(60);
@@ -224,8 +238,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
      * @date: 20/1/18
      */
     private AnchorPane initScenePanesAndGetRoot() {
-        AnchorPane root = new AnchorPane();
-        borderPane = new BorderPane();
+//        AnchorPane root = new AnchorPane();
+//        borderPane = new BorderPane();
+        AnchorPane root = anchor;
 
         borderPane.setStyle("-fx-background-color: transparent;");
         root.setStyle("-fx-background-color: transparent;");
@@ -337,6 +352,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
     private void initVehiclesTextField() {
         numOfVehiclesTextField = new JFXTextField();
         numOfVehiclesTextField.setPromptText("Vehicles amount (1 - 200)");
+        numOfVehiclesTextField.setFont(Font.font("Verdana", FontWeight.BOLD,13.5));
         numOfVehiclesTextField.setPrefSize(200, 50);
         numOfVehiclesTextField.setVisible(false);
     }
@@ -347,14 +363,16 @@ public class DrawMapController extends ShowErrorController implements Initializa
      */
     private void initVehiclesButton() {
         addVehiclesButton = createRaisedJFXButtonWithText("Choose Vehicles To Add");
+//        addVehiclesButton = createRaisedJFXButtonWithText("Add Vehicles");
+        addVehiclesButton.setPrefSize(200, 50);
         addVehiclesButton.setOnAction(event -> {
             boolean textFieldWasVisible = numOfVehiclesTextField.isVisible();
             if(!textFieldWasVisible) {
                 numOfVehiclesTextField.setVisible(true);
                 //numOfVehiclesTextField.setBackground();
-                numOfVehiclesTextField.setFont(Font.font("Verdana", FontWeight.BOLD,13.5));
-                numOfVehiclesTextField.setStyle("-fx-text-inner-color: red;");
+//                numOfVehiclesTextField.setStyle("-fx-text-inner-color: red;");
                 addVehiclesButton.setText("Add Vehicles");
+                AnchorPane.setTopAnchor(addVehiclesHbox, 5.0);
             } else {
                 int numOfVehicles;
                 try {
@@ -366,6 +384,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
                 }
                 numOfVehiclesTextField.setVisible(false);
                 numOfVehiclesTextField.setText("");
+                AnchorPane.setTopAnchor(addVehiclesHbox, addVechilesBoxSpacing);
                 addVehiclesButton.setText("Choose Vehicles To Add");
                 addRandomVehiclesToSimulation(numOfVehicles);
             }
@@ -441,7 +460,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
         JFXButton button = new JFXButton(buttonText);
         button.setButtonType(JFXButton.ButtonType.RAISED);
         button.setStyle("-fx-background-color: #ffffff");
-        button.setPrefSize(200, 50);
+        button.setPrefSize(150, 50);
         button.setRipplerFill(Color.BLACK);
         return button;
     }
