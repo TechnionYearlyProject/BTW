@@ -13,7 +13,7 @@ public class TestBTWDataBaseImpl {
      * @Date 21/01/2018*/
     @Test
     public void testGetAllTrafficLights() {
-        BTWDataBaseImpl dataBase = new BTWDataBaseImpl("test1");
+        BTWDataBaseImpl dataBase = BTWDataBaseImpl.getInstance("test1");
 //        dataBase.loadMap();
         Set<TrafficLight> trafficLights = dataBase.getAllTrafficLights();
         Assert.assertNotNull(trafficLights);
@@ -27,7 +27,7 @@ public class TestBTWDataBaseImpl {
     @Test
     public void testGetStreetByName() {
         String streetName = "aa";
-        BTWDataBaseImpl dataBase = new BTWDataBaseImpl("anat_simulate");
+        BTWDataBaseImpl dataBase = BTWDataBaseImpl.getInstance("anat_simulate");
         dataBase.loadMap();
         Street street = dataBase.getStreetByName(streetName);
         Assert.assertNull(street);
@@ -38,7 +38,7 @@ public class TestBTWDataBaseImpl {
     @Test
     public void testGetCentralLocationByName() {
 
-        BTWDataBaseImpl dataBase = new BTWDataBaseImpl("first");
+        BTWDataBaseImpl dataBase = BTWDataBaseImpl.getInstance("first");
         String centrallLocationName = "MailWay";
         CentralLocation centralLocation = dataBase.getCentralLocationByName(centrallLocationName);
         Assert.assertNull(centralLocation);
@@ -48,7 +48,7 @@ public class TestBTWDataBaseImpl {
      * @Date 21/01/2018*/
     @Test
     public void testGetAllRoads() {
-        BTWDataBaseImpl dataBase = new BTWDataBaseImpl("test1");
+        BTWDataBaseImpl dataBase = BTWDataBaseImpl.getInstance("test1");
         Set<Road> roads = dataBase.getAllRoads();
         Assert.assertNotNull(roads);
         roads = dataBase.getAllRoads();
@@ -59,7 +59,7 @@ public class TestBTWDataBaseImpl {
      * @Date 21/01/2018*/
     @Test
     public void testGetAllCrossroads() {
-        BTWDataBaseImpl dataBase = new BTWDataBaseImpl("test1");
+        BTWDataBaseImpl dataBase = BTWDataBaseImpl.getInstance("test1");
         Set<Crossroad> crossRoads = dataBase.getAllCrossroads();
         Assert.assertNotNull(crossRoads);
         crossRoads = dataBase.getAllCrossroads();
@@ -70,7 +70,7 @@ public class TestBTWDataBaseImpl {
      * @Date 21/01/2018*/
     @Test
     public void testUpdateWeight() {
-        BTWDataBase dataBase = new BTWDataBaseImpl("test1");
+        BTWDataBase dataBase = BTWDataBaseImpl.getInstance("test1");
         dataBase = dataBase.updateWeight();
         Assert.assertNull(dataBase);
     }

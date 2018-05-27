@@ -86,7 +86,7 @@ public class HomeController extends SwitchToMapController implements Initializab
         attachButton.setGraphic(new ImageView(buttonImage));
 
         new Thread(() -> {
-            BTWDataBase dbForTables = new BTWDataBaseImpl("dbForTables");   // Shay - TO DO: separate tables names from the constructor
+            BTWDataBase dbForTables = BTWDataBaseImpl.getInstance("dbForTables");   // Shay - TO DO: separate tables names from the constructor
             Set<String> tablesNames = dbForTables.getTablesNames();
             Platform.runLater(() -> {
                 if (tablesNames != null) {
@@ -102,7 +102,7 @@ public class HomeController extends SwitchToMapController implements Initializab
         disableAllButtons();
 //        loadSpinner.setVisible(true);
         new Thread(() -> {
-            BTWDataBase dataBase = new BTWDataBaseImpl(chooseMapTextBox.getText());
+            BTWDataBase dataBase = BTWDataBaseImpl.getInstance(chooseMapTextBox.getText());
             System.out.println("trying to load map: " + chooseMapTextBox.getText());
             boolean result = dataBase.loadMap();
             Platform.runLater(() -> {
@@ -162,7 +162,7 @@ public class HomeController extends SwitchToMapController implements Initializab
 
             BTWDataBase dataBase;
             try{
-                dataBase = new BTWDataBaseImpl(mapName);
+                dataBase = BTWDataBaseImpl.getInstance(mapName);
                 dataBase.parseMap(mapString);
             } catch (Exception e) {
                 Platform.runLater(() -> {
