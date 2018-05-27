@@ -147,7 +147,6 @@ public class DrawMapController extends ShowErrorController implements Initializa
         addVehiclesHbox.getChildren().addAll(addVehiclesButton, numOfVehiclesTextField);
 
         //add the hboxes to the screen AnchorPane and anchor them
-//        root.getChildren().addAll(borderPane, playAndTickHbox, addVehiclesHbox, timeText, backButton);
         if(isVerifyMap) {
             setupVerifyScreen(root);
         } else {
@@ -158,7 +157,6 @@ public class DrawMapController extends ShowErrorController implements Initializa
                             .divide(2));
 
             root.getChildren().addAll(playAndTickHbox, addVehiclesHbox, stack);
-            AnchorPane.setTopAnchor(borderPane, 0.0);
             AnchorPane.setTopAnchor(stack, 55.0);
 
             AnchorPane.setTopAnchor(playAndTickHbox, 40.0);
