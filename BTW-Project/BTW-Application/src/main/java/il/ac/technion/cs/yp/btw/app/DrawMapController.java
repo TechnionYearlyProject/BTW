@@ -389,22 +389,22 @@ public class DrawMapController extends ShowErrorController implements Initializa
 
                 if((startDragX<endDragX)&&(startDragY<endDragY)){
                     borderPane.setLayoutX(borderPane.getLayoutX()+(endDragX-startDragX)*2);
-                    //borderPane.setLayoutX(borderPane.getLayoutY()+(endDragY-startDragY)*2);
+                    borderPane.setLayoutY(borderPane.getLayoutY()+(endDragY-startDragY)*2);
                 }
 
                 else if((startDragX>endDragX)&&(startDragY<endDragY)){
                     borderPane.setLayoutX(borderPane.getLayoutX()-(startDragX-endDragX)*2);
-                    //borderPane.setLayoutX(borderPane.getLayoutY()+(endDragY-startDragY)*2);
+                    borderPane.setLayoutY(borderPane.getLayoutY()+(endDragY-startDragY)*2);
                 }
 
                 else if((startDragX<endDragX)&&(startDragY>endDragY)){
                     borderPane.setLayoutX(borderPane.getLayoutX()+(endDragX-startDragX)*2);
-                    //borderPane.setLayoutX(borderPane.getLayoutY()-(startDragY-endDragY)*2);
+                    borderPane.setLayoutY(borderPane.getLayoutY()-(startDragY-endDragY)*2);
                 }
 
                 else {
                     borderPane.setLayoutX(borderPane.getLayoutX()-(startDragX-endDragX)*2);
-                    //borderPane.setLayoutX(borderPane.getLayoutY()-(startDragY-endDragY)*2);
+                    borderPane.setLayoutY(borderPane.getLayoutY()-(startDragY-endDragY)*2);
                 }
 
                 event.setDropCompleted(success);
