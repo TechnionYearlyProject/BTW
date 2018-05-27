@@ -82,7 +82,7 @@ public class CitySimulatorImpl implements CitySimulator {
 
         @Override
         public BTWWeight getWeightByTime(BTWTime time) {
-            return null;
+            return this.wrappedRoad.getWeightByTime(time);
         }
 
         @Override
@@ -202,6 +202,8 @@ public class CitySimulatorImpl implements CitySimulator {
         private int minimumOpenTime;
         private double throughput;
         private double totalThroughputInCurrentGreen;
+        private TrafficLight wrappedTrafficLight;
+        private BTWWeight minimumWeight;
 
         private CityTrafficLightImpl(TrafficLight trafficLight) {
             this.xCoord = trafficLight.getCoordinateX();
@@ -215,6 +217,8 @@ public class CitySimulatorImpl implements CitySimulator {
             this.throughput = DEFAULT_THROUGHPUT;
             this.totalThroughputInCurrentGreen = 0.0;
             this.timeOpen = 0;
+            this.minimumWeight = trafficLight.getMinimumWeight();
+            this.wrappedTrafficLight = trafficLight;
         }
 
         @Override
@@ -244,12 +248,12 @@ public class CitySimulatorImpl implements CitySimulator {
 
         @Override
         public BTWWeight getWeightByTime(BTWTime time) {
-            return null;
+            return this.wrappedTrafficLight.getWeightByTime(time);
         }
 
         @Override
         public BTWWeight getMinimumWeight() {
-            return null;
+            return this.minimumWeight;
         }
 
         /**

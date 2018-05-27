@@ -259,6 +259,7 @@ public class VehicleImpl implements Vehicle {
         }
         if (this.remainingTimeOnRoad <= 0) {
             if (this.currentRoad.equals(this.destination)) {
+                this.leaveRoad(this.destination);
                 return this;
             }
             if (prevRemainingTime > 0) {
