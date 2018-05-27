@@ -353,8 +353,19 @@ public class BTWDataBaseImpl implements BTWDataBase {
 
         this.heuristics = BTWGraphInfo.calculateHeuristics(this);
         this.updatedHeuristics = true;
+        updateDataRoadsHeuristics();
         logger.debug("BTWDataBase Complete Updating Heuristics");
         return this;
+    }
+
+    private void updateDataRoadsHeuristics() {
+        logger.debug("BTWDataBase Start updateDataRoadsHeuristics - updating each data road separately");
+
+        for(Road road: this.roads ) {
+            Map<String, Long> curMapForRoad = this.heuristics.get(road.getRoadName());
+            ((DataRoad)road).setDistances(curMapForRoad);
+        }
+        logger.debug("BTWDataBase Complete updateDataRoadsHeuristics - updating each data road separately");
     }
 
     /**

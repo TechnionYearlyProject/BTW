@@ -2,6 +2,9 @@ package il.ac.technion.cs.yp.btw.db.DataObjects;
 
 import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.db.RoadsDataBase;
+import java.util.Map;
+import java.util.HashMap;
+
 /**
  * default implementation for the interface Road
  */
@@ -19,6 +22,7 @@ public class DataRoad implements Road {
     private int secStart;
     private int secEnd;
     private long overload;
+    private Map<String,Long> distances;
     private BTWWeight[] weights;
 
     /*
@@ -37,6 +41,7 @@ public class DataRoad implements Road {
         this.destinationCrossroadPosition = destinationCrossroadPosition;
         this.mapName = mapName;
         this.weights = null;
+        this.distances = new HashMap<String,Long>();
     }
 
     /*
@@ -55,6 +60,7 @@ public class DataRoad implements Road {
         this.secEnd = secEnd;
         this.overload = overload;
         this.weights = null;
+        this.distances = new HashMap<String,Long>();
 
     }
     /**
@@ -161,7 +167,8 @@ public class DataRoad implements Road {
      */
     @Override
     public BTWWeight getHeuristicDist(Road road) {
-        Long dist = RoadsDataBase.getHeuristicDist(name,road.getRoadName(),mapName);
+        //Long dist = RoadsDataBase.getHeuristicDist(name,road.getRoadName(),mapName);
+        Long dist = this.distances.get(road.getRoadName());
         BTWWeight roadOverload = null;
         try{
             roadOverload = BTWWeight.of(dist);
@@ -280,6 +287,29 @@ public class DataRoad implements Road {
      */
     public BTWWeight[] getWeights() {
         return this.weights;
+    }
+
+    /**
+     * @Date: 18/05/18
+     * @Author: Shay
+     * set updated distances Map of this DataRoad
+     * Pay Attention: Only For DataRoads!
+     * @return this DataRoad
+     */
+    public DataRoad setDistances(Map<String,Long> map) {
+        this.distances = map;
+        return this;
+    }
+
+    /**
+     * @Date: 18/05/18
+     * @Author: Shay
+     * get updated distances Map of this DataRoad
+     * Pay Attention: Only For DataRoads!
+     * @return B Map<String,Long> distances of the road
+     */
+    public Map<String,Long> getDistances() {
+        return this.distances;
     }
 
 }
