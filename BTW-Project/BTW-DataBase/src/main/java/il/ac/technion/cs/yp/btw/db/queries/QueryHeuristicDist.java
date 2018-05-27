@@ -22,7 +22,7 @@ public class QueryHeuristicDist extends Query{
             resultSet.next();
             overloadOfRoad =  resultSet.getLong("overload");
         }catch(SQLException e){
-            logger.error("query has failed");
+            logger.error("query heuristicsDist has failed");
         }
         return overloadOfRoad;
 

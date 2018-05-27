@@ -26,7 +26,7 @@ public class QueryOverloadOfRoad extends Query {
             resultSet.next();
             overloadOfRoad =  resultSet.getLong("overload");
         }catch(SQLException e){
-            logger.error("query has failed");
+            logger.error("query overload of road has failed");
         }
         return overloadOfRoad;
 

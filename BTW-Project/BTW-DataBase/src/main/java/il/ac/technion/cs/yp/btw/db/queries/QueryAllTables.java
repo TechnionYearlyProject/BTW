@@ -32,7 +32,7 @@ public class QueryAllTables extends Query {
                 mapNames.add(nameID);
             }
         }catch(SQLException e){
-            logger.error("query has failed");
+            logger.error("query all tables has failed");
         }
         return mapNames;
 

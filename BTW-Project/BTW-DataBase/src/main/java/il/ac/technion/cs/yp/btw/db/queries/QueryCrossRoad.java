@@ -50,7 +50,7 @@ public class QueryCrossRoad extends Query{
 
             }
         }catch(SQLException e){
-            logger.error("query has failed");
+            logger.error("queryCrossRoad has failed");
         }
         Crossroad crossRoad = new DataCrossRoad(this.position, trafficLights, mapName);
         return crossRoad;

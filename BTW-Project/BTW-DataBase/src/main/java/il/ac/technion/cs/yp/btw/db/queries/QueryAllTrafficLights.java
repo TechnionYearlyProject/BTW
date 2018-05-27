@@ -58,7 +58,7 @@ public class QueryAllTrafficLights extends Query{
 
             }
         }catch(SQLException e){
-            logger.error("query has failed");
+            logger.error("query all trafficlights failed");
         }
         return trafficLights;
 

@@ -40,7 +40,7 @@ public class QueryTrafficLight extends Query {
             trafficLight  = new DataTrafficLight(nameID, position, sourceRoadId,destinationRoadIf, overload, mapName);
 
         }catch(SQLException e){
-            logger.error("query has failed");
+            logger.error("query trafficlight has failed");
         }
         return trafficLight;
 

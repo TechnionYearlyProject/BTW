@@ -49,7 +49,7 @@ public class QueryCentralLocation extends Query {
 
             centralLocation = new DataCentralLocation(points, nameID, street,mapName);
         }catch(SQLException e){
-            logger.error("query has failed");
+            logger.error("query central location has failed");
         }
 
         return centralLocation;

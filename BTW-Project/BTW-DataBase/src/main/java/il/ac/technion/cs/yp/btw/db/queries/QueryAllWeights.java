@@ -30,7 +30,7 @@ public class QueryAllWeights extends Query {
                 logger.error("Something Went Wrong with retrieving weights from DB");
             }
         }catch(SQLException e){
-            logger.error("query has failed");
+            logger.error("query all weights has failed");
         }
         return weights;
 

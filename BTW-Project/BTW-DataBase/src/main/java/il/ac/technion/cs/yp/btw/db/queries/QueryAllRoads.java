@@ -50,7 +50,7 @@ public class QueryAllRoads extends Query{
 
             }
         }catch(SQLException e){
-            logger.error("query has failed");
+            logger.error("query all roads has failed");
         }
         return roads;
 

@@ -31,7 +31,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
     private Set<Road> roads;
     private boolean roadsLoaded;
     private Map<String, Map<String,Long>> heuristics;
-    private boolean updatedHeuristics;
+    private boolean updatedHeuristics;  // tell if the heuristics were updated in this run
+    private boolean savedHeuristics;    // tell if the heuristics were saveed in this run
 
     /**
      * @author Sharon Hadar
@@ -44,7 +45,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
         logger.debug("BTWDataBase Constructor");
         MainDataBase.openConnection();
         logger.debug("BTWDataBase open connection");
-        this.updatedHeuristics = false;
+        this.updatedHeuristics = false;     // not yet update heuristics
+        this.savedHeuristics = false;       // not yet saved heuristics in DB
 
         roadsLoaded = false;
         trafficLightsLoaded = false;
@@ -338,8 +340,17 @@ public class BTWDataBaseImpl implements BTWDataBase {
     @Override
     public BTWDataBase updateHeuristics() {
         logger.debug("BTWDataBase Start Updating Heuristics");
-        if (this.updatedHeuristics)
+        /*if (!this.savedHeuristics)  // heuristics never saved in DB
+        {
+            logger.debug("BTWDataBase exit update heuristics because never saved!");
             return this;
+        }*/
+
+        if (this.updatedHeuristics) {
+            logger.debug("BTWDataBase exit update heuristics because already updated");
+            return this;
+        }
+
         this.heuristics = BTWGraphInfo.calculateHeuristics(this);
         this.updatedHeuristics = true;
         logger.debug("BTWDataBase Complete Updating Heuristics");
@@ -475,6 +486,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
             }
         }
         MainDataBase.saveDataFromQuery(sql3);
+        this.savedHeuristics = true;
         logger.debug("BTWDataBase Complete Saving Heuristics");
         return;
     }
