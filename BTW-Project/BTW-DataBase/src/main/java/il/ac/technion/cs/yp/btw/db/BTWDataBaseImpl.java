@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class BTWDataBaseImpl implements BTWDataBase {
 
     final static Logger logger = Logger.getLogger("BTWDataBaseImpl");
-    static boolean StatisticsMode = false;
+    boolean StatisticsMode = false;
 
     private String mapName;
     private Connection connection;
@@ -40,8 +40,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     public BTWDataBaseImpl(String mapName){
 
-        logger.debug("BTWDataBase Constructor");
         this.mapName = mapName;
+        logger.debug("BTWDataBase Constructor");
         MainDataBase.openConnection();
         logger.debug("BTWDataBase open connection");
         this.updatedHeuristics = false;
@@ -54,7 +54,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
         crossRoads = null;
     }
 
-    /*
+    /**
+     *
      * @author Sharon Hadar
      * @Date 21/01/2018
      * close the connection to the cloud DB. need to close on end of run.
@@ -63,7 +64,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
         MainDataBase.closeConnection();
     }
 
-    /*
+    /**
      * @author Sharon Hadar
      * @Date 21/01/2018
      * @return Set of all TrafficLights in the system
@@ -156,7 +157,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return this.crossRoads;
     }
 
-    /*
+    /**
      * @author Sharon Hadar
      * @Date 21/01/2018*/
     private void insertCrossRoadsToRoads(){
@@ -171,9 +172,11 @@ public class BTWDataBaseImpl implements BTWDataBase {
         }
 
     }
-    /*
+
+    /**
      * @author Sharon Hadar
-     * @Date 21/01/2018*/
+     * @Date 21/01/2018
+     * */
     private void insertRoadsToTrafficLights(){
         Map<String, Road> roadsLightsOfName = new HashMap<>();
         this.roads.
@@ -549,9 +552,34 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return mapName;
     }
 
+    /**
+     * @Author: Shay
+     * @Date: 26/4/18
+     * @return the statistics period for saving statistics.
+     * e.g: 1800 seconds = half an hour
+     */
     @Override
     public long getStatisticsPeriod() {
         return 1800;
+    }
+
+    /**
+     * @Author: Shay
+     * @Date: 26/4/18
+     * @return true if statisticsMode is ON and false other
+     * */
+    public boolean getStatisticsMode() {
+        return this.StatisticsMode;
+    }
+
+    /**
+     * @Author: Shay
+     * @Date: 26/4/18
+     * @return true if statisticsMode is ON and false other
+     * */
+    public BTWDataBaseImpl SetStatisticsModeOn() {
+        this.StatisticsMode = true;
+        return this;
     }
 
 }
