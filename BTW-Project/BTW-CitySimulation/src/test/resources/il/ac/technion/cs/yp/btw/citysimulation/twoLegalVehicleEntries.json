@@ -1,0 +1,16 @@
+[
+  {
+    "sourceRoad": "11 Street",
+    "sourceRatio": 0.0,
+    "destinationRoad": "39 Street",
+    "destinationRatio": 0.6,
+    "timeOfDrivingStart": "10:40:56"
+  },
+  {
+    "sourceRoad": "4 Street",
+    "sourceRatio": 0.31,
+    "destinationRoad": "41 Street",
+    "destinationRatio": 0.7,
+    "timeOfDrivingStart": "08:12:31"
+  }
+]

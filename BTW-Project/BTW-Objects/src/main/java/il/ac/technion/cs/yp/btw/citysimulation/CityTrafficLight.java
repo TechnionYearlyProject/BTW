@@ -55,4 +55,10 @@ public interface CityTrafficLight extends TrafficLight, StatisticsProviding<Traf
      * @return the current state of the traffic-light
      */
     TrafficLightState getState();
+
+    /**
+     * @return the number of waiting vehicles
+     *         in this Traffic Light
+     */
+    int getNumOfWaitingVehiclesInTrafficLights();
 }

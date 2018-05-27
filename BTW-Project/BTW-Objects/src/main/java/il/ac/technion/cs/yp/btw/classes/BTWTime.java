@@ -5,6 +5,9 @@ package il.ac.technion.cs.yp.btw.classes;
  */
 public class BTWTime extends BTWTimeUnit{
 
+    private static final int MINUTES_MULTIPLIER_TO_SECONDS = 60;
+    private static final int HOURES_MULTIPLIER_TO_SECONDS = 60*60;
+
     private BTWTime(long value) throws BTWIllegalTimeException {
         super(value);
         if (value >= 86400) {
@@ -17,11 +20,29 @@ public class BTWTime extends BTWTimeUnit{
         if (secs >= 86400) {
             secs = secs % 86400;
         }
-        return new BTWTime(secs);
+        this.seconds = secs;
+        return this;
     }
 
     public static BTWTime of(long value) throws BTWIllegalTimeException {
         return new BTWTime(value);
+    }
+
+    /**
+     * @author Adam Elgressy
+     * @Date 23-5-2018
+     * @param value - String representing time in format HH:MM:SS
+     * @return BTWTime object with value according to input
+     * @throws BTWIllegalTimeException when the format of value
+     *               doesn't corresponds with the HH:MM:SS format, or
+     *               the time is of illegal value, example: 54:72:90
+     */
+    public static BTWTime of(String value) throws BTWIllegalTimeException {
+        if(!value.matches("[0-9][0-9]:[0-9][0-9]:[0-9][0-9]"))
+            throw new BTWIllegalTimeException("Illegal Time Format");
+        return BTWTime.of(Long.valueOf(value.substring(0,2))
+                ,Long.valueOf(value.substring(3,5))
+                ,Long.valueOf(value.substring(6,8)));
     }
 
     public static BTWTime of(long hours, long minutes, long seconds) throws BTWIllegalTimeException {
@@ -36,7 +57,9 @@ public class BTWTime extends BTWTimeUnit{
         if (seconds < 0 || seconds > 59) {
             throw new BTWIllegalTimeException("Number of seconds must be between 0 and 59");
         }
-        return new BTWTime(hours);
+        return new BTWTime(seconds
+                + minutes* MINUTES_MULTIPLIER_TO_SECONDS
+                + hours* HOURES_MULTIPLIER_TO_SECONDS);
     }
 
     public Long getHoutsOnly() {

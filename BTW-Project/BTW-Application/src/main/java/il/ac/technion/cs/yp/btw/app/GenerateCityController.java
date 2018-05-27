@@ -87,7 +87,7 @@ public abstract class GenerateCityController extends SwitchToMapController {
                     .stream()
                     .map(citySimulator::getRealCrossroad)
                     .collect(Collectors.toSet()));
-            Platform.runLater(() -> switchScreensToMap(event, citySimulator));
+            Platform.runLater(() -> switchScreensToMap(event, citySimulator, dataBase));
         }).start();
 
 

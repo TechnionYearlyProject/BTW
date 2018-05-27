@@ -1,5 +1,6 @@
 package il.ac.technion.cs.yp.btw.navigation;
 
+import il.ac.technion.cs.yp.btw.classes.BTWTime;
 import il.ac.technion.cs.yp.btw.classes.Crossroad;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import javafx.util.Pair;
@@ -18,32 +19,34 @@ class RoadWrapper implements Comparable<RoadWrapper>{
     private Road road;
     private final Map<Road, Long> distFromNeighbor;
     private RoadWrapper parent;
+    private BTWTime time;
 
-    private RoadWrapper(Road road, Road dst, Double dist, RoadWrapper parent, Double sourceRoadRatio) {
+    private RoadWrapper(Road road, Road dst, Double dist, RoadWrapper parent, Double sourceRoadRatio, BTWTime time) {
         this.road = road;
         this.dist = dist;
         this.heuristics = road.getHeuristicDist(dst).seconds();
         this.parent = parent;
+        this.time = time;
         Crossroad destinationCrossroad = road.getDestinationCrossroad();
-        long roadWeight = (long) Math.ceil((1.0 - sourceRoadRatio) * (double)(this.road.getMinimumWeight().seconds()));
+        long roadWeight = (long) Math.ceil((1.0 - sourceRoadRatio) * (double)(this.road.getWeightByTime(this.time).seconds()));
         if (destinationCrossroad == null) {
             this.distFromNeighbor = new HashMap<>();
         } else {
             this.distFromNeighbor = destinationCrossroad.getTrafficLightsFromRoad(road)
                     .stream()
                     .map(trafficLight -> new Pair<>(trafficLight.getDestinationRoad(),
-                            trafficLight.getMinimumWeight().seconds()))
+                            trafficLight.getWeightByTime(this.time).seconds()))
                     .collect(Collectors.toMap(Pair::getKey,
                             r -> r.getValue() + roadWeight));
         }
     }
 
-    static RoadWrapper buildSourceRoad(Road road, Road dst, Double sourceRoadRatio){
-        return new RoadWrapper(road, dst, 0.0, null, sourceRoadRatio);
+    static RoadWrapper buildSourceRoad(Road road, Road dst, Double sourceRoadRatio, BTWTime time){
+        return new RoadWrapper(road, dst, 0.0, null, sourceRoadRatio, time);
     }
 
-    static RoadWrapper buildRouteRoad(Road road, Road dst, Double dist, RoadWrapper parent) {
-        return new RoadWrapper(road, dst, dist, parent, 0.0);
+    static RoadWrapper buildRouteRoad(Road road, Road dst, Double dist, RoadWrapper parent, BTWTime time) {
+        return new RoadWrapper(road, dst, dist, parent, 0.0, time);
     }
 
     Road getRoad() {

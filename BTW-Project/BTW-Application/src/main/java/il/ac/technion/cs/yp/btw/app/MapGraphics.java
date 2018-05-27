@@ -56,8 +56,9 @@ public class MapGraphics {
             Circle circle = new Circle(point.getCoordinateX(), point.getCoordinateY(),0.0001);
             if (currTrafficLight.getState() == CityTrafficLight.TrafficLightState.GREEN)
                 circle.setFill(Color.GREEN);
+
             else
-                circle.setFill(Color.RED);
+                circle.setFill(Color.CRIMSON);
             circle.setOnMouseClicked(event -> {System.out.println(currTrafficLight.getName());});
             circles.add(new Pair(circle,currTrafficLight.getName()));
             x++;

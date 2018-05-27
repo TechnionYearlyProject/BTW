@@ -22,6 +22,8 @@ public class NaiveStatisticsCalculator implements StatisticsCalculator {
      */
     public NaiveStatisticsCalculator(BTWDataBase db) {
         this.db = db;
+        this.roadExpectedWeightOfTime = new HashMap<>();
+        this.trafficLightExpectedWeightOfTime = new HashMap<>();
     }
 
     /**

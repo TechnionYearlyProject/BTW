@@ -1,0 +1,9 @@
+[
+  {
+    "sourceRoad": "1 Street",
+    "sourceRatio": 0.5,
+    "destinationRoad": "2 Street",
+    "destinationRatio": -0.1,
+    "timeOfDrivingStart": "00:00:00"
+  }
+]

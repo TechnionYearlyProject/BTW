@@ -88,7 +88,7 @@ public class GenerateFreeFormController extends GenerateCityController implement
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         alert.setHeaderText(null);
-        alert.setContentText("Radius");
+        alert.setContentText("The map is built within a circle.\nInsert the radius size you want the circle to have");
         alert.showAndWait();
     }
 
@@ -100,7 +100,8 @@ public class GenerateFreeFormController extends GenerateCityController implement
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         alert.setHeaderText(null);
-        alert.setContentText("NumberOfBlocks");
+        alert.setContentText("The map is built from a collection of blocks\ncontaining several streets and avenues.\n" +
+                "Enter the number of blocks you want to be on the map");
         alert.showAndWait();
     }
 }

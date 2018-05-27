@@ -6,13 +6,19 @@ import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 import org.junit.*;
 import org.mockito.Mockito;
 
+import javax.print.DocFlavor;
 import java.io.*;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 /**
- * Created by anat ana on 14/01/2018.
+ * @author Adam Elgressy and anat
+ * @date 14-1-2018
  * Tests for GeoJson parser.
  */
 
@@ -22,11 +28,11 @@ import java.util.Set;
 
 public class GeoJsonParserTests {
 
-    public String oneRoadMap = "{\"type\": \"FeatureCollection\",\"features\":[{\"type\":\"Feature\","+
+    private String oneRoadMap = "{\"type\": \"FeatureCollection\",\"features\":[{\"type\":\"Feature\","+
             "\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[6.0,7.2],"+
             "[5.0,5.0]]},\"properties\":{\"name\":\"road1\",\"length\":\"2\",\"overload\":0}}]}";
 
-    public String oneTrafficLightMap = "{\"type\": \"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":"+
+    private String oneTrafficLightMap = "{\"type\": \"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":"+
             "\"Point\",\"coordinates\":[4.5,4.5]},\"properties\":{\"name\":\"From roze st to Eve st\",\"overload\":0}}]}";;
 
 
@@ -48,7 +54,7 @@ public class GeoJsonParserTests {
      */
     public GeoJsonParserTests() throws BTWIllegalTimeException {
         this.file = null;
-        /************Setup variables for First simulator*********/
+        /**********Setup variables for First simulator*********/
         simulatorOneRoad = Mockito.mock(MapSimulator.class);
         oneRoad = Mockito.mock(Road.class);
         Crossroad sourceCrossroad = Mockito.mock(Crossroad.class);
@@ -111,16 +117,14 @@ public class GeoJsonParserTests {
             try {
                 Files.delete(this.file.toPath());
             } catch (IOException e) {
-                System.out.println("BAD");
             }
-            System.out.println("Hello World");
         }
     }
 
     @Test
     public void AppTest()
     {
-        GridCityMapSimulator mapSimulator = new GridCityMapSimulator();
+        GridCityMapSimulator mapSimulator = new GridCityMapSimulator().setAvenueLength(1200).setStreetLength(500).setNumOfAvenues(7).setNumOfStreets(14);
         mapSimulator.build();
         GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
         this.file = geoJsonParser.buildGeoJsonFromSimulation(mapSimulator);
@@ -149,7 +153,7 @@ public class GeoJsonParserTests {
             Assert.fail();
         }
 
-        Assert.assertEquals(mapString,oneRoadMap);
+        assertEquals(mapString,oneRoadMap);
     }
 
     @Test
@@ -174,7 +178,38 @@ public class GeoJsonParserTests {
             Assert.fail();
         }
 
-        Assert.assertEquals(mapString,oneTrafficLightMap);
+        assertEquals(mapString,oneTrafficLightMap);
     }
 
+    @Test
+    public void emptyFileTest(){
+        GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
+        String fileContent = geoJsonParser.getDataFromFile(GeoJsonParserTests.class.getResource("emptyFile.geojson"));
+        assertEquals("[]",fileContent);
+    }
+
+    @Test
+    public void validFullSizeMapFileTest(){
+        GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
+        String fileContent = geoJsonParser.getDataFromFile(GeoJsonParserTests.class.getResource("validFullSizeMap.geojson"));
+        assertNotEquals("[]",fileContent);
+        assertNotEquals("",fileContent);
+    }
+
+    @Test(expected = MapFileNotWithGeoJsonExtensionException.class)
+    public void exceptionThrownWhenFileDoesNotEndWithGeoJsonTest(){
+        GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
+        geoJsonParser.getDataFromFile(GeoJsonParserTests.class.getResource("emptyFile.json"));
+    }
+
+    @Test(expected = MapFileNotFoundException.class)
+    public void exceptionThrownWhenFileDoesNotExistTest(){
+        GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
+        geoJsonParser.getDataFromFile(GeoJsonParserTests.class.getResource("af"));
+    }
+    @Test(expected = FileNotOfJsonSyntaxException.class)
+    public void invalidJsonSyntaxTest(){
+        GeoJsonParserImpl geoJsonParser = new GeoJsonParserImpl();
+        geoJsonParser.getDataFromFile(GeoJsonParserTests.class.getResource("invalidFile.geojson"));
+    }
 }

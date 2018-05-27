@@ -33,7 +33,7 @@ public class CityTrafficLightImplTest {
 
     private void configMock() throws PathNotFoundException {
         // navigationManager
-        Mockito.when(navigationManager.getNavigator(this.descriptor, road1, 0.0, road2, 1.0))
+        Mockito.when(navigationManager.getNavigator(this.descriptor, road1, 0.0, road2, 1.0, BTWTime.of(0)))
                 .thenAnswer(invocation -> this.navigator);
 
         //crossroad
