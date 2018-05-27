@@ -550,13 +550,16 @@ public class DrawMapController extends ShowErrorController implements Initializa
             return;
         }
         try {
-            Thread thread = new Thread(() -> {
-                performMapTicks(tickButtonTickInterval);
-                Platform.runLater(() -> {
-                    redrawMap();
-                    tickButton.setDisable(false);
-                });
-            });
+            Thread thread = new Thread() {
+                @Override
+                public synchronized void run() {
+                    performMapTicks(tickButtonTickInterval);
+                    Platform.runLater(() -> {
+                        redrawMap();
+                        tickButton.setDisable(false);
+                    });
+                }
+            };
             thread.start();
         } catch (Exception e) {
             tickButton.setDisable(false);
