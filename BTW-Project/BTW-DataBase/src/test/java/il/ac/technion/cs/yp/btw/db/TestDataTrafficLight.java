@@ -14,7 +14,7 @@ public class TestDataTrafficLight {
 
     @Test
     public void testGetParameters() {
-        BTWDataBase btw = BTWDataBaseImpl.getInstance("test1");
+        BTWDataBase btw = new BTWDataBaseImpl("test1");
         btw.loadMap();
         Set<TrafficLight> tls = btw.getAllTrafficLights();
 
@@ -42,7 +42,7 @@ public class TestDataTrafficLight {
     @Test
     public void testConstruct() {
         DataTrafficLight tl = new DataTrafficLight("tl12009",new PointImpl(2,5.12313),"aa","cc",239732623,"test1");
-        BTWDataBase b = BTWDataBaseImpl.getInstance("test1");
+        BTWDataBase b = new BTWDataBaseImpl("test1");
         b.loadMap();
         String rd = tl.getDestinationRoadName();
         String rs = tl.getSourceRoadName();

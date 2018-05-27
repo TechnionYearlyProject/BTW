@@ -9,7 +9,7 @@ import org.junit.Test;
 public class TestGetTables {
     @Test
     public void testGetTablesName() {
-        BTWDataBaseImpl db = BTWDataBaseImpl.getInstance("tablesTest");
+        BTWDataBaseImpl db = new BTWDataBaseImpl("tablesTest");
         Assert.assertNotNull(db.getTablesNames());
     }
 }

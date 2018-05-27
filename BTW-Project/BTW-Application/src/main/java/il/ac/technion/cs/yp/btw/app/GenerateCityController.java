@@ -73,7 +73,7 @@ public abstract class GenerateCityController extends SwitchToMapController {
             //Insert the new map to the database.
             if(mapName == null) mapName = "random_simulated_map";
             System.out.println("about to parse the map: " + mapName);
-            BTWDataBase dataBase = BTWDataBaseImpl.getInstance(mapName);
+            BTWDataBase dataBase = new BTWDataBaseImpl(mapName);
             dataBase.parseMap(mapString);
 
             dataBase.getTablesNames();

@@ -19,9 +19,6 @@ import java.util.stream.Collectors;
 
 public class BTWDataBaseImpl implements BTWDataBase {
 
-    private static BTWDataBaseImpl DBSingleton = null;
-
-
     final static Logger logger = Logger.getLogger("BTWDataBaseImpl");
     boolean StatisticsMode = false;
 
@@ -42,7 +39,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
      * @Date 21/01/2018
      * a constructor to data bas3e object
      */
-    private BTWDataBaseImpl(String mapName){
+    public BTWDataBaseImpl(String mapName){
 
         this.mapName = mapName;
         logger.debug("BTWDataBase Constructor");
@@ -57,19 +54,6 @@ public class BTWDataBaseImpl implements BTWDataBase {
         roads = null;
         trafficLights = null;
         crossRoads = null;
-    }
-
-    /**
-     * @Author: Shay
-     * @Date: 27/5/18
-     * get instance of DB as singleton
-     */
-
-    public static BTWDataBaseImpl getInstance(String mapName) {
-        if (DBSingleton == null) {
-            DBSingleton = new BTWDataBaseImpl(mapName);
-        }
-        return DBSingleton;
     }
 
     /**

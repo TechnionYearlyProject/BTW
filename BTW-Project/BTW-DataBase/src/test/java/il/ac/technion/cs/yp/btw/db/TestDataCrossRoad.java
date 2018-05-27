@@ -83,7 +83,7 @@ public class TestDataCrossRoad {
 
     @Test
     public void testDataCrossRoad() {
-        BTWDataBase db = BTWDataBaseImpl.getInstance("anat_simulate");
+        BTWDataBase db = new BTWDataBaseImpl("anat_simulate");
         db.loadMap();
         Set<Crossroad> crossroads = db.getAllCrossroads();
         Set<Road> roads = db.getAllRoads();
