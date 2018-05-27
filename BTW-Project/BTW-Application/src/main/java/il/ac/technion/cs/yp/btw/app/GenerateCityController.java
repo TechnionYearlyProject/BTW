@@ -2,6 +2,7 @@ package il.ac.technion.cs.yp.btw.app;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
+import com.jfoenix.controls.JFXTextField;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
@@ -94,6 +95,14 @@ public abstract class GenerateCityController extends SwitchToMapController {
     }
 
     protected abstract MapSimulator createMapSimulator();
+
+    protected String mapNameSetValueAndGetMessage(String errorMessage, JFXTextField mapNameTextField) {
+        String mapNameErrorString = validateMapName(mapNameTextField.getText());
+        errorMessage += mapNameErrorString;
+        if(mapNameErrorString.equals("")) mapName = mapNameTextField.getText();
+        else mapName = null;
+        return errorMessage;
+    }
 
     protected abstract boolean getAndValidateUserInput(ActionEvent event);
 

@@ -29,7 +29,7 @@ public class GenerateGridController extends GenerateCityController implements In
     @FXML private JFXTextField LengthOfStreets;
     @FXML private JFXTextField LengthOfAvenues;
     @FXML private JFXTextField mapNameTextField;
-    @FXML private JFXToggleButton numStreetsToggle, numAvenuesToggle, legnthStreetsToggle, legnthAvenuesToggle;
+    @FXML private JFXToggleButton numStreetsToggle, numAvenuesToggle, legnthStreetsToggle, legnthAvenuesToggle, mapNameToggle;
 
 
     int Number_of_streets, Number_of_avenues, Length_of_streets, Length_of_avenues;
@@ -44,6 +44,8 @@ public class GenerateGridController extends GenerateCityController implements In
                 LengthOfStreets.setDisable(!LengthOfStreets.isDisabled()));
         legnthAvenuesToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
                 LengthOfAvenues.setDisable(!LengthOfAvenues.isDisabled()));
+        mapNameToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
+                mapNameTextField.setDisable(!mapNameTextField.isDisabled()));
     }
 
 
@@ -87,7 +89,7 @@ public class GenerateGridController extends GenerateCityController implements In
             }
         }
         if(!mapNameTextField.isDisabled()) {
-            errorMessage += validateMapName(mapNameTextField.getText());
+            errorMessage = mapNameSetValueAndGetMessage(errorMessage, mapNameTextField);
         }
         if(!errorMessage.equals("")) {
             showErrorDialog(errorMessage);
@@ -95,6 +97,8 @@ public class GenerateGridController extends GenerateCityController implements In
         }
         return true;
     }
+
+
 
     /**@author: Anat
      * @date: 01/05/2018
