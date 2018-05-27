@@ -358,6 +358,12 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return this;
     }
 
+    /**
+     * @Author: Shay
+     * @Date: 27/5/18
+     * private function of the DB
+     * help the update heuristics to update the distances map for each dataroad
+     */
     private void updateDataRoadsHeuristics() {
         logger.debug("BTWDataBase Start updateDataRoadsHeuristics - updating each data road separately");
 

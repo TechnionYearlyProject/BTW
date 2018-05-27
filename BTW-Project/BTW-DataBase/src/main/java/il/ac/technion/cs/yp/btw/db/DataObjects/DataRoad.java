@@ -178,10 +178,21 @@ public class DataRoad implements Road {
         return roadOverload;
     }
 
+    /**
+     * @Author: shay
+     * @Date: 09/05/18
+     * set source cross road
+     */
     public void setSourceCrossRoad (Crossroad sourceCrossroad){
+
         this.sourceCrossroad = sourceCrossroad;
     }
 
+    /**
+     * @Author: shay
+     * @Date: 09/05/18
+     * set destination cross road
+     */
     public void setDestinationCrossRoad (Crossroad destinationCrossroad){
         this.destinationCrossroad = destinationCrossroad;
     }
