@@ -44,6 +44,7 @@ public class CitySimulatorImpl implements CitySimulator {
         private final int speedLimit;
         private Set<Vehicle> vehicles;
         private BTWWeight minWeight;
+        private Road wrappedRoad;
 
 
         private CityRoadImpl(Road road) {
@@ -56,6 +57,7 @@ public class CitySimulatorImpl implements CitySimulator {
             this.speedLimit = DEFAULT_SPEED_LIMIT;
             this.vehicles = new HashSet<>();
             this.minWeight = road.getMinimumWeight();
+            this.wrappedRoad = road;
         }
 
         @Override
@@ -90,7 +92,7 @@ public class CitySimulatorImpl implements CitySimulator {
 
         @Override
         public BTWWeight getHeuristicDist(Road road) {
-            return null;
+            return this.wrappedRoad.getHeuristicDist(road);
         }
 
         @Override
@@ -174,6 +176,15 @@ public class CitySimulatorImpl implements CitySimulator {
         @Override
         public RoadData getStatisticalData() {
             return new RoadData(this.length, this.getSpeed() * 3.6, this.vehicles.size());
+        }
+
+        @Override
+        public boolean equals(Object o){
+            if (! (o instanceof Road)) {
+                return false;
+            }
+            Road r = (Road)o;
+            return this.getRoadName().equals(r.getRoadName());
         }
     }
 
@@ -594,7 +605,10 @@ public class CitySimulatorImpl implements CitySimulator {
                 if (this.roads.get(vehicleEntry.getSourceRoadName().get().getId()) == null) {
                     throw new RoadNameDoesntExistException("road name " + vehicleEntry.getSourceRoadName().get().getId() + " doesn't exist");
                 }
-                throw new RoadNameDoesntExistException("road name " + vehicleEntry.getDestinationRoadName().get().getId() + " doesn't exist");
+                if (this.roads.get(vehicleEntry.getDestinationRoadName().get().getId()) == null) {
+                    throw new RoadNameDoesntExistException("road name " + vehicleEntry.getDestinationRoadName().get().getId() + " doesn't exist");
+                }
+                throw e;
             }
         }
         return this;

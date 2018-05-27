@@ -22,6 +22,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
+import sun.rmi.runtime.Log;
 
 import java.io.*;
 import java.net.URL;
@@ -38,11 +40,12 @@ public abstract class GenerateCityController extends SwitchToMapController {
 
     @FXML protected JFXButton generate_button, back_button;
     @FXML protected JFXSpinner progress_spinner;
-
     protected String mapName;
+    final static Logger logger = Logger.getLogger("GenerateCityController");
 
     @FXML
     protected void BackClicked(ActionEvent event) {
+        logger.debug("Going back to home screen");
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
         try {
             String fxmlLocation = "/fxml/home_layout.fxml";
@@ -56,12 +59,12 @@ public abstract class GenerateCityController extends SwitchToMapController {
     @FXML protected void GenerateClicked(ActionEvent event) {
         if(!getAndValidateUserInput(event)) return; //if user input isn't valid there's nothing to do
         else {
-            System.out.println("input was valid");
+            logger.debug("Input was valid");
             generate_button.setDisable(true);
             back_button.setDisable(true);
             progress_spinner.setVisible(true);
         }
-
+        logger.debug("Creating simulation");
         MapSimulator mapSimulator = createMapSimulator();
 
         new Thread(() -> {
@@ -69,16 +72,15 @@ public abstract class GenerateCityController extends SwitchToMapController {
 
             String mapString = parseCitySimulationToGeoJsonString(mapSimulator);
 
-            System.out.println(mapString);
+//            System.out.println(mapString);
 
             //Insert the new map to the database.
             if(mapName == null) mapName = "random_simulated_map";
-            System.out.println("about to parse the map: " + mapName);
+            logger.debug("About to parse the map: " + mapName);
             BTWDataBase dataBase = new BTWDataBaseImpl(mapName);
             dataBase.parseMap(mapString);
 
             dataBase.getTablesNames();
-
 
             NavigationManager navigationManager = new NaiveNavigationManager(dataBase);
             TrafficLightManager trafficLightManager = new NaiveTrafficLightManager();
@@ -88,6 +90,7 @@ public abstract class GenerateCityController extends SwitchToMapController {
                     .stream()
                     .map(citySimulator::getRealCrossroad)
                     .collect(Collectors.toSet()));
+            logger.debug("Switching to draw map screen");
             Platform.runLater(() -> switchScreensToMap(event, citySimulator, dataBase));
         }).start();
 

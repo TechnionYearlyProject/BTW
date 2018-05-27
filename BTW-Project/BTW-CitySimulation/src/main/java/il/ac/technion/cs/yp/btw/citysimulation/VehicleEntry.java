@@ -191,7 +191,7 @@ class NameInDatabase implements Comparable {
     private String id;
 
     NameInDatabase(String id) {
-        if (id.length() > 10) throw new RuntimeException();
+        if (id.length() > 1000) throw new RuntimeException();
         if (!isAlphanumerical(id))
             throw new RuntimeException();
         this.setId(id);

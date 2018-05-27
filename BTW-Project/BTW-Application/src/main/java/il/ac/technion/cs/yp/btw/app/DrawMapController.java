@@ -32,6 +32,7 @@ import javafx.scene.transform.Affine;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -48,6 +49,8 @@ import static javafx.application.Application.launch;
  * all methods that don't specify an other author are by Orel
  */
 public class DrawMapController extends ShowErrorController implements Initializable {
+
+    final static Logger logger = Logger.getLogger("DrawMapController");
 
     @FXML
     AnchorPane anchor;
@@ -113,6 +116,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
      * @Date 20-1-2018
      */
     public void start() {
+        logger.debug("Initializing DrawMapController");
         AnchorPane root = initScenePanesAndGetRoot();
 
         HBox playAndTickHbox = new HBox();
@@ -130,7 +134,8 @@ public class DrawMapController extends ShowErrorController implements Initializa
         ImageView img = new ImageView("/icons8-time-50.png");
         HBox timeBox = new HBox();
         timeBox.getChildren().addAll(img,timeText);
-        playAndTickHbox.getChildren().addAll(timeBox , tickButton, playButton, backButton);
+//        playAndTickHbox.getChildren().addAll(timeBox , tickButton, playButton, backButton);
+        playAndTickHbox.getChildren().addAll(tickButton, playButton, backButton);
 
         initPlayActionTimeline();
 
@@ -146,8 +151,15 @@ public class DrawMapController extends ShowErrorController implements Initializa
         if(isVerifyMap) {
             setupVerifyScreen(root);
         } else {
-            root.getChildren().addAll(playAndTickHbox, addVehiclesHbox);
+            StackPane stack = new StackPane();
+            stack.getChildren().add(timeBox);
+            stack.translateXProperty()
+                    .bind(stage.widthProperty().subtract(stack.widthProperty())
+                            .divide(2));
+
+            root.getChildren().addAll(playAndTickHbox, addVehiclesHbox, stack);
             AnchorPane.setTopAnchor(borderPane, 0.0);
+            AnchorPane.setTopAnchor(stack, 55.0);
 
             AnchorPane.setTopAnchor(playAndTickHbox, 40.0);
             AnchorPane.setRightAnchor(playAndTickHbox, 5.0);
@@ -172,12 +184,17 @@ public class DrawMapController extends ShowErrorController implements Initializa
         stage.setScene(scene);
 
         stage.setResizable(true);
+        stage.setMinHeight(700);
+        stage.setMinWidth(1200);
+        logger.debug("Done initializing");
     }
 
     private void setupVerifyScreen(AnchorPane root) {
+        logger.debug("This is a verify map screen: setting it up");
         JFXButton acceptButton = createRaisedJFXButtonWithText("Accept Map");
         acceptButton.setPrefSize(250, 50);
         acceptButton.setOnAction(event -> {
+            logger.debug("Accept button clicked: User verified the map");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choose_simulation.fxml"));
             ChooseSimulationController controller = new ChooseSimulationController();
             controller.initMapDatabase(mapDatabase);
@@ -241,6 +258,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
      * @date: 3/4/18
      */
     private void backButtonClicked(ActionEvent event) {
+        logger.debug("Back clicked - going back to home screen");
         playCityTimeline.stop();
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
         URL resource = getClass().getResource("/fxml/home_layout.fxml");
@@ -483,6 +501,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
     private void playButtonClicked(ActionEvent event) {
         Image buttonImage;
         if(isPlayButton) {
+            logger.debug("Play button was clicked");
             buttonImage = new Image(getClass().getResourceAsStream("/icons8-pause-50.png"));
             tickButton.setDisable(true);
             //only fetch a new task if the previous task didn't finish
@@ -490,6 +509,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
             lastTickActionWasPause = false;
             playCityTimeline.play();
         } else {
+            logger.debug("Pause button was clicked");
             buttonImage = new Image(getClass().getResourceAsStream("/icons8-play-50.png"));
             tickButton.setDisable(false);
             lastTickActionWasPause = true;
@@ -517,8 +537,8 @@ public class DrawMapController extends ShowErrorController implements Initializa
     }
 
     private void tickButtonClicked(ActionEvent event) {
+        logger.debug("Tick button was clicked");
         tickButton.setDisable(true);
-
         //if the last action was pause, we started a task but didn't draw it yet. finish that task and draw it.
         if(lastTickActionWasPause) {
             lastTickActionWasPause = false;

@@ -28,6 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +42,8 @@ import java.util.stream.Collectors;
  * Created by orel on 26/05/18.
  */
 public class ChooseSimulationController extends SwitchToMapController implements Initializable {
+
+    final static Logger logger = Logger.getLogger("ChooseSimulationController");
 
     BTWDataBase mapDatabase;
     Stage stage;
@@ -74,18 +77,22 @@ public class ChooseSimulationController extends SwitchToMapController implements
         Image buttonImage = new Image(getClass().getResourceAsStream("/icons8-attach-30.png"));
         attachButton.setGraphic(new ImageView(buttonImage));
         attachButton.setOnAction(this::attachButtonClicked);
+        logger.debug("Initialized controller");
     }
 
     private void StartClicked(ActionEvent actionEvent) {
+        logger.debug("Start button clicked");
         start_button.setDisable(true);
         loadSpinner.setVisible(true);
         new Thread(() -> {
             JFXRadioButton selectedTrafficManagerRadio = (JFXRadioButton) trafficLight_toggle.getSelectedToggle();
             TrafficLightManager trafficManager;
             if (selectedTrafficManagerRadio.equals(naiveTrafficLight_radio)) {
+                logger.debug("Setting up NaiveTrafficLightManager");
                 trafficManager = new NaiveTrafficLightManager();
             } else if(selectedTrafficManagerRadio.equals(simpleTrafficLight_radio)) {
                 //TODO: should be SimpleTrafficLightManager
+                logger.debug("Setting up SimpleTrafficLightManager");
                 trafficManager = new NaiveTrafficLightManager();
             }else{ //can't happen, radio only has these two buttons
                 return;
@@ -94,13 +101,16 @@ public class ChooseSimulationController extends SwitchToMapController implements
             JFXRadioButton selectedNavigationManagerRadio = (JFXRadioButton) navigation_toggle.getSelectedToggle();
             NavigationManager navigationManager;
             if (selectedNavigationManagerRadio.equals(naiveNavigation_radio)) {
+                logger.debug("Setting up NaiveNavigationManager");
                 navigationManager = new NaiveNavigationManager(mapDatabase);
             } else if(selectedNavigationManagerRadio.equals(statisticsNavigation_radio)) {
 //                navigationManager = new NaiveNavigationManager(mapDatabase);
+                logger.debug("Setting up StatisticalNavigationManager");
                 navigationManager = new StatisticalNavigationManager(mapDatabase);
             }else{ //can't happen, radio only has these two buttons
                 return;
             }
+
             StatisticsCalculator calculator = new NaiveStatisticsCalculator(mapDatabase);
             CitySimulator citySimulator = new CitySimulatorImpl(mapDatabase, navigationManager, trafficManager, calculator);
             if(!chooseVehicleFileTextField.getText().isEmpty()) {
@@ -114,10 +124,11 @@ public class ChooseSimulationController extends SwitchToMapController implements
                     citySimulator.addVehiclesFromVehicleEntriesList(entries);
                 } catch (Exception e) {
                     Platform.runLater(() -> {
-                        e.printStackTrace();
+                        e.printStackTrace(); //TODO: remove probably
                         showErrorDialog(e.getMessage());
                         start_button.setDisable(false);
                         loadSpinner.setVisible(false);
+                        logger.debug("When trying to parse the string we got an exception of type " + e.getClass().toString());
                     });
                     return;
                 }
@@ -126,6 +137,7 @@ public class ChooseSimulationController extends SwitchToMapController implements
                     .stream()
                     .map(citySimulator::getRealCrossroad)
                     .collect(Collectors.toSet()));
+            logger.debug("Done making the simulation - moving to map screen");
             Platform.runLater(() -> switchScreensToMap(actionEvent, citySimulator, mapDatabase, false));
         }).start();
 
@@ -151,10 +163,12 @@ public class ChooseSimulationController extends SwitchToMapController implements
         }
     }
 
-    public void attachButtonClicked(ActionEvent actionEvent) {
+    private void attachButtonClicked(ActionEvent actionEvent) {
+        logger.debug("Attach vehicles file clicked");
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(anchor.getScene().getWindow());
-        chooseVehicleFileTextField.setText(selectedFile.getAbsolutePath());
+        if(selectedFile != null)
+            chooseVehicleFileTextField.setText(selectedFile.getAbsolutePath());
     }
 
 }

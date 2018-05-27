@@ -95,6 +95,7 @@ public class HomeController extends SwitchToMapController implements Initializab
                 }
             });
         }).start();
+        logger.debug("Home Screen Initialized");
     }
 
 
@@ -103,7 +104,7 @@ public class HomeController extends SwitchToMapController implements Initializab
 //        loadSpinner.setVisible(true);
         new Thread(() -> {
             BTWDataBase dataBase = new BTWDataBaseImpl(chooseMapTextBox.getText());
-            System.out.println("trying to load map: " + chooseMapTextBox.getText());
+            logger.debug("Trying to load map: " + chooseMapTextBox.getText());
             boolean result = dataBase.loadMap();
             Platform.runLater(() -> {
                 if(!result) {
@@ -111,6 +112,7 @@ public class HomeController extends SwitchToMapController implements Initializab
 //                    loadSpinner.setVisible(false);
                     showErrorDialog("Failed to load: Map name is not in the Database");
                 } else {
+                    logger.debug("Loading map from Database");
                     new Thread(() -> {
                         NavigationManager navigationManager = new NaiveNavigationManager(dataBase);
                         TrafficLightManager trafficLightManager = new NaiveTrafficLightManager();
@@ -128,11 +130,10 @@ public class HomeController extends SwitchToMapController implements Initializab
     }
 
     public void attachButtonClicked(ActionEvent actionEvent) {
-//        disableAllButtons();
+        logger.debug("Attaching file");
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(anchor.getScene().getWindow());
         mapFromFileTextBox.setText(selectedFile.getAbsolutePath());
-//        enableAllButtons();
     }
 
     public void loadFileButtonClicked(ActionEvent actionEvent) {
@@ -158,6 +159,7 @@ public class HomeController extends SwitchToMapController implements Initializab
         String fileName = url.getPath().substring( url.getPath().lastIndexOf('/')+1, url.getPath().length() );
         String mapName = fileName.substring(0, fileName.lastIndexOf('.'));
         disableAllButtons();
+        logger.debug("Trying to load map from attached file");
         new Thread(() -> {
 
             BTWDataBase dataBase;
@@ -167,6 +169,7 @@ public class HomeController extends SwitchToMapController implements Initializab
             } catch (Exception e) {
                 Platform.runLater(() -> {
                     showErrorDialog("Failed to parse file");
+                    logger.debug("Failed to load map from file: invalid file");
                     enableAllButtons();
                 });
                 return;

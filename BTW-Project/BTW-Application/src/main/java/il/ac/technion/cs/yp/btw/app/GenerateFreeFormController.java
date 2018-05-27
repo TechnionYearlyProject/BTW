@@ -39,6 +39,7 @@ public class GenerateFreeFormController extends GenerateCityController implement
                 Radius.setDisable(!Radius.isDisabled()));
         mapNameToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
                 mapNameTextField.setDisable(!mapNameTextField.isDisabled()));
+        logger.debug("Controller was initialized");
     }
 
     @Override

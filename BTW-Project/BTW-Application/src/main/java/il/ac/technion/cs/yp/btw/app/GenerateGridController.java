@@ -46,6 +46,7 @@ public class GenerateGridController extends GenerateCityController implements In
                 LengthOfAvenues.setDisable(!LengthOfAvenues.isDisabled()));
         mapNameToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
                 mapNameTextField.setDisable(!mapNameTextField.isDisabled()));
+        logger.debug("Controller was initialized");
     }
 
 
