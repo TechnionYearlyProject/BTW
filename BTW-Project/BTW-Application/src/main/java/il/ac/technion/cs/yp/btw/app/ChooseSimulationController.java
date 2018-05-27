@@ -10,6 +10,7 @@ import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.navigation.NaiveNavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
+import il.ac.technion.cs.yp.btw.navigation.StatisticalNavigationManager;
 import il.ac.technion.cs.yp.btw.statistics.NaiveStatisticsCalculator;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
 import il.ac.technion.cs.yp.btw.trafficlights.NaiveTrafficLightManager;
@@ -95,8 +96,8 @@ public class ChooseSimulationController extends SwitchToMapController implements
             if (selectedNavigationManagerRadio.equals(naiveNavigation_radio)) {
                 navigationManager = new NaiveNavigationManager(mapDatabase);
             } else if(selectedNavigationManagerRadio.equals(statisticsNavigation_radio)) {
-                //TODO: should be StatisticsNavigationManager
-                navigationManager = new NaiveNavigationManager(mapDatabase);
+//                navigationManager = new NaiveNavigationManager(mapDatabase);
+                navigationManager = new StatisticalNavigationManager(mapDatabase);
             }else{ //can't happen, radio only has these two buttons
                 return;
             }
