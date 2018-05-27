@@ -95,7 +95,8 @@ public class MapGraphics {
 
             Line roadLine = new Line(xroad1,yroad1,xroad2,yroad2);
             //roadLine.setStroke(Color.BLACK);
-            chooseRoadColor(roadLine,currRoad.getCurrentWeight().seconds());
+            double avgSpeed = currRoad.getStatisticalData().getAverageSpeed();
+            chooseRoadColor(roadLine,avgSpeed);
             roadLine.setStrokeWidth(0.00025);
             roadLine.toBack();
 
@@ -234,24 +235,27 @@ public class MapGraphics {
      * @author: shay & Anat
      * Need to determine colors by weight
      */
-    private static final long YELLOW_THRESHOLD = 45;
-    private static final long ORANGE_THRESHOLD = 50;
-    private static final long RED_THRESHOLD = 55;
+    private static final long GREEN_THRESHOLD = 50;
+    private static final long YELLOW_THRESHOLD = 48;
+    private static final long ORANGE_THRESHOLD = 45;
+    private static final long RED_THRESHOLD = 42;
 
     /**
      * @author: shay
      * @date: 09/04/2018
      * determines color to the road by its load
      * @param roadLine the line we need to color
-     * @param numOfCars long number, the overload of the road
+     * @param avgSpeed long number, the overload of the road
      */
-    private void chooseRoadColor(Line roadLine, long numOfCars) {
+    private void chooseRoadColor(Line roadLine, double avgSpeed) {
         roadLine.setStroke(Color.BLACK);
-        if (numOfCars > YELLOW_THRESHOLD)
+        if(avgSpeed < GREEN_THRESHOLD)
+            roadLine.setStroke(Color.GREEN);
+        if (avgSpeed < YELLOW_THRESHOLD)
             roadLine.setStroke(Color.YELLOW);
-        if (numOfCars > ORANGE_THRESHOLD)
+        if (avgSpeed < ORANGE_THRESHOLD)
             roadLine.setStroke(Color.ORANGE);
-        if (numOfCars > RED_THRESHOLD)
+        if (avgSpeed < RED_THRESHOLD)
             roadLine.setStroke(Color.RED);
 
     }
