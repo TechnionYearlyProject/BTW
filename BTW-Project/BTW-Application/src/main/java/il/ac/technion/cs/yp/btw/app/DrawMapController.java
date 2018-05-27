@@ -41,6 +41,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static javafx.application.Application.launch;
 
@@ -66,7 +67,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
     JFXTextField numOfVehiclesTextField;
     VBox addVehiclesHbox;
     BTWDataBase mapDatabase;
-
+    ReentrantLock lock = new ReentrantLock();
     double addVechilesBoxSpacing = 40;
 //    @FXML
     Text timeText;
@@ -553,7 +554,13 @@ public class DrawMapController extends ShowErrorController implements Initializa
             Thread thread = new Thread() {
                 @Override
                 public synchronized void run() {
-                    performMapTicks(tickButtonTickInterval);
+                    try {
+                        performMapTicks(tickButtonTickInterval);
+                    } catch (Exception e) {
+                        //TODO: try to find better solution
+//                        logger.debug("Tick button thread caught exception of type " + e.getClass().toString());
+                    }
+
                     Platform.runLater(() -> {
                         redrawMap();
                         tickButton.setDisable(false);
@@ -570,9 +577,14 @@ public class DrawMapController extends ShowErrorController implements Initializa
 
     private void performMapTicks(int numberOfTicks) {
 //        int numberOfTicks = 10;
-        citySimulator.tick(numberOfTicks);
-        cityMap = citySimulator.saveMap();
-        currentTicks += numberOfTicks;
+        lock.lock();
+        try {
+            citySimulator.tick(numberOfTicks);
+            cityMap = citySimulator.saveMap();
+            currentTicks += numberOfTicks;
+        } finally {
+            lock.unlock();
+        }
     }
 
     private void redrawMap() {

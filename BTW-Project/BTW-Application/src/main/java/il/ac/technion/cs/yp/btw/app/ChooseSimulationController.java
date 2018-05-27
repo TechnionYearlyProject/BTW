@@ -124,7 +124,7 @@ public class ChooseSimulationController extends SwitchToMapController implements
                     citySimulator.addVehiclesFromVehicleEntriesList(entries);
                 } catch (Exception e) {
                     Platform.runLater(() -> {
-                        e.printStackTrace(); //TODO: remove probably
+//                        e.printStackTrace();
                         showErrorDialog(e.getMessage());
                         start_button.setDisable(false);
                         loadSpinner.setVisible(false);
