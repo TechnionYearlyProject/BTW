@@ -6,6 +6,7 @@ import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import il.ac.technion.cs.yp.btw.statistics.StatisticalReport;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
 import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
+import org.apache.log4j.Logger;
 
 import java.util.*;
 import java.util.Map;
@@ -18,6 +19,8 @@ import java.util.stream.Collectors;
  */
 
 public class CitySimulatorImpl implements CitySimulator {
+    final static Logger logger = Logger.getLogger(CitySimulatorImpl.class);
+
     private Map<String, CityRoad> roads;
     private Set<Road> fakeRoads;
     private Map<String, CityTrafficLight> trafficLights;
@@ -597,7 +600,9 @@ public class CitySimulatorImpl implements CitySimulator {
      */
     @Override
     public CitySimulator addVehiclesFromVehicleEntriesList(List<VehicleEntry> entriesList) throws PathNotFoundException {
+        logger.debug("Start adding vehicles from entry list");
         for (VehicleEntry vehicleEntry : entriesList) {
+            logger.debug("Adding a vehicle from the entry list");
             try {
                 addVehicleOnTime(null
                         , this.roads.get(vehicleEntry.getSourceRoadName().get().getId())
@@ -615,6 +620,7 @@ public class CitySimulatorImpl implements CitySimulator {
                 throw e;
             }
         }
+        logger.debug("Vehicles added successfully");
         return this;
     }
 
@@ -748,6 +754,7 @@ public class CitySimulatorImpl implements CitySimulator {
      */
     @Override
     public List<Vehicle> addRandomVehicles(int numOfVehicles) throws PathNotFoundException {
+        logger.debug("Adding " + Integer.valueOf(numOfVehicles).toString() + " new vehicles");
         List<VehicleDescriptor> descriptors = new ArrayList<>();
         for (int i = 0; i < numOfVehicles; i++) {
             descriptors.add(null);
@@ -755,6 +762,7 @@ public class CitySimulatorImpl implements CitySimulator {
         List<Vehicle> currVehicles = new ArrayList<>();
         boolean pathNotFound = true;
         while (pathNotFound) {
+            logger.debug("Trying to find new route");
             Random rnd = new Random();
             int rndInt1 = rnd.nextInt(this.fakeRoads.size());
             int rndInt2 = rnd.nextInt(this.fakeRoads.size());
@@ -767,6 +775,7 @@ public class CitySimulatorImpl implements CitySimulator {
                 pathNotFound = true;
             }
         }
+        logger.debug(Integer.valueOf(numOfVehicles).toString() + " new vehicles added successfully");
         return currVehicles;
     }
 
@@ -792,22 +801,29 @@ public class CitySimulatorImpl implements CitySimulator {
      */
     @Override
     public CitySimulator tick() {
+        logger.debug("TICK");
         this.clock++;
+        logger.debug("Update reports");
         if (this.clock % this.timeWindow == 0) {
             this.currentReportOfRoad
                     .keySet()
-                    .forEach(rd -> this.calculator.adRoadReport(rd, this.currentReportOfRoad.get(rd)));
+                    .forEach(rd -> this.calculator.addRoadReport(rd, this.currentReportOfRoad.get(rd)));
             this.currentReportOfRoad = new HashMap<>();
 
             this.currentReportOfTrafficLight
                     .keySet()
-                    .forEach(tl -> this.calculator.adTrafficLightReport(tl, this.currentReportOfTrafficLight.get(tl)));
+                    .forEach(tl -> this.calculator.addTrafficLightReport(tl, this.currentReportOfTrafficLight.get(tl)));
             this.currentReportOfTrafficLight = new HashMap<>();
         }
+
+        logger.debug("Tick roads");
         roads.values().forEach(CityRoad::tick);
+
+        logger.debug("Tick traffic-lights manager");
         this.trafficLightManager.tick();
         Set<Vehicle> drivingVehicles = new HashSet<>();
 
+        logger.debug("Prepare new vehicles to drive");
         boolean readyToDrive = (this.vehiclesToEnter.size() > 0);
         while (readyToDrive) {
             Vehicle currentWaitingVehicle = this.vehiclesToEnter.get(0);
@@ -825,6 +841,7 @@ public class CitySimulatorImpl implements CitySimulator {
 //        });
         this.vehiclesToEnter.removeAll(drivingVehicles);
         this.vehicles.addAll(drivingVehicles);
+        logger.debug("Tick progress: GREAT SUCCESS!!");
         return this;
     }
 

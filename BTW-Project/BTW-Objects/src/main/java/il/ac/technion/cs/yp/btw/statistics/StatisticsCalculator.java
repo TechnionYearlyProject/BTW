@@ -13,7 +13,7 @@ import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 public interface StatisticsCalculator {
     StatisticsProvider getStatistics();
 
-    StatisticsCalculator adRoadReport(Road rd, StatisticalReport report);
+    StatisticsCalculator addRoadReport(Road rd, StatisticalReport report);
 
-    StatisticsCalculator adTrafficLightReport(TrafficLight tl, StatisticalReport report);
+    StatisticsCalculator addTrafficLightReport(TrafficLight tl, StatisticalReport report);
 }

@@ -16,12 +16,17 @@ import java.util.stream.Collectors;
  */
 abstract class AbstractNavigationManager implements NavigationManager {
     protected final BTWDataBase database;
+    final static Logger logger = Logger.getLogger(AbstractNavigationManager.class);
 
     public AbstractNavigationManager(BTWDataBase db) {
         this.database = db.updateHeuristics();
     }
 
-    protected List<Road> staticAStar(Road src, Road dst, double sourceRoadRatio, BTWTime time) throws PathNotFoundException{
+    protected List<Road> staticAStar(Road src, Road dst, double sourceRoadRatio, BTWTime time) throws PathNotFoundException {
+        logger.debug("Start A* computation from " + src.getRoadName() + " to " + dst.getRoadName() + " at time "
+                + time.getHoutsOnly().toString() + ":"
+                + time.getMinutesOnly().toString() + ":"
+                + time.getSecondsOnly().toString());
         PriorityQueue<RoadWrapper> open = new PriorityQueue<>();
         PriorityQueue<RoadWrapper> closed = new PriorityQueue<>();
         open.add(RoadWrapper.buildSourceRoad(src, dst, sourceRoadRatio, time));
@@ -35,6 +40,9 @@ abstract class AbstractNavigationManager implements NavigationManager {
                     path.addFirst(currWrapper);
                     currWrapper = currWrapper.getParent();
                 }
+                logger.debug("Finished A* computation from "
+                        + src.getRoadName() + " to "
+                        + dst.getRoadName() + " successfully");
                 return path.stream()
                         .map(RoadWrapper::getRoad)
                         .collect(Collectors.toList());
@@ -71,6 +79,7 @@ abstract class AbstractNavigationManager implements NavigationManager {
                 }
             }
         }
+        logger.error("No path found from " + src.getRoadName() + " to " + dst.getRoadName());
         throw new PathNotFoundException("No path from " + src.getRoadName() + " to " + dst.getRoadName());
     }
 }

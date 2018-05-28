@@ -18,7 +18,6 @@ import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
-import static org.mockito.ArgumentMatchers.anyString;
 
 /**
  * Created by Guy Rephaeli on 16-Jan-18.
@@ -158,7 +157,7 @@ public class CitySimulatorImplTest {
                 .thenAnswer(invocation -> routeIter2.next());
 
         //calculator
-        Mockito.when(calculator.adRoadReport(captorRoad.capture(), captorReport.capture()))
+        Mockito.when(calculator.addRoadReport(captorRoad.capture(), captorReport.capture()))
                 .thenAnswer(invocation -> {
                     this.weightOfRoad.put(captorRoad.getValue(), captorReport.getValue().timeTaken());
                     this.reportTimeOfRoad.put(captorRoad.getValue(), captorReport.getValue().getTimeOfReport());
@@ -166,7 +165,7 @@ public class CitySimulatorImplTest {
                     return this.calculator;
                 });
 
-        Mockito.when(calculator.adTrafficLightReport(captorTrafficLight.capture(), captorReport.capture()))
+        Mockito.when(calculator.addTrafficLightReport(captorTrafficLight.capture(), captorReport.capture()))
                 .thenAnswer(invocation -> {
                     this.weightOfTrafficLight.put(captorTrafficLight.getValue(), captorReport.getValue().timeTaken());
                     this.reportTimeOfTrafficLight.put(captorTrafficLight.getValue(), captorReport.getValue().getTimeOfReport());

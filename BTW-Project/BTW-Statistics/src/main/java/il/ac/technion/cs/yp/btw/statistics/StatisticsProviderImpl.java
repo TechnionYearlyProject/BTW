@@ -11,14 +11,14 @@ import java.util.Map;
  */
 public class StatisticsProviderImpl implements StatisticsProvider {
     private long granularity;
-    private Map<BTWTime, Map<Road, BTWWeight>> weithsOfRoadAtTime;
-    private Map<BTWTime, Map<TrafficLight, BTWWeight>> weithsOfTrafficLightAtTime;
+    private Map<BTWTime, Map<Road, BTWWeight>> weightsOfRoadAtTime;
+    private Map<BTWTime, Map<TrafficLight, BTWWeight>> weightsOfTrafficLightAtTime;
 
-    StatisticsProviderImpl(long granularity, Map<BTWTime, Map<Road, BTWWeight>> weithsOfRoadAtTime, Map<BTWTime,
-            Map<TrafficLight, BTWWeight>> weithsOfTrafficLightAtTime) {
+    StatisticsProviderImpl(long granularity, Map<BTWTime, Map<Road, BTWWeight>> weightsOfRoadAtTime, Map<BTWTime,
+            Map<TrafficLight, BTWWeight>> weightsOfTrafficLightAtTime) {
         this.granularity = granularity;
-        this.weithsOfRoadAtTime = weithsOfRoadAtTime;
-        this.weithsOfTrafficLightAtTime = weithsOfTrafficLightAtTime;
+        this.weightsOfRoadAtTime = weightsOfRoadAtTime;
+        this.weightsOfTrafficLightAtTime = weightsOfTrafficLightAtTime;
     }
 
     @Override
@@ -28,14 +28,14 @@ public class StatisticsProviderImpl implements StatisticsProvider {
 
     @Override
     public BTWWeight expectedTimeOnRoadAt(BTWTime time, Road rd) {
-        return this.weithsOfRoadAtTime
+        return this.weightsOfRoadAtTime
                 .get(time.startTimeWindow(this.granularity))
                 .get(rd);
     }
 
     @Override
     public BTWWeight expectedTimeOnTrafficLightAt(BTWTime time, TrafficLight tl) {
-        return this.weithsOfTrafficLightAtTime
+        return this.weightsOfTrafficLightAtTime
                 .get(time.startTimeWindow(this.granularity))
                 .get(tl);
     }
