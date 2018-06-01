@@ -14,6 +14,7 @@ import il.ac.technion.cs.yp.btw.navigation.StatisticalNavigationManager;
 import il.ac.technion.cs.yp.btw.statistics.NaiveStatisticsCalculator;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
 import il.ac.technion.cs.yp.btw.trafficlights.NaiveTrafficLightManager;
+import il.ac.technion.cs.yp.btw.trafficlights.SimpleTrafficLightManager;
 import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -91,9 +92,8 @@ public class ChooseSimulationController extends SwitchToMapController implements
                 logger.debug("Setting up NaiveTrafficLightManager");
                 trafficManager = new NaiveTrafficLightManager();
             } else if(selectedTrafficManagerRadio.equals(simpleTrafficLight_radio)) {
-                //TODO: should be SimpleTrafficLightManager
                 logger.debug("Setting up SimpleTrafficLightManager");
-                trafficManager = new NaiveTrafficLightManager();
+                trafficManager = new SimpleTrafficLightManager();
             }else{ //can't happen, radio only has these two buttons
                 return;
             }
@@ -123,6 +123,7 @@ public class ChooseSimulationController extends SwitchToMapController implements
                     entries = parser.parseVehiclesFromFile(url);
                     citySimulator.addVehiclesFromVehicleEntriesList(entries);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     Platform.runLater(() -> {
 //                        e.printStackTrace();
                         showErrorDialog(e.getMessage());
