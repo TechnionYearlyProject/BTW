@@ -144,6 +144,19 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
+         * @return - Set of above mentioned vehicles
+         * @author Adam Elgressy
+         * @date 30-5-2018
+         * returns all the vehicles currently driving
+         * on this road, not including those which wait
+         * on the traffic lights
+         */
+        @Override
+        public Set<Vehicle> getVehiclesOnRoad() {
+            return this.vehicles;
+        }
+
+        /**
          * @return
          * @author Adam Elgressy and Guy Rephaeli
          * @Date 20-1-2018
@@ -347,6 +360,18 @@ public class CitySimulatorImpl implements CitySimulator {
         @Override
         public int getNumOfWaitingVehiclesInTrafficLights() {
             return this.vehicles.size();
+        }
+
+        /**
+         * @return - Set of above mentioned vehicles
+         * @author Adam Elgressy
+         * @date 30-5-2018
+         * returns all the vehicles currently waiting
+         * on this traffic lights
+         */
+        @Override
+        public Set<Vehicle> getVehiclesOnTrafficLight() {
+            return new HashSet<>(this.vehicles);
         }
 
         /**

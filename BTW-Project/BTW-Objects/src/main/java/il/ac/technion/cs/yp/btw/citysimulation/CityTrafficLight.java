@@ -2,6 +2,8 @@ package il.ac.technion.cs.yp.btw.citysimulation;
 
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 
+import java.util.Set;
+
 /**
  * Interface for the real TrafficLight operating unit - not just a data passing class
  */
@@ -61,4 +63,12 @@ public interface CityTrafficLight extends TrafficLight, StatisticsProviding<Traf
      *         in this Traffic Light
      */
     int getNumOfWaitingVehiclesInTrafficLights();
+    /**
+     * @author Adam Elgressy
+     * @date 30-5-2018
+     * returns all the vehicles currently waiting
+     * on this traffic lights
+     * @return - Set of above mentioned vehicles
+     */
+    Set<Vehicle> getVehiclesOnTrafficLight();
 }

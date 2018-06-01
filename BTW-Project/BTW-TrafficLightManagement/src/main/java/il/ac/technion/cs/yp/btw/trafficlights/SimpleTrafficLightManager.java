@@ -17,24 +17,14 @@ import java.util.stream.Collectors;
  * if only one traffic light has cars waiting, it will be green non-stop.
  * if multiple traffic lights have cars waiting, use constant intervals between them
  */
-public class SimpleTrafficLightManager implements TrafficLightManager {
-    private Set<CityCrossroad> crossroads;
-    private Map<CityCrossroad, List<HashSet<CityTrafficLight>>> trafficLightsOfCrossroadByRoad;
-    private Map<CityCrossroad, HashSet<CityTrafficLight>> currentGreenTrafficLightsOfCrossroad;
-    private Map<CityCrossroad, Iterator<HashSet<CityTrafficLight>>> currentIteratorOfCrossroad;
-    private int minimumOpenTime;
-    private int count;
+public class SimpleTrafficLightManager extends AbstractTrafficLightManager {
+
     /**
      * @author Adam Elgressy
      * @Date 25-4-2018
      */
     public SimpleTrafficLightManager() {
-        this.crossroads = new HashSet<>();
-        this.trafficLightsOfCrossroadByRoad = new HashMap<>();
-        this.currentGreenTrafficLightsOfCrossroad = new HashMap<>();
-        this.currentIteratorOfCrossroad = new HashMap<>();
-        this.minimumOpenTime = 10;
-        this.count = 0;
+        super();
     }
     /**
      * @author Adam Elgressy
@@ -69,54 +59,6 @@ public class SimpleTrafficLightManager implements TrafficLightManager {
         return this;
     }
 
-    /**
-     * @param crossroads - the crossroads to manage
-     * @return self
-     * @author Adam Elgressy
-     * @Date 25-4-2018
-     * Insert the crossroads to manage
-     */
-    @Override
-    public TrafficLightManager insertCrossroads(Set<CityCrossroad> crossroads) {
-        this.crossroads = crossroads;
-
-        this.trafficLightsOfCrossroadByRoad = crossroads
-                .stream()
-                .map(crossroad -> new Pair<>(crossroad, crossroad.getRealTrafficLights()
-                        .stream()
-                        .filter(trafficLight -> trafficLight.getSourceRoad() != null)
-                        .collect(Collectors.groupingBy(TrafficLight::getSourceRoad))
-                        .values()
-                        .stream()
-                        .map(HashSet::new)
-                        .collect(Collectors.toList())
-                ))
-                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
-
-        this.currentIteratorOfCrossroad = trafficLightsOfCrossroadByRoad.entrySet()
-                .stream()
-                .map(e -> new Pair<>(e.getKey(), e.getValue().iterator()))
-                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
-
-        this.minimumOpenTime = crossroads.stream()
-                .flatMap(crossroad -> crossroad.getRealTrafficLights().stream())
-                .mapToInt(CityTrafficLight::getMinimumOpenTime)
-                .max()
-                .getAsInt() + 2 - 1; // may throw - need to catch
-
-        this.currentGreenTrafficLightsOfCrossroad = this.currentIteratorOfCrossroad.entrySet()
-                .stream()
-                .map(e -> new Pair<>(e.getKey(), trafficLightsOfCrossroadByRoad.get(e.getKey()).isEmpty()
-                        ? new HashSet<CityTrafficLight>()
-                        : e.getValue().next()))
-                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
-
-        this.crossroads.forEach(crossroad ->
-                this.currentGreenTrafficLightsOfCrossroad.get(crossroad)
-                        .forEach(trafficLight ->
-                                trafficLight.setTrafficLightState(CityTrafficLight.TrafficLightState.GREEN)));
-        return this;
-    }
 
     /**
      * @return self
