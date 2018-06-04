@@ -25,6 +25,8 @@ public class VehicleImpl implements Vehicle {
     private Navigator navigator;
     private Long timeOnCurrentRoad;
     private Long remainingTimeOnRoad;
+    private Double remainingLengthOnRoad;
+    private Double enterSpeedOnCurrentRoad; // the speed on the current road when we enter it
     private boolean isWaitingOnTrafficLight;
     private CitySimulator simulator;
     private long startTime;
@@ -57,6 +59,8 @@ public class VehicleImpl implements Vehicle {
         this.currentTrafficLight = Optional.empty();
         this.nextRoad = navigator.getNextRoad();
         this.remainingTimeOnRoad = 0L;
+        this.remainingLengthOnRoad = 0.0;
+        this.enterSpeedOnCurrentRoad = 0.0;
         this.timeOnCurrentRoad = 0L;
         this.isWaitingOnTrafficLight = false;
         this.simulator = simulator;
@@ -138,6 +142,8 @@ public class VehicleImpl implements Vehicle {
         CityRoad realRoad = this.simulator.getRealRoad(rd);
         this.timeOnCurrentRoad =  realRoad.getCurrentWeight().seconds();
         this.remainingTimeOnRoad = Double.valueOf((ratioEnd - ratioStart) * this.timeOnCurrentRoad).longValue();
+        this.remainingLengthOnRoad = Double.valueOf((ratioEnd - ratioStart) * rd.getRoadLength());
+        this.enterSpeedOnCurrentRoad = Double.valueOf(rd.getSpeed());
         realRoad.addVehicle(this);
         logger.debug("Started driving on road: " + rd.getRoadName());
         return this;
@@ -268,6 +274,9 @@ public class VehicleImpl implements Vehicle {
         long prevRemainingTime = this.remainingTimeOnRoad;
         if (this.remainingTimeOnRoad > 0) {
             this.remainingTimeOnRoad--;
+            if(this.timeOnCurrentRoad > 0){
+                this.timeOnCurrentRoad--;
+            }
         }
         if (this.remainingTimeOnRoad <= 0) {
             if (this.currentRoad.equals(this.destination)) {
@@ -309,5 +318,20 @@ public class VehicleImpl implements Vehicle {
     @Override
     public BTWTime getStartingTime() {
         return BTWTime.of(this.startTime);
+    }
+
+    /*
+    * @Author Sharon Hadar
+    * @Date 2/6/2018
+    * @return the overload of the vehicle on the current road
+    * the overload is computed like this:
+    * 1-(remainingLengthOnRoad/roadLength)
+    * */
+    @Override
+    public double getOverloadOfVehicleOnCurrentRoad(){
+        if(this.isWaitingOnTrafficLight){
+            return 1.0;
+        }
+        return 1.0 - (this.timeOnCurrentRoad * this.enterSpeedOnCurrentRoad)/(this.currentRoad.getRoadLength());
     }
 }

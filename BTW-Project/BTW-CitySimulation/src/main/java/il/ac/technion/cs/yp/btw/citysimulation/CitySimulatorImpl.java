@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import java.util.*;
 import java.util.Map;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -180,7 +181,7 @@ public class CitySimulatorImpl implements CitySimulator {
          * capacity - discrete
          * number of vehicles on road - discrete
          */
-        private double getSpeed() {
+        public double getSpeed() {
             return (this.speedLimit * (1.0 - (((double) this.vehicles.size()) / ((double) this.capacity)))) / 3.6;
         }
 
@@ -201,6 +202,21 @@ public class CitySimulatorImpl implements CitySimulator {
             }
             Road r = (Road)o;
             return this.getRoadName().equals(r.getRoadName());
+        }
+
+        /*
+     * @Author Sharon Hadar
+     * @Date 2/6/2018
+     * @return the current overload on the road
+     * */
+        @Override
+        public Double getOverload(){
+            return this
+                    .getVehiclesOnRoad()
+                    .stream()
+                    .map(Vehicle::getOverloadOfVehicleOnCurrentRoad)
+                    .mapToDouble(Double::doubleValue)
+                    .sum();
         }
     }
 
@@ -526,6 +542,17 @@ public class CitySimulatorImpl implements CitySimulator {
         public CrossroadData getStatisticalData() {
             // TODO
             return null;
+        }
+
+        @Override
+        public Double getOverload(){
+            return  this.trafficLights
+                        .stream()
+                        .map(trafficLight -> trafficLight.getSourceRoad())
+                        .collect(Collectors.toSet())
+                        .stream()
+                        .mapToDouble(road -> road.getOverload())
+                        .sum();
         }
     }
 

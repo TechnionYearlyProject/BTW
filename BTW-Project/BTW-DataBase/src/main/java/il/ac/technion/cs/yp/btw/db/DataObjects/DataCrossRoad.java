@@ -143,4 +143,9 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
     public int hashCode() {
         return Double.valueOf(this.getCoordinateX()).hashCode() * 31 + Double.valueOf(this.getCoordinateY()).hashCode() * 17;
     }
+
+    @Override
+    public Double getOverload(){
+        return 0.0;
+    }
 }
