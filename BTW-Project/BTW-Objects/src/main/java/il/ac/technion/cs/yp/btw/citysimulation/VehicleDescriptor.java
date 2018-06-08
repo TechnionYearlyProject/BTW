@@ -1,12 +1,29 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
-public interface VehicleDescriptor extends Comparable<VehicleDescriptor> {
-    @Override
-    int compareTo(VehicleDescriptor descriptor);
+public class VehicleDescriptor implements Comparable<VehicleDescriptor> {
+    private Integer id;
+    VehicleDescriptor(int id) {
+        this.id = id;
+    }
 
     @Override
-    boolean equals(Object o);
+    public int compareTo(VehicleDescriptor descriptor) {
+        return this.id
+                .compareTo(descriptor.id);
+    }
 
     @Override
-    int hashCode();
+    public boolean equals(Object o) {
+        return o instanceof VehicleDescriptor
+                && id.equals(((VehicleDescriptor) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.id.hashCode();
+    }
+
+    public Integer getID() {
+        return this.id;
+    }
 }

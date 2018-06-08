@@ -35,31 +35,11 @@ public class VehicleImplTest {
     private long clock;
 
 
-    class TestingVehicleDescriptor implements VehicleDescriptor {
-        private int desc;
 
+    private class TestingVehicleDescriptor extends VehicleDescriptor {
         private TestingVehicleDescriptor() {
-            this.desc = descCount;
+            super(descCount);
             descCount++;
-        }
-
-        @Override
-        public int compareTo(VehicleDescriptor descriptor) {
-            return this.hashCode() - descriptor.hashCode();
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (! (o instanceof VehicleDescriptor)) {
-                return false;
-            }
-            VehicleDescriptor descriptor = (VehicleDescriptor)o;
-            return descriptor.hashCode() == this.hashCode();
-        }
-
-        @Override
-        public int hashCode() {
-            return desc;
         }
     }
 
@@ -179,7 +159,7 @@ public class VehicleImplTest {
     public void getVehicleDescriptorTest() {
         Vehicle tested = null;
         try {
-            tested = new VehicleImpl(new VehicleImplTest.TestingVehicleDescriptor(), road1, 0.0, road2, 1.0, navigator, simulator, 0);
+            tested = new VehicleImpl(new TestingVehicleDescriptor(), road1, 0.0, road2, 1.0, navigator, simulator, 0);
         } catch (PathNotFoundException e) {
             Assert.fail();
         }
@@ -190,7 +170,7 @@ public class VehicleImplTest {
     public void roadGettersAndProgressTest() {
         Vehicle tested = null;
         try {
-            tested = new VehicleImpl(new VehicleImplTest.TestingVehicleDescriptor(), road1, 0.0, road2, 1.0, navigator, simulator, 0);
+            tested = new VehicleImpl(new TestingVehicleDescriptor(), road1, 0.0, road2, 1.0, navigator, simulator, 0);
         } catch (PathNotFoundException e) {
             Assert.fail();
         }
@@ -208,7 +188,7 @@ public class VehicleImplTest {
     public void driveOnTimeTest() {
         Vehicle tested = null;
         try {
-            tested = new VehicleImpl(new VehicleImplTest.TestingVehicleDescriptor(), road1, 0.0, road2, 1.0, navigator, simulator, 1);
+            tested = new VehicleImpl(new TestingVehicleDescriptor(), road1, 0.0, road2, 1.0, navigator, simulator, 1);
         } catch (PathNotFoundException e) {
             Assert.fail();
         }
@@ -225,7 +205,7 @@ public class VehicleImplTest {
     public void getDestinationRoadTest() {
         Vehicle tested = null;
         try {
-            tested = new VehicleImpl(new VehicleImplTest.TestingVehicleDescriptor(), road1, 0.0, road2, 1.0, navigator, simulator, 0);
+            tested = new VehicleImpl(new TestingVehicleDescriptor(), road1, 0.0, road2, 1.0, navigator, simulator, 0);
         } catch (PathNotFoundException e) {
             Assert.fail();
         }
@@ -236,7 +216,7 @@ public class VehicleImplTest {
     public void waitOnTrafficLightTest() {
         Vehicle tested = null;
         try {
-            tested = new VehicleImpl(new VehicleImplTest.TestingVehicleDescriptor(), road1, 0.0, road2, 1.0, navigator, simulator, 0);
+            tested = new VehicleImpl(new TestingVehicleDescriptor(), road1, 0.0, road2, 1.0, navigator, simulator, 0);
         } catch (PathNotFoundException e) {
             Assert.fail();
         }
@@ -252,7 +232,7 @@ public class VehicleImplTest {
     public void progressOnRoadTest() {
         Vehicle tested = null;
         try {
-            tested = new VehicleImpl(new VehicleImplTest.TestingVehicleDescriptor(), road1, 0.0, road2, 0.5, navigator, simulator, 0);
+            tested = new VehicleImpl(new TestingVehicleDescriptor(), road1, 0.0, road2, 0.5, navigator, simulator, 0);
         } catch (PathNotFoundException e) {
             Assert.fail();
         }
@@ -280,7 +260,7 @@ public class VehicleImplTest {
     public void oneRoadRouteTest() {
         Vehicle tested = null;
         try {
-            tested = new VehicleImpl(new VehicleImplTest.TestingVehicleDescriptor(), road1, 0.0, road1, 1.0, navigator, simulator, 0);
+            tested = new VehicleImpl(new TestingVehicleDescriptor(), road1, 0.0, road1, 1.0, navigator, simulator, 0);
         } catch (PathNotFoundException e) {
             Assert.fail();
         }
