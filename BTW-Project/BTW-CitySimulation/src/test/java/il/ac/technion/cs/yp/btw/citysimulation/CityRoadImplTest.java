@@ -1,6 +1,7 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
 import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.evaluation.Evaluator;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
@@ -129,7 +130,8 @@ public class CityRoadImplTest {
         NavigationManager navigationManager = Mockito.mock(NavigationManager.class);
         TrafficLightManager trafficLightManager= Mockito.mock(TrafficLightManager.class);
         StatisticsCalculator calculator = Mockito.mock(StatisticsCalculator.class);
-        this.simulator = new CitySimulatorImpl(roads, trafficLights, crossroads, navigationManager, trafficLightManager, calculator, this.timeWindow);
+        Evaluator evaluator = Mockito.mock(Evaluator.class);
+        this.simulator = new CitySimulatorImpl(roads, trafficLights, crossroads, navigationManager, trafficLightManager, calculator, this.timeWindow, evaluator);
     }
 
     @Before

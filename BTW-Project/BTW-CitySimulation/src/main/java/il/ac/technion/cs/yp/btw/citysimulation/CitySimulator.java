@@ -146,4 +146,16 @@ public interface CitySimulator {
      * @return self
      */
     CitySimulator reportOnTrafficLight(TrafficLight tl, Long time);
+
+    CitySimulator terminateVehicle(Vehicle vehicle);
+
+    /**
+     * @author Guy Rephaeli
+     * @Date 09-6-2018
+     *
+     * Run the system for a whole day
+     *
+     * @return self
+     */
+    CitySimulator runWholeDay();
 }

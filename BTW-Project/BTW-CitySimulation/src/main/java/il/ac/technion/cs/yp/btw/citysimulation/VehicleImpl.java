@@ -142,8 +142,8 @@ public class VehicleImpl implements Vehicle {
         CityRoad realRoad = this.simulator.getRealRoad(rd);
         this.timeOnCurrentRoad =  realRoad.getCurrentWeight().seconds();
         this.remainingTimeOnRoad = Double.valueOf((ratioEnd - ratioStart) * this.timeOnCurrentRoad).longValue();
-        this.remainingLengthOnRoad = Double.valueOf((ratioEnd - ratioStart) * rd.getRoadLength());
-        this.enterSpeedOnCurrentRoad = Double.valueOf(rd.getSpeed());
+        this.remainingLengthOnRoad = (ratioEnd - ratioStart) * rd.getRoadLength();
+        this.enterSpeedOnCurrentRoad = rd.getSpeed();
         realRoad.addVehicle(this);
         logger.debug("Started driving on road: " + rd.getRoadName());
         return this;
@@ -281,6 +281,7 @@ public class VehicleImpl implements Vehicle {
         if (this.remainingTimeOnRoad <= 0) {
             if (this.currentRoad.equals(this.destination)) {
                 this.leaveRoad(this.destination);
+                this.simulator.terminateVehicle(this);
                 logger.debug("finished navigation");
                 return this;
             }
