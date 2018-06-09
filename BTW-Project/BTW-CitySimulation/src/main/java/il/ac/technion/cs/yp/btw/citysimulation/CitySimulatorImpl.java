@@ -1,6 +1,7 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
 import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.evaluation.Evaluator;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import il.ac.technion.cs.yp.btw.statistics.StatisticalReport;
@@ -32,9 +33,12 @@ public class CitySimulatorImpl implements CitySimulator {
     private List<Vehicle> vehiclesToEnter;
     private long clock;
     private Map<Road, StatisticalReport> currentReportOfRoad;
+    private Map<Road, StatisticalReport> reportOfRoad;
     private Map<TrafficLight, StatisticalReport> currentReportOfTrafficLight;
+    private Map<TrafficLight, StatisticalReport> reportOfTrafficLight;
     private long timeWindow;
-    private StatisticsCalculator calculator; // maybe should be singleton
+    private StatisticsCalculator calculator;
+    private Evaluator evaluator;
 
     private class CityRoadImpl implements CityRoad {
         private static final double DEFAULT_CAPACITY_PER_METER = 0.4;
@@ -565,13 +569,16 @@ public class CitySimulatorImpl implements CitySimulator {
      * @Date 20-1-2018
      */
     CitySimulatorImpl(Set<Road> roads, Set<TrafficLight> trafficLights, Set<Crossroad> crossroads,
-                      NavigationManager navigationManager, TrafficLightManager trafficLightManager, StatisticsCalculator calculator, long timeWindow) {
+                      NavigationManager navigationManager, TrafficLightManager trafficLightManager,
+                      StatisticsCalculator calculator, long timeWindow, Evaluator evaluator) {
         this.roads = new HashMap<>();
         this.trafficLights = new HashMap<>();
         this.crossroads = new HashMap<>();
         this.fakeRoads = roads;
         this.currentReportOfRoad = new HashMap<>();
         this.currentReportOfTrafficLight = new HashMap<>();
+        this.reportOfRoad = new HashMap<>();
+        this.reportOfTrafficLight = new HashMap<>();
         this.calculator = calculator;
 
         roads.forEach(this::getRealRoad);
@@ -591,8 +598,11 @@ public class CitySimulatorImpl implements CitySimulator {
      * @author Guy Rephaeli
      * @Date 20-1-2018
      */
-    public CitySimulatorImpl(BTWDataBase db, NavigationManager navigationManager, TrafficLightManager trafficLightManager, StatisticsCalculator calculator) {
-        this(db.getAllRoads(), db.getAllTrafficLights(), db.getAllCrossroads(), navigationManager, trafficLightManager, calculator, db.getStatisticsPeriod());
+    public CitySimulatorImpl(BTWDataBase db, NavigationManager navigationManager,
+                             TrafficLightManager trafficLightManager, StatisticsCalculator calculator,
+                             Evaluator evaluator) {
+        this(db.getAllRoads(), db.getAllTrafficLights(), db.getAllCrossroads(), navigationManager, trafficLightManager,
+                calculator, db.getStatisticsPeriod(), evaluator);
     }
 
     /**
@@ -905,10 +915,15 @@ public class CitySimulatorImpl implements CitySimulator {
     public CitySimulator reportOnRoad(Road rd, Long time) {
         if (!this.currentReportOfRoad.containsKey(rd)) {
             StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
+            if (!this.reportOfRoad.containsKey(rd)) {
+                StatisticalReport totalReport = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
+                this.reportOfRoad.put(rd, totalReport);
+            }
             this.currentReportOfRoad.put(rd, report);
         }
 //        this.currentReportOfRoad.get(rd).update(BTWWeight.of(time - (time % this.timeWindow)));
         this.currentReportOfRoad.get(rd).update(BTWWeight.of(time));
+        this.reportOfRoad.get(rd).update(BTWWeight.of(time));
         return this;
     }
 
@@ -916,11 +931,30 @@ public class CitySimulatorImpl implements CitySimulator {
     public CitySimulator reportOnTrafficLight(TrafficLight tl, Long time) {
         if (!this.currentReportOfTrafficLight.containsKey(tl)) {
             StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
+            if (!this.reportOfTrafficLight.containsKey(tl)) {
+                StatisticalReport totalReport = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
+                this.reportOfTrafficLight.put(tl, totalReport);
+            }
             this.currentReportOfTrafficLight.put(tl, report);
         }
 //        this.currentReportOfTrafficLight.get(tl).update(BTWWeight.of(time - (time % this.timeWindow)));
         this.currentReportOfTrafficLight.get(tl).update(BTWWeight.of(time));
+        this.reportOfTrafficLight.get(tl).update(BTWWeight.of(time));
         return this;
     }
 
+    @Override
+    public CitySimulator terminateVehicle(Vehicle vehicle) {
+        BTWWeight time = BTWWeight.of(this.clock - vehicle.getStartingTime().seconds());
+        this.evaluator.addVehicleInfo(vehicle.getVehicleDescriptor(), time);
+        return this;
+    }
+
+    @Override
+    public CitySimulator runWholeDay() {
+        this.tick((3600 * 24) - 1);
+        evaluator.addTrafficLightReports(this.reportOfTrafficLight);
+        evaluator.addRoadReports(this.reportOfRoad);
+        return this;
+    }
 }

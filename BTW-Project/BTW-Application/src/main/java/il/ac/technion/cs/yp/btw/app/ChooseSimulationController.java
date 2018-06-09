@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import il.ac.technion.cs.yp.btw.citysimulation.*;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
+import il.ac.technion.cs.yp.btw.evaluation.DumbEvaluator;
 import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.navigation.NaiveNavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
@@ -112,7 +113,7 @@ public class ChooseSimulationController extends SwitchToMapController implements
             }
 
             StatisticsCalculator calculator = new NaiveStatisticsCalculator(mapDatabase);
-            CitySimulator citySimulator = new CitySimulatorImpl(mapDatabase, navigationManager, trafficManager, calculator);
+            CitySimulator citySimulator = new CitySimulatorImpl(mapDatabase, navigationManager, trafficManager, calculator, new DumbEvaluator());
             if(!chooseVehicleFileTextField.getText().isEmpty()) {
                 URL url;
                 JsonVehiclesParser parser = new JsonVehiclesParser();

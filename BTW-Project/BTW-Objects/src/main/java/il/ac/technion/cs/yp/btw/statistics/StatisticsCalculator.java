@@ -1,6 +1,5 @@
 package il.ac.technion.cs.yp.btw.statistics;
 
-import il.ac.technion.cs.yp.btw.classes.BTWTime;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 

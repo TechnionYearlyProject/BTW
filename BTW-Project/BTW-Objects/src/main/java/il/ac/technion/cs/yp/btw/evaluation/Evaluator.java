@@ -6,6 +6,8 @@ import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import il.ac.technion.cs.yp.btw.statistics.StatisticalReport;
 
+import java.util.Map;
+
 /**
  * @author Guy Rephaeli
  * @date 05-Jun-18.
@@ -82,27 +84,49 @@ public interface Evaluator {
      */
     Evaluator addVehicleInfo(VehicleDescriptor desc, BTWWeight weight);
 
-    /**
-     * @author Guy Rephaeli
-     * @date 08-Jun-18.
-     *
-     * Getting report on how much time it took to pass the road "rd"
-     *
-     * @param rd The road being reported
-     * @param report The report of how much time it took to drive on the road
-     * @return self
-     */
-    Evaluator addRoadReport(Road rd, StatisticalReport report);
+//    /**
+//     * @author Guy Rephaeli
+//     * @date 08-Jun-18.
+//     *
+//     * Getting report on how much time it took to pass the road "rd"
+//     *
+//     * @param rd The road being reported
+//     * @param report The report of how much time it took to drive on the road
+//     * @return self
+//     */
+//    Evaluator addRoadReport(Road rd, StatisticalReport report);
+//
+//    /**
+//     * @author Guy Rephaeli
+//     * @date 08-Jun-18.
+//     *
+//     * Getting report on how much time it took to wait on traffic-light "tl"
+//     *
+//     * @param tl The traffic-light being reported
+//     * @param report The report of how much time it took to wait on the traffic-light
+//     * @return self
+//     */
+//    Evaluator addTrafficLightReport(TrafficLight tl, StatisticalReport report);
 
     /**
      * @author Guy Rephaeli
-     * @date 08-Jun-18.
+     * @date 09-Jun-18.
      *
-     * Getting report on how much time it took to wait on traffic-light "tl"
+     * Getting reports on how much time it took to drive on each road
      *
-     * @param tl The traffic-light being reported
-     * @param report The report of how much time it took to wait on the traffic-light
+     * @param reportOfRoad The reports of how much time it took to drive on each road
      * @return self
      */
-    Evaluator addTrafficLightReport(TrafficLight tl, StatisticalReport report);
+    Evaluator addRoadReports(Map<Road, StatisticalReport> reportOfRoad);
+
+    /**
+     * @author Guy Rephaeli
+     * @date 09-Jun-18.
+     *
+     * Getting reports on how much time it took to wait on each traffic-light
+     *
+     * @param reportOfTrafficLight The reports of how much time it took to wait on each traffic-light
+     * @return self
+     */
+    Evaluator addTrafficLightReports(Map<TrafficLight, StatisticalReport> reportOfTrafficLight);
 }

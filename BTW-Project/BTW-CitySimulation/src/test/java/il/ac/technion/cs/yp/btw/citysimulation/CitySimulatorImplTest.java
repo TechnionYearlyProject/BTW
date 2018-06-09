@@ -1,6 +1,7 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
 import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.evaluation.Evaluator;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
@@ -30,6 +31,7 @@ public class CitySimulatorImplTest {
     private NavigationManager navigationManager;
     private TrafficLightManager trafficLightManager;
     private StatisticsCalculator calculator;
+    private Evaluator evaluator;
     private Navigator navigator1;
     private Navigator navigator2;
     private Navigator navigator3;
@@ -185,6 +187,7 @@ public class CitySimulatorImplTest {
         this.navigationManager = Mockito.mock(NavigationManager.class);
         this.trafficLightManager = Mockito.mock(TrafficLightManager.class);
         this.calculator = Mockito.mock(StatisticsCalculator.class);
+        this.evaluator = Mockito.mock(Evaluator.class);
         this.navigator1 = Mockito.mock(Navigator.class);
         this.navigator2 = Mockito.mock(Navigator.class);
         this.navigator3 = Mockito.mock(Navigator.class);
@@ -220,7 +223,7 @@ public class CitySimulatorImplTest {
 
     @Test
     public void addVehicleAndTickTest() {
-        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow);
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow, this.evaluator);
         Vehicle vehicle;
         try {
             vehicle = tested.addVehicle(this.descriptor1, this.road1, 0.0, this.road2, 1.0);
@@ -241,7 +244,7 @@ public class CitySimulatorImplTest {
 
     @Test
     public void addSeveralVehiclesTest() {
-        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow);
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow, this.evaluator);
         Vehicle vehicle1;
         Vehicle vehicle2;
         List<VehicleDescriptor> descriptors = new ArrayList<>();
@@ -280,7 +283,7 @@ public class CitySimulatorImplTest {
 
     @Test
     public void saveMapTest() {
-        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow);
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow, this.evaluator);
         CityMap map = tested.saveMap();
         Assert.assertEquals(2, map.getAllRoads().size());
         Assert.assertEquals(1, map.getAllTrafficLights().size());
@@ -289,7 +292,7 @@ public class CitySimulatorImplTest {
 
     @Test
     public void reportTest() {
-        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow);
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow, this.evaluator);
         for (int i = 0; i < 15 * 60; i++) {
             long time = 3 + (i % 2);
             tested.reportOnRoad(this.road1, time);
@@ -343,7 +346,7 @@ public class CitySimulatorImplTest {
 
     @Test(expected = RoadNameDoesntExistException.class)
     public void invalidVehicleEntryListTest() throws PathNotFoundException {
-        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow);
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow, this.evaluator);
         List<VehicleEntry> entriesList = new ArrayList<>();
         VehicleEntry entry = Mockito.mock(VehicleEntry.class);
         Mockito.when(entry.getDestinationRoadName()).thenReturn(Optional.of(new RoadName("1 Street")));
@@ -358,7 +361,7 @@ public class CitySimulatorImplTest {
 
     @Test
     public void validVehicleEntryListTest() throws PathNotFoundException {
-        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow);
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow, this.evaluator);
         List<VehicleEntry> entriesList = new ArrayList<>();
         VehicleEntry entry = Mockito.mock(VehicleEntry.class);
         Mockito.when(entry.getSourceRoadName()).thenReturn(Optional.of(new RoadName("r 2")));

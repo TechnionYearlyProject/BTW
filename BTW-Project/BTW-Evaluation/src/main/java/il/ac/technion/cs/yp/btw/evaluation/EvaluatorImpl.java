@@ -1,6 +1,5 @@
 package il.ac.technion.cs.yp.btw.evaluation;
 
-import il.ac.technion.cs.yp.btw.citysimulation.NoSuchVehicleException;
 import il.ac.technion.cs.yp.btw.citysimulation.VehicleDescriptor;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.classes.BTWWeight;
@@ -54,17 +53,24 @@ public class EvaluatorImpl implements Evaluator {
         return BTWWeight.of(total.getKey() / total.getValue());
     }
 
-    private static <T> void updateWeightMap(Map<T, Pair<BTWWeight, Integer> > weightMap, T key, StatisticalReport report) {
-        Pair<BTWWeight, Integer> prevPair = weightMap.get(key);
-        Long prevTime = prevPair.getKey().seconds();
-        Integer prevNum = prevPair.getValue();
-        Long timeUpdate = report.timeTaken().seconds();
-        Integer numUpdate = report.getNumOfReporters();
-        Integer newNum = numUpdate + prevNum;
-        BTWWeight newTime = BTWWeight.of(((prevTime * prevNum) + (timeUpdate * numUpdate)) / newNum);
-        Pair<BTWWeight, Integer> newPair = new Pair<>(newTime, newNum);
-        weightMap.put(key, newPair);
+    private static <T> Pair<BTWWeight, Integer> pairFromReport(T element, Map<T, StatisticalReport> reportMap) {
+        StatisticalReport report = reportMap.get(element);
+        BTWWeight weight = report.timeTaken();
+        Integer numReporters = report.getNumOfReporters();
+        return new Pair<>(weight, numReporters);
     }
+
+//    private static <T> void updateWeightMap(Map<T, Pair<BTWWeight, Integer> > weightMap, T key, StatisticalReport report) {
+//        Pair<BTWWeight, Integer> prevPair = weightMap.get(key);
+//        Long prevTime = prevPair.getKey().seconds();
+//        Integer prevNum = prevPair.getValue();
+//        Long timeUpdate = report.timeTaken().seconds();
+//        Integer numUpdate = report.getNumOfReporters();
+//        Integer newNum = numUpdate + prevNum;
+//        BTWWeight newTime = BTWWeight.of(((prevTime * prevNum) + (timeUpdate * numUpdate)) / newNum);
+//        Pair<BTWWeight, Integer> newPair = new Pair<>(newTime, newNum);
+//        weightMap.put(key, newPair);
+//    }
 
     @Override
     public BTWWeight totalDrivingTime(VehicleDescriptor desc) {
@@ -129,27 +135,57 @@ public class EvaluatorImpl implements Evaluator {
         return this;
     }
 
+//    @Override
+//    public Evaluator addRoadReport(Road rd, StatisticalReport report) {
+//        logger.debug("Adding road report");
+//        if (! this.drivingTimeOnRoad.containsKey(rd)) {
+//            logger.error("Road \"" + rd.getRoadName() + "\" not recognized");
+//            throw new NoSuchRoadException(rd.getRoadName());
+//        }
+//        updateWeightMap(this.drivingTimeOnRoad, rd, report);
+//        logger.debug("Road report added successfully");
+//        return this;
+//    }
+//
+//    @Override
+//    public Evaluator addTrafficLightReport(TrafficLight tl, StatisticalReport report) {
+//        logger.debug("Adding traffic-light report");
+//        if (! this.waitingTimeOnTrafficLight.containsKey(tl)) {
+//            logger.error("Traffic-light \"" + tl.getName() + "\" not recognized");
+//            throw new NoSuchTrafficLightException(tl.getName());
+//        }
+//        updateWeightMap(this.waitingTimeOnTrafficLight, tl, report);
+//        logger.debug("Traffic-light report added successfully");
+//        return this;
+//    }
+
     @Override
-    public Evaluator addRoadReport(Road rd, StatisticalReport report) {
-        logger.debug("Adding road report");
-        if (! this.drivingTimeOnRoad.containsKey(rd)) {
-            logger.error("Road \"" + rd.getRoadName() + "\" not recognized");
-            throw new NoSuchRoadException(rd.getRoadName());
+    public Evaluator addRoadReports(Map<Road, StatisticalReport> reportOfRoad) {
+        logger.debug("Adding road reports");
+        if (! this.drivingTimeOnRoad.keySet().containsAll(reportOfRoad.keySet())) {
+            logger.error("Roads not recognized");
+            throw new NoSuchRoadException("Some roads");
         }
-        updateWeightMap(this.drivingTimeOnRoad, rd, report);
-        logger.debug("Road report added successfully");
+        reportOfRoad
+                .keySet()
+                .forEach(rd ->
+                        this.drivingTimeOnRoad.put(rd, pairFromReport(rd, reportOfRoad)));
+        logger.debug("Road reports added successfully");
         return this;
     }
 
     @Override
-    public Evaluator addTrafficLightReport(TrafficLight tl, StatisticalReport report) {
-        logger.debug("Adding traffic-light report");
-        if (! this.waitingTimeOnTrafficLight.containsKey(tl)) {
-            logger.error("Traffic-light \"" + tl.getName() + "\" not recognized");
-            throw new NoSuchTrafficLightException(tl.getName());
+    public Evaluator addTrafficLightReports(Map<TrafficLight, StatisticalReport> reportOfTrafficLight) {
+        logger.debug("Adding traffic-light reports");
+        if (! this.waitingTimeOnTrafficLight.keySet().containsAll(reportOfTrafficLight.keySet())) {
+            logger.error("Traffic-lights not recognized");
+            throw new NoSuchRoadException("Some traffic-lights");
         }
-        updateWeightMap(this.waitingTimeOnTrafficLight, tl, report);
-        logger.debug("Traffic-light report added successfully");
+        reportOfTrafficLight
+                .keySet()
+                .forEach(tl ->
+                        this.waitingTimeOnTrafficLight.put(tl, pairFromReport(tl, reportOfTrafficLight)));
+        logger.debug("Traffic-lights reports added successfully");
         return this;
     }
 }
