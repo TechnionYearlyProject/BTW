@@ -12,6 +12,11 @@ import java.util.Set;
  */
 public class TestDataTrafficLight {
 
+    /**
+     * @Autor: Shay
+     * @Date: 15/6/18
+     * DataTrafficLight unit test
+     */
     @Test
     public void testGetParameters() {
         BTWDataBase btw = new BTWDataBaseImpl("test1");
@@ -39,6 +44,11 @@ public class TestDataTrafficLight {
 
     }
 
+    /**
+     * @Autor: Shay
+     * @Date: 15/6/18
+     * DataTrafficLight unit test
+     */
     @Test
     public void testConstruct() {
         DataTrafficLight tl = new DataTrafficLight("tl12009",new PointImpl(2,5.12313),"aa","cc",239732623,"test1");
