@@ -39,6 +39,11 @@ public class TestBTWDataBaseImpl {
     protected Set<TrafficLight> trafficLights;
     protected Set<Road> roads;
 
+    /**
+     * @Autor: Shay
+     * @Date: 15/6/18
+     * BTWDataBaseImpl unit test
+     */
     public TestBTWDataBaseImpl() {
         // Data Base
         db = Mockito.mock(BTWDataBase.class);
@@ -155,6 +160,11 @@ public class TestBTWDataBaseImpl {
         Assert.assertNull(dataBase);
     }
 
+    /**
+     * @Autor: Shay
+     * @Date: 15/6/18
+     * BTWDataBaseImpl unit test
+     */
     @Test
     public void testStatistics() {
         BTWDataBase dataBase = new BTWDataBaseImpl("testStats");
@@ -167,18 +177,33 @@ public class TestBTWDataBaseImpl {
         Assert.assertNotNull(dataBase);
     }
 
+    /**
+     * @Autor: Shay
+     * @Date: 15/6/18
+     * BTWDataBaseImpl unit test
+     */
     @Test
     public void testMapName() {
         BTWDataBase dataBase = new BTWDataBaseImpl("shayshayshay");
         Assert.assertTrue(dataBase.getMapName() == "shayshayshay");
     }
 
+    /**
+     * @Autor: Shay
+     * @Date: 15/6/18
+     * BTWDataBaseImpl unit test
+     */
     @Test
     public void testPeriodStatistics() {
         BTWDataBase dataBase = new BTWDataBaseImpl("shayshayshay");
         Assert.assertTrue(dataBase.getStatisticsPeriod() == 1800);
     }
 
+    /**
+     * @Autor: Shay
+     * @Date: 15/6/18
+     * BTWDataBaseImpl unit test
+     */
     @Test
     public void testStatisticsModeOnOff() {
         BTWDataBase dataBase = new BTWDataBaseImpl("shayshayshay");
@@ -187,6 +212,11 @@ public class TestBTWDataBaseImpl {
         Assert.assertTrue(((BTWDataBaseImpl) dataBase).getStatisticsMode() == true);
     }
 
+    /**
+     * @Autor: Shay
+     * @Date: 15/6/18
+     * BTWDataBaseImpl unit test
+     */
     @Test
     public void testParseMap() {
         BTWDataBase dataBase = new BTWDataBaseImpl("shayshayshay");
