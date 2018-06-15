@@ -1,6 +1,5 @@
 package il.ac.technion.cs.yp.btw.statistics;
 
-import il.ac.technion.cs.yp.btw.classes.BTWTime;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 
@@ -13,7 +12,7 @@ import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 public interface StatisticsCalculator {
     StatisticsProvider getStatistics();
 
-    StatisticsCalculator adRoadReport(Road rd, StatisticalReport report);
+    StatisticsCalculator addRoadReport(Road rd, StatisticalReport report);
 
-    StatisticsCalculator adTrafficLightReport(TrafficLight tl, StatisticalReport report);
+    StatisticsCalculator addTrafficLightReport(TrafficLight tl, StatisticalReport report);
 }

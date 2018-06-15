@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import il.ac.technion.cs.yp.btw.citysimulation.*;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
+import il.ac.technion.cs.yp.btw.evaluation.DumbEvaluator;
 import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.navigation.NaiveNavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
@@ -14,6 +15,7 @@ import il.ac.technion.cs.yp.btw.navigation.StatisticalNavigationManager;
 import il.ac.technion.cs.yp.btw.statistics.NaiveStatisticsCalculator;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
 import il.ac.technion.cs.yp.btw.trafficlights.NaiveTrafficLightManager;
+import il.ac.technion.cs.yp.btw.trafficlights.SimpleTrafficLightManager;
 import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -91,9 +93,8 @@ public class ChooseSimulationController extends SwitchToMapController implements
                 logger.debug("Setting up NaiveTrafficLightManager");
                 trafficManager = new NaiveTrafficLightManager();
             } else if(selectedTrafficManagerRadio.equals(simpleTrafficLight_radio)) {
-                //TODO: should be SimpleTrafficLightManager
                 logger.debug("Setting up SimpleTrafficLightManager");
-                trafficManager = new NaiveTrafficLightManager();
+                trafficManager = new SimpleTrafficLightManager();
             }else{ //can't happen, radio only has these two buttons
                 return;
             }
@@ -112,7 +113,7 @@ public class ChooseSimulationController extends SwitchToMapController implements
             }
 
             StatisticsCalculator calculator = new NaiveStatisticsCalculator(mapDatabase);
-            CitySimulator citySimulator = new CitySimulatorImpl(mapDatabase, navigationManager, trafficManager, calculator);
+            CitySimulator citySimulator = new CitySimulatorImpl(mapDatabase, navigationManager, trafficManager, calculator, new DumbEvaluator());
             if(!chooseVehicleFileTextField.getText().isEmpty()) {
                 URL url;
                 JsonVehiclesParser parser = new JsonVehiclesParser();
@@ -123,6 +124,7 @@ public class ChooseSimulationController extends SwitchToMapController implements
                     entries = parser.parseVehiclesFromFile(url);
                     citySimulator.addVehiclesFromVehicleEntriesList(entries);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     Platform.runLater(() -> {
 //                        e.printStackTrace();
                         showErrorDialog(e.getMessage());

@@ -84,7 +84,7 @@ public class NaiveStatisticsCalculatorTest {
 
     @Test
     public void testOneRoadReport() {
-        this.tested.adRoadReport(this.rd1, this.report1);
+        this.tested.addRoadReport(this.rd1, this.report1);
         StatisticsProvider provider = this.tested.getStatistics();
         Assert.assertEquals(Long.valueOf(60), provider.expectedTimeOnRoadAt(BTWTime.of(0), rd1).seconds());
         Assert.assertEquals(Long.valueOf(60), provider.expectedTimeOnRoadAt(BTWTime.of(10 * 60), rd1).seconds());
@@ -92,8 +92,8 @@ public class NaiveStatisticsCalculatorTest {
 
     @Test
     public void testOneRoadTwoReports() {
-        this.tested.adRoadReport(this.rd1, this.report1);
-        this.tested.adRoadReport(this.rd1, this.report2);
+        this.tested.addRoadReport(this.rd1, this.report1);
+        this.tested.addRoadReport(this.rd1, this.report2);
         StatisticsProvider provider = this.tested.getStatistics();
         Assert.assertEquals(Long.valueOf(60), provider.expectedTimeOnRoadAt(BTWTime.of(0), rd1).seconds());
         Assert.assertEquals(Long.valueOf(60), provider.expectedTimeOnRoadAt(BTWTime.of(10 * 60), rd1).seconds());
@@ -103,22 +103,22 @@ public class NaiveStatisticsCalculatorTest {
 
     @Test(expected = BTWIllegalStatisticsException.class)
     public void testOneRoadDuplicateReport() {
-        this.tested.adRoadReport(this.rd1, this.report1);
-        this.tested.adRoadReport(this.rd1, this.report1);
+        this.tested.addRoadReport(this.rd1, this.report1);
+        this.tested.addRoadReport(this.rd1, this.report1);
     }
 
     @Test(expected = BTWIllegalStatisticsException.class)
     public void testOneRoadSameTimeReport() {
-        this.tested.adRoadReport(this.rd1, this.report1);
-        this.tested.adRoadReport(this.rd1, this.report3);
+        this.tested.addRoadReport(this.rd1, this.report1);
+        this.tested.addRoadReport(this.rd1, this.report3);
     }
 
     @Test
     public void testTwoRoadsWithTwoReports() {
-        this.tested.adRoadReport(this.rd1, this.report1);
-        this.tested.adRoadReport(this.rd1, this.report2);
-        this.tested.adRoadReport(this.rd2, this.report1);
-        this.tested.adRoadReport(this.rd2, this.report2);
+        this.tested.addRoadReport(this.rd1, this.report1);
+        this.tested.addRoadReport(this.rd1, this.report2);
+        this.tested.addRoadReport(this.rd2, this.report1);
+        this.tested.addRoadReport(this.rd2, this.report2);
         StatisticsProvider provider = this.tested.getStatistics();
         Assert.assertEquals(Long.valueOf(60), provider.expectedTimeOnRoadAt(BTWTime.of(0), rd1).seconds());
         Assert.assertEquals(Long.valueOf(60), provider.expectedTimeOnRoadAt(BTWTime.of(0), rd2).seconds());
@@ -132,7 +132,7 @@ public class NaiveStatisticsCalculatorTest {
 
     @Test
     public void testOneTrafficLightReport() {
-        this.tested.adTrafficLightReport(this.tl1, this.report1);
+        this.tested.addTrafficLightReport(this.tl1, this.report1);
         StatisticsProvider provider = this.tested.getStatistics();
         Assert.assertEquals(Long.valueOf(60), provider.expectedTimeOnTrafficLightAt(BTWTime.of(0), tl1).seconds());
         Assert.assertEquals(Long.valueOf(60), provider.expectedTimeOnTrafficLightAt(BTWTime.of(10 * 60), tl1).seconds());
@@ -140,8 +140,8 @@ public class NaiveStatisticsCalculatorTest {
 
     @Test
     public void testOneTrafficLightTwoReports() {
-        this.tested.adTrafficLightReport(this.tl1, this.report1);
-        this.tested.adTrafficLightReport(this.tl1, this.report2);
+        this.tested.addTrafficLightReport(this.tl1, this.report1);
+        this.tested.addTrafficLightReport(this.tl1, this.report2);
         StatisticsProvider provider = this.tested.getStatistics();
         Assert.assertEquals(Long.valueOf(60), provider.expectedTimeOnTrafficLightAt(BTWTime.of(0), tl1).seconds());
         Assert.assertEquals(Long.valueOf(60), provider.expectedTimeOnTrafficLightAt(BTWTime.of(10 * 60), tl1).seconds());
@@ -151,22 +151,22 @@ public class NaiveStatisticsCalculatorTest {
 
     @Test(expected = BTWIllegalStatisticsException.class)
     public void testOneTrafficLightDuplicateReport() {
-        this.tested.adTrafficLightReport(this.tl1, this.report1);
-        this.tested.adTrafficLightReport(this.tl1, this.report1);
+        this.tested.addTrafficLightReport(this.tl1, this.report1);
+        this.tested.addTrafficLightReport(this.tl1, this.report1);
     }
 
     @Test(expected = BTWIllegalStatisticsException.class)
     public void testOneTrafficLightSameTimeReport() {
-        this.tested.adTrafficLightReport(this.tl1, this.report1);
-        this.tested.adTrafficLightReport(this.tl1, this.report3);
+        this.tested.addTrafficLightReport(this.tl1, this.report1);
+        this.tested.addTrafficLightReport(this.tl1, this.report3);
     }
 
     @Test
     public void testTwoTrafficLightsWithTwoReports() {
-        this.tested.adTrafficLightReport(this.tl1, this.report1);
-        this.tested.adTrafficLightReport(this.tl1, this.report2);
-        this.tested.adTrafficLightReport(this.tl2, this.report1);
-        this.tested.adTrafficLightReport(this.tl2, this.report2);
+        this.tested.addTrafficLightReport(this.tl1, this.report1);
+        this.tested.addTrafficLightReport(this.tl1, this.report2);
+        this.tested.addTrafficLightReport(this.tl2, this.report1);
+        this.tested.addTrafficLightReport(this.tl2, this.report2);
         StatisticsProvider provider = this.tested.getStatistics();
         Assert.assertEquals(Long.valueOf(60), provider.expectedTimeOnTrafficLightAt(BTWTime.of(0), tl1).seconds());
         Assert.assertEquals(Long.valueOf(60), provider.expectedTimeOnTrafficLightAt(BTWTime.of(0), tl2).seconds());
@@ -180,14 +180,14 @@ public class NaiveStatisticsCalculatorTest {
 
     @Test
     public void testAllRoadsAndTrafficLights() {
-        this.tested.adRoadReport(this.rd1, this.report1);
-        this.tested.adRoadReport(this.rd1, this.report2);
-        this.tested.adRoadReport(this.rd2, this.report1);
-        this.tested.adRoadReport(this.rd2, this.report2);
-        this.tested.adTrafficLightReport(this.tl1, this.report1);
-        this.tested.adTrafficLightReport(this.tl1, this.report2);
-        this.tested.adTrafficLightReport(this.tl2, this.report1);
-        this.tested.adTrafficLightReport(this.tl2, this.report2);
+        this.tested.addRoadReport(this.rd1, this.report1);
+        this.tested.addRoadReport(this.rd1, this.report2);
+        this.tested.addRoadReport(this.rd2, this.report1);
+        this.tested.addRoadReport(this.rd2, this.report2);
+        this.tested.addTrafficLightReport(this.tl1, this.report1);
+        this.tested.addTrafficLightReport(this.tl1, this.report2);
+        this.tested.addTrafficLightReport(this.tl2, this.report1);
+        this.tested.addTrafficLightReport(this.tl2, this.report2);
         StatisticsProvider provider = this.tested.getStatistics();
         Assert.assertEquals(Long.valueOf(60), provider.expectedTimeOnRoadAt(BTWTime.of(0), rd1).seconds());
         Assert.assertEquals(Long.valueOf(60), provider.expectedTimeOnRoadAt(BTWTime.of(0), rd2).seconds());

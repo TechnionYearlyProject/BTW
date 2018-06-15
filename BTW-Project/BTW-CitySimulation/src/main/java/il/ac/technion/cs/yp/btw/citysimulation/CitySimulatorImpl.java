@@ -1,14 +1,17 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
 import il.ac.technion.cs.yp.btw.classes.*;
+import il.ac.technion.cs.yp.btw.evaluation.Evaluator;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import il.ac.technion.cs.yp.btw.statistics.StatisticalReport;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
 import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
+import org.apache.log4j.Logger;
 
 import java.util.*;
 import java.util.Map;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -18,6 +21,8 @@ import java.util.stream.Collectors;
  */
 
 public class CitySimulatorImpl implements CitySimulator {
+    final static Logger logger = Logger.getLogger(CitySimulatorImpl.class);
+
     private Map<String, CityRoad> roads;
     private Set<Road> fakeRoads;
     private Map<String, CityTrafficLight> trafficLights;
@@ -28,9 +33,12 @@ public class CitySimulatorImpl implements CitySimulator {
     private List<Vehicle> vehiclesToEnter;
     private long clock;
     private Map<Road, StatisticalReport> currentReportOfRoad;
+    private Map<Road, StatisticalReport> reportOfRoad;
     private Map<TrafficLight, StatisticalReport> currentReportOfTrafficLight;
+    private Map<TrafficLight, StatisticalReport> reportOfTrafficLight;
     private long timeWindow;
-    private StatisticsCalculator calculator; // maybe should be singleton
+    private StatisticsCalculator calculator;
+    private Evaluator evaluator;
 
     private class CityRoadImpl implements CityRoad {
         private static final double DEFAULT_CAPACITY_PER_METER = 0.4;
@@ -141,6 +149,19 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
+         * @return - Set of above mentioned vehicles
+         * @author Adam Elgressy
+         * @date 30-5-2018
+         * returns all the vehicles currently driving
+         * on this road, not including those which wait
+         * on the traffic lights
+         */
+        @Override
+        public Set<Vehicle> getVehiclesOnRoad() {
+            return this.vehicles;
+        }
+
+        /**
          * @return
          * @author Adam Elgressy and Guy Rephaeli
          * @Date 20-1-2018
@@ -164,7 +185,7 @@ public class CitySimulatorImpl implements CitySimulator {
          * capacity - discrete
          * number of vehicles on road - discrete
          */
-        private double getSpeed() {
+        public double getSpeed() {
             return (this.speedLimit * (1.0 - (((double) this.vehicles.size()) / ((double) this.capacity)))) / 3.6;
         }
 
@@ -185,6 +206,21 @@ public class CitySimulatorImpl implements CitySimulator {
             }
             Road r = (Road)o;
             return this.getRoadName().equals(r.getRoadName());
+        }
+
+        /*
+     * @Author Sharon Hadar
+     * @Date 2/6/2018
+     * @return the current overload on the road
+     * */
+        @Override
+        public Double getOverload(){
+            return this
+                    .getVehiclesOnRoad()
+                    .stream()
+                    .map(Vehicle::getOverloadOfVehicleOnCurrentRoad)
+                    .mapToDouble(Double::doubleValue)
+                    .sum();
         }
     }
 
@@ -347,6 +383,18 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
+         * @return - Set of above mentioned vehicles
+         * @author Adam Elgressy
+         * @date 30-5-2018
+         * returns all the vehicles currently waiting
+         * on this traffic lights
+         */
+        @Override
+        public Set<Vehicle> getVehiclesOnTrafficLight() {
+            return new HashSet<>(this.vehicles);
+        }
+
+        /**
          * @return StatisticalData of current object
          */
         @Override
@@ -499,6 +547,17 @@ public class CitySimulatorImpl implements CitySimulator {
             // TODO
             return null;
         }
+
+        @Override
+        public Double getOverload(){
+            return  this.trafficLights
+                        .stream()
+                        .map(trafficLight -> trafficLight.getSourceRoad())
+                        .collect(Collectors.toSet())
+                        .stream()
+                        .mapToDouble(road -> road.getOverload())
+                        .sum();
+        }
     }
 
     /**
@@ -511,13 +570,16 @@ public class CitySimulatorImpl implements CitySimulator {
      * @Date 20-1-2018
      */
     CitySimulatorImpl(Set<Road> roads, Set<TrafficLight> trafficLights, Set<Crossroad> crossroads,
-                      NavigationManager navigationManager, TrafficLightManager trafficLightManager, StatisticsCalculator calculator, long timeWindow) {
+                      NavigationManager navigationManager, TrafficLightManager trafficLightManager,
+                      StatisticsCalculator calculator, long timeWindow, Evaluator evaluator) {
         this.roads = new HashMap<>();
         this.trafficLights = new HashMap<>();
         this.crossroads = new HashMap<>();
         this.fakeRoads = roads;
         this.currentReportOfRoad = new HashMap<>();
         this.currentReportOfTrafficLight = new HashMap<>();
+        this.reportOfRoad = new HashMap<>();
+        this.reportOfTrafficLight = new HashMap<>();
         this.calculator = calculator;
 
         roads.forEach(this::getRealRoad);
@@ -537,8 +599,11 @@ public class CitySimulatorImpl implements CitySimulator {
      * @author Guy Rephaeli
      * @Date 20-1-2018
      */
-    public CitySimulatorImpl(BTWDataBase db, NavigationManager navigationManager, TrafficLightManager trafficLightManager, StatisticsCalculator calculator) {
-        this(db.getAllRoads(), db.getAllTrafficLights(), db.getAllCrossroads(), navigationManager, trafficLightManager, calculator, db.getStatisticsPeriod());
+    public CitySimulatorImpl(BTWDataBase db, NavigationManager navigationManager,
+                             TrafficLightManager trafficLightManager, StatisticsCalculator calculator,
+                             Evaluator evaluator) {
+        this(db.getAllRoads(), db.getAllTrafficLights(), db.getAllCrossroads(), navigationManager, trafficLightManager,
+                calculator, db.getStatisticsPeriod(), evaluator);
     }
 
     /**
@@ -597,7 +662,9 @@ public class CitySimulatorImpl implements CitySimulator {
      */
     @Override
     public CitySimulator addVehiclesFromVehicleEntriesList(List<VehicleEntry> entriesList) throws PathNotFoundException {
+        logger.debug("Start adding vehicles from entry list");
         for (VehicleEntry vehicleEntry : entriesList) {
+            logger.debug("Adding a vehicle from the entry list");
             try {
                 addVehicleOnTime(null
                         , this.roads.get(vehicleEntry.getSourceRoadName().get().getId())
@@ -615,6 +682,7 @@ public class CitySimulatorImpl implements CitySimulator {
                 throw e;
             }
         }
+        logger.debug("Vehicles added successfully");
         return this;
     }
 
@@ -748,6 +816,7 @@ public class CitySimulatorImpl implements CitySimulator {
      */
     @Override
     public List<Vehicle> addRandomVehicles(int numOfVehicles) throws PathNotFoundException {
+        logger.debug("Adding " + Integer.valueOf(numOfVehicles).toString() + " new vehicles");
         List<VehicleDescriptor> descriptors = new ArrayList<>();
         for (int i = 0; i < numOfVehicles; i++) {
             descriptors.add(null);
@@ -755,6 +824,7 @@ public class CitySimulatorImpl implements CitySimulator {
         List<Vehicle> currVehicles = new ArrayList<>();
         boolean pathNotFound = true;
         while (pathNotFound) {
+            logger.debug("Trying to find new route");
             Random rnd = new Random();
             int rndInt1 = rnd.nextInt(this.fakeRoads.size());
             int rndInt2 = rnd.nextInt(this.fakeRoads.size());
@@ -767,6 +837,7 @@ public class CitySimulatorImpl implements CitySimulator {
                 pathNotFound = true;
             }
         }
+        logger.debug(Integer.valueOf(numOfVehicles).toString() + " new vehicles added successfully");
         return currVehicles;
     }
 
@@ -792,22 +863,29 @@ public class CitySimulatorImpl implements CitySimulator {
      */
     @Override
     public CitySimulator tick() {
+        logger.debug("TICK");
         this.clock++;
+        logger.debug("Update reports");
         if (this.clock % this.timeWindow == 0) {
             this.currentReportOfRoad
                     .keySet()
-                    .forEach(rd -> this.calculator.adRoadReport(rd, this.currentReportOfRoad.get(rd)));
+                    .forEach(rd -> this.calculator.addRoadReport(rd, this.currentReportOfRoad.get(rd)));
             this.currentReportOfRoad = new HashMap<>();
 
             this.currentReportOfTrafficLight
                     .keySet()
-                    .forEach(tl -> this.calculator.adTrafficLightReport(tl, this.currentReportOfTrafficLight.get(tl)));
+                    .forEach(tl -> this.calculator.addTrafficLightReport(tl, this.currentReportOfTrafficLight.get(tl)));
             this.currentReportOfTrafficLight = new HashMap<>();
         }
+
+        logger.debug("Tick roads");
         roads.values().forEach(CityRoad::tick);
+
+        logger.debug("Tick traffic-lights manager");
         this.trafficLightManager.tick();
         Set<Vehicle> drivingVehicles = new HashSet<>();
 
+        logger.debug("Prepare new vehicles to drive");
         boolean readyToDrive = (this.vehiclesToEnter.size() > 0);
         while (readyToDrive) {
             Vehicle currentWaitingVehicle = this.vehiclesToEnter.get(0);
@@ -825,6 +903,7 @@ public class CitySimulatorImpl implements CitySimulator {
 //        });
         this.vehiclesToEnter.removeAll(drivingVehicles);
         this.vehicles.addAll(drivingVehicles);
+        logger.debug("Tick progress: GREAT SUCCESS!!");
         return this;
     }
 
@@ -837,10 +916,15 @@ public class CitySimulatorImpl implements CitySimulator {
     public CitySimulator reportOnRoad(Road rd, Long time) {
         if (!this.currentReportOfRoad.containsKey(rd)) {
             StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
+            if (!this.reportOfRoad.containsKey(rd)) {
+                StatisticalReport totalReport = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
+                this.reportOfRoad.put(rd, totalReport);
+            }
             this.currentReportOfRoad.put(rd, report);
         }
 //        this.currentReportOfRoad.get(rd).update(BTWWeight.of(time - (time % this.timeWindow)));
         this.currentReportOfRoad.get(rd).update(BTWWeight.of(time));
+        this.reportOfRoad.get(rd).update(BTWWeight.of(time));
         return this;
     }
 
@@ -848,11 +932,30 @@ public class CitySimulatorImpl implements CitySimulator {
     public CitySimulator reportOnTrafficLight(TrafficLight tl, Long time) {
         if (!this.currentReportOfTrafficLight.containsKey(tl)) {
             StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
+            if (!this.reportOfTrafficLight.containsKey(tl)) {
+                StatisticalReport totalReport = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
+                this.reportOfTrafficLight.put(tl, totalReport);
+            }
             this.currentReportOfTrafficLight.put(tl, report);
         }
 //        this.currentReportOfTrafficLight.get(tl).update(BTWWeight.of(time - (time % this.timeWindow)));
         this.currentReportOfTrafficLight.get(tl).update(BTWWeight.of(time));
+        this.reportOfTrafficLight.get(tl).update(BTWWeight.of(time));
         return this;
     }
 
+    @Override
+    public CitySimulator terminateVehicle(Vehicle vehicle) {
+        BTWWeight time = BTWWeight.of(this.clock - vehicle.getStartingTime().seconds());
+        this.evaluator.addVehicleInfo(vehicle.getVehicleDescriptor(), time);
+        return this;
+    }
+
+    @Override
+    public CitySimulator runWholeDay() {
+        this.tick((3600 * 24) - 1);
+        evaluator.addTrafficLightReports(this.reportOfTrafficLight);
+        evaluator.addRoadReports(this.reportOfRoad);
+        return this;
+    }
 }

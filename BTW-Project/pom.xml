@@ -16,6 +16,7 @@
     <module>BTW-CitySimulation</module>
       <module>BTW-TrafficLightManagement</module>
       <module>BTW-Statistics</module>
+      <module>BTW-Evaluation</module>
   </modules>
   <packaging>pom</packaging>
 

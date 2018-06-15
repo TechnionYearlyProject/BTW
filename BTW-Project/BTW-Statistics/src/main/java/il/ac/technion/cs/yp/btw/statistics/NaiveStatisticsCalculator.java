@@ -1,6 +1,7 @@
 package il.ac.technion.cs.yp.btw.statistics;
 
 import il.ac.technion.cs.yp.btw.classes.*;
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,8 @@ import java.util.Map;
  * Built mainly to prevent the project from crushing
  */
 public class NaiveStatisticsCalculator implements StatisticsCalculator {
+    final static Logger logger = Logger.getLogger(NaiveStatisticsCalculator.class);
+
     private BTWDataBase db;
     private Map<BTWTime, Map<Road, BTWWeight>> roadExpectedWeightOfTime;
     private Map<BTWTime, Map<TrafficLight, BTWWeight>> trafficLightExpectedWeightOfTime;
@@ -36,6 +39,7 @@ public class NaiveStatisticsCalculator implements StatisticsCalculator {
      */
     @Override
     public StatisticsProvider getStatistics() {
+        logger.debug("Sending new statistics (finished)");
         return new StatisticsProviderImpl(this.db.getStatisticsPeriod(), this.roadExpectedWeightOfTime, this.trafficLightExpectedWeightOfTime);
     }
 
@@ -48,17 +52,20 @@ public class NaiveStatisticsCalculator implements StatisticsCalculator {
      * @return self
      */
     @Override
-    public StatisticsCalculator adRoadReport(Road rd, StatisticalReport report) {
+    public StatisticsCalculator addRoadReport(Road rd, StatisticalReport report) {
+        logger.debug("Adding new road report for road: " + rd.getRoadName());
         BTWTime time = report.getTimeOfReport().startTimeWindow(this.db.getStatisticsPeriod());
         if (! this.roadExpectedWeightOfTime.containsKey(time)) {
             this.roadExpectedWeightOfTime.put(time, new HashMap<Road, BTWWeight>());
         }
         Map<Road, BTWWeight> weightOfRoad = this.roadExpectedWeightOfTime.get(time);
         if (weightOfRoad.containsKey(rd)) {
+            logger.error("Same statistics reported more than once");
             throw new BTWIllegalStatisticsException("Specific statistics can not be reported twice without resetting");
         } else {
             weightOfRoad.put(rd, report.timeTaken());
         }
+        logger.debug("Road report added successfully");
         return this;
     }
 
@@ -71,17 +78,20 @@ public class NaiveStatisticsCalculator implements StatisticsCalculator {
      * @return self
      */
     @Override
-    public StatisticsCalculator adTrafficLightReport(TrafficLight tl, StatisticalReport report) {
+    public StatisticsCalculator addTrafficLightReport(TrafficLight tl, StatisticalReport report) {
+        logger.debug("Adding new traffic-light report for traffic-light: " + tl.getName());
         BTWTime time = report.getTimeOfReport().startTimeWindow(this.db.getStatisticsPeriod());
         if (! this.trafficLightExpectedWeightOfTime.containsKey(time)) {
             this.trafficLightExpectedWeightOfTime.put(time, new HashMap<TrafficLight, BTWWeight>());
         }
         Map<TrafficLight, BTWWeight> weightOfRoad = this.trafficLightExpectedWeightOfTime.get(time);
         if (weightOfRoad.containsKey(tl)) {
+            logger.error("Same statistics reported more than once");
             throw new BTWIllegalStatisticsException("Specific statistics can not be reported twice without resetting");
         } else {
             weightOfRoad.put(tl, report.timeTaken());
         }
+        logger.debug("Traffic-light report added successfully");
         return this;
     }
 }

@@ -37,4 +37,11 @@ public interface Crossroad extends Point {
      * @param tl - the TrafficLightImpl being added
      */
     Crossroad addTrafficLight(TrafficLight tl);
+
+    /*
+    * @Author Sharon Hadar
+    * @Date 2/6/2018
+    * @return the overload on the whole crossroad
+    * */
+    Double getOverload();
 }

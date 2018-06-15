@@ -29,6 +29,7 @@ public class StatisticalNavigationManager extends AbstractNavigationManager {
             List<Road> tmpRoute = this.staticAStar(curr, destination, sourceRoadRatio, time);
             Road last = tmpRoute.get(1);
             if (path.contains(last)) {
+                logger.error("Encountered cycle on the route from " + source.getRoadName() + " to " + destination.getRoadName());
                 throw new PathNotFoundException("A cycle was encountered");
             }
             time.progressBy(curr.getWeightByTime(time))

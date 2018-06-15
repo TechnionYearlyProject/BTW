@@ -61,7 +61,10 @@ public class StatisticalReport {
      * @return - the time taken according to the report
      */
     public BTWWeight timeTaken() {
-        return BTWWeight.of(Double.valueOf(this.timeSum / this.numOfReporters).longValue());
+        if (this.numOfReporters > 0) {
+            return BTWWeight.of(Double.valueOf(this.timeSum / this.numOfReporters).longValue());
+        }
+        return BTWWeight.of(0L);
     }
 
     /**

@@ -94,4 +94,13 @@ public interface Vehicle {
      * @return the time in which the driving starts
      */
     BTWTime getStartingTime();
+
+    /*
+    * @Author Sharon Hadar
+    * @Date 2/6/2018
+    * @return the overload of the vehicle on the current road
+    * the overload is computed like this:
+    * (remainingLengthOnRoad)/(roadLength)
+    * */
+    double getOverloadOfVehicleOnCurrentRoad();
 }

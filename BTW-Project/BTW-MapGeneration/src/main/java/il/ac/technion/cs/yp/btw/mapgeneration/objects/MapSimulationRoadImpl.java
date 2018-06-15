@@ -123,5 +123,25 @@ public class MapSimulationRoadImpl implements Road {
     public Crossroad getDestinationCrossroad() {
         return this.destinationCrossroad;
     }
+
+    /*
+    * @Author Sharon Hadar
+    * @Date 2/6/2018
+    * @return the current speed on the road
+    * */
+    @Override
+    public double getSpeed(){
+        return 0.0;
+    }
+
+    /*
+     * @Author Sharon Hadar
+     * @Date 2/6/2018
+     * @return the current overload on the road
+     * */
+    @Override
+    public Double getOverload(){
+        return 0.0;
+    }
 }
 

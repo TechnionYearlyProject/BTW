@@ -4,6 +4,7 @@ import il.ac.technion.cs.yp.btw.citysimulation.CityCrossroad;
 import il.ac.technion.cs.yp.btw.citysimulation.CityTrafficLight;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import javafx.util.Pair;
+import org.apache.log4j.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,22 +15,12 @@ import java.util.stream.Collectors;
  * Naive implementation of TrafficLightManager
  */
 
-public class NaiveTrafficLightManager implements TrafficLightManager {
+public class NaiveTrafficLightManager extends AbstractTrafficLightManager {
+    final static Logger logger = Logger.getLogger(NaiveTrafficLightManager.class);
 
-    private Set<CityCrossroad> crossroads;
-    private Map<CityCrossroad, List<HashSet<CityTrafficLight>>> trafficLightsOfCrossroadByRoad;
-    private Map<CityCrossroad, HashSet<CityTrafficLight>> currentGreenTrafficLightsOfCrossroad;
-    private Map<CityCrossroad, Iterator<HashSet<CityTrafficLight>>> currentIteratorOfCrossroad;
-    private int minimumOpenTime;
-    private int count;
 
     public NaiveTrafficLightManager() {
-        this.crossroads = new HashSet<>();
-        this.trafficLightsOfCrossroadByRoad = new HashMap<>();
-        this.currentGreenTrafficLightsOfCrossroad = new HashMap<>();
-        this.currentIteratorOfCrossroad = new HashMap<>();
-        this.minimumOpenTime = -1;
-        this.count = 0;
+        super();
     }
 
 
@@ -51,6 +42,7 @@ public class NaiveTrafficLightManager implements TrafficLightManager {
      * @return self
      */
     private NaiveTrafficLightManager turnToNextGreen(CityCrossroad crossroad) {
+        logger.debug("Turning traffic-lights to next green light in crossroad: " + crossroad.getName());
         this.currentGreenTrafficLightsOfCrossroad.get(crossroad)
                 .forEach(trafficLight -> trafficLight.setTrafficLightState(CityTrafficLight.TrafficLightState.RED));
         Iterator<HashSet<CityTrafficLight>> iter = currentIteratorOfCrossroad.get(crossroad);
@@ -60,56 +52,7 @@ public class NaiveTrafficLightManager implements TrafficLightManager {
         this.currentGreenTrafficLightsOfCrossroad.put(crossroad, this.currentIteratorOfCrossroad.get(crossroad).next());
         this.currentGreenTrafficLightsOfCrossroad.get(crossroad)
                 .forEach(trafficLight -> trafficLight.setTrafficLightState(CityTrafficLight.TrafficLightState.GREEN));
-        return this;
-    }
-
-    /**
-     * @author Adam Elgressy and Guy Rephaeli
-     * @Date 25-4-2018
-     *
-     * Insert the crossroads to manage
-     * @param crossroads - the crossroads to manage
-     * @return self
-     */
-    @Override
-    public TrafficLightManager insertCrossroads(Set<CityCrossroad> crossroads) {
-        this.crossroads = crossroads;
-
-        this.trafficLightsOfCrossroadByRoad = crossroads
-                .stream()
-                .map(crossroad -> new Pair<>(crossroad, crossroad.getRealTrafficLights()
-                        .stream()
-                        .filter(trafficLight -> trafficLight.getSourceRoad() != null)
-                        .collect(Collectors.groupingBy(TrafficLight::getSourceRoad))
-                        .values()
-                        .stream()
-                        .map(HashSet::new)
-                        .collect(Collectors.toList())
-                ))
-                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
-
-        this.currentIteratorOfCrossroad = trafficLightsOfCrossroadByRoad.entrySet()
-                .stream()
-                .map(e -> new Pair<>(e.getKey(), e.getValue().iterator()))
-                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
-
-        this.minimumOpenTime = crossroads.stream()
-                .flatMap(crossroad -> crossroad.getRealTrafficLights().stream())
-                .mapToInt(CityTrafficLight::getMinimumOpenTime)
-                .max()
-                .getAsInt() + 1; // may throw - need to catch
-
-        this.currentGreenTrafficLightsOfCrossroad = this.currentIteratorOfCrossroad.entrySet()
-                .stream()
-                .map(e -> new Pair<>(e.getKey(), trafficLightsOfCrossroadByRoad.get(e.getKey()).isEmpty()
-                        ? new HashSet<CityTrafficLight>()
-                        : e.getValue().next()))
-                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
-
-        this.crossroads.forEach(crossroad ->
-                this.currentGreenTrafficLightsOfCrossroad.get(crossroad)
-                        .forEach(trafficLight ->
-                                trafficLight.setTrafficLightState(CityTrafficLight.TrafficLightState.GREEN)));
+        logger.debug("Traffic-lights switched successfully");
         return this;
     }
 
@@ -123,6 +66,7 @@ public class NaiveTrafficLightManager implements TrafficLightManager {
      */
     @Override
     public TrafficLightManager tick() {
+        logger.debug("Tick...");
         count++;
         if (this.count >= this.minimumOpenTime) {
             this.crossroads.forEach(this::turnToNextGreen);
