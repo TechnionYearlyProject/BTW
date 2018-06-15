@@ -37,8 +37,8 @@ public class QueryAllTrafficLights extends Query{
     * build the recieved data from the data base results
     * */
     @Override
-    public Set<TrafficLight> arrangeRecievedData(ResultSet resultSet){
-        Set<TrafficLight> trafficLights = new HashSet();
+    public Set<DataTrafficLight> arrangeRecievedData(ResultSet resultSet){
+        Set<DataTrafficLight> trafficLights = new HashSet();
         try{
             while (resultSet.next()){
 
@@ -52,7 +52,7 @@ public class QueryAllTrafficLights extends Query{
                 //        resultSet.getString("to");
                 long overload =  resultSet.getLong("overload");
                 Point position = new PointImpl(cordx, cordy);
-                TrafficLight trafficLight  = new DataTrafficLight(nameID, position, sourceRoadId,destinationRoadIf, overload, mapName);
+                DataTrafficLight trafficLight  = new DataTrafficLight(nameID, position, sourceRoadId,destinationRoadIf, overload, mapName);
 
                 trafficLights.add(trafficLight);
 

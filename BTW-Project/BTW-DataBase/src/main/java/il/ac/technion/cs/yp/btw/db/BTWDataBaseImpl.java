@@ -364,6 +364,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
      * private function of the DB
      * help the update heuristics to update the distances map for each dataroad
      */
+
     private void updateDataRoadsHeuristics() {
         logger.debug("BTWDataBase Start updateDataRoadsHeuristics - updating each data road separately");
 
@@ -436,6 +437,10 @@ public class BTWDataBaseImpl implements BTWDataBase {
 
         String queryUpdateRoad = "";
         String queryUpdateTL = "";
+        if (roads == null || trafficLights == null) {
+            logger.debug("roads or tafficlights set is null");
+            return this;
+        }
         for (Road road: roads) {
             Integer time = 0;
             while (time < 86400) {
