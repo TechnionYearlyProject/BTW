@@ -158,10 +158,39 @@ public class TestBTWDataBaseImpl {
     @Test
     public void testStatistics() {
         BTWDataBase dataBase = new BTWDataBaseImpl("testStats");
+        dataBase = dataBase.createStatisticsTables(roads,trafficLights);
+        dataBase = dataBase.updateStatisticsTables(null);
         ((BTWDataBaseImpl) dataBase).SetStatisticsModeOn();
         dataBase = dataBase.createStatisticsTables(roads,trafficLights);
         StatisticsProvider SP = dataBase.getStatisticsFromDB();
         dataBase = dataBase.updateStatisticsTables(SP);
+        Assert.assertNotNull(dataBase);
+    }
+
+    @Test
+    public void testMapName() {
+        BTWDataBase dataBase = new BTWDataBaseImpl("shayshayshay");
+        Assert.assertTrue(dataBase.getMapName() == "shayshayshay");
+    }
+
+    @Test
+    public void testPeriodStatistics() {
+        BTWDataBase dataBase = new BTWDataBaseImpl("shayshayshay");
+        Assert.assertTrue(dataBase.getStatisticsPeriod() == 1800);
+    }
+
+    @Test
+    public void testStatisticsModeOnOff() {
+        BTWDataBase dataBase = new BTWDataBaseImpl("shayshayshay");
+        Assert.assertTrue(((BTWDataBaseImpl) dataBase).getStatisticsMode() == false);
+        ((BTWDataBaseImpl) dataBase).SetStatisticsModeOn();
+        Assert.assertTrue(((BTWDataBaseImpl) dataBase).getStatisticsMode() == true);
+    }
+
+    @Test
+    public void testParseMap() {
+        BTWDataBase dataBase = new BTWDataBaseImpl("shayshayshay");
+        dataBase.parseMap("{\"type\": \"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0,0.0]},\"properties\":{\"name\":\"from:1 street section 1R to:1 avenue section 1\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0,0.0054000054000054]},\"properties\":{\"name\":\"from:2 street section 1R to:1 avenue section 1R\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0054000054000054,0.0054000054000054]},\"properties\":{\"name\":\"from:2 avenue section 1 to:2 avenue section 1R\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0054000054000054,0.0]},\"properties\":{\"name\":\"from:1 street section 1 to:1 street section 1R\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0054000054000054,0.0054000054000054]},\"properties\":{\"name\":\"from:2 street section 1 to:2 avenue section 1R\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0054000054000054,0.0054000054000054]},\"properties\":{\"name\":\"from:2 avenue section 1 to:2 street section 1R\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0,0.0054000054000054]},\"properties\":{\"name\":\"from:2 street section 1R to:2 street section 1\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0,0.0054000054000054]},\"properties\":{\"name\":\"from:1 avenue section 1 to:2 street section 1\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0054000054000054,0.0054000054000054]},\"properties\":{\"name\":\"from:2 street section 1 to:2 street section 1R\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0,0.0]},\"properties\":{\"name\":\"from:1 avenue section 1R to:1 street section 1\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0054000054000054,0.0]},\"properties\":{\"name\":\"from:2 avenue section 1R to:1 street section 1R\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0054000054000054,0.0]},\"properties\":{\"name\":\"from:1 street section 1 to:2 avenue section 1\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0054000054000054,0.0]},\"properties\":{\"name\":\"from:2 avenue section 1R to:2 avenue section 1\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0,0.0]},\"properties\":{\"name\":\"from:1 avenue section 1R to:1 avenue section 1\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0,0.0]},\"properties\":{\"name\":\"from:1 street section 1R to:1 street section 1\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.0,0.0054000054000054]},\"properties\":{\"name\":\"from:1 avenue section 1 to:1 avenue section 1R\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[0.0054000054000054,0.0054000054000054],[0.0054000054000054,0.0]]},\"properties\":{\"name\":\"2 avenue section 1R\",\"length\":\"600\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[0.0,0.0],[0.0,0.0054000054000054]]},\"properties\":{\"name\":\"1 avenue section 1\",\"length\":\"600\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[0.0,0.0054000054000054],[0.0,0.0]]},\"properties\":{\"name\":\"1 avenue section 1R\",\"length\":\"600\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[0.0,0.0],[0.0054000054000054,0.0]]},\"properties\":{\"name\":\"1 street section 1\",\"length\":\"600\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[0.0054000054000054,0.0054000054000054],[0.0,0.0054000054000054]]},\"properties\":{\"name\":\"2 street section 1R\",\"length\":\"600\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[0.0054000054000054,0.0],[0.0,0.0]]},\"properties\":{\"name\":\"1 street section 1R\",\"length\":\"600\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[0.0,0.0054000054000054],[0.0054000054000054,0.0054000054000054]]},\"properties\":{\"name\":\"2 street section 1\",\"length\":\"600\",\"overload\":0}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[0.0054000054000054,0.0],[0.0054000054000054,0.0054000054000054]]},\"properties\":{\"name\":\"2 avenue section 1\",\"length\":\"600\",\"overload\":0}}]}");
         Assert.assertNotNull(dataBase);
     }
 }
