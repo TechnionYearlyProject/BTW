@@ -76,7 +76,7 @@ public class TestDBStatsiticsProvider {
     @Test
     public void testStatisticsProviderDummyUnitTest() {
         StatisticsProvider stats = new DBStatisticsProvider(null,null);
-        assertNull(stats);
+        assertNotNull(stats);
         stats = new DBStatisticsProvider(roads,trafficLights);
         assertNotNull(stats);
 
