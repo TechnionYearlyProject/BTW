@@ -214,8 +214,7 @@ public class CitySimulatorImpl implements CitySimulator {
             return this
                     .getVehiclesOnRoad()
                     .stream()
-                    .map(Vehicle::getOverloadOfVehicleOnCurrentRoad)
-                    .mapToDouble(Double::doubleValue)
+                    .mapToDouble(Vehicle::getOverloadOfVehicleOnCurrentRoad)
                     .sum();
         }
     }
