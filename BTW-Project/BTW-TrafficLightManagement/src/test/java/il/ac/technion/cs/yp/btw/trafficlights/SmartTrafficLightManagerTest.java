@@ -22,6 +22,8 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+
+
 public class SmartTrafficLightManagerTest {
 
     private String allCharacters = "(?s).*[\n\r].*"; // a regex mathes all the characters, including white spaces and new lines
@@ -147,7 +149,7 @@ public class SmartTrafficLightManagerTest {
 
 
     private int descCount = 0;
-    class TestingVehicleDescriptor implements VehicleDescriptor {
+    class TestingVehicleDescriptor implements Comparable<VehicleDescriptor> {
         private int desc;
 
         TestingVehicleDescriptor() {
