@@ -56,17 +56,6 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
         this.name = crossname;
     }
 
-    /*
-     * @author Sharon Hadar
-     * @Date 21/01/2018
-     * construct a cross road with an empty set of traffic lights*/
-    public DataCrossRoad(Point position, boolean noTrafficLights, String mapName) {
-        super(position);
-        this.trafficLights = new HashSet<>();
-        this.mapName = mapName;
-    }
-
-
     /* @author Sharon Hadar
      * @Date 21/01/2018
      * get the cross road name*/
