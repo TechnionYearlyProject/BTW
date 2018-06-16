@@ -1,5 +1,6 @@
 package il.ac.technion.cs.yp.btw.db;
 
+import il.ac.technion.cs.yp.btw.classes.BTWTime;
 import il.ac.technion.cs.yp.btw.classes.PointImpl;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.db.DataObjects.DataRoad;
@@ -25,5 +26,11 @@ public class TestDataRoad {
         String s2 = b.toString();
         Assert.assertTrue(s.contains("Road6"));
         Assert.assertTrue(s2.contains("STR2"));
+        Assert.assertNull(((DataRoad) a).getWeights());
+        Assert.assertNotNull(((DataRoad) a).getDistances());
+        Assert.assertTrue(a.getSpeed()>-1 && a.getSpeed() <1);
+        Assert.assertTrue(a.getOverload()>-1 && a.getOverload() <1);
+        Assert.assertTrue(s2.contains("STR2"));
+        System.out.println(a.getWeightByTime(BTWTime.of(0)).seconds());
     }
 }
