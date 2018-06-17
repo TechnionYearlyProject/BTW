@@ -4,97 +4,152 @@
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchor" maxHeight="700" maxWidth="1200" minHeight="700" minWidth="1200" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="anchor" maxHeight="700" maxWidth="1200" minHeight="700" minWidth="1200" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
 <children>
     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="179.0" layoutX="-13.0" layoutY="-10.0" stroke="#949494" strokeType="INSIDE" width="2000.0" />
-    <Text layoutX="379.0" layoutY="101.0" text="Choose Simulation" wrappingWidth="500.0">
-        <font>
-            <Font size="52.0" />
-        </font></Text>
+
     <ImageView fx:id="logo" fitHeight="252.0" fitWidth="214.0" layoutX="-7.0" layoutY="-36.0" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="/BTWLogo.png" />
         </image>
     </ImageView>
-    <Text layoutX="152.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Vehicles File">
-        <font>
-            <Font size="20.0" />
-        </font>
-    </Text>
-    <JFXTextField fx:id="chooseVehicleFileTextField" layoutX="99.0" layoutY="268.0" prefHeight="25.0" prefWidth="236.0" promptText="Insert file URL" />
-    <Text layoutX="480.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Traffic Light Manager" wrappingWidth="303.00002056360245">
-        <font>
-            <Font size="20.0" />
-        </font>
-    </Text>
-    <JFXSpinner fx:id="loadSpinner" layoutX="570.0" layoutY="580.0" visible="false" />
-    <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="82.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true">
-        <image>
-            <Image url="/icons8-reset-filled-50.png" />
-        </image>
-    </ImageView>
-    <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="831.0" layoutY="198.0" pickOnBounds="true" preserveRatio="true">
-        <image>
-            <Image url="/icons8-near-me-50.png" />
-        </image>
-    </ImageView>
-    <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="413.0" layoutY="198.0" pickOnBounds="true" preserveRatio="true">
-        <image>
-            <Image url="/icons8-traffic-light-filled-50.png" />
-        </image>
-    </ImageView>
-    <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="303.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
-        <image>
-            <Image url="/icons8-car-filled-50.png" />
-        </image>
-    </ImageView>
-    <Text layoutX="891.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Navigation Manager">
-        <font>
-            <Font size="20.0" />
-        </font>
-    </Text>
-    <JFXButton fx:id="start_button" buttonType="RAISED" layoutX="867.0" layoutY="576.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Start!" />
-    <VBox layoutX="887.0" layoutY="251.0">
-        <children>
-            <JFXRadioButton fx:id="naiveNavigation_radio" prefHeight="36.0" prefWidth="131.0" text="Naive Navigation">
-                <font>
-                    <Font size="15.0" />
-                </font></JFXRadioButton>
-            <JFXRadioButton fx:id="statisticsNavigation_radio" prefHeight="36.0" prefWidth="161.0" text="Statistics Navigation">
-                <font>
-                    <Font size="15.0" />
-                </font>
-                <toggleGroup>
-                    <ToggleGroup fx:id="navigation_toggle" />
-                </toggleGroup></JFXRadioButton>
-        </children>
-    </VBox>
 
-    <VBox layoutX="480.0" layoutY="251.0">
-        <children>
-            <JFXRadioButton fx:id="naiveTrafficLight_radio" prefHeight="36.0" prefWidth="131.0" text="Naive Manager">
+    <JFXSpinner fx:id="loadSpinner" layoutX="570.0" layoutY="580.0" visible="false" />
+    <StackPane fx:id="title_stack_pane" layoutX="0.0" layoutY="49.0">
+        <HBox fx:id="title_hbox" alignment="CENTER_LEFT">
+            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="303.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="/icons8-car-filled-50.png" />
+                </image>
+            </ImageView>
+            <Text layoutX="379.0" layoutY="101.0" text="Choose Simulation" wrappingWidth="500.0">
                 <font>
-                    <Font size="15.0" />
-                </font></JFXRadioButton>
-            <JFXRadioButton fx:id="simpleTrafficLight_radio" prefHeight="36.0" prefWidth="161.0" text="Simple Manager">
-                <font>
-                    <Font size="15.0" />
-                </font>
-                <toggleGroup>
-                    <ToggleGroup fx:id="trafficLight_toggle" />
-                </toggleGroup></JFXRadioButton>
-        </children>
-    </VBox>
+                    <Font size="52.0" />
+                </font></Text>
+        </HBox>
+    </StackPane>
+
+    <JFXButton fx:id="start_button" buttonType="RAISED" layoutX="867.0" layoutY="576.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Start!" />
     <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Home" />
-    <JFXButton fx:id="attachButton" layoutX="306.0" layoutY="257.0" mnemonicParsing="false" text="" />
+
+
+      <HBox fx:id="centerHBox" layoutX="0.0" layoutY="230.0" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+         <children>
+            <VBox prefHeight="154.0" prefWidth="246.0">
+               <children>
+                   <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="246.0">
+                     <children>
+                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="/icons8-reset-filled-50.png" />
+                          </image>
+                      </ImageView>
+                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Vehicles File">
+                          <font>
+                              <Font size="20.0" />
+                          </font>
+                      </Text>
+                     </children>
+                  </HBox>
+                  <StackPane alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="246.0">
+                     <children>
+                      <JFXTextField fx:id="chooseVehicleFileTextField" prefHeight="25.0" prefWidth="236.0" promptText="Insert file URL" />
+                      <JFXButton fx:id="attachButton" alignment="CENTER_RIGHT" mnemonicParsing="false" />
+                     </children>
+                  </StackPane>
+               </children>
+            </VBox>
+             <VBox alignment="CENTER_LEFT" layoutX="373.0" layoutY="419.0" prefHeight="200.0" prefWidth="100.0">
+                 <children>
+                     <HBox alignment="CENTER_LEFT" prefHeight="56.0" prefWidth="335.0" spacing="10.0">
+                         <children>
+                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                     <Image url="/icons8-traffic-light-filled-50.png" />
+                                 </image>
+                             </ImageView>
+                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Traffic Light Manager">
+                                 <font>
+                                     <Font size="20.0" />
+                                 </font>
+                             </Text>
+                         </children>
+                     </HBox>
+
+                     <VBox alignment="CENTER_LEFT" spacing="10.0">
+                         <children>
+                             <JFXRadioButton fx:id="naiveTrafficLight_radio" prefHeight="36.0" prefWidth="131.0" text="Naive Manager">
+                                 <font>
+                                     <Font size="15.0" />
+                                 </font>
+                             </JFXRadioButton>
+                             <JFXRadioButton fx:id="simpleTrafficLight_radio" prefHeight="36.0" prefWidth="161.0" text="Simple Manager">
+                                 <font>
+                                     <Font size="15.0" />
+                                 </font>
+                                 <toggleGroup>
+                                     <ToggleGroup fx:id="trafficLight_toggle" />
+                                 </toggleGroup>
+                             </JFXRadioButton>
+                         </children>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                     </VBox>
+                 </children></VBox>
+
+             <VBox layoutX="825.0" layoutY="194.0" prefHeight="200.0" prefWidth="100.0">
+                 <children>
+                     <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="324.0" spacing="10.0">
+                         <children>
+                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                     <Image url="/icons8-near-me-50.png" />
+                                 </image>
+                             </ImageView>
+                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Navigation Manager">
+                                 <font>
+                                     <Font size="20.0" />
+                                 </font>
+                             </Text>
+                         </children>
+                     </HBox>
+                     <VBox alignment="CENTER_LEFT" spacing="10.0">
+                         <children>
+                             <JFXRadioButton fx:id="naiveNavigation_radio" prefHeight="36.0" prefWidth="131.0" text="Naive Navigation">
+                                 <font>
+                                     <Font size="15.0" />
+                                 </font>
+                             </JFXRadioButton>
+                             <JFXRadioButton fx:id="statisticsNavigation_radio" prefHeight="36.0" prefWidth="161.0" text="Statistics Navigation">
+                                 <font>
+                                     <Font size="15.0" />
+                                 </font>
+                                 <toggleGroup>
+                                     <ToggleGroup fx:id="navigation_toggle" />
+                                 </toggleGroup>
+                             </JFXRadioButton>
+                         </children>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                     </VBox>
+                 </children>
+             </VBox>
+
+         </children>
+      </HBox>
 </children>
 </AnchorPane>

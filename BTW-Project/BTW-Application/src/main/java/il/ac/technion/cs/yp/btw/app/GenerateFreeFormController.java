@@ -11,6 +11,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,6 +29,11 @@ public class GenerateFreeFormController extends GenerateCityController implement
     @FXML private JFXTextField Radius;
     @FXML private JFXToggleButton blocksToggle, radiusToggle, mapNameToggle;
     @FXML private JFXTextField mapNameTextField;
+    @FXML private HBox titleHBox;
+    @FXML private VBox centerContent;
+    @FXML private JFXButton back_button, generate_button;
+
+    private Stage stage;
    // @FXML private JFXButton helpButton;
 
     int Number_of_blocks, radius_val;
@@ -39,6 +47,21 @@ public class GenerateFreeFormController extends GenerateCityController implement
                 Radius.setDisable(!Radius.isDisabled()));
         mapNameToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
                 mapNameTextField.setDisable(!mapNameTextField.isDisabled()));
+
+        stage = BTW.stage;
+        titleHBox.translateXProperty()
+                .bind(stage.widthProperty().subtract(titleHBox.widthProperty())
+                        .divide(2));
+        centerContent.translateXProperty()
+                .bind(stage.widthProperty().subtract(centerContent.widthProperty())
+                        .divide(2));
+
+        AnchorPane.setTopAnchor(titleHBox, 10.0);
+        AnchorPane.setRightAnchor(back_button, 20.0);
+        AnchorPane.setTopAnchor(back_button, 60.0);
+        AnchorPane.setRightAnchor(generate_button, 30.0);
+
+
         logger.debug("Controller was initialized");
     }
 

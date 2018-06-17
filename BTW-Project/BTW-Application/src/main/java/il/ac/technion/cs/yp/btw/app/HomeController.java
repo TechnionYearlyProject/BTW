@@ -26,6 +26,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
@@ -57,6 +58,8 @@ public class HomeController extends SwitchToMapController implements Initializab
 
     @FXML private JFXButton load_button, generate_button, load_file_button, attachButton;
 
+    @FXML private HBox titleHBox, centerContent;
+
     final static Logger logger = Logger.getLogger("HomeController");
 
     public HomeController(){
@@ -85,6 +88,9 @@ public class HomeController extends SwitchToMapController implements Initializab
         grid_radio.setUserData("free_form_radio");
         Image buttonImage = new Image(getClass().getResourceAsStream("/icons8-attach-30.png"));
         attachButton.setGraphic(new ImageView(buttonImage));
+//        Stage stage = BTW.stage;
+
+        initDynamicPosition();
 
         new Thread(() -> {
             BTWDataBase dbForTables = new BTWDataBaseImpl("dbForTables");   // Shay - TO DO: separate tables names from the constructor
@@ -97,6 +103,26 @@ public class HomeController extends SwitchToMapController implements Initializab
             });
         }).start();
         logger.debug("Home Screen Initialized");
+    }
+
+    private void initDynamicPosition() {
+        titleHBox.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
+            if (oldScene == null && newScene != null) {
+                // scene is set for the first time. Now its the time to listen stage changes.
+                newScene.windowProperty().addListener((observableWindow, oldWindow, newWindow) -> {
+                    if (oldWindow == null && newWindow != null) {
+                        // stage is set. now is the right time to do whatever we need to the stage in the controller.
+                        Stage stage = (Stage) newWindow;
+                        titleHBox.translateXProperty()
+                                .bind(stage.widthProperty().subtract(titleHBox.widthProperty())
+                                        .divide(2));
+                        centerContent.translateXProperty()
+                                .bind(stage.widthProperty().subtract(centerContent.widthProperty())
+                                        .divide(2));
+                    }
+                });
+            }
+        });
     }
 
 

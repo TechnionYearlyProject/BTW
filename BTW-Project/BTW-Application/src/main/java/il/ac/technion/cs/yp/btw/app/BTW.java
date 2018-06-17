@@ -13,21 +13,25 @@ import org.apache.log4j.Logger;
  */
 public class BTW extends Application {
 //    final static Logger logger = Logger.getLogger(BTW.class);
-    final static Logger logger = Logger.getLogger("BTW");
+    private final static Logger logger = Logger.getLogger("BTW");
     public static void main(String[] args) {
         launch(args);
     }
+    public static Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/home_layout.fxml"));
         logger.debug("BTW Begins Here");
         Scene scene = new Scene(root);
-
+        BTW.stage = stage;
         stage.setTitle("By The Way");
         stage.setScene(scene);
-        stage.setResizable(false);
+//        stage.setResizable(false);
         stage.setHeight(700);
+        stage.setWidth(1200);
+        stage.setMinHeight(700);
+        stage.setMinWidth(1200);
         stage.show();
     }
 }

@@ -57,7 +57,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
     AnchorPane anchor;
     @FXML
     BorderPane borderPane;
-
+    @FXML private HBox titleHBox;
     Set<Circle> circles;
     Set<Line> lines = new HashSet<>();
     CityMap cityMap;
@@ -198,10 +198,10 @@ public class DrawMapController extends ShowErrorController implements Initializa
             ChooseSimulationController controller = new ChooseSimulationController();
             controller.initMapDatabase(mapDatabase);
             controller.initStage(stage);
-            stage.setResizable(false);
-            stage.setMaximized(false);
-            stage.setWidth(1200);
-            stage.setHeight(700);
+//            stage.setResizable(false);
+//            stage.setMaximized(false);
+//            stage.setWidth(1200);
+//            stage.setHeight(700);
             loader.setController(controller);
             try {
                 loader.load();
@@ -212,6 +212,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
         });
         verifyMapText.setVisible(true);
         mapImage.setVisible(true);
+        titleHBox.translateXProperty()
+                .bind(stage.widthProperty().subtract(titleHBox.widthProperty())
+                        .divide(2));
         root.getChildren().addAll(acceptButton, backButton);
         AnchorPane.setBottomAnchor(acceptButton, 40.0);
         AnchorPane.setRightAnchor(acceptButton, 40.0);
@@ -262,10 +265,10 @@ public class DrawMapController extends ShowErrorController implements Initializa
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
         URL resource = getClass().getResource("/fxml/home_layout.fxml");
         try {
-            stageTheEventSourceNodeBelongs.setHeight(700);
-            stageTheEventSourceNodeBelongs.setWidth(1200);
-            stageTheEventSourceNodeBelongs.setMaximized(false);
-            stageTheEventSourceNodeBelongs.setResizable(false);
+//            stageTheEventSourceNodeBelongs.setHeight(700);
+//            stageTheEventSourceNodeBelongs.setWidth(1200);
+//            stageTheEventSourceNodeBelongs.setMaximized(false);
+//            stageTheEventSourceNodeBelongs.setResizable(false);
             Parent root = FXMLLoader.load(resource);
             Scene scene = new Scene(root);
             stageTheEventSourceNodeBelongs.setScene(scene);

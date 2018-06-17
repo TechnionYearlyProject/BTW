@@ -11,6 +11,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,15 +26,17 @@ import java.util.ResourceBundle;
  * all methods that don't specify an other author are by Orel
  */
 public class GenerateGridController extends GenerateCityController implements Initializable{
-
     public JFXButton numStreetsHelper;
+    @FXML private JFXButton back_button, generate_button;
     @FXML private JFXTextField NumberOfStreets;
     @FXML private JFXTextField NumberOfAvenues;
     @FXML private JFXTextField LengthOfStreets;
     @FXML private JFXTextField LengthOfAvenues;
     @FXML private JFXTextField mapNameTextField;
     @FXML private JFXToggleButton numStreetsToggle, numAvenuesToggle, legnthStreetsToggle, legnthAvenuesToggle, mapNameToggle;
-
+    @FXML private HBox titleHBox;
+    @FXML private VBox centerContent;
+    Stage stage;
 
     int Number_of_streets, Number_of_avenues, Length_of_streets, Length_of_avenues;
 
@@ -46,7 +52,22 @@ public class GenerateGridController extends GenerateCityController implements In
                 LengthOfAvenues.setDisable(!LengthOfAvenues.isDisabled()));
         mapNameToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
                 mapNameTextField.setDisable(!mapNameTextField.isDisabled()));
+
+        stage = BTW.stage;
+        titleHBox.translateXProperty()
+                .bind(stage.widthProperty().subtract(titleHBox.widthProperty())
+                        .divide(2));
+        centerContent.translateXProperty()
+                .bind(stage.widthProperty().subtract(centerContent.widthProperty())
+                        .divide(2));
+
+        AnchorPane.setTopAnchor(titleHBox, 30.0);
+        AnchorPane.setRightAnchor(back_button, 20.0);
+        AnchorPane.setTopAnchor(back_button, 60.0);
+        AnchorPane.setRightAnchor(generate_button, 30.0);
+
         logger.debug("Controller was initialized");
+
     }
 
 

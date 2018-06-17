@@ -6,11 +6,8 @@ import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import il.ac.technion.cs.yp.btw.citysimulation.*;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
-import il.ac.technion.cs.yp.btw.evaluation.DumbEvaluator;
-import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.navigation.NaiveNavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
-import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
 import il.ac.technion.cs.yp.btw.navigation.StatisticalNavigationManager;
 import il.ac.technion.cs.yp.btw.statistics.NaiveStatisticsCalculator;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
@@ -28,13 +25,14 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -59,12 +57,12 @@ public class ChooseSimulationController extends SwitchToMapController implements
     @FXML
     private JFXSpinner loadSpinner;
     @FXML JFXTextField chooseVehicleFileTextField;
+    @FXML StackPane title_stack_pane;
+    @FXML HBox title_hbox, centerHBox;
 
     void initMapDatabase(BTWDataBase db) {
         mapDatabase = db;
     }
-
-
     public void initStage(Stage s) {
         stage = s;
     }
@@ -79,7 +77,25 @@ public class ChooseSimulationController extends SwitchToMapController implements
         Image buttonImage = new Image(getClass().getResourceAsStream("/icons8-attach-30.png"));
         attachButton.setGraphic(new ImageView(buttonImage));
         attachButton.setOnAction(this::attachButtonClicked);
+        initCenterPanes();
         logger.debug("Initialized controller");
+    }
+
+    public void initCenterPanes() {
+        title_stack_pane.translateXProperty()
+                .bind(stage.widthProperty().subtract(title_stack_pane.widthProperty())
+                        .divide(2));
+        AnchorPane.setTopAnchor(title_stack_pane, 50.0);
+        title_hbox.setSpacing(10);
+        AnchorPane.setRightAnchor(back_button, 20.0);
+        AnchorPane.setTopAnchor(back_button, 60.0);
+
+        centerHBox.translateXProperty()
+                .bind(stage.widthProperty().subtract(centerHBox.widthProperty())
+                        .divide(2));
+
+        AnchorPane.setRightAnchor(start_button, 30.0);
+        AnchorPane.setBottomAnchor(start_button, 30.0);
     }
 
     private void StartClicked(ActionEvent actionEvent) {
@@ -113,7 +129,7 @@ public class ChooseSimulationController extends SwitchToMapController implements
             }
 
             StatisticsCalculator calculator = new NaiveStatisticsCalculator(mapDatabase);
-            CitySimulator citySimulator = new CitySimulatorImpl(mapDatabase, navigationManager, trafficManager, calculator, new DumbEvaluator());
+            CitySimulator citySimulator = new CitySimulatorImpl(mapDatabase, navigationManager, trafficManager, calculator);
             if(!chooseVehicleFileTextField.getText().isEmpty()) {
                 URL url;
                 JsonVehiclesParser parser = new JsonVehiclesParser();
