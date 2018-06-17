@@ -39,12 +39,12 @@ public class DBStatisticsProvider implements StatisticsProvider {
 
             logger.debug("Insert all roads and their weights to map");
             for (Road road: roads) {
-                String tableName = db.getMapName() + "Road" + road.getRoadName().replaceAll("\\s+","");
+                String tableName = db.getMapName() + "Road" + road.getName().replaceAll("\\s+","");
                 BTWWeight[] weights;
                 weights = (BTWWeight[])MainDataBase.queryDataBase(new QueryAllWeights(tableName));
                 ((DataRoad)road).setWeights(weights);
                 roadsMap.put((DataRoad)road,weights);
-                logger.trace("Insert Road: " + road.getRoadName());
+                logger.trace("Insert Road: " + road.getName());
             }
 
             logger.debug("Insert all traffic lights and their weights to map");

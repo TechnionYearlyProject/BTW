@@ -91,8 +91,8 @@
 //            Line separateline = new Line(x1,y1,x2,y2);
 //            separateline.setStroke(Color.WHITE);
 //            separateline.setStrokeWidth(0.005);
-//            lines.add(new Pair(roadLine,currRoad.getRoadName()));
-//            lines.add(new Pair(separateline,currRoad.getRoadName()));
+//            lines.add(new Pair(roadLine,currRoad.getName()));
+//            lines.add(new Pair(separateline,currRoad.getName()));
 //
 //            roadLine.setOnMouseClicked(event -> {
 //                RoadData roadData = currRoad.getStatisticalData();

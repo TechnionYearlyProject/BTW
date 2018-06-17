@@ -113,8 +113,8 @@ public class MapGraphics {
             Line separateline = new Line(xSeperateLine1,ySeperateLine1,xSeperateLine2,ySeperateLine2);
             separateline.setStroke(Color.WHITE);
             separateline.setStrokeWidth(0.00005);
-            lines.add(new Pair(roadLine,currRoad.getRoadName()));
-            lines.add(new Pair(separateline,currRoad.getRoadName()));
+            lines.add(new Pair(roadLine,currRoad.getName()));
+            lines.add(new Pair(separateline,currRoad.getName()));
 
             roadLine.setOnMouseClicked(event -> {
                 RoadData roadData = currRoad.getStatisticalData();

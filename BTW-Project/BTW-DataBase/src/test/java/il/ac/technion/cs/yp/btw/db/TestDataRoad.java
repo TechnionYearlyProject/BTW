@@ -19,8 +19,8 @@ public class TestDataRoad {
         Road b = new DataRoad("Road4",43346,"STR2",new PointImpl(11.32,77.234),new PointImpl(6.6,6.6),0,342,235,"try");
         Assert.assertTrue(b.isStreetNumberInRange(100));
         Assert.assertFalse(b.isStreetNumberInRange(1000));
-        Assert.assertTrue(a.getRoadName().equals("Road6"));
-        Assert.assertTrue(b.getRoadName().equals("Road4"));
+        Assert.assertTrue(a.getName().equals("Road6"));
+        Assert.assertTrue(b.getName().equals("Road4"));
         Assert.assertTrue(a.getRoadLength() == 3);
         String s = a.toString();
         String s2 = b.toString();

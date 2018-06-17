@@ -26,8 +26,8 @@ public class MapSimulationTrafficLightImpl extends PointAbstract implements Traf
      */
     @Override
     public String getName(){return
-            "from:"+getSourceRoad().getRoadName()
-                    +" to:"+getDestinationRoad().getRoadName();
+            "from:"+getSourceRoad().getName()
+                    +" to:"+getDestinationRoad().getName();
     }
 
     /**

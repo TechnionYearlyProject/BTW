@@ -182,7 +182,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
     private void insertRoadsToTrafficLights(){
         Map<String, Road> roadsLightsOfName = new HashMap<>();
         this.roads.
-                forEach(road -> roadsLightsOfName.put(road.getRoadName(),road ));
+                forEach(road -> roadsLightsOfName.put(road.getName(),road ));
         for (TrafficLight trafficLight : this.trafficLights) {
 
             String sourceRoadName = ((DataTrafficLight)trafficLight).getSourceRoadName();
@@ -369,7 +369,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
         logger.debug("BTWDataBase Start updateDataRoadsHeuristics - updating each data road separately");
 
         for(Road road: this.roads ) {
-            Map<String, Long> curMapForRoad = this.heuristics.get(road.getRoadName());
+            Map<String, Long> curMapForRoad = this.heuristics.get(road.getName());
             ((DataRoad)road).setDistances(curMapForRoad);
         }
         logger.debug("BTWDataBase Complete updateDataRoadsHeuristics - updating each data road separately");
@@ -393,11 +393,11 @@ public class BTWDataBaseImpl implements BTWDataBase {
         String queryCreate = "";
         String queryInsert = "";
         for (Road road: roads) {
-            queryCreate += "CREATE TABLE " + mapName + "Road" + road.getRoadName().replaceAll("\\s+","") + "(time integer NOT NULL, " +
+            queryCreate += "CREATE TABLE " + mapName + "Road" + road.getName().replaceAll("\\s+","") + "(time integer NOT NULL, " +
                     "overload bigint NOT NULL, PRIMARY KEY(time));\n";
             Integer time = 0;
             while (time < 86400) {
-                queryInsert += "INSERT INTO dbo." + mapName + "Road" + road.getRoadName().replaceAll("\\s+","") + "(time,overload)" +
+                queryInsert += "INSERT INTO dbo." + mapName + "Road" + road.getName().replaceAll("\\s+","") + "(time,overload)" +
                         " VALUES (" + time.toString() +", " + road.getMinimumWeight().seconds() + ");\n";
                 time += 1800;
             }
@@ -445,7 +445,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
             Integer time = 0;
             while (time < 86400) {
                 BTWTime btwTime = BTWTime.of(time);
-                queryUpdateRoad += "UPDATE dbo." + mapName + "Road" + road.getRoadName().replaceAll("\\s+","") + " SET " +
+                queryUpdateRoad += "UPDATE dbo." + mapName + "Road" + road.getName().replaceAll("\\s+","") + " SET " +
                         "overload="+ provider.expectedTimeOnRoadAt(btwTime,road) +
                         " WHERE time=" +time.toString() + ";\n";
                 time += 1800;

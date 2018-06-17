@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Guy Rephaeli
@@ -29,7 +28,7 @@ public class StatisticalNavigationManager extends AbstractNavigationManager {
             List<Road> tmpRoute = this.staticAStar(curr, destination, sourceRoadRatio, time);
             Road last = tmpRoute.get(1);
             if (path.contains(last)) {
-                logger.error("Encountered cycle on the route from " + source.getRoadName() + " to " + destination.getRoadName());
+                logger.error("Encountered cycle on the route from " + source.getName() + " to " + destination.getName());
                 throw new PathNotFoundException("A cycle was encountered");
             }
             time.progressBy(curr.getWeightByTime(time))

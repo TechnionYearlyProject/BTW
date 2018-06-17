@@ -1,16 +1,12 @@
 package il.ac.technion.cs.yp.btw.navigation;
 
 import il.ac.technion.cs.yp.btw.classes.*;
-import il.ac.technion.cs.yp.btw.statistics.StatisticsProvider;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 import java.util.*;
-import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -95,7 +91,7 @@ public class StatisticalNavigationTest extends AbstractNavigationTest{
                 });
 
         // road9
-        Mockito.when(road9.getRoadName())
+        Mockito.when(road9.getName())
                 .thenReturn("9");
 
         Mockito.when(road9.getMinimumWeight())
@@ -111,7 +107,7 @@ public class StatisticalNavigationTest extends AbstractNavigationTest{
                                         .get("9")
                                         .get(roadCaptor
                                                 .getValue()
-                                                .getRoadName())));
+                                                .getName())));
 
         Mockito.when(road9.getSourceCrossroad())
                 .thenReturn(crossroad2);
@@ -120,7 +116,7 @@ public class StatisticalNavigationTest extends AbstractNavigationTest{
                 .thenReturn(crossroad4);
 
         // road10
-        Mockito.when(road10.getRoadName())
+        Mockito.when(road10.getName())
                 .thenReturn("10");
 
         Mockito.when(road10.getMinimumWeight())
@@ -136,7 +132,7 @@ public class StatisticalNavigationTest extends AbstractNavigationTest{
                                         .get("10")
                                         .get(roadCaptor
                                                 .getValue()
-                                                .getRoadName())));
+                                                .getName())));
 
         Mockito.when(road10.getSourceCrossroad())
                 .thenReturn(crossroad4);
@@ -228,7 +224,7 @@ public class StatisticalNavigationTest extends AbstractNavigationTest{
         Iterator<String> expectedRoad = expectedRoute.iterator();
         while (! navigator.hasArrived()) {
             Road nextRoad = navigator.getNextRoad();
-            Assert.assertEquals(expectedRoad.next(), nextRoad.getRoadName());
+            Assert.assertEquals(expectedRoad.next(), nextRoad.getName());
         }
         Assert.assertFalse(expectedRoad.hasNext());
     }
@@ -254,7 +250,7 @@ public class StatisticalNavigationTest extends AbstractNavigationTest{
         Iterator<String> expectedRoad = expectedRoute.iterator();
         while (! navigator.hasArrived()) {
             Road nextRoad = navigator.getNextRoad();
-            Assert.assertEquals(expectedRoad.next(), nextRoad.getRoadName());
+            Assert.assertEquals(expectedRoad.next(), nextRoad.getName());
         }
         Assert.assertFalse(expectedRoad.hasNext());
     }

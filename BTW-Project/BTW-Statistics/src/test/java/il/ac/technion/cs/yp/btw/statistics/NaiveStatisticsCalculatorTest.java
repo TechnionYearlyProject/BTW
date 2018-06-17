@@ -40,11 +40,11 @@ public class NaiveStatisticsCalculatorTest {
                 .thenReturn(15 * 60L);
 
         // rd1
-        Mockito.when(rd1.getRoadName())
+        Mockito.when(rd1.getName())
                 .thenReturn("rd1");
 
         // rd2
-        Mockito.when(rd2.getRoadName())
+        Mockito.when(rd2.getName())
                 .thenReturn("rd2");
 
         // tl1

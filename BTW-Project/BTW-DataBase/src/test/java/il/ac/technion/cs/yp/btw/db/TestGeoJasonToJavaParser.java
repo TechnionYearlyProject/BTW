@@ -80,7 +80,7 @@ public class TestGeoJasonToJavaParser {
         Iterator<Road> roadsIterator = parser.getRoads().iterator();
         DataRoad dataRoad = (DataRoad)(roadsIterator.next());
         assertNotNull(dataRoad);
-        assertEquals( "31 StreetR",dataRoad.getRoadName());
+        assertEquals( "31 StreetR",dataRoad.getName());
         assertEquals(316, dataRoad.getRoadLength());
         assertEquals("31", dataRoad.getStreetName());
         assertEquals(0.01635651734518988, dataRoad.getSourceCrossroadPosition().getCoordinateX(), 0.0000000000000000000001);

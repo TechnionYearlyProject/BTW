@@ -65,7 +65,7 @@ public class CitySimulatorImplTest {
         Mockito.when(navigationManager.getNavigator(this.descriptor2, road1, 0.0, road2, 1.0, BTWTime.of(2)))
                 .thenAnswer(invocation -> this.navigator2);
 
-        Mockito.when(navigationManager.getNavigator(any(),Mockito.argThat(road -> road.getRoadName().equals("r 2")),anyDouble(),any(),anyDouble(),any()))
+        Mockito.when(navigationManager.getNavigator(any(),Mockito.argThat(road -> road.getName().equals("r 2")),anyDouble(),any(),anyDouble(),any()))
                 .thenAnswer(invocation -> this.navigator3);
 
         //crossroad
@@ -109,7 +109,7 @@ public class CitySimulatorImplTest {
                 .thenReturn(road2);
 
         // road1
-        Mockito.when(road1.getRoadName())
+        Mockito.when(road1.getName())
                 .thenReturn("r 1");
 
         Mockito.when(road1.getMinimumWeight())
@@ -128,7 +128,7 @@ public class CitySimulatorImplTest {
                 .thenReturn(250);
 
         // road2
-        Mockito.when(road2.getRoadName())
+        Mockito.when(road2.getName())
                 .thenReturn("r 2");
 
         Mockito.when(road2.getMinimumWeight())

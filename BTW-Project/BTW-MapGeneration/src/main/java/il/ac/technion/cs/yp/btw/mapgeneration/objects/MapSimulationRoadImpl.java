@@ -54,7 +54,7 @@ public class MapSimulationRoadImpl implements Road {
      * @return the unique name of the road
      */
     @Override
-    public String getRoadName() {
+    public String getName() {
         return this.name;
     }
 

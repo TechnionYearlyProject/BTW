@@ -6,9 +6,7 @@ import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
 import org.junit.*;
 import org.mockito.Mockito;
 
-import javax.print.DocFlavor;
 import java.io.*;
-import java.net.URL;
 import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
@@ -60,7 +58,7 @@ public class GeoJsonParserTests {
         Crossroad sourceCrossroad = Mockito.mock(Crossroad.class);
         Crossroad destCrossroad = Mockito.mock(Crossroad.class);
 
-        Mockito.when(oneRoad.getRoadName())
+        Mockito.when(oneRoad.getName())
                 .thenReturn("road1");
         Mockito.when(oneRoad.getSourceCrossroad())
                 .thenReturn(sourceCrossroad);

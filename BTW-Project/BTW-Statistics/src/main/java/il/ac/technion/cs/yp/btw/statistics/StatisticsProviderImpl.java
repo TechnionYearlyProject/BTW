@@ -1,8 +1,11 @@
 package il.ac.technion.cs.yp.btw.statistics;
 
+//import com.google.common.base.Optional;
 import il.ac.technion.cs.yp.btw.classes.*;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Guy Rephaeli
@@ -21,6 +24,12 @@ public class StatisticsProviderImpl implements StatisticsProvider {
         this.weightsOfTrafficLightAtTime = weightsOfTrafficLightAtTime;
     }
 
+    private <T extends TrafficObject> BTWWeight expectedTimeAt(BTWTime time, Map<BTWTime, Map<T, BTWWeight>> weightsAtTime, T e) {
+        return weightsAtTime
+                .getOrDefault(time.startTimeWindow(this.granularity), new HashMap<>())
+                .getOrDefault(e, e.getMinimumWeight());
+    }
+
     @Override
     public Long granularity() {
         return this.granularity;
@@ -28,15 +37,11 @@ public class StatisticsProviderImpl implements StatisticsProvider {
 
     @Override
     public BTWWeight expectedTimeOnRoadAt(BTWTime time, Road rd) {
-        return this.weightsOfRoadAtTime
-                .get(time.startTimeWindow(this.granularity))
-                .get(rd);
+        return this.expectedTimeAt(time, this.weightsOfRoadAtTime, rd);
     }
 
     @Override
     public BTWWeight expectedTimeOnTrafficLightAt(BTWTime time, TrafficLight tl) {
-        return this.weightsOfTrafficLightAtTime
-                .get(time.startTimeWindow(this.granularity))
-                .get(tl);
+        return this.expectedTimeAt(time, this.weightsOfTrafficLightAtTime, tl);
     }
 }

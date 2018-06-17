@@ -8,7 +8,7 @@ import java.sql.Time;
  * Interface which represents road connection
  * between to points on a road map
  */
-public interface Road {
+public interface Road extends TrafficObject{
     /**
      * @author Adam Elgressy
      * @Date 20-1-2018
@@ -30,34 +30,9 @@ public interface Road {
     /**
      * @author Adam Elgressy
      * @Date 20-1-2018
-     * @return the unique name of the road
-     */
-    String getRoadName();
-
-    /**
-     * @author Adam Elgressy
-     * @Date 20-1-2018
      * @return the Street this Road is in
      */
     Street getStreet();
-
-    /**
-     * @author Adam Elgressy
-     * @Date 20-1-2018
-     * returns the right Weight for the given Time
-     * @param time - Time we want to check the load
-     *             on the road at
-     * @return Weight of this Road according
-     *         to the given Time
-     */
-    BTWWeight getWeightByTime(BTWTime time);
-
-    /**
-     * @author Adam Elgressy
-     * @Date 20-1-2018
-     * @return minimum possible Weight of Road
-     */
-    BTWWeight getMinimumWeight();
 
     /**
      * @author Adam Elgressy

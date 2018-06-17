@@ -92,7 +92,7 @@ public class DataRoad implements Road {
      * @return the unique name of the road
      */
     @Override
-    public String getRoadName() {
+    public String getName() {
         return this.name;
     }
 
@@ -167,8 +167,8 @@ public class DataRoad implements Road {
      */
     @Override
     public BTWWeight getHeuristicDist(Road road) {
-        //Long dist = RoadsDataBase.getHeuristicDist(name,road.getRoadName(),mapName);
-        Long dist = this.distances.get(road.getRoadName());
+        //Long dist = RoadsDataBase.getHeuristicDist(name,road.getName(),mapName);
+        Long dist = this.distances.get(road.getName());
         BTWWeight roadOverload = null;
         try{
             roadOverload = BTWWeight.of(dist);
@@ -260,7 +260,7 @@ public class DataRoad implements Road {
      */
     @Override
     public int hashCode(){
-        return this.getRoadName().hashCode();
+        return this.getName().hashCode();
     }
 
     /**
@@ -274,7 +274,7 @@ public class DataRoad implements Road {
             return false;
         }
         Road r = (Road)o;
-        return this.getRoadName().equals(r.getRoadName());
+        return this.getName().equals(r.getName());
     }
 
     /**

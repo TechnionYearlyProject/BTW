@@ -1,15 +1,13 @@
 package il.ac.technion.cs.yp.btw.evaluation;
 
 import il.ac.technion.cs.yp.btw.citysimulation.VehicleDescriptor;
-import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
-import il.ac.technion.cs.yp.btw.classes.BTWWeight;
-import il.ac.technion.cs.yp.btw.classes.Road;
-import il.ac.technion.cs.yp.btw.classes.TrafficLight;
+import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.statistics.StatisticalReport;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
 
 import java.util.*;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -43,7 +41,7 @@ public class EvaluatorImpl implements Evaluator {
                                 rd -> new Pair<>(rd.getMinimumWeight(), 0)));
     }
 
-    private static <T> BTWWeight averageCounts(Map<T, Pair<BTWWeight, Integer> > weightMap) {
+    private static <T extends TrafficObject> BTWWeight averageCounts(Map<T, Pair<BTWWeight, Integer> > weightMap) {
         Pair<Long, Integer> total = weightMap
                 .values()
                 .stream()
@@ -53,7 +51,7 @@ public class EvaluatorImpl implements Evaluator {
         return BTWWeight.of(total.getKey() / total.getValue());
     }
 
-    private static <T> Pair<BTWWeight, Integer> pairFromReport(T element, Map<T, StatisticalReport> reportMap) {
+    private static <T extends TrafficObject> Pair<BTWWeight, Integer> pairFromReport(T element, Map<T, StatisticalReport> reportMap) {
         StatisticalReport report = reportMap.get(element);
         BTWWeight weight = report.timeTaken();
         Integer numReporters = report.getNumOfReporters();
@@ -139,8 +137,8 @@ public class EvaluatorImpl implements Evaluator {
 //    public Evaluator addRoadReport(Road rd, StatisticalReport report) {
 //        logger.debug("Adding road report");
 //        if (! this.drivingTimeOnRoad.containsKey(rd)) {
-//            logger.error("Road \"" + rd.getRoadName() + "\" not recognized");
-//            throw new NoSuchRoadException(rd.getRoadName());
+//            logger.error("Road \"" + rd.getName() + "\" not recognized");
+//            throw new NoSuchRoadException(rd.getName());
 //        }
 //        updateWeightMap(this.drivingTimeOnRoad, rd, report);
 //        logger.debug("Road report added successfully");

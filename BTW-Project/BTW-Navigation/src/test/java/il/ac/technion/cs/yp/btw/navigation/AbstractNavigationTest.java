@@ -152,7 +152,7 @@ public class AbstractNavigationTest {
                 });
 
         // road1
-        Mockito.when(road1.getRoadName())
+        Mockito.when(road1.getName())
                 .thenReturn("1");
 
         Mockito.when(road1.getMinimumWeight())
@@ -168,7 +168,7 @@ public class AbstractNavigationTest {
                                         .get("1")
                                         .get(roadCaptor
                                                 .getValue()
-                                                .getRoadName())));
+                                                .getName())));
 
         Mockito.when(road1.getSourceCrossroad())
                 .thenReturn(null);
@@ -177,7 +177,7 @@ public class AbstractNavigationTest {
                 .thenReturn(crossroad1);
 
         // road2
-        Mockito.when(road2.getRoadName())
+        Mockito.when(road2.getName())
                 .thenReturn("2");
 
         Mockito.when(road2.getMinimumWeight())
@@ -193,7 +193,7 @@ public class AbstractNavigationTest {
                                         .get("2")
                                         .get(roadCaptor
                                                 .getValue()
-                                                .getRoadName())));
+                                                .getName())));
 
         Mockito.when(road2.getSourceCrossroad())
                 .thenReturn(crossroad1);
@@ -202,7 +202,7 @@ public class AbstractNavigationTest {
                 .thenReturn(crossroad2);
 
         // road3
-        Mockito.when(road3.getRoadName())
+        Mockito.when(road3.getName())
                 .thenReturn("3");
 
         Mockito.when(road3.getMinimumWeight())
@@ -215,7 +215,7 @@ public class AbstractNavigationTest {
                                         .get("3")
                                         .get(roadCaptor
                                                 .getValue()
-                                                .getRoadName())));
+                                                .getName())));
 
         Mockito.when(road3.getSourceCrossroad())
                 .thenReturn(crossroad1);
@@ -224,7 +224,7 @@ public class AbstractNavigationTest {
                 .thenReturn(crossroad3);
 
         // road4
-        Mockito.when(road4.getRoadName())
+        Mockito.when(road4.getName())
                 .thenReturn("4");
 
         Mockito.when(road4.getMinimumWeight())
@@ -237,7 +237,7 @@ public class AbstractNavigationTest {
                                         .get("4")
                                         .get(roadCaptor
                                                 .getValue()
-                                                .getRoadName())));
+                                                .getName())));
 
         Mockito.when(road4.getSourceCrossroad())
                 .thenReturn(crossroad2);
@@ -246,7 +246,7 @@ public class AbstractNavigationTest {
                 .thenReturn(crossroad3);
 
         // road5
-        Mockito.when(road5.getRoadName())
+        Mockito.when(road5.getName())
                 .thenReturn("5");
 
         Mockito.when(road5.getMinimumWeight())
@@ -262,7 +262,7 @@ public class AbstractNavigationTest {
                                         .get("5")
                                         .get(roadCaptor
                                                 .getValue()
-                                                .getRoadName())));
+                                                .getName())));
 
         Mockito.when(road5.getSourceCrossroad())
                 .thenReturn(crossroad3);
@@ -271,7 +271,7 @@ public class AbstractNavigationTest {
                 .thenReturn(null);
 
         // road6
-        Mockito.when(road6.getRoadName())
+        Mockito.when(road6.getName())
                 .thenReturn("6");
 
         Mockito.when(road6.getMinimumWeight())
@@ -287,7 +287,7 @@ public class AbstractNavigationTest {
                                         .get("6")
                                         .get(roadCaptor
                                                 .getValue()
-                                                .getRoadName())));
+                                                .getName())));
 
         Mockito.when(road6.getSourceCrossroad())
                 .thenReturn(crossroad2);
@@ -296,7 +296,7 @@ public class AbstractNavigationTest {
                 .thenReturn(crossroad1);
 
         // road7
-        Mockito.when(road7.getRoadName())
+        Mockito.when(road7.getName())
                 .thenReturn("7");
 
         Mockito.when(road7.getMinimumWeight())
@@ -312,7 +312,7 @@ public class AbstractNavigationTest {
                                         .get("7")
                                         .get(roadCaptor
                                                 .getValue()
-                                                .getRoadName())));
+                                                .getName())));
 
         Mockito.when(road7.getSourceCrossroad())
                 .thenReturn(crossroad3);
@@ -321,7 +321,7 @@ public class AbstractNavigationTest {
                 .thenReturn(crossroad1);
 
         // road8
-        Mockito.when(road8.getRoadName())
+        Mockito.when(road8.getName())
                 .thenReturn("8");
 
         Mockito.when(road8.getMinimumWeight())
@@ -337,7 +337,7 @@ public class AbstractNavigationTest {
                                         .get("8")
                                         .get(roadCaptor
                                                 .getValue()
-                                                .getRoadName())));
+                                                .getName())));
 
         Mockito.when(road8.getSourceCrossroad())
                 .thenReturn(crossroad3);

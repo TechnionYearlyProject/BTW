@@ -2,10 +2,9 @@ package il.ac.technion.cs.yp.btw.db.DataObjects;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Iterator;
 
 import il.ac.technion.cs.yp.btw.classes.*;
-import il.ac.technion.cs.yp.btw.db.TrafficLightsDataBase;
+
 /**
  * Point on a road map which represents
  * all TrafficLights located at the same point
@@ -84,7 +83,7 @@ public class DataCrossRoad extends PointAbstract implements Crossroad {
     public Set<TrafficLight> getTrafficLightsFromRoad(Road road) {
         Set<TrafficLight> trafficLights = new HashSet<>();
         for (TrafficLight currTraficLight: this.trafficLights) {
-            if (currTraficLight.getSourceRoad().getRoadName().equals(road.getRoadName()))
+            if (currTraficLight.getSourceRoad().getName().equals(road.getName()))
                 trafficLights.add(currTraficLight);
         }
         return trafficLights;

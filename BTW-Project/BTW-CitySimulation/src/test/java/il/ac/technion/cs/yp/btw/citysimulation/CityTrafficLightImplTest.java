@@ -70,7 +70,7 @@ public class CityTrafficLightImplTest {
                 .thenReturn(road2);
 
         // road1
-        Mockito.when(road1.getRoadName())
+        Mockito.when(road1.getName())
                 .thenReturn("r-1");
 
         Mockito.when(road1.getMinimumWeight())
@@ -89,7 +89,7 @@ public class CityTrafficLightImplTest {
                 .thenReturn(100);
 
         // road2
-        Mockito.when(road2.getRoadName())
+        Mockito.when(road2.getName())
                 .thenReturn("r-2");
 
         Mockito.when(road2.getMinimumWeight())

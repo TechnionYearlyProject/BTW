@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 
 import java.util.*;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -56,7 +55,7 @@ public class CitySimulatorImpl implements CitySimulator {
 
 
         private CityRoadImpl(Road road) {
-            this.name = road.getRoadName();
+            this.name = road.getName();
             this.length = road.getRoadLength();
             this.street = road.getStreet();
             this.source = road.getSourceCrossroad();
@@ -79,7 +78,7 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         @Override
-        public String getRoadName() {
+        public String getName() {
             return this.name;
         }
 
@@ -205,7 +204,7 @@ public class CitySimulatorImpl implements CitySimulator {
                 return false;
             }
             Road r = (Road)o;
-            return this.getRoadName().equals(r.getRoadName());
+            return this.getName().equals(r.getName());
         }
 
         /*
@@ -613,7 +612,7 @@ public class CitySimulatorImpl implements CitySimulator {
      */
     @Override
     public CityRoad getRealRoad(Road road) {
-        String roadName = road.getRoadName();
+        String roadName = road.getName();
         if (!this.roads.containsKey(roadName)) {
             CityRoad newLiveRoad = new CityRoadImpl(road);
             this.roads.put(roadName, newLiveRoad);

@@ -33,7 +33,7 @@ public class TestDataStreet {
         }
 
         @Override
-        public String getRoadName() {
+        public String getName() {
             return name;
         }
 

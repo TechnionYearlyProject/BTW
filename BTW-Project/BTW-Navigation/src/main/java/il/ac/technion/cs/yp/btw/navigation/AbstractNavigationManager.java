@@ -23,7 +23,7 @@ abstract class AbstractNavigationManager implements NavigationManager {
     }
 
     protected List<Road> staticAStar(Road src, Road dst, double sourceRoadRatio, BTWTime time) throws PathNotFoundException {
-        logger.debug("Start A* computation from " + src.getRoadName() + " to " + dst.getRoadName() + " at time "
+        logger.debug("Start A* computation from " + src.getName() + " to " + dst.getName() + " at time "
                 + time.getHoutsOnly().toString() + ":"
                 + time.getMinutesOnly().toString() + ":"
                 + time.getSecondsOnly().toString());
@@ -41,8 +41,8 @@ abstract class AbstractNavigationManager implements NavigationManager {
                     currWrapper = currWrapper.getParent();
                 }
                 logger.debug("Finished A* computation from "
-                        + src.getRoadName() + " to "
-                        + dst.getRoadName() + " successfully");
+                        + src.getName() + " to "
+                        + dst.getName() + " successfully");
                 return path.stream()
                         .map(RoadWrapper::getRoad)
                         .collect(Collectors.toList());
@@ -79,7 +79,7 @@ abstract class AbstractNavigationManager implements NavigationManager {
                 }
             }
         }
-        logger.error("No path found from " + src.getRoadName() + " to " + dst.getRoadName());
-        throw new PathNotFoundException("No path from " + src.getRoadName() + " to " + dst.getRoadName());
+        logger.error("No path found from " + src.getName() + " to " + dst.getName());
+        throw new PathNotFoundException("No path from " + src.getName() + " to " + dst.getName());
     }
 }

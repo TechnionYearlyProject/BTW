@@ -11,9 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -74,7 +72,7 @@ public class CityRoadImplTest {
                 .thenReturn(null);
 
         // road
-        Mockito.when(road.getRoadName())
+        Mockito.when(road.getName())
                 .thenReturn("r-1");
 
         Mockito.when(road.getMinimumWeight())
@@ -155,7 +153,7 @@ public class CityRoadImplTest {
     @Test
     public void getRoadNameTest() {
         CityRoad tested = this.simulator.getRealRoad(road);
-        Assert.assertEquals("r-1", tested.getRoadName());
+        Assert.assertEquals("r-1", tested.getName());
     }
 
     @Test

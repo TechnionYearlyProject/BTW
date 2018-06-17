@@ -1,14 +1,11 @@
 package il.ac.technion.cs.yp.btw.navigation;
 
 import il.ac.technion.cs.yp.btw.classes.*;
-import il.ac.technion.cs.yp.btw.statistics.StatisticsProvider;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.*;
-import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -53,7 +50,7 @@ public class NaiveNavigationTest extends AbstractNavigationTest {
         Iterator<String> expectedRoad = expectedRoute.iterator();
         while (! navigator.hasArrived()) {
             Road nextRoad = navigator.getNextRoad();
-            Assert.assertEquals(expectedRoad.next(), nextRoad.getRoadName());
+            Assert.assertEquals(expectedRoad.next(), nextRoad.getName());
         }
         Assert.assertFalse(expectedRoad.hasNext());
     }
@@ -85,7 +82,7 @@ public class NaiveNavigationTest extends AbstractNavigationTest {
         while (! navigator.hasArrived()) {
             Road nextRoad = navigator.getNextRoad();
             String expected = expectedRoad.next();
-            Assert.assertEquals(expected, nextRoad.getRoadName());
+            Assert.assertEquals(expected, nextRoad.getName());
         }
         Assert.assertFalse(expectedRoad.hasNext());
     }

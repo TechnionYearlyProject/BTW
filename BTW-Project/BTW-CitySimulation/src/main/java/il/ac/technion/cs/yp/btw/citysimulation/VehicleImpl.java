@@ -79,7 +79,7 @@ public class VehicleImpl implements Vehicle {
         if (rd != null) {
             CityRoad realRoad = this.simulator.getRealRoad(rd);
             realRoad.removeVehicle(this);
-            logger.debug("Left road: " + rd.getRoadName());
+            logger.debug("Left road: " + rd.getName());
         }
         return this;
     }
@@ -145,7 +145,7 @@ public class VehicleImpl implements Vehicle {
         this.remainingLengthOnRoad = (ratioEnd - ratioStart) * rd.getRoadLength();
         this.enterSpeedOnCurrentRoad = rd.getSpeed();
         realRoad.addVehicle(this);
-        logger.debug("Started driving on road: " + rd.getRoadName());
+        logger.debug("Started driving on road: " + rd.getName());
         return this;
     }
 

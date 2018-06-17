@@ -168,7 +168,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\","+"\"coordinates\""+":"+
                 "[["+road.getSourceCrossroad().getCoordinateX()+","+road.getSourceCrossroad().getCoordinateY()+"],"+
                 "["+road.getDestinationCrossroad().getCoordinateX()+","+road.getDestinationCrossroad().getCoordinateY()+"]]},"+
-                "\"properties\":{"+"\"name\":"+"\""+road.getRoadName()+"\","+
+                "\"properties\":{"+"\"name\":"+"\""+road.getName()+"\","+
                 "\"length\":"+"\""+road.getRoadLength()+"\","+"\"overload\":"+0/*road.getMinimumWeight()*/+"}},\n";
     }
 
@@ -241,7 +241,7 @@ public class GeoJsonParserImpl implements GeoJsonConverter {
     public String toStringStreetFull(Street street) {
         String roadsNames = "";
         for (Road road: street.getAllRoadsInStreet()) {
-            roadsNames+=road.getRoadName();
+            roadsNames+=road.getName();
         }
 
         return "{\"type\""+":\"Feature\","+"\"geometry\""+":{\"type\""+":\"LineString\"},"+

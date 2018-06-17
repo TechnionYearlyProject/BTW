@@ -31,7 +31,7 @@
 ////        ArgumentCaptor<Road> captorR = ArgumentCaptor.forClass(Road.class);
 ////        Mockito.when(road1.getHeuristicDist(captorR.capture()))
 ////                .thenAnswer(invocation -> {
-////                    System.out.println(captorR.getValue().getRoadName());
+////                    System.out.println(captorR.getValue().getName());
 ////                    return BTWWeight.of(1L);
 ////                });
 //
@@ -135,7 +135,7 @@
 //        }
 //
 //        @Override
-//        public String getRoadName() {
+//        public String getName() {
 //            return name;
 //        }
 //

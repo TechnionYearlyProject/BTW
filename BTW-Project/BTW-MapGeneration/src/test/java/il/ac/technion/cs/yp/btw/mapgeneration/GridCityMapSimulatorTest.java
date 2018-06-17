@@ -90,7 +90,7 @@ public class GridCityMapSimulatorTest {
         assertEquals(sim.getRoads().size(), DEFAULT_NUM_OF_ROADS);
         assertEquals(sim.getRoads()
                         .stream()
-                        .map(Road::getRoadName)
+                        .map(Road::getName)
                         .collect(Collectors.toSet())
                 , defaultRoadsNames);
     }
