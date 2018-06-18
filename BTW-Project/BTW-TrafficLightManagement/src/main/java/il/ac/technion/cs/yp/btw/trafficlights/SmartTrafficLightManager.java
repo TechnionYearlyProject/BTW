@@ -43,7 +43,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
             this.timeCounter = 0.0;
             this.compensationTime = 0.0;
             this.currentTrafficLightState = CityTrafficLight.TrafficLightState.RED;
-            this.name = road.getRoadName();
+            this.name = road.getName();
         }
 
         /*
@@ -265,7 +265,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
             Iterator<RoadManager> roadManagerIterator = this.roadManagersList.iterator();
             while (roadManagerIterator.hasNext()){
                 RoadManager roadManager = roadManagerIterator.next();
-                stateAccumulator.add("\t\t" + roadManager.getRoad().getRoadName() + ": " + roadManager.getTrafficLightState() + "\n");
+                stateAccumulator.add("\t\t" + roadManager.getRoad().getName() + ": " + roadManager.getTrafficLightState() + "\n");
             }
             String statesString = "";
             stateAccumulator = stateAccumulator.stream().sorted().collect(Collectors.toList());

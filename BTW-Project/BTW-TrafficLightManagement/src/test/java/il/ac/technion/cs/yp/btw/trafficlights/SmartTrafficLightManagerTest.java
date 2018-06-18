@@ -179,7 +179,7 @@ public class SmartTrafficLightManagerTest {
 
         BTWWeight btwWeight = BTWWeight.of(minimumWeight);
         CityRoad road = mock(CityRoad.class);
-        Mockito.when(road.getRoadName()).thenReturn(name);
+        Mockito.when(road.getName()).thenReturn(name);
         Mockito.when(road.getRoadLength()).thenReturn(length);
         Mockito.when(road.getStreet()).thenReturn(null);
         Mockito.when(road.getSourceCrossroad()).thenReturn(sourceCrossroad);
