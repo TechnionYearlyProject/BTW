@@ -33,6 +33,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
     private Map<String, Map<String,Long>> heuristics;
     private boolean updatedHeuristics;  // tell if the heuristics were updated in this run
     private boolean savedHeuristics;    // tell if the heuristics were saveed in this run
+    private boolean savingProgress;
 
     /**
      * @author Sharon Hadar
@@ -47,6 +48,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
         logger.debug("BTWDataBase open connection");
         this.updatedHeuristics = false;     // not yet update heuristics
         this.savedHeuristics = false;       // not yet saved heuristics in DB
+        this.savingProgress = false;
 
         roadsLoaded = false;
         trafficLightsLoaded = false;
@@ -226,14 +228,15 @@ public class BTWDataBaseImpl implements BTWDataBase {
         insertRoadsToTrafficLights();
         insertStreetsToRoads();
         /*the trafficlights are inserted to the crossroads in the parser constructor*/
-        //saveHeuristics();
-        //createStatisticsTables(roads,trafficLights);
 
         new Thread("DB save") {
             public void run() {
                 logger.debug("BTWDataBase New Thread Saving Map Information...");
+                savingProgress = true;
                 saveMap(geoJson);
                 createStatisticsTables(roads,trafficLights);
+                savingProgress = false;
+                logger.debug("BTWDataBase New Thread Completed saving Map Information...");
             }
         }.start();
         return this;
@@ -615,5 +618,37 @@ public class BTWDataBaseImpl implements BTWDataBase {
         this.StatisticsMode = true;
         return this;
     }
+
+    /**
+     * @Author: Shay
+     * @Date: 26/4/18
+     * @return true if statisticsMode is ON and false other
+     * */
+    public BTWDataBaseImpl SetStatisticsModeOff() {
+        this.StatisticsMode = false;
+        return this;
+    }
+
+    /**
+     * @Author: Shay
+     * @Date: 26/4/18
+     * @return true if we are in saving to the cloud progress.
+     * */
+    public boolean isSaving() {
+        return this.savingProgress;
+    }
+
+    /**
+     * @Author: Shay
+     * @Date: 26/4/18
+     * @param tableName - string of potential table name
+     * @return true if the name exists in DB and false otherwise
+     * */
+    public boolean doesExistsTableName(String tableName) {
+        Set<String> namesSet = getTablesNames();
+        if (namesSet.contains(tableName)) return true;
+        return false;
+    }
+
 
 }
