@@ -27,7 +27,7 @@
     </ImageView>
 
     <JFXSpinner fx:id="loadSpinner" layoutX="570.0" layoutY="580.0" visible="false" />
-    <StackPane fx:id="title_stack_pane" layoutX="0.0" layoutY="49.0">
+    <StackPane fx:id="title_stack_pane" layoutX="0.0" layoutY="30.0">
         <HBox fx:id="title_hbox" alignment="CENTER_LEFT">
             <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="303.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
                 <image>
@@ -45,11 +45,11 @@
     <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Home" />
 
 
-      <HBox fx:id="centerHBox" layoutX="0.0" layoutY="230.0" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+      <HBox fx:id="centerHBox" layoutY="199.0" prefHeight="100.0" prefWidth="200.0" spacing="80.0">
          <children>
-            <VBox prefHeight="154.0" prefWidth="246.0">
+            <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="114.0" prefWidth="253.0">
                <children>
-                   <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="246.0">
+                   <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="256.0" spacing="10.0">
                      <children>
                       <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                           <image>
@@ -66,7 +66,13 @@
                   <StackPane alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="246.0">
                      <children>
                       <JFXTextField fx:id="chooseVehicleFileTextField" prefHeight="25.0" prefWidth="236.0" promptText="Insert file URL" />
-                      <JFXButton fx:id="attachButton" alignment="CENTER_RIGHT" mnemonicParsing="false" />
+                      <JFXButton fx:id="attachButton" alignment="CENTER_RIGHT" mnemonicParsing="false" StackPane.alignment="CENTER_RIGHT">
+                           <StackPane.margin>
+                              <Insets />
+                           </StackPane.margin>
+                           <padding>
+                              <Insets bottom="10.0" top="10.0" />
+                           </padding></JFXButton>
                      </children>
                   </StackPane>
                </children>

@@ -86,7 +86,7 @@ public class ChooseSimulationController extends SwitchToMapController implements
         title_stack_pane.translateXProperty()
                 .bind(stage.widthProperty().subtract(title_stack_pane.widthProperty())
                         .divide(2));
-        AnchorPane.setTopAnchor(title_stack_pane, 50.0);
+        AnchorPane.setTopAnchor(title_stack_pane, 40.0);
         title_hbox.setSpacing(10);
         AnchorPane.setRightAnchor(back_button, 20.0);
         AnchorPane.setTopAnchor(back_button, 60.0);
