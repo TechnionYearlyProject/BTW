@@ -8,6 +8,7 @@ import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /*
@@ -27,6 +28,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
         private double timeCounter;
         private double compensationTime;
         private String name;
+        private int roadSerialNumberInCrossroad;
 
         /*this field was created for testing, because all the traffic lights in the test are fake,
          this is caused because their implementation is private.*/
@@ -36,7 +38,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
          * @Author: Sharon Hadar
          * @Date: 4/06/2018
          * */
-        RoadManager(Road road, Set<TrafficLight> trafficLightsSet){
+        RoadManager(Road road, Set<TrafficLight> trafficLightsSet, int roadSerialNumberInCrossroad){
             this.road = road;
             this.trafficLightsSet = trafficLightsSet;
             this.roadOpenTime = 0.0;
@@ -44,6 +46,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
             this.compensationTime = 0.0;
             this.currentTrafficLightState = CityTrafficLight.TrafficLightState.RED;
             this.name = road.getName();
+            this.roadSerialNumberInCrossroad = roadSerialNumberInCrossroad;
         }
 
         /*
@@ -131,8 +134,9 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
             return this.roadOpenTime;
         }
 
-        public CityTrafficLight.TrafficLightState getTrafficLightState(){
-            return this.currentTrafficLightState;
+        public String getTrafficLightState(){
+            return "state: " + this.currentTrafficLightState.toString() + " time for Current Period: " + this.roadOpenTime
+                    + " time counter for road: " + this.timeCounter;
         }
 
         public String getRoadName(){
@@ -249,6 +253,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
          * */
         void tick(){
             if(isPeriodOver()){
+                this.currentRoadManager.turnAllTrafficLightsRed();
                 newPeriod();
             }
             this.currentRoadManager.tick();
@@ -274,7 +279,8 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
                 String roadStateString = stateAccumulatorIterator.next();
                 statesString += roadStateString;
             }
-            return statesString;
+            return " time for period: " + this.currentPeriodTime
+                    + " time counter: " + this.currentPeriodTimeCounter + "\n" + statesString;
 
         }
 
@@ -342,9 +348,10 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
                                     .map(entry ->   {
                                                 Crossroad crossroad = entry.getKey();
                                                 List<Road> roadsList = entry.getValue();
+                                                AtomicInteger roadSerialNumber = new AtomicInteger(0);
                                                 List<RoadManager> roadManagers =
                                                         roadsList.stream()
-                                                                 .map(road -> new RoadManager(road, roadToTrafficlightsMap.get(road)))
+                                                                 .map(road ->new RoadManager(road, roadToTrafficlightsMap.get(road), roadSerialNumber.getAndIncrement()))
                                                                  .collect(Collectors.toList());
 
                                                 return new CrossroadManager(crossroad, roadManagers);

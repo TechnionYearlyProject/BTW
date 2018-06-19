@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 
 public class SmartTrafficLightManagerTest {
 
-    private String allCharacters = "(?s).*[\n\r].*"; // a regex mathes all the characters, including white spaces and new lines
+    private String allCharacters = "(?s).*[\t\n\r]*.*"; // a regex mathes all the characters, including white spaces and new lines
     private int roadLength = 10;
 
     private CityRoad horizontalLeftRoad02_12;
@@ -460,6 +460,124 @@ public class SmartTrafficLightManagerTest {
     }
     */
 
+    private void clearMap(){
+        horizontalLeftRoad02_12 = null;
+        horizontalLeftRoad12_02 = null;
+        horizontalLeftRoad01_11 = null;
+        horizontalLeftRoad11_01 = null;
+        horizontalLeftRoad00_10 = null;
+        horizontalLeftRoad10_00 = null;
+
+        horizontalRightRoad12_22 = null;
+        horizontalRightRoad22_12 = null;
+        horizontalRightRoad11_21 = null;
+        horizontalRightRoad21_11 = null;
+        horizontalRightRoad10_20 = null;
+        horizontalRightRoad20_10 = null;
+
+        verticalUpRoad02_01 = null;
+        verticalUpRoad01_02 = null;
+        verticalUpRoad12_11 = null;
+        verticalUpRoad11_12 = null;
+        verticalUpRoad22_21 = null;
+        verticalUpRoad21_22 = null;
+
+        verticalDownRoad01_00 = null;
+        verticalDownRoad00_01 = null;
+        verticalDownRoad10_11 = null;
+        verticalDownRoad11_10 = null;
+        verticalDownRoad21_20 = null;
+        verticalDownRoad20_21 = null;
+        trafficLight00FromUpToRight = null;
+
+        trafficLight00FromRightToUp = null;
+
+
+        trafficLight10FromUpToRight = null;
+        trafficLight10FromUpToLeft = null;
+
+        trafficLight10FromRightToUp = null;
+        trafficLight10FromRightToLeft = null;
+
+        trafficLight10FromLeftToUp = null;
+        trafficLight10FromLeftToRight = null;
+
+
+        trafficLight20FromUpToLeft = null;
+
+        trafficLight20FromLeftToUp = null;
+
+
+        trafficLight01FromUpToRight = null;
+        trafficLight01FromUpToDown = null;
+
+        trafficLight01FromRightToUp = null;
+        trafficLight01FromRightToDown = null;
+
+        trafficLight01FromDownToUp = null;
+        trafficLight01FromDownToRight = null;
+
+        trafficLight11FromUpToRight = null;
+        trafficLight11FromUpToDown = null;
+        trafficLight11FromUpToLeft = null;
+
+        trafficLight11FromRightToUp = null;
+        trafficLight11FromRightToDown = null;
+        trafficLight11FromRightToLeft = null;
+
+        trafficLight11FromDownToUp = null;
+        trafficLight11FromDownToRight = null;
+        trafficLight11FromDowntoLeft = null;
+
+        trafficLight11FromLeftToUp = null;
+        trafficLight11FromLeftToRight = null;
+        trafficLight11FromLeftToDown = null;
+
+
+        trafficLight21FromUpToDown= null;
+        trafficLight21FromUpToLeft = null;
+
+        trafficLight21FromDownToUp = null;
+        trafficLight21FromDownToLeft = null;
+
+        trafficLight21FromLeftToUp = null;
+        trafficLight21FromLeftToDown = null;
+
+
+        trafficLight02FromRightToDown = null;
+        trafficLight02FromDownToRight = null;
+
+        trafficLight12FromRightToDown = null;
+        trafficLight12FromRightToLeft = null;
+
+        trafficLight12FromDownToRight = null;
+        trafficLight12FromDownToLeft = null;
+
+        trafficLight12FromLeftToRight = null;
+        trafficLight12FromLeftToDown = null;
+
+
+        trafficLight22FromDownToLeft = null;
+        trafficLight22FromLeftToDown = null;
+
+
+        crossroad00 = null;
+        crossroad10 = null;
+        crossroad20 = null;
+        crossroad01 = null;
+        crossroad11 = null;
+        crossroad21 = null;
+        crossroad02 = null;
+        crossroad12 = null;
+        crossroad22 = null;
+
+        allCrossroads = new HashSet<>();
+
+
+        descCount = 0;
+    }
+
+
     @Test
     public void overloadFromUpToDownInCrossroad11CheckInitialize(){
         configureMap();
@@ -470,15 +588,15 @@ public class SmartTrafficLightManagerTest {
                 new Pair<>(verticalDownRoad10_11, 0.0));
         smartTrafficLightManager.insertCrossroads(this.allCrossroads);
         String res = smartTrafficLightManager.getTrafficLightStates();
-        Assert.assertTrue(res.matches(allCharacters + "horizontalLeftRoad01_11: RED" + allCharacters));
-        Assert.assertTrue(res.matches(allCharacters + "horizontalRightRoad21_11: RED" + allCharacters));
-        Assert.assertTrue(res.matches(allCharacters + "verticalDownRoad10_11: RED" + allCharacters));
-        Assert.assertTrue(res.matches(allCharacters + "verticalUpRoad12_11: GREEN" + allCharacters));
-
+        Assert.assertTrue(res.matches(allCharacters + "horizontalLeftRoad01_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "horizontalRightRoad21_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "verticalDownRoad10_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "verticalUpRoad12_11: state: GREEN" + allCharacters));
+        clearMap();
     }
 
     @Test
-    public void overloadFromUpToDownInCrossroad11CheckAfterOnePeriod(){
+    public void overloadFromUpToDownInCrossroad11CheckAfterInitializationTest(){
         configureMap();
         SmartTrafficLightManager smartTrafficLightManager = new SmartTrafficLightManager();
         configureOverload(crossroad11,  new Pair<>(horizontalLeftRoad01_11, 0.0),
@@ -487,12 +605,138 @@ public class SmartTrafficLightManagerTest {
                 new Pair<>(verticalDownRoad10_11, 0.0));
         smartTrafficLightManager.insertCrossroads(this.allCrossroads);
         String res = smartTrafficLightManager.getTrafficLightStates();
-        Assert.assertTrue(res.matches(allCharacters + "horizontalLeftRoad01_11: RED" + allCharacters));
-        Assert.assertTrue(res.matches(allCharacters + "horizontalRightRoad21_11: RED" + allCharacters));
-        Assert.assertTrue(res.matches(allCharacters + "verticalDownRoad10_11: RED" + allCharacters));
-        Assert.assertTrue(res.matches(allCharacters + "verticalUpRoad12_11: GREEN" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "horizontalLeftRoad01_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "horizontalRightRoad21_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "verticalDownRoad10_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "verticalUpRoad12_11: state: GREEN" + allCharacters));
+        clearMap();
 
     }
+
+    @Test
+    public void checkLightsChangingByOverloadsOverOnePeriodOnePeriodTest(){
+        configureMap();
+        SmartTrafficLightManager smartTrafficLightManager = new SmartTrafficLightManager();
+        configureOverload(crossroad11,  new Pair<>(horizontalLeftRoad01_11, 10.0),
+                new Pair<>(horizontalRightRoad21_11, 8.0),
+                new Pair<>(verticalUpRoad12_11, 6.0),
+                new Pair<>(verticalDownRoad10_11, 4.0));
+
+        smartTrafficLightManager.insertCrossroads(this.allCrossroads);
+        String res = smartTrafficLightManager.getTrafficLightStates();
+        Assert.assertTrue(res.matches(allCharacters + "horizontalLeftRoad01_11: state: GREEN" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "horizontalRightRoad21_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "verticalUpRoad12_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "verticalDownRoad10_11: state: RED" + allCharacters));
+
+        for(int i =0 ; i<86 ; i++){
+            smartTrafficLightManager.tick();
+        }
+
+        res = smartTrafficLightManager.getTrafficLightStates();
+        Assert.assertTrue(res.matches(allCharacters + "horizontalLeftRoad01_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "horizontalRightRoad21_11: state: GREEN" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "verticalUpRoad12_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "verticalDownRoad10_11: state: RED" + allCharacters));
+
+        for(int i =0 ; i<69 ; i++){
+            smartTrafficLightManager.tick();
+        }
+
+        res = smartTrafficLightManager.getTrafficLightStates();
+        Assert.assertTrue(res.matches(allCharacters + "horizontalLeftRoad01_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "horizontalRightRoad21_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "verticalUpRoad12_11: state: GREEN" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "verticalDownRoad10_11: state: RED" + allCharacters));
+
+        for(int i =0 ; i<52 ; i++){
+            smartTrafficLightManager.tick();
+        }
+
+        res = smartTrafficLightManager.getTrafficLightStates();
+        Assert.assertTrue(res.matches(allCharacters + "horizontalLeftRoad01_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "horizontalRightRoad21_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "verticalUpRoad12_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "verticalDownRoad10_11: state: GREEN" + allCharacters));
+
+        for(int i =0 ; i<33 ; i++){
+            smartTrafficLightManager.tick();
+        }
+        smartTrafficLightManager.tick();
+
+        res = smartTrafficLightManager.getTrafficLightStates();
+        Assert.assertTrue(res.matches(allCharacters + "horizontalLeftRoad01_11: state: GREEN" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "horizontalRightRoad21_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "verticalUpRoad12_11: state: RED" + allCharacters));
+        Assert.assertTrue(res.matches(allCharacters + "verticalDownRoad10_11: state: RED" + allCharacters));
+
+        clearMap();
+
+    }
+
+    @Test
+    public void TwoCompensationPeriodsTest(){
+        configureMap();
+        SmartTrafficLightManager smartTrafficLightManager = new SmartTrafficLightManager();
+        configureOverload(crossroad11,  new Pair<>(horizontalLeftRoad01_11, 10.0),
+                new Pair<>(horizontalRightRoad21_11, 8.0),
+                new Pair<>(verticalUpRoad12_11, 6.0),
+                new Pair<>(verticalDownRoad10_11, 4.0));
+
+        int periodTime = 60 * 4 + 2 ;
+
+
+        smartTrafficLightManager.insertCrossroads(this.allCrossroads);
+
+        //pass time to the start of the first compensation period
+        for(int i =0 ; i<4 * periodTime + 1; i++){
+            smartTrafficLightManager.tick();
+        }
+        String res = smartTrafficLightManager.getTrafficLightStates();
+        int compensationsCounter = 0;
+
+        for(int currentPeriod = 0; currentPeriod < 4; currentPeriod++){
+            String[] crossroadRes = res.split("\n\n");
+            for(int i=0; i<crossroadRes.length; i++) {
+                if (crossroadRes[i].matches(allCharacters + "crossroad11" + allCharacters)) {
+                    String[] states = crossroadRes[i].split("\n");
+                    for (int j = 0; j < states.length; j++) {
+                        if((states[j].matches(allCharacters + "horizontalLeftRoad01_11" + allCharacters))
+                        ||(states[j].matches(allCharacters + "horizontalRightRoad21_11" + allCharacters))
+                        ||(states[j].matches(allCharacters + "verticalDownRoad10_11" + allCharacters))
+                        ||(states[j].matches(allCharacters + "verticalUpRoad12_11" + allCharacters))) {
+                            double parsed = Double.parseDouble(states[j].split("Period: ")[1].split(" time")[0]);
+                            int y = 0;
+                        }
+                        if (((states[j].matches(allCharacters + "horizontalLeftRoad01_11" + allCharacters))
+                                && (Double.parseDouble(states[j].split("Period: ")[1].split(" time")[0]) > 86.0))
+
+                                || ((states[j].matches(allCharacters + "horizontalRightRoad21_11" + allCharacters))
+                                && (Double.parseDouble(states[j].split("Period: ")[1].split(" time")[0]) > 69.0))
+
+                                || ((states[j].matches(allCharacters + "verticalDownRoad10_11" + allCharacters))
+                                && (Double.parseDouble(states[j].split("Period: ")[1].split(" time")[0]) > 35.0))
+
+                                || ((states[j].matches(allCharacters + "verticalUpRoad12_11" + allCharacters))
+                                && (Double.parseDouble(states[j].split("Period: ")[1].split(" time")[0]) > 52.0))
+
+                                ) {
+                            compensationsCounter++;
+                        }
+                    }
+                }
+            }
+            for(int i =0 ; i<4 * periodTime + 1; i++){
+                smartTrafficLightManager.tick();
+            }
+            res = smartTrafficLightManager.getTrafficLightStates();
+        }
+        //check that there were exactly 2 periods that got compensation times for roads in them.
+        Assert.assertEquals(2, compensationsCounter);
+        clearMap();
+
+    }
+
 
 
 
