@@ -42,11 +42,12 @@ public class GenerateFreeFormController extends GenerateCityController implement
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         blocksToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
-                NumberOfBlocks.setDisable(!NumberOfBlocks.isDisabled()));
+                textToggleAction(NumberOfBlocks));
         radiusToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
-                Radius.setDisable(!Radius.isDisabled()));
+                textToggleAction(Radius));
         mapNameToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
-                mapNameTextField.setDisable(!mapNameTextField.isDisabled()));
+                textToggleAction(mapNameTextField));
+
 
         stage = BTW.stage;
         titleHBox.translateXProperty()

@@ -20,7 +20,7 @@
     <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="179.0" layoutX="-13.0" layoutY="-10.0" stroke="#949494" strokeType="INSIDE" width="2000.0" />
 
-        <HBox fx:id="titleHBox" alignment="CENTER_LEFT" layoutY="40.0" layoutX="20.0" spacing="5">
+        <HBox fx:id="titleHBox" alignment="CENTER_LEFT" layoutX="20.0" layoutY="40.0" spacing="5">
             <children>
                 <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="373.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -50,7 +50,7 @@
 
 
 
-      <HBox alignment="CENTER_LEFT" layoutY="188.0" layoutX="70.0" prefHeight="452.0" prefWidth="1134.0" spacing="100.0" fx:id="centerContent">
+      <HBox fx:id="centerContent" alignment="CENTER_LEFT" layoutX="70.0" layoutY="188.0" prefHeight="452.0" prefWidth="1134.0" spacing="100.0">
          <children>
               <VBox alignment="TOP_CENTER" spacing="20.0">
                   <children>
@@ -100,7 +100,7 @@
                            <JFXTextField fx:id="mapFromFileTextBox" maxWidth="-Infinity" prefHeight="25.0" prefWidth="246.0" promptText="Insert Map URL" StackPane.alignment="CENTER_LEFT" />
                            <JFXButton fx:id="attachButton" layoutX="668.0" layoutY="259.0" mnemonicParsing="false" onAction="#attachButtonClicked" text="">
                            <StackPane.margin>
-                              <Insets bottom="5.0" />
+                              <Insets bottom="5.0" right="15.0" />
                            </StackPane.margin>
                         </JFXButton>
                        </children>

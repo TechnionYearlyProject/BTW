@@ -43,15 +43,15 @@ public class GenerateGridController extends GenerateCityController implements In
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         numStreetsToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
-                NumberOfStreets.setDisable(!NumberOfStreets.isDisabled()));
+                textToggleAction(NumberOfStreets));
         numAvenuesToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
-                NumberOfAvenues.setDisable(!NumberOfAvenues.isDisabled()));
+                textToggleAction(NumberOfAvenues));
         legnthStreetsToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
-                LengthOfStreets.setDisable(!LengthOfStreets.isDisabled()));
+                textToggleAction(LengthOfStreets));
         legnthAvenuesToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
-                LengthOfAvenues.setDisable(!LengthOfAvenues.isDisabled()));
+                textToggleAction(LengthOfAvenues));
         mapNameToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
-                mapNameTextField.setDisable(!mapNameTextField.isDisabled()));
+                textToggleAction(mapNameTextField));
 
         stage = BTW.stage;
         titleHBox.translateXProperty()
@@ -69,7 +69,6 @@ public class GenerateGridController extends GenerateCityController implements In
         logger.debug("Controller was initialized");
 
     }
-
 
     @Override
     protected boolean getAndValidateUserInput(ActionEvent event) {

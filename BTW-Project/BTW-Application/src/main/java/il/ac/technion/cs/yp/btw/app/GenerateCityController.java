@@ -146,4 +146,9 @@ public abstract class GenerateCityController extends SwitchToMapController {
         }
         return errorMessage;
     }
+
+    protected void textToggleAction(JFXTextField textField) {
+        textField.setDisable(!textField.isDisabled());
+        textField.setText("");
+    }
 }
