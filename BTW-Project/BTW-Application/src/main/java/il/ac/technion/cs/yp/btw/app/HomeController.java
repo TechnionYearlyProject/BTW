@@ -56,7 +56,7 @@ public class HomeController extends SwitchToMapController implements Initializab
 
     @FXML private JFXSpinner loadSpinner;
 
-    @FXML private JFXButton load_button, generate_button, load_file_button, attachButton;
+    @FXML private JFXButton load_button, generate_button, load_file_button, attachButton, learningSimulation;
 
     @FXML private HBox titleHBox, centerContent;
 
@@ -84,6 +84,7 @@ public class HomeController extends SwitchToMapController implements Initializab
     public void initialize(URL url, ResourceBundle rb){
         grid_radio.setToggleGroup(generate_city_toggle);
         grid_radio.setUserData("grid_radio");
+        //TODO:check if need to be free_form
         grid_radio.setToggleGroup(generate_city_toggle);
         grid_radio.setUserData("free_form_radio");
         Image buttonImage = new Image(getClass().getResourceAsStream("/icons8-attach-30.png"));
@@ -229,6 +230,13 @@ public class HomeController extends SwitchToMapController implements Initializab
         generate_button.setDisable(false);
         attachButton.setDisable(false);
         loadSpinner.setVisible(false);
+    }
+
+    @FXML
+    protected void learningSimulationButtonClicked(ActionEvent event) {
+        String switchTo;
+        switchTo = "/fxml/set_params_for_learning.fxml";
+        switchScreens(event, switchTo);
     }
 
 }

@@ -113,6 +113,15 @@
                </children>
             </VBox>
 
+            <VBox alignment="BOTTOM_CENTER" spacing="15.0">
+             <JFXButton fx:id="learningSimulation" layoutX="400.0" layoutY="900.0" mnemonicParsing="false" onAction="#learningSimulationButtonClicked" text="Run Learning Mode">
+                 <font>
+                     <Font size="15.0" />
+                 </font>
+             </JFXButton>
+            </VBox>
+
+
              <VBox>
                  <children>
                      <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="324.0" spacing="15.0">
@@ -155,7 +164,5 @@
              </VBox>
          </children>
       </HBox>
-
-
     </children>
 </AnchorPane>

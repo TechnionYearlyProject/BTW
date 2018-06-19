@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.TextField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<AnchorPane fx:id="anchor" maxHeight="700" maxWidth="1200" minHeight="700" minWidth="1200" prefHeight="700.0"
+            prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.121"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.ac.technion.cs.yp.btw.app.SetParamsForLearningController">
+<children>
+
+    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="179.0" layoutX="-13.0" layoutY="-10.0" stroke="#949494" strokeType="INSIDE" width="2000.0" />
+
+    <HBox fx:id="titleHBox" alignment="CENTER_LEFT" layoutY="40.0" layoutX="20.0" spacing="5">
+        <children>
+            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="373.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="/icons8-map-50.png" />
+                </image>
+            </ImageView>
+            <Text text="Choose Map" wrappingWidth="422.0">
+                <font>
+                    <Font size="52.0" />
+                </font></Text>
+        </children>
+    </HBox>
+
+
+    <ImageView fx:id="logo" fitHeight="252.0" fitWidth="214.0" layoutX="-7.0" layoutY="-36.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="/BTWLogo.png" />
+        </image>
+    </ImageView>
+
+    <JFXSpinner fx:id="loadSpinner" layoutX="570.0" layoutY="590.0" visible="false" />
+
+
+    <HBox alignment="TOP_CENTER" spacing="15.0" layoutY="300.0" layoutX="300.0">
+        <children>
+            <Text text="Choose Units For Learning Mode:" layoutX="320.0" layoutY="300.0">
+                <font>
+                    <Font size="15.0"/>
+                </font>
+            </Text>
+            <JFXRadioButton fx:id="days_radio" prefHeight="36.0" prefWidth="131.0" text="Days" layoutY="400.0" layoutX="300.0">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </JFXRadioButton>
+            <JFXRadioButton fx:id="weeks_radio" prefHeight="36.0" prefWidth="131.0" text="Weeks" layoutY="400.0" layoutX="350.0">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </JFXRadioButton>
+            <JFXRadioButton fx:id="months_radio" prefHeight="36.0" prefWidth="161.0" text="Months" layoutY="400.0" layoutX="400.0">
+                <font>
+                    <Font size="15.0" />
+                </font>
+                <toggleGroup>
+                    <ToggleGroup fx:id="unitType" />
+                </toggleGroup>
+            </JFXRadioButton>
+        </children>
+    </HBox>
+
+    <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" onAction="#BackClicked" prefHeight="49.0"
+               prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
+    <JFXButton fx:id="run_simulation" buttonType="RAISED" layoutX="500.0" layoutY="500.0" onAction="#runLearningSimulation" prefHeight="49.0"
+               prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Run Simualtion" />
+
+    <Text fx:id="duration_text" text="Insert Duration:" layoutX="400" layoutY="400">
+        <font>
+            <Font size="15.0"/>
+        </font>
+    </Text>
+    <JFXTextField fx:id="duration" layoutX="500" layoutY="400"/>
+
+</children>
+</AnchorPane>
