@@ -357,6 +357,12 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
                                                 return new CrossroadManager(crossroad, roadManagers);
                                                 })
                                     .collect(Collectors.toSet());
+
+        this.minimumOpenTime = crossroads.stream()
+                .flatMap(crossroad -> crossroad.getRealTrafficLights().stream())
+                .mapToInt(CityTrafficLight::getMinimumOpenTime)
+                .max()
+                .getAsInt() + 1; // may throw - need to catch
         return this;
     }
 
