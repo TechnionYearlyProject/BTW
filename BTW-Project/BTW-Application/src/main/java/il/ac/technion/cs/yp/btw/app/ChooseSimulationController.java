@@ -14,6 +14,7 @@ import il.ac.technion.cs.yp.btw.statistics.NaiveStatisticsCalculator;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
 import il.ac.technion.cs.yp.btw.trafficlights.NaiveTrafficLightManager;
 import il.ac.technion.cs.yp.btw.trafficlights.SimpleTrafficLightManager;
+import il.ac.technion.cs.yp.btw.trafficlights.SmartTrafficLightManager;
 import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -52,7 +53,7 @@ public class ChooseSimulationController extends SwitchToMapController implements
     private JFXButton back_button, attachButton, start_button;
     @FXML
     private
-    JFXRadioButton naiveTrafficLight_radio,simpleTrafficLight_radio, naiveNavigation_radio, statisticsNavigation_radio;
+    JFXRadioButton naiveTrafficLight_radio,simpleTrafficLight_radio, naiveNavigation_radio, statisticsNavigation_radio, smartTrafficLight_radio;
     @FXML
     private ToggleGroup navigation_toggle, trafficLight_toggle;
     @FXML
@@ -112,6 +113,9 @@ public class ChooseSimulationController extends SwitchToMapController implements
             } else if(selectedTrafficManagerRadio.equals(simpleTrafficLight_radio)) {
                 logger.debug("Setting up SimpleTrafficLightManager");
                 trafficManager = new SimpleTrafficLightManager();
+            } else if(selectedTrafficManagerRadio.equals(smartTrafficLight_radio)) {
+                logger.debug("Setting up SmartTrafficLightManager");
+                trafficManager = new SmartTrafficLightManager();
             }else{ //can't happen, radio only has these two buttons
                 return;
             }
@@ -168,6 +172,7 @@ public class ChooseSimulationController extends SwitchToMapController implements
         statisticsNavigation_radio.setToggleGroup(navigation_toggle);
         naiveTrafficLight_radio.setToggleGroup(trafficLight_toggle);
         simpleTrafficLight_radio.setToggleGroup(trafficLight_toggle);
+        smartTrafficLight_radio.setToggleGroup(trafficLight_toggle);
         naiveTrafficLight_radio.setSelected(true);
         naiveNavigation_radio.setSelected(true);
     }

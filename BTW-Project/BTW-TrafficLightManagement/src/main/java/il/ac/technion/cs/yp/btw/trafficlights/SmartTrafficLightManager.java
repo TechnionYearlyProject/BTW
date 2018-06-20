@@ -301,7 +301,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
     * @Author: Sharon Hadar
     * @Date: 11/05/2018
     * */
-    SmartTrafficLightManager(){
+    public SmartTrafficLightManager(){
         super();
         this.periodsNum = 8;
         this.averageOpenTimeForRoad = 60.0;
