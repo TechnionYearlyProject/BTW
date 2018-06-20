@@ -23,7 +23,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
      * */
     private class RoadManager{
         private CityRoad road;
-        private Set<TrafficLight> trafficLightsSet;
+        private Set<CityTrafficLight> trafficLightsSet;
         private double roadOpenTime;
         private double timeCounter;
         private double compensationTime;
@@ -38,7 +38,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
          * @Author: Sharon Hadar
          * @Date: 4/06/2018
          * */
-        RoadManager(CityRoad road, Set<TrafficLight> trafficLightsSet, int roadSerialNumberInCrossroad){
+        RoadManager(CityRoad road, Set<CityTrafficLight> trafficLightsSet, int roadSerialNumberInCrossroad){
             this.road = road;
             this.trafficLightsSet = trafficLightsSet;
             this.roadOpenTime = 0.0;
@@ -89,7 +89,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
          * */
         private void turnAllTrafficLights(CityTrafficLight.TrafficLightState state){
             this.currentTrafficLightState = state;
-            this.trafficLightsSet.forEach(trafficLight -> ((CityTrafficLight)trafficLight).setTrafficLightState(state));
+            this.trafficLightsSet.forEach(trafficLight -> trafficLight.setTrafficLightState(state));
         }
 
         /*
@@ -323,13 +323,13 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
         //for every cross road attach all its roads and initialize their time to 0.0
 
         //get all roads in map
-        Set<Road> roadsSet = new HashSet<>();
-        crossroads.stream().map(crossroad -> (crossroad.getTrafficLights().stream().map(trafficlight -> roadsSet.add(trafficlight.getSourceRoad())).collect(Collectors.toSet()))).collect(Collectors.toSet());
+        Set<CityRoad> roadsSet = new HashSet<>();
+        crossroads.stream().map(crossroad -> (crossroad.getRealTrafficLights().stream().map(trafficlight -> roadsSet.add(trafficlight.getSourceRoad())).collect(Collectors.toSet()))).collect(Collectors.toSet());
 
         //for every road attach all its trafficlights
-        Map<Road, Set<TrafficLight>> roadToTrafficlightsMap = new HashMap<>();
+        Map<CityRoad, Set<CityTrafficLight>> roadToTrafficlightsMap = new HashMap<>();
         roadsSet.stream()
-                .map(road -> roadToTrafficlightsMap.put(road, road.getDestinationCrossroad().getTrafficLightsFromRoad(road))).collect(Collectors.toSet());
+                .map(road -> roadToTrafficlightsMap.put(road, road.getDestinationCrossroad().getRealTrafficLightsFromRoad(road))).collect(Collectors.toSet());
 
 
         //for every crossroad attach all roads that it ends
