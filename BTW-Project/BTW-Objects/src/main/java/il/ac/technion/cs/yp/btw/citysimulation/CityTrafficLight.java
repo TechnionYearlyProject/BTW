@@ -1,5 +1,6 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
+import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 
 import java.util.Set;
@@ -71,4 +72,22 @@ public interface CityTrafficLight extends TrafficLight, StatisticsProviding<Traf
      * @return - Set of above mentioned vehicles
      */
     Set<Vehicle> getVehiclesOnTrafficLight();
+
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @return the Road you got from to this
+     *         TrafficLightImpl
+     */
+    @Override
+    CityRoad getSourceRoad();
+
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @return the destination Road you
+     *         go to from this TrafficLight
+     */
+    @Override
+    CityRoad getDestinationRoad();
 }

@@ -174,7 +174,7 @@ public class SmartTrafficLightManagerTest {
 
 
 
-        private CityRoad configureRoad(String name, int length, Crossroad sourceCrossroad, Crossroad destinationCrossroad,
+        private CityRoad configureRoad(String name, int length, CityCrossroad sourceCrossroad, CityCrossroad destinationCrossroad,
                                 long minimumWeight){
 
         BTWWeight btwWeight = BTWWeight.of(minimumWeight);

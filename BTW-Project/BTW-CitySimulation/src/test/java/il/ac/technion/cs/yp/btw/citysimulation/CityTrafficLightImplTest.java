@@ -167,8 +167,8 @@ public class CityTrafficLightImplTest {
     @Test
     public void getRoadsTest() {
         CityTrafficLight tested = this.simulator.getRealTrafficLight(this.trafficLight);
-        Assert.assertEquals(this.road1, tested.getSourceRoad());
-        Assert.assertEquals(this.road2, tested.getDestinationRoad());
+        Assert.assertEquals(this.simulator.getRealRoad(this.road1), tested.getSourceRoad());
+        Assert.assertEquals(this.simulator.getRealRoad(this.road2), tested.getDestinationRoad());
     }
 
     @Test

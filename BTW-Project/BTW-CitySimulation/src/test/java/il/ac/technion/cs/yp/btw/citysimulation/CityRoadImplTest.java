@@ -165,13 +165,13 @@ public class CityRoadImplTest {
     @Test
     public void getSourceCrossroadTest() {
         CityRoad tested = this.simulator.getRealRoad(road);
-        Assert.assertEquals(this.crossroad1, tested.getSourceCrossroad());
+        Assert.assertEquals(this.simulator.getRealCrossroad(this.crossroad1), tested.getSourceCrossroad());
     }
 
     @Test
     public void getDestinationCrossroadTest() {
         CityRoad tested = this.simulator.getRealRoad(road);
-        Assert.assertEquals(this.crossroad2, tested.getDestinationCrossroad());
+        Assert.assertEquals(this.simulator.getRealCrossroad(this.crossroad2), tested.getDestinationCrossroad());
     }
 
     @Test
