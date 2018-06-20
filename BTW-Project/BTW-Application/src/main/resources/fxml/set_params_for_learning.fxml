@@ -46,7 +46,7 @@
     <JFXSpinner fx:id="loadSpinner" layoutX="570.0" layoutY="590.0" visible="false" />
 
 
-    <HBox alignment="TOP_CENTER" spacing="15.0" layoutY="300.0" layoutX="300.0">
+    <HBox alignment="TOP_CENTER" spacing="15.0" layoutY="250.0" layoutX="300.0">
         <children>
             <Text text="Choose Units For Learning Mode:" layoutX="320.0" layoutY="300.0">
                 <font>
@@ -76,15 +76,28 @@
 
     <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" onAction="#BackClicked" prefHeight="49.0"
                prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
-    <JFXButton fx:id="run_simulation" buttonType="RAISED" layoutX="500.0" layoutY="500.0" onAction="#runLearningSimulation" prefHeight="49.0"
+    <JFXButton fx:id="run_simulation" buttonType="RAISED" layoutX="500.0" layoutY="600.0" onAction="#runLearningSimulation" prefHeight="49.0"
                prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Run Simualtion" />
 
-    <Text fx:id="duration_text" text="Insert Duration:" layoutX="400" layoutY="400">
+    <Text fx:id="duration_text" text="Insert Duration:" layoutX="400" layoutY="320">
         <font>
             <Font size="15.0"/>
         </font>
     </Text>
-    <JFXTextField fx:id="duration" layoutX="500" layoutY="400"/>
+    <JFXTextField fx:id="duration" layoutX="500" layoutY="330"/>
+
+    <Text fx:id="choose_map_text" text="Choose Map:" layoutX="400" layoutY="420">
+        <font>
+            <Font size="15.0"/>
+        </font>
+    </Text>
+    <JFXTextField fx:id="chooseMapTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                  layoutX="500" layoutY="440" prefHeight="25.0" prefWidth="246.0" promptText="Insert Map Name" />
+    <JFXButton fx:id="load_button" buttonType="RAISED" onAction="#loadButtonClicked" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+               minWidth="-Infinity" layoutX="500" layoutY="480" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK"
+               style="-fx-background-color: #ffffff;" text="Load"/>
+
+
 
 </children>
 </AnchorPane>

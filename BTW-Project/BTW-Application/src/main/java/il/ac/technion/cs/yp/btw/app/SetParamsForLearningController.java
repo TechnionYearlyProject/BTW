@@ -6,13 +6,18 @@ import com.jfoenix.controls.JFXTextField;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
+import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
 import il.ac.technion.cs.yp.btw.evaluation.DumbEvaluator;
 import il.ac.technion.cs.yp.btw.evaluation.Evaluator;
 import il.ac.technion.cs.yp.btw.navigation.NaiveNavigationManager;
+import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
+import il.ac.technion.cs.yp.btw.statistics.NaiveStatisticsCalculator;
 import il.ac.technion.cs.yp.btw.statistics.SmartStatisticsCalculator;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
+import il.ac.technion.cs.yp.btw.trafficlights.NaiveTrafficLightManager;
 import il.ac.technion.cs.yp.btw.trafficlights.SmartTrafficLightManager;
 import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,16 +31,20 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
- * @Author:Anat Tetroashvili
- * @Date: 2/6/18
+ * @author: Anat Tetroashvili
+ * @date: 2/6/18
+ * A class for setting parameters for learning simulation mode.
  */
 public class SetParamsForLearningController extends SwitchToMapController implements Initializable {
 
     final static Logger logger = Logger.getLogger("setParamsForLearningController");
 
-    BTWDataBase db;
+    private BTWDataBase db;
+
+    private StatisticsCalculator calculator;
 
     @FXML
     protected JFXRadioButton days_radio = new JFXRadioButton("days_radio");
@@ -47,6 +56,12 @@ public class SetParamsForLearningController extends SwitchToMapController implem
     private ToggleGroup unitType;
     @FXML
     protected JFXTextField duration = new JFXTextField("duration");
+    @FXML
+    protected JFXButton run_simulation = new JFXButton("run_simulation");
+    @FXML
+    protected JFXButton load_button = new JFXButton("load_button");
+    @FXML
+    protected JFXTextField chooseMapTextField = new JFXTextField("chooseMapTextField");
 
     public SetParamsForLearningController(){
         this.unitType = new ToggleGroup();
@@ -74,14 +89,19 @@ public class SetParamsForLearningController extends SwitchToMapController implem
 
     /*@Author:Anat Tetroasvili
     * @Date:19/6/18
-    * This function runs activates the learning mode, by running each day,
-    * and save it to the database.*/
+    * This function activates the learning mode, by running each day,
+    * and save it to the database.
+    * The minimum duration for a run is 1 day.
+    * The maximum duration for a run is 1 year(12 months).*/
     @FXML
     protected void runLearningSimulation(){
         long dur = 0;
         JFXRadioButton units = null;
         long numberOfDays = 0;
         units = (JFXRadioButton) unitType.getSelectedToggle();
+        if(duration.getText().equals("")){
+            return;
+        }
         dur = Long.valueOf(duration.getText());
         if(units.equals(days_radio)){
             if((dur<1)||(dur>6)){
@@ -102,19 +122,62 @@ public class SetParamsForLearningController extends SwitchToMapController implem
             numberOfDays = dur*28;
         }
 
-        /*while(numberOfDays!=0){
+        while(numberOfDays!=0){
             CitySimulator citySimulator = new CitySimulatorImpl(db,new NaiveNavigationManager(db),
-                    new SmartTrafficLightManager(), new SmartStatisticsCalculator(db),
-                    new DumbEvaluator());
+                    new NaiveTrafficLightManager(), calculator, new DumbEvaluator());
             citySimulator.runWholeDay();
             db.updateHeuristics();
             numberOfDays--;
-        }*/
+        }
 
+    }
 
+    /*@Author:Anat Tetroasvili
+    * @Date:20/6/18
+    * This function loads an existing map from the db,according to the name that have inserted,
+     * or announce that there no such map.*/
+    public void loadButtonClicked(ActionEvent actionEvent) {
+        disableAllButtons();
+        new Thread(() -> {
+            db = new BTWDataBaseImpl(chooseMapTextField.getText());
+            logger.debug("Trying to load map: " + chooseMapTextField.getText());
+            boolean result = db.loadMap();
+            Platform.runLater(() -> {
+                if(!result) {
+                    enableAllButtons();
+                    showErrorDialog("Failed to load: Map name is not in the Database");
+                } else {
+                    logger.debug("Loading map from Database");
+                    new Thread(() -> {
+                        //TODO: CHANGE TO SMART
+                        NavigationManager navigationManager = new NaiveNavigationManager(db);
+                        TrafficLightManager trafficLightManager = new NaiveTrafficLightManager();
+                        calculator = new NaiveStatisticsCalculator(db);
+                        CitySimulator citySimulator = new CitySimulatorImpl(db, navigationManager, trafficLightManager, calculator, new DumbEvaluator());
+                        trafficLightManager.insertCrossroads(db.getAllCrossroads()
+                                .stream()
+                                .map(citySimulator::getRealCrossroad)
+                                .collect(Collectors.toSet()));
+                        //Platform.runLater(() -> switchScreensToMap(actionEvent, citySimulator, db));
+                        Platform.runLater(this::enableAllButtons);
+                    }).start();
+                }});
+        }).start();
+    }
 
-
-
+    private void disableAllButtons() {
+        load_button.setDisable(true);
+        days_radio.setDisable(true);
+        weeks_radio.setDisable(true);
+        months_radio.setDisable(true);
+        run_simulation.setDisable(true);
+    }
+    private void enableAllButtons() {
+        load_button.setDisable(false);
+        days_radio.setDisable(false);
+        weeks_radio.setDisable(false);
+        months_radio.setDisable(false);
+        run_simulation.setDisable(false);
     }
 
 }
