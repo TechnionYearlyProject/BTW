@@ -39,9 +39,9 @@ abstract class AbstractStatisticCalculator implements StatisticsCalculator {
         logger.debug("Adding new road report for road: " + rd.getName());
         BTWTime time = report.getTimeOfReport().startTimeWindow(this.db.getStatisticsPeriod());
         if (! this.roadExpectedWeightOfTime.containsKey(time)) {
-            this.roadExpectedWeightOfTime.put(time, new HashMap<Road, BTWWeight>());
+            this.roadExpectedWeightOfTime.put(time, new HashMap<>());
         }
-        java.util.Map<Road, BTWWeight> weightOfRoad = this.roadExpectedWeightOfTime.get(time);
+        Map<Road, BTWWeight> weightOfRoad = this.roadExpectedWeightOfTime.get(time);
         if (weightOfRoad.containsKey(rd)) {
             logger.error("Same statistics reported more than once");
             throw new BTWIllegalStatisticsException("Specific statistics can not be reported twice without resetting");
@@ -65,9 +65,9 @@ abstract class AbstractStatisticCalculator implements StatisticsCalculator {
         logger.debug("Adding new traffic-light report for traffic-light: " + tl.getName());
         BTWTime time = report.getTimeOfReport().startTimeWindow(this.db.getStatisticsPeriod());
         if (! this.trafficLightExpectedWeightOfTime.containsKey(time)) {
-            this.trafficLightExpectedWeightOfTime.put(time, new HashMap<TrafficLight, BTWWeight>());
+            this.trafficLightExpectedWeightOfTime.put(time, new HashMap<>());
         }
-        java.util.Map<TrafficLight, BTWWeight> weightOfRoad = this.trafficLightExpectedWeightOfTime.get(time);
+        Map<TrafficLight, BTWWeight> weightOfRoad = this.trafficLightExpectedWeightOfTime.get(time);
         if (weightOfRoad.containsKey(tl)) {
             logger.error("Same statistics reported more than once");
             throw new BTWIllegalStatisticsException("Specific statistics can not be reported twice without resetting");

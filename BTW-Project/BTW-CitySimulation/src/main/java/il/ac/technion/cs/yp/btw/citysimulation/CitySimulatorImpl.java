@@ -592,6 +592,7 @@ public class CitySimulatorImpl implements CitySimulator {
         this.reportOfRoad = new HashMap<>();
         this.reportOfTrafficLight = new HashMap<>();
         this.calculator = calculator;
+        this.evaluator = evaluator;
 
         roads.forEach(this::getRealRoad);
         trafficLights.forEach(this::getRealTrafficLight);
@@ -896,17 +897,6 @@ public class CitySimulatorImpl implements CitySimulator {
         logger.debug("TICK");
         this.clock++;
         logger.debug("Update reports");
-        if (this.clock % this.timeWindow == 0) {
-            this.currentReportOfRoad
-                    .keySet()
-                    .forEach(rd -> this.calculator.addRoadReport(rd, this.currentReportOfRoad.get(rd)));
-            this.currentReportOfRoad = new HashMap<>();
-
-            this.currentReportOfTrafficLight
-                    .keySet()
-                    .forEach(tl -> this.calculator.addTrafficLightReport(tl, this.currentReportOfTrafficLight.get(tl)));
-            this.currentReportOfTrafficLight = new HashMap<>();
-        }
 
         logger.debug("Tick roads");
         roads.values().forEach(CityRoad::tick);
@@ -944,15 +934,21 @@ public class CitySimulatorImpl implements CitySimulator {
 
     @Override
     public CitySimulator reportOnRoad(Road rd, Long time) {
-        if (!this.currentReportOfRoad.containsKey(rd)) {
-            StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
-            if (!this.reportOfRoad.containsKey(rd)) {
-                StatisticalReport totalReport = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
-                this.reportOfRoad.put(rd, totalReport);
-            }
+        BTWTime timeOfReport = BTWTime.of(this.clock - time).startTimeWindow(this.timeWindow);
+        if(! this.currentReportOfRoad.containsKey(rd)) {
+            StatisticalReport report = new StatisticalReport(timeOfReport);
+            this.currentReportOfRoad.put(rd, report);
+        } else if (timeOfReport.seconds() > this.currentReportOfRoad.get(rd).getTimeOfReport().seconds()) {
+            this.calculator.addRoadReport(rd, this.currentReportOfRoad.get(rd));
+            StatisticalReport report = new StatisticalReport(timeOfReport);
             this.currentReportOfRoad.put(rd, report);
         }
-//        this.currentReportOfRoad.get(rd).update(BTWWeight.of(time - (time % this.timeWindow)));
+
+        if (!this.reportOfRoad.containsKey(rd)) {
+            StatisticalReport totalReport = new StatisticalReport(BTWTime.of(0));
+            this.reportOfRoad.put(rd, totalReport);
+        }
+
         this.currentReportOfRoad.get(rd).update(BTWWeight.of(time));
         this.reportOfRoad.get(rd).update(BTWWeight.of(time));
         return this;
@@ -960,15 +956,21 @@ public class CitySimulatorImpl implements CitySimulator {
 
     @Override
     public CitySimulator reportOnTrafficLight(TrafficLight tl, Long time) {
+        BTWTime timeOfReport = BTWTime.of(this.clock - time).startTimeWindow(this.timeWindow);
         if (!this.currentReportOfTrafficLight.containsKey(tl)) {
-            StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
-            if (!this.reportOfTrafficLight.containsKey(tl)) {
-                StatisticalReport totalReport = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
-                this.reportOfTrafficLight.put(tl, totalReport);
-            }
+            StatisticalReport report = new StatisticalReport(timeOfReport);
+            this.currentReportOfTrafficLight.put(tl, report);
+        } else if (timeOfReport.seconds() > this.currentReportOfTrafficLight.get(tl).getTimeOfReport().seconds()) {
+            this.calculator.addTrafficLightReport(tl, this.currentReportOfTrafficLight.get(tl));
+            StatisticalReport report = new StatisticalReport(timeOfReport);
             this.currentReportOfTrafficLight.put(tl, report);
         }
-//        this.currentReportOfTrafficLight.get(tl).update(BTWWeight.of(time - (time % this.timeWindow)));
+
+        if (!this.reportOfTrafficLight.containsKey(tl)) {
+            StatisticalReport totalReport = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
+            this.reportOfTrafficLight.put(tl, totalReport);
+        }
+
         this.currentReportOfTrafficLight.get(tl).update(BTWWeight.of(time));
         this.reportOfTrafficLight.get(tl).update(BTWWeight.of(time));
         return this;
@@ -984,6 +986,17 @@ public class CitySimulatorImpl implements CitySimulator {
     @Override
     public CitySimulator runWholeDay() {
         this.tick((3600 * 24) - 1);
+
+        this.currentReportOfRoad
+                .keySet()
+                .forEach(rd -> this.calculator.addRoadReport(rd, this.currentReportOfRoad.get(rd)));
+//        this.currentReportOfRoad = new HashMap<>();
+
+        this.currentReportOfTrafficLight
+                .keySet()
+                .forEach(tl -> this.calculator.addTrafficLightReport(tl, this.currentReportOfTrafficLight.get(tl)));
+//        this.currentReportOfTrafficLight = new HashMap<>();
+
         evaluator.addTrafficLightReports(this.reportOfTrafficLight);
         evaluator.addRoadReports(this.reportOfRoad);
         return this;

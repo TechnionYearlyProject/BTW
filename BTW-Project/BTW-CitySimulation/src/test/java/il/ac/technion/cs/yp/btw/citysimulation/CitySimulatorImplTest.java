@@ -50,7 +50,7 @@ public class CitySimulatorImplTest {
     private Map<TrafficLight, BTWWeight> weightOfTrafficLight;
     private Map<TrafficLight, BTWTime> reportTimeOfTrafficLight;
     private Map<TrafficLight, Integer> reportersOnTrafficLight;
-    private long timeWindow = 15 * 60;
+    private int timeWindow = 15 * 60;
 
 
     private void configMock() throws PathNotFoundException {
@@ -291,10 +291,31 @@ public class CitySimulatorImplTest {
     }
 
     @Test
-    public void reportTest() {
+    public void reportTest1() {
         CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow, this.evaluator);
-        for (int i = 0; i < 15 * 60; i++) {
-            long time = 3 + (i % 2);
+        tested.tick();
+        for (int i = 1; i < 3; i++) {
+            tested.reportOnTrafficLight(this.trafficLight, 1L);
+            tested.tick();
+        }
+        for (int i = 3; i < 5; i++) {
+            long time = 3 + ((i + 1) % 2);
+            tested.reportOnRoad(this.road1, time);
+            tested.reportOnTrafficLight(this.trafficLight, 1L);
+            tested.tick();
+        }
+        for (int i = 5; i < 7; i++) {
+            long time = 3 + ((i + 1) % 2);
+            tested.reportOnRoad(this.road1, time);
+            tested.reportOnTrafficLight(this.trafficLight, 5L);
+            tested.reportOnTrafficLight(this.trafficLight, 5L);
+            tested.reportOnTrafficLight(this.trafficLight, 5L);
+            tested.reportOnTrafficLight(this.trafficLight, 5L);
+            tested.reportOnTrafficLight(this.trafficLight, 1L);
+            tested.tick();
+        }
+        for (int i = 7; i < this.timeWindow + 1; i++) {
+            long time = 3 + ((i + 1) % 2);
             tested.reportOnRoad(this.road1, time);
             tested.reportOnRoad(this.road2, 2 * time);
             tested.reportOnTrafficLight(this.trafficLight, 5L);
@@ -304,6 +325,32 @@ public class CitySimulatorImplTest {
             tested.reportOnTrafficLight(this.trafficLight, 1L);
             tested.tick();
         }
+        for (int i = this.timeWindow + 1; i < this.timeWindow + 4; i++) {
+            long time = 3 + ((i + 1) % 2);
+            tested.reportOnRoad(this.road1, time);
+            tested.reportOnRoad(this.road2, 2 * time);
+            tested.reportOnTrafficLight(this.trafficLight, 5L);
+            tested.reportOnTrafficLight(this.trafficLight, 5L);
+            tested.reportOnTrafficLight(this.trafficLight, 5L);
+            tested.reportOnTrafficLight(this.trafficLight, 5L);
+            tested.tick();
+        }
+        for (int i = this.timeWindow + 4; i < this.timeWindow + 6; i++) {
+            long time = 3 + ((i + 1) % 2);
+            tested.reportOnRoad(this.road2, 2 * time);
+            tested.reportOnTrafficLight(this.trafficLight, 5L);
+            tested.reportOnTrafficLight(this.trafficLight, 5L);
+            tested.reportOnTrafficLight(this.trafficLight, 5L);
+            tested.reportOnTrafficLight(this.trafficLight, 5L);
+            tested.tick();
+        }
+
+        for (int i = this.timeWindow + 6; i < this.timeWindow + 8; i++) {
+            long time = 3 + ((i + 1) % 2);
+            tested.reportOnRoad(this.road2, 2 * time);
+            tested.tick();
+        }
+
         tested.tick();
         Assert.assertEquals(2, this.weightOfRoad.size());
         Assert.assertEquals(1, this.weightOfTrafficLight.size());
@@ -312,22 +359,24 @@ public class CitySimulatorImplTest {
         Assert.assertEquals(Long.valueOf(7), this.weightOfRoad.get(this.road2).seconds());
         Assert.assertEquals(Long.valueOf(4), this.weightOfTrafficLight.get(this.trafficLight).seconds());
 
-        Assert.assertEquals(Integer.valueOf(15 * 60), this.reportersOnRoad.get(this.road1));
-        Assert.assertEquals(Integer.valueOf(15 * 60), this.reportersOnRoad.get(this.road2));
-        Assert.assertEquals(Integer.valueOf(15 * 60 * 5), this.reportersOnTrafficLight.get(this.trafficLight));
+        Assert.assertEquals(Integer.valueOf(this.timeWindow), this.reportersOnRoad.get(this.road1));
+        Assert.assertEquals(Integer.valueOf(this.timeWindow), this.reportersOnRoad.get(this.road2));
+        Assert.assertEquals(Integer.valueOf(this.timeWindow * 5), this.reportersOnTrafficLight.get(this.trafficLight));
 
         Assert.assertEquals(Long.valueOf(0), this.reportTimeOfRoad.get(this.road1).seconds());
         Assert.assertEquals(Long.valueOf(0), this.reportTimeOfRoad.get(this.road2).seconds());
         Assert.assertEquals(Long.valueOf(0), this.reportTimeOfTrafficLight.get(this.trafficLight).seconds());
+    }
 
-        this.weightOfRoad = new HashMap<>();
-        this.reportTimeOfRoad = new HashMap<>();
-        this.reportersOnRoad = new HashMap<>();
-        this.weightOfTrafficLight = new HashMap<>();
-        this.reportTimeOfTrafficLight = new HashMap<>();
-        this.reportersOnTrafficLight = new HashMap<>();
-
-        for (int i = 0; i < 15 * 60; i++) {
+    @Test
+    public void reportTest2() {
+        CitySimulatorImpl tested = new CitySimulatorImpl(this.roads, this.trafficLights, this.crossroads, this.navigationManager, this.trafficLightManager, this.calculator, this.timeWindow, this.evaluator);
+        tested.tick();
+        tested.tick();
+        for (int i = 0; i < this.timeWindow; i++) {
+            tested.tick();
+        }
+        for (int i = 0; i < this.timeWindow + 1; i++) {
             if ((i % 2) == 0) {
                 tested.reportOnRoad(this.road1, 2L);
             }
