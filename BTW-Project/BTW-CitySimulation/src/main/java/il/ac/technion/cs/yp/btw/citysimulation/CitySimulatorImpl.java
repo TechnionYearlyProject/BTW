@@ -582,7 +582,7 @@ public class CitySimulatorImpl implements CitySimulator {
      */
     CitySimulatorImpl(Set<Road> roads, Set<TrafficLight> trafficLights, Set<Crossroad> crossroads,
                       NavigationManager navigationManager, TrafficLightManager trafficLightManager,
-                      StatisticsCalculator calculator, long timeWindow, Evaluator evaluator) {
+                      StatisticsCalculator calculator, long timeWindow, Evaluator eavluator) {
         this.roads = new HashMap<>();
         this.trafficLights = new HashMap<>();
         this.crossroads = new HashMap<>();

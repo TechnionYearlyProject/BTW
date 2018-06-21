@@ -116,7 +116,7 @@ public class ChooseSimulationController extends SwitchToMapController implements
             } else if(selectedTrafficManagerRadio.equals(smartTrafficLight_radio)) {
                 logger.debug("Setting up SmartTrafficLightManager");
                 trafficManager = new SmartTrafficLightManager();
-            }else{ //can't happen, radio only has these two buttons
+            }else{ //can't happen, radio only has these three buttons
                 return;
             }
 

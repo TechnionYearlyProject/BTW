@@ -466,6 +466,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
      * @date: 20/1/18
      */
     private void addRandomVehiclesToSimulation(int numOfVehicles) {
+        //TODO: if we want to truly fix the concurent exception bug:
+        // i need to disable all buttons (including current play action) until
+        // adding vehicle action is complete. This may stall the user experience
         Thread thread = new Thread(() -> {
             try {
                 citySimulator.addRandomVehicles(numOfVehicles);
@@ -582,9 +585,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
 //        int numberOfTicks = 10;
         lock.lock();
         try {
+            currentTicks += numberOfTicks;
             citySimulator.tick(numberOfTicks);
             cityMap = citySimulator.saveMap();
-            currentTicks += numberOfTicks;
         } finally {
             lock.unlock();
         }
