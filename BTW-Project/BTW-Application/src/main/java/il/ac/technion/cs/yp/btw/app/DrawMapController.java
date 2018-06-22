@@ -289,7 +289,8 @@ public class DrawMapController extends ShowErrorController implements Initializa
         logger.debug("Back clicked - going back to home screen");
         playCityTimeline.stop();
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        URL resource = getClass().getResource("/fxml/home_layout.fxml");
+//        URL resource = getClass().getResource("/fxml/home_layout.fxml");
+        URL resource = getClass().getResource("/fxml/choose_running_config.fxml");
         try {
 //            stageTheEventSourceNodeBelongs.setHeight(700);
 //            stageTheEventSourceNodeBelongs.setWidth(1200);

@@ -293,7 +293,7 @@
             <children>
                 <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="373.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="/icons8-home-50.png" />
+                        <Image url="/icons8-car-filled-50.png" />
                     </image>
                 </ImageView>
                 <Text text="Choose Simulations" wrappingWidth="1000.0">

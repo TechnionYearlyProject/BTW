@@ -22,6 +22,7 @@ import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -34,6 +35,7 @@ import javafx.stage.FileChooser;
 import org.apache.log4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -42,7 +44,7 @@ import java.util.stream.Collectors;
 /**
  * Created by orel on 22/06/18.
  */
-public class ChooseMultiSimulationController  extends SwitchToMapController implements Initializable {
+public class ChooseMultiSimulationController extends SwitchToMapController implements Initializable {
 
     final static Logger logger = Logger.getLogger("ChooseMultiSimulationController");
 
@@ -70,11 +72,25 @@ public class ChooseMultiSimulationController  extends SwitchToMapController impl
         BTW.stage.setScene(scene);
         back_button.setOnAction(this::BackClicked);
 //        start_button.setOnAction(this::StartClicked);
+        start_button.setOnAction(this::switchToStatisticsCompare);
         initCenterPanes();
         initRadioButtons();
         Image buttonImage = new Image(getClass().getResourceAsStream("/icons8-attach-30.png"));
         attachButton.setGraphic(new ImageView(buttonImage));
         attachButton.setOnAction(this::attachButtonClicked);
+    }
+
+    private void switchToStatisticsCompare(ActionEvent actionEvent) {
+        FXMLLoader loader;
+        loader = new FXMLLoader(getClass().getResource("/fxml/statistics_comparison.fxml"));
+        StatisticsComparisonController controller = new StatisticsComparisonController();
+//        controller.initMapDatabase(mapDatabase);
+        loader.setController(controller);
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -111,6 +127,7 @@ public class ChooseMultiSimulationController  extends SwitchToMapController impl
     }
 
     private void StartClicked(ActionEvent actionEvent) {
+        //TODO: finish this function when i can make evaluators
         logger.debug("Start button clicked");
         disableButtons();
         new Thread(() -> {
