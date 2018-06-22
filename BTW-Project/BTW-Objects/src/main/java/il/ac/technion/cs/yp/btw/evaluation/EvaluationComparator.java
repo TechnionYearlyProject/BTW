@@ -6,6 +6,7 @@ import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import org.apache.log4j.Logger;
 
+import java.util.Comparator;
 import java.util.function.Function;
 
 /**

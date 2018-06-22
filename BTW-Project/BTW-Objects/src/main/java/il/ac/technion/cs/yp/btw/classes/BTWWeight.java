@@ -13,6 +13,9 @@ public class BTWWeight extends BTWTimeUnit{
     }
 
     public static BTWWeight weightedAverage(BTWWeight prev, BTWWeight curr, Double w) {
+        if (w < 0 || w > 1) {
+            throw new IllegalArgumentException("Weight must be between 0 and 1");
+        }
         Long val = Double.valueOf(prev.seconds * (1 - w) + curr.seconds * w).longValue();
         return new BTWWeight(val);
     }

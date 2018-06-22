@@ -5,7 +5,7 @@ import il.ac.technion.cs.yp.btw.evaluation.Evaluator;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.Navigator;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
-import il.ac.technion.cs.yp.btw.statistics.StatisticalReport;
+import il.ac.technion.cs.yp.btw.classes.StatisticalReport;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
 import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
 import org.junit.Assert;

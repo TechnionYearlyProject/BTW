@@ -4,7 +4,7 @@ import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.evaluation.Evaluator;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.PathNotFoundException;
-import il.ac.technion.cs.yp.btw.statistics.StatisticalReport;
+import il.ac.technion.cs.yp.btw.classes.StatisticalReport;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
 import il.ac.technion.cs.yp.btw.trafficlights.TrafficLightManager;
 import org.apache.log4j.Logger;
@@ -173,11 +173,7 @@ public class CitySimulatorImpl implements CitySimulator {
         public BTWWeight getCurrentWeight() {
             double currSpeed = getSpeed();
             Double time = this.length / currSpeed;
-            try {
-                return BTWWeight.of(time.longValue());
-            } catch (BTWIllegalTimeException e) {
-                throw new RuntimeException(e);
-            }
+            return BTWWeight.of(time.longValue());
         }
 
         /**
@@ -424,6 +420,13 @@ public class CitySimulatorImpl implements CitySimulator {
                     .collect(Collectors.toSet());
         }
 
+        private <R extends Road, T extends TrafficLight> Set<T> getTrafficLightFromRoadR(R rd, Set<T> trafficLights) {
+            return trafficLights
+                    .stream()
+                    .filter(trafficLight -> trafficLight.getSourceRoad().equals(rd))
+                    .collect(Collectors.toSet());
+        }
+
         /**
          * @param vehicle - the Vehicle to be added
          * @return self
@@ -502,10 +505,7 @@ public class CitySimulatorImpl implements CitySimulator {
          */
         @Override
         public Set<TrafficLight> getTrafficLightsFromRoad(Road road) {
-            return this.trafficLights
-                    .stream()
-                    .filter(trafficLight -> trafficLight.getSourceRoad().equals(road))
-                    .collect(Collectors.toSet());
+            return this.getTrafficLightFromRoadR(road, this.trafficLights);
         }
 
         /**
@@ -564,10 +564,7 @@ public class CitySimulatorImpl implements CitySimulator {
 
         @Override
         public Set<CityTrafficLight> getRealTrafficLightsFromRoad(CityRoad rd) {
-            return this.realTrafficLights
-                    .stream()
-                    .filter(trafficLight -> trafficLight.getSourceRoad().equals(rd))
-                    .collect(Collectors.toSet());
+            return this.getTrafficLightFromRoadR(rd, this.realTrafficLights);
         }
     }
 

@@ -37,3 +37,9 @@ class DescriptorAlreadySeenException extends IllegalEvaluationException {
         super("Vehicle with descriptor number " + descNum + " was already seen");
     }
 }
+
+class UnfinishedVehicleException extends IllegalEvaluationException {
+    UnfinishedVehicleException(String descNum) {
+        super("Vehicle with descriptor number " + descNum + " has not finished driving");
+    }
+}

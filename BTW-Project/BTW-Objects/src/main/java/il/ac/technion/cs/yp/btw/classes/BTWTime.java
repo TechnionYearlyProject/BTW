@@ -6,7 +6,7 @@ package il.ac.technion.cs.yp.btw.classes;
 public class BTWTime extends BTWTimeUnit{
 
     private static final int MINUTES_MULTIPLIER_TO_SECONDS = 60;
-    private static final int HOURES_MULTIPLIER_TO_SECONDS = 60*60;
+    private static final int HOURS_MULTIPLIER_TO_SECONDS = 60*60;
 
     private BTWTime(long value) throws BTWIllegalTimeException {
         super(value);
@@ -59,19 +59,19 @@ public class BTWTime extends BTWTimeUnit{
         }
         return new BTWTime(seconds
                 + minutes* MINUTES_MULTIPLIER_TO_SECONDS
-                + hours* HOURES_MULTIPLIER_TO_SECONDS);
+                + hours* HOURS_MULTIPLIER_TO_SECONDS);
     }
 
-    public Long getHoutsOnly() {
+    public Long getHoursOnly() {
         return this.seconds / 3600;
     }
 
     public Long getMinutesOnly() {
-        return (this.seconds % 60) / 60;
+        return (this.seconds % 3600) / 60;
     }
 
     public Long getSecondsOnly() {
-        return this.seconds % 3600;
+        return this.seconds % 60;
     }
 
     public BTWTime startTimeWindow(long timeWindow) {

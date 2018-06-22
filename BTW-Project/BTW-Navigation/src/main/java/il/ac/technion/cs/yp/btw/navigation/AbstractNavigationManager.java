@@ -24,7 +24,7 @@ abstract class AbstractNavigationManager implements NavigationManager {
 
     protected List<Road> staticAStar(Road src, Road dst, double sourceRoadRatio, BTWTime time) throws PathNotFoundException {
         logger.debug("Start A* computation from " + src.getName() + " to " + dst.getName() + " at time "
-                + time.getHoutsOnly().toString() + ":"
+                + time.getHoursOnly().toString() + ":"
                 + time.getMinutesOnly().toString() + ":"
                 + time.getSecondsOnly().toString());
         PriorityQueue<RoadWrapper> open = new PriorityQueue<>();

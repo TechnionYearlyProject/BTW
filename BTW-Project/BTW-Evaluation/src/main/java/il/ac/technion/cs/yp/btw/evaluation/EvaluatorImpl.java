@@ -2,7 +2,7 @@ package il.ac.technion.cs.yp.btw.evaluation;
 
 import il.ac.technion.cs.yp.btw.citysimulation.VehicleDescriptor;
 import il.ac.technion.cs.yp.btw.classes.*;
-import il.ac.technion.cs.yp.btw.statistics.StatisticalReport;
+import il.ac.technion.cs.yp.btw.classes.StatisticalReport;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
 
@@ -58,37 +58,37 @@ public class EvaluatorImpl implements Evaluator {
         return new Pair<>(weight, numReporters);
     }
 
-//    private static <T> void updateWeightMap(Map<T, Pair<BTWWeight, Integer> > weightMap, T key, StatisticalReport report) {
-//        Pair<BTWWeight, Integer> prevPair = weightMap.get(key);
-//        Long prevTime = prevPair.getKey().seconds();
-//        Integer prevNum = prevPair.getValue();
-//        Long timeUpdate = report.timeTaken().seconds();
-//        Integer numUpdate = report.getNumOfReporters();
-//        Integer newNum = numUpdate + prevNum;
-//        BTWWeight newTime = BTWWeight.of(((prevTime * prevNum) + (timeUpdate * numUpdate)) / newNum);
-//        Pair<BTWWeight, Integer> newPair = new Pair<>(newTime, newNum);
-//        weightMap.put(key, newPair);
-//    }
-
     @Override
     public BTWWeight totalDrivingTime(VehicleDescriptor desc) {
+        if (! this.timeForVehicle.containsKey(desc)) {
+            throw new NoSuchDescriptorException(desc.getID().toString());
+        }
+        BTWWeight w = this.timeForVehicle.get(desc);
+        if (w.seconds() <= 0) {
+            throw new UnfinishedVehicleException(desc.getID().toString());
+        }
         return this.timeForVehicle.get(desc);
     }
 
     @Override
     public BTWWeight averageTotalDrivingTime() {
         return BTWWeight.of(
-                (long)this.timeForVehicle
-                        .values()
-                        .stream()
-                        .mapToDouble(weight -> weight.seconds())
-                        .average()
-                        .orElse(0.0)
-        );
+                Double.valueOf(
+                        this.timeForVehicle
+                                .values()
+                                .stream()
+                                .mapToDouble(weight -> weight.seconds())
+                                .filter(d -> d > 0)
+                                .average()
+                                .orElse(0.0))
+                        .longValue());
     }
 
     @Override
     public BTWWeight averageWaitingTimeOnTrafficLight(TrafficLight tl) {
+        if (! this.waitingTimeOnTrafficLight.containsKey(tl)) {
+            throw new NoSuchTrafficLightException(tl.getName());
+        }
         return this.waitingTimeOnTrafficLight.get(tl).getKey();
     }
 
@@ -99,6 +99,9 @@ public class EvaluatorImpl implements Evaluator {
 
     @Override
     public BTWWeight averageDrivingTimeOnRoad(Road rd) {
+        if (! this.drivingTimeOnRoad.containsKey(rd)) {
+            throw new NoSuchRoadException(rd.getName());
+        }
         return this.drivingTimeOnRoad.get(rd).getKey();
     }
 
@@ -133,30 +136,6 @@ public class EvaluatorImpl implements Evaluator {
         return this;
     }
 
-//    @Override
-//    public Evaluator addRoadReport(Road rd, StatisticalReport report) {
-//        logger.debug("Adding road report");
-//        if (! this.drivingTimeOnRoad.containsKey(rd)) {
-//            logger.error("Road \"" + rd.getName() + "\" not recognized");
-//            throw new NoSuchRoadException(rd.getName());
-//        }
-//        updateWeightMap(this.drivingTimeOnRoad, rd, report);
-//        logger.debug("Road report added successfully");
-//        return this;
-//    }
-//
-//    @Override
-//    public Evaluator addTrafficLightReport(TrafficLight tl, StatisticalReport report) {
-//        logger.debug("Adding traffic-light report");
-//        if (! this.waitingTimeOnTrafficLight.containsKey(tl)) {
-//            logger.error("Traffic-light \"" + tl.getName() + "\" not recognized");
-//            throw new NoSuchTrafficLightException(tl.getName());
-//        }
-//        updateWeightMap(this.waitingTimeOnTrafficLight, tl, report);
-//        logger.debug("Traffic-light report added successfully");
-//        return this;
-//    }
-
     @Override
     public Evaluator addRoadReports(Map<Road, StatisticalReport> reportOfRoad) {
         logger.debug("Adding road reports");
@@ -177,7 +156,7 @@ public class EvaluatorImpl implements Evaluator {
         logger.debug("Adding traffic-light reports");
         if (! this.waitingTimeOnTrafficLight.keySet().containsAll(reportOfTrafficLight.keySet())) {
             logger.error("Traffic-lights not recognized");
-            throw new NoSuchRoadException("Some traffic-lights");
+            throw new NoSuchTrafficLightException("Some traffic-lights");
         }
         reportOfTrafficLight
                 .keySet()

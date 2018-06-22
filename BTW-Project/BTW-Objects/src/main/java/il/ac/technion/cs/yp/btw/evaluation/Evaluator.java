@@ -4,7 +4,7 @@ import il.ac.technion.cs.yp.btw.citysimulation.VehicleDescriptor;
 import il.ac.technion.cs.yp.btw.classes.BTWWeight;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
-import il.ac.technion.cs.yp.btw.statistics.StatisticalReport;
+import il.ac.technion.cs.yp.btw.classes.StatisticalReport;
 
 import java.util.Map;
 
@@ -83,30 +83,6 @@ public interface Evaluator {
      * @return self
      */
     Evaluator addVehicleInfo(VehicleDescriptor desc, BTWWeight weight);
-
-//    /**
-//     * @author Guy Rephaeli
-//     * @date 08-Jun-18.
-//     *
-//     * Getting report on how much time it took to pass the road "rd"
-//     *
-//     * @param rd The road being reported
-//     * @param report The report of how much time it took to drive on the road
-//     * @return self
-//     */
-//    Evaluator addRoadReport(Road rd, StatisticalReport report);
-//
-//    /**
-//     * @author Guy Rephaeli
-//     * @date 08-Jun-18.
-//     *
-//     * Getting report on how much time it took to wait on traffic-light "tl"
-//     *
-//     * @param tl The traffic-light being reported
-//     * @param report The report of how much time it took to wait on the traffic-light
-//     * @return self
-//     */
-//    Evaluator addTrafficLightReport(TrafficLight tl, StatisticalReport report);
 
     /**
      * @author Guy Rephaeli

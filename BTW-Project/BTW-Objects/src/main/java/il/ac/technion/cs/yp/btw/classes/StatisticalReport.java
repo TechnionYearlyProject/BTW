@@ -1,7 +1,4 @@
-package il.ac.technion.cs.yp.btw.statistics;
-
-import il.ac.technion.cs.yp.btw.classes.BTWTime;
-import il.ac.technion.cs.yp.btw.classes.BTWWeight;
+package il.ac.technion.cs.yp.btw.classes;
 
 /**
  * Created by Guy Rephaeli on 18-Apr-18.

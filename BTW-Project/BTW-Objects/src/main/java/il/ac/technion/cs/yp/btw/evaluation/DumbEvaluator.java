@@ -4,7 +4,7 @@ import il.ac.technion.cs.yp.btw.citysimulation.VehicleDescriptor;
 import il.ac.technion.cs.yp.btw.classes.BTWWeight;
 import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
-import il.ac.technion.cs.yp.btw.statistics.StatisticalReport;
+import il.ac.technion.cs.yp.btw.classes.StatisticalReport;
 
 import java.util.Map;
 
