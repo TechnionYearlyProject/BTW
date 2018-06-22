@@ -136,6 +136,7 @@ public class ChooseRunningConfigController extends SwitchToMapController impleme
         live_simulation_button.setDisable(true);
         prepare_button.setDisable(true);
         loadSpinner.setVisible(true);
+        chooseMapTextBox.setDisable(true);
     }
 
     private void enableAllButtons() {
