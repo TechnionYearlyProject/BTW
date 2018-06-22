@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchor" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="179.0" layoutX="-13.0" layoutY="-10.0" stroke="#949494" strokeType="INSIDE" width="2000.0" />
+
+
+        <ImageView fx:id="logo" fitHeight="252.0" fitWidth="214.0" layoutX="-7.0" layoutY="-36.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="/BTWLogo.png" />
+            </image>
+        </ImageView>
+
+        <HBox fx:id="centerContent" alignment="CENTER_LEFT" layoutX="70.0" layoutY="168.0" prefHeight="2020.0" prefWidth="1149.0" spacing="80.0">
+            <children>
+                <VBox alignment="TOP_CENTER" spacing="20.0">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="216.0" spacing="10.0">
+                            <children>
+                                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="/icons8-clouds-50.png" />
+                                    </image>
+                                </ImageView>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Map From DB">
+                                    <font>
+                                        <Font size="20.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </HBox>
+                        <JFXTextField fx:id="chooseMapTextBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="246.0" promptText="Insert Map Name" />
+                    </children>
+                    <padding>
+                        <Insets top="30.0" />
+                    </padding>
+                </VBox>
+                <VBox prefHeight="200.0" prefWidth="100.0" spacing="50.0">
+                    <children>
+
+
+
+                        <VBox alignment="TOP_CENTER" spacing="15.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="216.0" spacing="10.0">
+                                    <children>
+                                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="/icons8-mortarboard-80.png" />
+                                            </image>
+                                        </ImageView>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Learning Mode">
+                                            <font>
+                                                <Font size="20.0" />
+                                            </font>
+                                        </Text>
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" spacing="15.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="216.0" spacing="10.0">
+                                    <children>
+                                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="/icons8-traffic-light-filled-50.png" />
+                                            </image>
+                                        </ImageView>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Compare Different Algorithms" wrappingWidth="194.634765625">
+                                            <font>
+                                                <Font size="20.0" />
+                                            </font>
+                                        </Text>
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets top="30.0" />
+                    </padding>
+                </VBox>
+                <StackPane fx:id="lineSeperator" alignment="TOP_LEFT" maxWidth="1.0" prefWidth="1.0">
+                    <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c3c3c3" height="2000.0" stroke="TRANSPARENT" strokeMiterLimit="0.0" strokeType="INSIDE" strokeWidth="0.0" width="1.0">
+                            <StackPane.margin>
+                                <Insets />
+                            </StackPane.margin></Rectangle>
+                    </children>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </StackPane>
+                <VBox prefHeight="200.0" prefWidth="100.0" spacing="50.0">
+                    <children>
+                        <VBox alignment="TOP_CENTER" spacing="15.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="216.0" spacing="10.0">
+                                    <children>
+                                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="/icons8-near-me-50.png" />
+                                            </image>
+                                        </ImageView>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Live Simulation">
+                                            <font>
+                                                <Font size="20.0" />
+                                            </font>
+                                        </Text>
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" spacing="15.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="257.0" spacing="10.0">
+                                    <children>
+                                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="/icons8-car-filled-50.png" />
+                                            </image>
+                                        </ImageView>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Prepare Map and Vehicles Config" wrappingWidth="176.99609375">
+                                            <font>
+                                                <Font name="DejaVu Sans Book" size="20.0" />
+                                            </font>
+                                        </Text>
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets top="30.0" />
+                    </padding>
+                </VBox>
+            </children>
+        </HBox>
+
+        <HBox fx:id="titleHBox" alignment="CENTER_LEFT" layoutX="150.0" layoutY="40.0" spacing="8">
+            <children>
+                <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="373.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="/icons8-home-50.png" />
+                    </image>
+                </ImageView>
+                <Text text="Choose Simulations" wrappingWidth="1000.0">
+                    <font>
+                        <Font name="DejaVu Sans" size="52.0" />
+                    </font></Text>
+            </children>
+        </HBox>
+
+
+        <JFXSpinner fx:id="loadSpinner" layoutX="170.0" layoutY="446.0" visible="false" />
+        <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Home" />
+
+        <JFXButton fx:id="start_button" buttonType="RAISED" layoutX="867.0" layoutY="576.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Start!" />
+
+
+
+    </children>
+</AnchorPane>

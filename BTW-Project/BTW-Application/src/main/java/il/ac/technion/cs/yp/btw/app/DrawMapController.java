@@ -80,6 +80,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
     CompletableFuture<Boolean> tickTask;
     int currentTicks;
     boolean isVerifyMap = true;
+    private AcceptAction acceptAction = AcceptAction.ChooseSimulation;
 
     double startDragX,startDragY, endDragX, endDragY;
 
@@ -100,6 +101,10 @@ public class DrawMapController extends ShowErrorController implements Initializa
 
     void initIsVerifyMap(boolean verify) {
         isVerifyMap = verify;
+    }
+
+    void initAcceptAction(AcceptAction acceptAction) {
+        this.acceptAction = acceptAction;
     }
 
     void initMapDatabase(BTWDataBase db) {
@@ -194,10 +199,31 @@ public class DrawMapController extends ShowErrorController implements Initializa
         acceptButton.setPrefSize(250, 50);
         acceptButton.setOnAction(event -> {
             logger.debug("Accept button clicked: User verified the map");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choose_simulation.fxml"));
-            ChooseSimulationController controller = new ChooseSimulationController();
-            controller.initMapDatabase(mapDatabase);
-            controller.initStage(stage);
+            FXMLLoader loader = new FXMLLoader();
+            Object controller = new Object();
+            switch (acceptAction) {
+                case ChooseSimulation:
+                    loader = new FXMLLoader(getClass().getResource("/fxml/choose_simulation.fxml"));
+                    ChooseSimulationController choose_controller = new ChooseSimulationController();
+                    choose_controller.initMapDatabase(mapDatabase);
+                    choose_controller.initStage(stage);
+                    controller = choose_controller;
+                    break;
+                case ChooseMultiSimulation:
+                    loader = new FXMLLoader(getClass().getResource("/fxml/choose_multi_simulation.fxml"));
+                    ChooseMultiSimulationController choose_multi_controller = new ChooseMultiSimulationController();
+                    choose_multi_controller.initMapDatabase(mapDatabase);
+                    controller = choose_multi_controller;
+                    break;
+                case LearningMode:
+                    //TODO: change this to REAL learning mode controller
+                    loader = new FXMLLoader(getClass().getResource("/fxml/choose_multi_simulation.fxml"));
+                    ChooseMultiSimulationController learning_controller = new ChooseMultiSimulationController();
+                    learning_controller.initMapDatabase(mapDatabase);
+                    controller = learning_controller;
+                    break;
+            }
+
 //            stage.setResizable(false);
 //            stage.setMaximized(false);
 //            stage.setWidth(1200);
@@ -649,6 +675,10 @@ public class DrawMapController extends ShowErrorController implements Initializa
         for (Pair<Circle,String> circle: map.getCircles()) {
             borderPane.getChildren().add(circle.getKey());
         }
+    }
+
+    public enum AcceptAction {
+            ChooseSimulation, ChooseMultiSimulation, LearningMode;
     }
 
 }
