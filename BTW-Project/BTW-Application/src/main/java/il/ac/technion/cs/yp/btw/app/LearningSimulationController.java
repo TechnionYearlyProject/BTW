@@ -2,8 +2,8 @@ package il.ac.technion.cs.yp.btw.app;
 
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.classes.Road;
+import il.ac.technion.cs.yp.btw.classes.StatisticalReport;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
-import il.ac.technion.cs.yp.btw.statistics.StatisticalReport;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
