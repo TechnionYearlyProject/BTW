@@ -9,8 +9,10 @@ import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
 import il.ac.technion.cs.yp.btw.evaluation.DumbEvaluator;
 import il.ac.technion.cs.yp.btw.evaluation.Evaluator;
+import il.ac.technion.cs.yp.btw.evaluation.EvaluatorImpl;
 import il.ac.technion.cs.yp.btw.navigation.NaiveNavigationManager;
 import il.ac.technion.cs.yp.btw.navigation.NavigationManager;
+import il.ac.technion.cs.yp.btw.navigation.StatisticalNavigationManager;
 import il.ac.technion.cs.yp.btw.statistics.NaiveStatisticsCalculator;
 import il.ac.technion.cs.yp.btw.statistics.SmartStatisticsCalculator;
 import il.ac.technion.cs.yp.btw.statistics.StatisticsCalculator;
@@ -22,6 +24,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -44,7 +48,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
 
     private BTWDataBase db;
 
-    private StatisticsCalculator calculator;
+    private StatisticsCalculator calculator = new SmartStatisticsCalculator(db);
 
     @FXML
     protected JFXRadioButton days_radio = new JFXRadioButton("days_radio");
@@ -61,7 +65,9 @@ public class SetParamsForLearningController extends SwitchToMapController implem
     @FXML
     protected JFXButton load_button = new JFXButton("load_button");
     @FXML
-    protected JFXTextField chooseMapTextField = new JFXTextField("chooseMapTextField");
+    protected JFXTextField chooseVFileTextField = new JFXTextField("chooseVFileTextField");
+    @FXML
+    protected JFXButton back_button = new JFXButton("back_button");
 
     public SetParamsForLearningController(){
         this.unitType = new ToggleGroup();
@@ -69,9 +75,14 @@ public class SetParamsForLearningController extends SwitchToMapController implem
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Scene scene = new Scene((Parent)anchor, BTW.stage.getWidth(), BTW.stage.getHeight());
+        BTW.stage.setScene(scene);
         days_radio.setToggleGroup(unitType);
         weeks_radio.setToggleGroup(unitType);
         months_radio.setToggleGroup(unitType);
+        run_simulation.setOnAction(this::runLearningSimulation);
+        load_button.setOnAction(this::loadButtonClicked);
+        back_button.setOnAction(this::BackClicked);
     }
 
     @FXML
@@ -79,7 +90,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         logger.debug("Going back to home screen");
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
         try {
-            String fxmlLocation = "/fxml/home_layout.fxml";
+            String fxmlLocation = "/fxml/choose_running_config.fxml";
             URL resource = getClass().getResource(fxmlLocation);
             transitionAnimationAndSwitch(fxmlLocation, stageTheEventSourceNodeBelongs, resource, anchor);
         } catch (IOException e) {
@@ -94,7 +105,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
     * The minimum duration for a run is 1 day.
     * The maximum duration for a run is 1 year(12 months).*/
     @FXML
-    protected void runLearningSimulation(){
+    protected void runLearningSimulation(ActionEvent actionEvent){
         long dur = 0;
         JFXRadioButton units = null;
         long numberOfDays = 0;
@@ -121,14 +132,15 @@ public class SetParamsForLearningController extends SwitchToMapController implem
             }
             numberOfDays = dur*28;
         }
-
-        while(numberOfDays!=0){
-            CitySimulator citySimulator = new CitySimulatorImpl(db,new NaiveNavigationManager(db),
-                    new NaiveTrafficLightManager(), calculator, new DumbEvaluator());
+//TODO: change the naive traffic light manager to smart one, and insert valid parameters to the evaluator,
+// TODO: (CONTINUE) then run it and check that the statistics are saved to in the DB.
+        /*while(numberOfDays!=0){
+            CitySimulator citySimulator = new CitySimulatorImpl(db, new StatisticalNavigationManager(db),
+                    new NaiveTrafficLightManager(), calculator, new EvaluatorImpl(db, db.));
             citySimulator.runWholeDay();
-            db.updateHeuristics();
+            db.updateStatisticsTables(calculator.getStatistics());
             numberOfDays--;
-        }
+        }*/
 
     }
 
@@ -139,8 +151,8 @@ public class SetParamsForLearningController extends SwitchToMapController implem
     public void loadButtonClicked(ActionEvent actionEvent) {
         disableAllButtons();
         new Thread(() -> {
-            db = new BTWDataBaseImpl(chooseMapTextField.getText());
-            logger.debug("Trying to load map: " + chooseMapTextField.getText());
+            db = new BTWDataBaseImpl(chooseVFileTextField.getText());
+            logger.debug("Trying to load map: " + chooseVFileTextField.getText());
             boolean result = db.loadMap();
             Platform.runLater(() -> {
                 if(!result) {
@@ -178,6 +190,10 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         weeks_radio.setDisable(false);
         months_radio.setDisable(false);
         run_simulation.setDisable(false);
+    }
+
+    public void initMapDB(BTWDataBase mapDatabase) {
+        this.db = mapDatabase;
     }
 
 }

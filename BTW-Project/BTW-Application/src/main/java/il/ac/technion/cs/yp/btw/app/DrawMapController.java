@@ -217,9 +217,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
                     break;
                 case LearningMode:
                     //TODO: change this to REAL learning mode controller
-                    loader = new FXMLLoader(getClass().getResource("/fxml/choose_multi_simulation.fxml"));
-                    ChooseMultiSimulationController learning_controller = new ChooseMultiSimulationController();
-                    learning_controller.initMapDatabase(mapDatabase);
+                    loader = new FXMLLoader(getClass().getResource("/fxml/set_params_for_learning.fxml"));
+                    SetParamsForLearningController learning_controller = new SetParamsForLearningController();
+                    learning_controller.initMapDB(mapDatabase);
                     controller = learning_controller;
                     break;
             }

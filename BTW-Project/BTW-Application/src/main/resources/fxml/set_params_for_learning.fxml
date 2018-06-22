@@ -15,9 +15,10 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.TextField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.VBox?>
 <AnchorPane fx:id="anchor" maxHeight="700" maxWidth="1200" minHeight="700" minWidth="1200" prefHeight="700.0"
             prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.121"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.ac.technion.cs.yp.btw.app.SetParamsForLearningController">
+            xmlns:fx="http://javafx.com/fxml/1">
 <children>
 
     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="179.0" layoutX="-13.0" layoutY="-10.0" stroke="#949494" strokeType="INSIDE" width="2000.0" />
@@ -74,9 +75,9 @@
         </children>
     </HBox>
 
-    <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" onAction="#BackClicked" prefHeight="49.0"
+    <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" prefHeight="49.0"
                prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
-    <JFXButton fx:id="run_simulation" buttonType="RAISED" layoutX="500.0" layoutY="600.0" onAction="#runLearningSimulation" prefHeight="49.0"
+    <JFXButton fx:id="run_simulation" buttonType="RAISED" layoutX="500.0" layoutY="600.0" prefHeight="49.0"
                prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Run Simualtion" />
 
     <Text fx:id="duration_text" text="Insert Duration:" layoutX="400" layoutY="320">
@@ -86,18 +87,22 @@
     </Text>
     <JFXTextField fx:id="duration" layoutX="500" layoutY="330"/>
 
-    <Text fx:id="choose_map_text" text="Choose Map:" layoutX="400" layoutY="420">
-        <font>
-            <Font size="15.0"/>
-        </font>
-    </Text>
-    <JFXTextField fx:id="chooseMapTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                  layoutX="500" layoutY="440" prefHeight="25.0" prefWidth="246.0" promptText="Insert Map Name" />
-    <JFXButton fx:id="load_button" buttonType="RAISED" onAction="#loadButtonClicked" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-               minWidth="-Infinity" layoutX="500" layoutY="480" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK"
-               style="-fx-background-color: #ffffff;" text="Load"/>
-
-
+    <VBox>
+        <children>
+            <HBox alignment="BOTTOM_CENTER" prefHeight="500" prefWidth="324.0" spacing="15.0">
+                <Text fx:id="choose_vfile_text" text="Choose Vehicles File To Load:">
+                    <font>
+                        <Font size="15.0"/>
+                    </font>
+                </Text>
+                <JFXTextField fx:id="chooseVFileTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                              prefHeight="25.0" prefWidth="246.0" promptText="Insert File Name" />
+                <JFXButton fx:id="load_button" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                           minWidth="-Infinity" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK"
+                           style="-fx-background-color: #ffffff;" text="Load"/>
+            </HBox>
+        </children>
+    </VBox>
 
 </children>
 </AnchorPane>

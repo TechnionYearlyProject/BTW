@@ -239,11 +239,11 @@ public class HomeController extends SwitchToMapController implements Initializab
     public void BackClicked(ActionEvent actionEvent) {
         switchScreens(actionEvent, "/fxml/choose_running_config.fxml");
     }
-    @FXML
+    /*@FXML
     protected void learningSimulationButtonClicked(ActionEvent event) {
         String switchTo;
         switchTo = "/fxml/set_params_for_learning.fxml";
         switchScreens(event, switchTo);
-    }
+    }*/
 
 }
