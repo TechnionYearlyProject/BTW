@@ -21,7 +21,8 @@ public class BTW extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/home_layout.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("/fxml/home_layout.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/choose_running_config.fxml"));
         logger.debug("BTW Begins Here");
         Scene scene = new Scene(root);
         BTW.stage = stage;

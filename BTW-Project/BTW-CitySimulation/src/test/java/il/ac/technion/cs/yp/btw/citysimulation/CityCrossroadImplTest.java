@@ -145,11 +145,8 @@ public class CityCrossroadImplTest {
         this.navigator = Mockito.mock(Navigator.class);
         this.vehicle= Mockito.mock(Vehicle.class);
         this.ticked = false;
-        try {
-            this.configMock();
-        } catch(PathNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        this.configMock();
+
         Set<Road> roads = new HashSet<>();
         roads.add(this.road1);
         roads.add(this.road2);

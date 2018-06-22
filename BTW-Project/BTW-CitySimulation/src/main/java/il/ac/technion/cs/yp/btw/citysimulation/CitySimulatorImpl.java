@@ -45,8 +45,10 @@ public class CitySimulatorImpl implements CitySimulator {
         private final String name;
         private final int length;
         private final Street street;
-        private final Crossroad source;
-        private final Crossroad destination;
+        private Crossroad fakeSource;
+        private Crossroad fakeDestination;
+        private CityCrossroad source;
+        private CityCrossroad destination;
         private final int capacity;
         private final int speedLimit;
         private Set<Vehicle> vehicles;
@@ -58,8 +60,10 @@ public class CitySimulatorImpl implements CitySimulator {
             this.name = road.getName();
             this.length = road.getRoadLength();
             this.street = road.getStreet();
-            this.source = road.getSourceCrossroad();
-            this.destination = road.getDestinationCrossroad();
+            this.fakeSource = road.getSourceCrossroad();
+            this.fakeDestination = road.getDestinationCrossroad();
+//            this.source = getRealCrossroad(road.getSourceCrossroad());
+//            this.destination = getRealCrossroad(road.getDestinationCrossroad());
             this.capacity = Double.valueOf(DEFAULT_CAPACITY_PER_METER * length).intValue();
             this.speedLimit = DEFAULT_SPEED_LIMIT;
             this.vehicles = new HashSet<>();
@@ -103,12 +107,12 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         @Override
-        public Crossroad getSourceCrossroad() {
+        public CityCrossroad getSourceCrossroad() {
             return this.source;
         }
 
         @Override
-        public Crossroad getDestinationCrossroad() {
+        public CityCrossroad getDestinationCrossroad() {
             return this.destination;
         }
 
@@ -228,8 +232,8 @@ public class CitySimulatorImpl implements CitySimulator {
         private final double xCoord;
         private final double yCoord;
         private final String name;
-        private final Road source;
-        private final Road destination;
+        private final CityRoad source;
+        private final CityRoad destination;
         private Queue<Vehicle> vehicles;
         private TrafficLightState state;
         private int timeOpen;
@@ -243,8 +247,8 @@ public class CitySimulatorImpl implements CitySimulator {
             this.xCoord = trafficLight.getCoordinateX();
             this.yCoord = trafficLight.getCoordinateY();
             this.name = trafficLight.getName();
-            this.source = trafficLight.getSourceRoad();
-            this.destination = trafficLight.getDestinationRoad();
+            this.source = getRealRoad(trafficLight.getSourceRoad());
+            this.destination = getRealRoad(trafficLight.getDestinationRoad());
             this.vehicles = new LinkedList<>();
             this.state = TrafficLightState.RED;
             this.minimumOpenTime = DEFAULT_MINIMUM_OPEN_TIME;
@@ -271,12 +275,12 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         @Override
-        public Road getSourceRoad() {
+        public CityRoad getSourceRoad() {
             return source;
         }
 
         @Override
-        public Road getDestinationRoad() {
+        public CityRoad getDestinationRoad() {
             return destination;
         }
 
@@ -301,9 +305,7 @@ public class CitySimulatorImpl implements CitySimulator {
         @Override
         public CityTrafficLight setTrafficLightState(TrafficLightState state) {
             if (state.equals(TrafficLightState.RED)) {
-                if (timeOpen < minimumOpenTime && this.state.equals(TrafficLightState.GREEN)) {
-                    throw new IllegalStateException();//TODO better exception
-                } else {
+                if (!(timeOpen < minimumOpenTime && this.state.equals(TrafficLightState.GREEN))) {
                     this.timeOpen = 0;
 //                    this.timeOpen = this.state.equals(TrafficLightState.RED) ? 0 : this.timeOpen;
                     this.totalThroughputInCurrentGreen = this.throughput;
@@ -407,6 +409,7 @@ public class CitySimulatorImpl implements CitySimulator {
         private final double yCoord;
         private final String name;
         private Set<TrafficLight> trafficLights;
+        private Set<CityTrafficLight> realTrafficLights;
 
 
         private CityCrossroadImpl(Crossroad crossroad) {
@@ -415,6 +418,10 @@ public class CitySimulatorImpl implements CitySimulator {
             this.yCoord = crossroad.getCoordinateY();
             this.trafficLights = new HashSet<>();
             this.trafficLights.addAll(crossroad.getTrafficLights());
+            this.realTrafficLights = crossroad.getTrafficLights()
+                    .stream()
+                    .map(CitySimulatorImpl.this::getRealTrafficLight)
+                    .collect(Collectors.toSet());
         }
 
         /**
@@ -440,7 +447,7 @@ public class CitySimulatorImpl implements CitySimulator {
         }
 
         /**
-         * @return the set of all real trafficLights
+         * @return the set of all real realTrafficLights
          * @author Guy Rephaeli
          * @Date 20-1-2018
          * <p>
@@ -448,9 +455,7 @@ public class CitySimulatorImpl implements CitySimulator {
          */
         @Override
         public Set<CityTrafficLight> getRealTrafficLights() {
-            return this.trafficLights.stream()
-                    .map(CitySimulatorImpl.this::getRealTrafficLight)
-                    .collect(Collectors.toSet());
+            return this.realTrafficLights;
         }
 
         /**
@@ -463,7 +468,7 @@ public class CitySimulatorImpl implements CitySimulator {
          */
         @Override
         public CityCrossroad tick() {
-            this.trafficLights
+            this.realTrafficLights
                     .forEach(trafficLight
                             -> getRealTrafficLight(trafficLight).tick());
             return this;
@@ -548,13 +553,21 @@ public class CitySimulatorImpl implements CitySimulator {
 
         @Override
         public Double getOverload(){
-            return  this.trafficLights
+            return  this.realTrafficLights
                         .stream()
-                        .map(trafficLight -> trafficLight.getSourceRoad())
+                        .map(CityTrafficLight::getSourceRoad)
                         .collect(Collectors.toSet())
                         .stream()
-                        .mapToDouble(road -> road.getOverload())
+                        .mapToDouble(CityRoad::getOverload)
                         .sum();
+        }
+
+        @Override
+        public Set<CityTrafficLight> getRealTrafficLightsFromRoad(CityRoad rd) {
+            return this.realTrafficLights
+                    .stream()
+                    .filter(trafficLight -> trafficLight.getSourceRoad().equals(rd))
+                    .collect(Collectors.toSet());
         }
     }
 
@@ -579,10 +592,12 @@ public class CitySimulatorImpl implements CitySimulator {
         this.reportOfRoad = new HashMap<>();
         this.reportOfTrafficLight = new HashMap<>();
         this.calculator = calculator;
+        this.evaluator = evaluator;
 
         roads.forEach(this::getRealRoad);
         trafficLights.forEach(this::getRealTrafficLight);
         crossroads.forEach(this::getRealCrossroad);
+        setUpRoads();
 
         this.vehicles = new HashSet<>();
         this.vehiclesToEnter = new ArrayList<>();
@@ -604,6 +619,15 @@ public class CitySimulatorImpl implements CitySimulator {
                 calculator, db.getStatisticsPeriod(), evaluator);
     }
 
+    private CitySimulator setUpRoads(){
+        this.roads.values().forEach(r -> {
+            CityRoadImpl rd = ((CityRoadImpl)r);
+            rd.source = getRealCrossroad(rd.fakeSource);
+            rd.destination = getRealCrossroad(rd.fakeDestination);
+        });
+        return this;
+    }
+
     /**
      * @param road - the road to find in the real city
      * @return the real road
@@ -612,6 +636,9 @@ public class CitySimulatorImpl implements CitySimulator {
      */
     @Override
     public CityRoad getRealRoad(Road road) {
+        if (road == null) {
+            return null;
+        }
         String roadName = road.getName();
         if (!this.roads.containsKey(roadName)) {
             CityRoad newLiveRoad = new CityRoadImpl(road);
@@ -628,6 +655,9 @@ public class CitySimulatorImpl implements CitySimulator {
      */
     @Override
     public CityTrafficLight getRealTrafficLight(TrafficLight trafficLight) {
+        if (trafficLight == null) {
+            return null;
+        }
         String trafficLightName = trafficLight.getName();
         if (!this.trafficLights.containsKey(trafficLightName)) {
             CityTrafficLight newLiveTrafficLight = new CityTrafficLightImpl(trafficLight);
@@ -644,6 +674,9 @@ public class CitySimulatorImpl implements CitySimulator {
      */
     @Override
     public CityCrossroad getRealCrossroad(Crossroad crossroad) {
+        if (crossroad == null) {
+            return null;
+        }
         String crossroadName = crossroad.getName();
         if (!this.crossroads.containsKey(crossroadName)) {
             CityCrossroad newLiveCrossroad = new CityCrossroadImpl(crossroad);
@@ -864,17 +897,6 @@ public class CitySimulatorImpl implements CitySimulator {
         logger.debug("TICK");
         this.clock++;
         logger.debug("Update reports");
-        if (this.clock % this.timeWindow == 0) {
-            this.currentReportOfRoad
-                    .keySet()
-                    .forEach(rd -> this.calculator.addRoadReport(rd, this.currentReportOfRoad.get(rd)));
-            this.currentReportOfRoad = new HashMap<>();
-
-            this.currentReportOfTrafficLight
-                    .keySet()
-                    .forEach(tl -> this.calculator.addTrafficLightReport(tl, this.currentReportOfTrafficLight.get(tl)));
-            this.currentReportOfTrafficLight = new HashMap<>();
-        }
 
         logger.debug("Tick roads");
         roads.values().forEach(CityRoad::tick);
@@ -912,15 +934,21 @@ public class CitySimulatorImpl implements CitySimulator {
 
     @Override
     public CitySimulator reportOnRoad(Road rd, Long time) {
-        if (!this.currentReportOfRoad.containsKey(rd)) {
-            StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
-            if (!this.reportOfRoad.containsKey(rd)) {
-                StatisticalReport totalReport = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
-                this.reportOfRoad.put(rd, totalReport);
-            }
+        BTWTime timeOfReport = BTWTime.of(this.clock - time).startTimeWindow(this.timeWindow);
+        if(! this.currentReportOfRoad.containsKey(rd)) {
+            StatisticalReport report = new StatisticalReport(timeOfReport);
+            this.currentReportOfRoad.put(rd, report);
+        } else if (timeOfReport.seconds() > this.currentReportOfRoad.get(rd).getTimeOfReport().seconds()) {
+            this.calculator.addRoadReport(rd, this.currentReportOfRoad.get(rd));
+            StatisticalReport report = new StatisticalReport(timeOfReport);
             this.currentReportOfRoad.put(rd, report);
         }
-//        this.currentReportOfRoad.get(rd).update(BTWWeight.of(time - (time % this.timeWindow)));
+
+        if (!this.reportOfRoad.containsKey(rd)) {
+            StatisticalReport totalReport = new StatisticalReport(BTWTime.of(0));
+            this.reportOfRoad.put(rd, totalReport);
+        }
+
         this.currentReportOfRoad.get(rd).update(BTWWeight.of(time));
         this.reportOfRoad.get(rd).update(BTWWeight.of(time));
         return this;
@@ -928,15 +956,21 @@ public class CitySimulatorImpl implements CitySimulator {
 
     @Override
     public CitySimulator reportOnTrafficLight(TrafficLight tl, Long time) {
+        BTWTime timeOfReport = BTWTime.of(this.clock - time).startTimeWindow(this.timeWindow);
         if (!this.currentReportOfTrafficLight.containsKey(tl)) {
-            StatisticalReport report = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
-            if (!this.reportOfTrafficLight.containsKey(tl)) {
-                StatisticalReport totalReport = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
-                this.reportOfTrafficLight.put(tl, totalReport);
-            }
+            StatisticalReport report = new StatisticalReport(timeOfReport);
+            this.currentReportOfTrafficLight.put(tl, report);
+        } else if (timeOfReport.seconds() > this.currentReportOfTrafficLight.get(tl).getTimeOfReport().seconds()) {
+            this.calculator.addTrafficLightReport(tl, this.currentReportOfTrafficLight.get(tl));
+            StatisticalReport report = new StatisticalReport(timeOfReport);
             this.currentReportOfTrafficLight.put(tl, report);
         }
-//        this.currentReportOfTrafficLight.get(tl).update(BTWWeight.of(time - (time % this.timeWindow)));
+
+        if (!this.reportOfTrafficLight.containsKey(tl)) {
+            StatisticalReport totalReport = new StatisticalReport(BTWTime.of(this.clock - (this.clock % this.timeWindow)));
+            this.reportOfTrafficLight.put(tl, totalReport);
+        }
+
         this.currentReportOfTrafficLight.get(tl).update(BTWWeight.of(time));
         this.reportOfTrafficLight.get(tl).update(BTWWeight.of(time));
         return this;
@@ -952,6 +986,17 @@ public class CitySimulatorImpl implements CitySimulator {
     @Override
     public CitySimulator runWholeDay() {
         this.tick((3600 * 24) - 1);
+
+        this.currentReportOfRoad
+                .keySet()
+                .forEach(rd -> this.calculator.addRoadReport(rd, this.currentReportOfRoad.get(rd)));
+//        this.currentReportOfRoad = new HashMap<>();
+
+        this.currentReportOfTrafficLight
+                .keySet()
+                .forEach(tl -> this.calculator.addTrafficLightReport(tl, this.currentReportOfTrafficLight.get(tl)));
+//        this.currentReportOfTrafficLight = new HashMap<>();
+
         evaluator.addTrafficLightReports(this.reportOfTrafficLight);
         evaluator.addRoadReports(this.reportOfRoad);
         return this;

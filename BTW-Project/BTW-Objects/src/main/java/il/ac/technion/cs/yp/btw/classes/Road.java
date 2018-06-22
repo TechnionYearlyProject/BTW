@@ -53,18 +53,4 @@ public interface Road extends TrafficObject{
      * @return the CrossroadImpl this Road ends
      */
     Crossroad getDestinationCrossroad();
-
-    /*
-    * @Author Sharon Hadar
-    * @Date 2/6/2018
-    * @return the current speed on the road
-    * */
-    double getSpeed();
-
-    /*
-    * @Author Sharon Hadar
-    * @Date 2/6/2018
-    * @return the current overload on the road
-    * */
-    Double getOverload();
 }

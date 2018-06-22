@@ -143,7 +143,7 @@ public class VehicleImpl implements Vehicle {
         this.timeOnCurrentRoad =  realRoad.getCurrentWeight().seconds();
         this.remainingTimeOnRoad = Double.valueOf((ratioEnd - ratioStart) * this.timeOnCurrentRoad).longValue();
         this.remainingLengthOnRoad = (ratioEnd - ratioStart) * rd.getRoadLength();
-        this.enterSpeedOnCurrentRoad = rd.getSpeed();
+        this.enterSpeedOnCurrentRoad = realRoad.getSpeed();
         realRoad.addVehicle(this);
         logger.debug("Started driving on road: " + rd.getName());
         return this;

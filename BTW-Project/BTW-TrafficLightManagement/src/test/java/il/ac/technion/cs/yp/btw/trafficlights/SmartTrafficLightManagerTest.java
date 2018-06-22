@@ -174,7 +174,7 @@ public class SmartTrafficLightManagerTest {
 
 
 
-        private CityRoad configureRoad(String name, int length, Crossroad sourceCrossroad, Crossroad destinationCrossroad,
+        private CityRoad configureRoad(String name, int length, CityCrossroad sourceCrossroad, CityCrossroad destinationCrossroad,
                                 long minimumWeight){
 
         BTWWeight btwWeight = BTWWeight.of(minimumWeight);
@@ -358,12 +358,12 @@ public class SmartTrafficLightManagerTest {
 
     }
 
-    public CityCrossroad configureCrossroad(String name, double coordX, double coordY, Set<TrafficLight> trafficLights){
+    public CityCrossroad configureCrossroad(String name, double coordX, double coordY, Set<CityTrafficLight> trafficLights){
         CityCrossroad crossroad = mock(CityCrossroad.class);
         Mockito.when(crossroad.getName()).thenReturn(name);
         Mockito.when(crossroad.getCoordinateX()).thenReturn(coordX);
         Mockito.when(crossroad.getCoordinateY()).thenReturn(coordY);
-        Mockito.when(crossroad.getTrafficLights()).thenReturn(trafficLights);
+        Mockito.when(crossroad.getRealTrafficLights()).thenReturn(trafficLights);
         return crossroad;
     }
 

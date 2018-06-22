@@ -22,8 +22,8 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
      * @Date: 4/06/2018
      * */
     private class RoadManager{
-        private Road road;
-        private Set<TrafficLight> trafficLightsSet;
+        private CityRoad road;
+        private Set<CityTrafficLight> trafficLightsSet;
         private double roadOpenTime;
         private double timeCounter;
         private double compensationTime;
@@ -38,7 +38,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
          * @Author: Sharon Hadar
          * @Date: 4/06/2018
          * */
-        RoadManager(Road road, Set<TrafficLight> trafficLightsSet, int roadSerialNumberInCrossroad){
+        RoadManager(CityRoad road, Set<CityTrafficLight> trafficLightsSet, int roadSerialNumberInCrossroad){
             this.road = road;
             this.trafficLightsSet = trafficLightsSet;
             this.roadOpenTime = 0.0;
@@ -79,7 +79,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
          * @Author: Sharon Hadar
          * @Date: 4/06/2018
          * */
-        Road getRoad(){
+        CityRoad getRoad(){
             return this.road;
         }
 
@@ -89,7 +89,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
          * */
         private void turnAllTrafficLights(CityTrafficLight.TrafficLightState state){
             this.currentTrafficLightState = state;
-            this.trafficLightsSet.forEach(trafficLight -> ((CityTrafficLight)trafficLight).setTrafficLightState(state));
+            this.trafficLightsSet.forEach(trafficLight -> trafficLight.setTrafficLightState(state));
         }
 
         /*
@@ -150,7 +150,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
      * @Date: 4/06/2018
      * */
     private class CrossroadManager{
-        private Crossroad crossroad;
+        private CityCrossroad crossroad;
         private int currentPeriod; // current period number. turn to zero after we pass periodsNum.
         private double currentPeriodTime;// time of current period in seconds
         private double currentPeriodTimeCounter; //time left for the current period in seconds
@@ -164,7 +164,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
          * @Author: Sharon Hadar
          * @Date: 4/06/2018
          * */
-        CrossroadManager(Crossroad crossroad, List<RoadManager> roadManagersList){
+        CrossroadManager(CityCrossroad crossroad, List<RoadManager> roadManagersList){
             this.crossroad = crossroad;
             this.currentPeriod = 0;
             this.currentPeriodTime = 0.0;
@@ -301,7 +301,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
     * @Author: Sharon Hadar
     * @Date: 11/05/2018
     * */
-    SmartTrafficLightManager(){
+    public SmartTrafficLightManager(){
         super();
         this.periodsNum = 8;
         this.averageOpenTimeForRoad = 60.0;
@@ -323,21 +323,21 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
         //for every cross road attach all its roads and initialize their time to 0.0
 
         //get all roads in map
-        Set<Road> roadsSet = new HashSet<>();
-        crossroads.stream().map(crossroad -> (crossroad.getTrafficLights().stream().map(trafficlight -> roadsSet.add(trafficlight.getSourceRoad())).collect(Collectors.toSet()))).collect(Collectors.toSet());
+        Set<CityRoad> roadsSet = new HashSet<>();
+        crossroads.stream().map(crossroad -> (crossroad.getRealTrafficLights().stream().map(trafficlight -> roadsSet.add(trafficlight.getSourceRoad())).collect(Collectors.toSet()))).collect(Collectors.toSet());
 
         //for every road attach all its trafficlights
-        Map<Road, Set<TrafficLight>> roadToTrafficlightsMap = new HashMap<>();
+        Map<CityRoad, Set<CityTrafficLight>> roadToTrafficlightsMap = new HashMap<>();
         roadsSet.stream()
-                .map(road -> roadToTrafficlightsMap.put(road, road.getDestinationCrossroad().getTrafficLightsFromRoad(road))).collect(Collectors.toSet());
+                .map(road -> roadToTrafficlightsMap.put(road, road.getDestinationCrossroad().getRealTrafficLightsFromRoad(road))).collect(Collectors.toSet());
 
 
         //for every crossroad attach all roads that it ends
-        Map<Crossroad, List<Road>> crossRoadsToRoadsMap = new HashMap<>();
+        Map<CityCrossroad, List<CityRoad>> crossRoadsToRoadsMap = new HashMap<>();
         crossroads.stream()
                 .map(crossroad ->
                         crossRoadsToRoadsMap.put(crossroad,
-                                crossroad.getTrafficLights().stream()
+                                crossroad.getRealTrafficLights().stream()
                                         .map(trafficLight -> trafficLight.getSourceRoad())
                                         .collect(Collectors.toSet())
                                         .stream().collect(Collectors.toList()))).collect(Collectors.toSet());
@@ -346,8 +346,8 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
         this.crossroadsManagers =   crossRoadsToRoadsMap.entrySet()
                                     .stream()
                                     .map(entry ->   {
-                                                Crossroad crossroad = entry.getKey();
-                                                List<Road> roadsList = entry.getValue();
+                                                CityCrossroad crossroad = entry.getKey();
+                                                List<CityRoad> roadsList = entry.getValue();
                                                 AtomicInteger roadSerialNumber = new AtomicInteger(0);
                                                 List<RoadManager> roadManagers =
                                                         roadsList.stream()
@@ -357,6 +357,12 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
                                                 return new CrossroadManager(crossroad, roadManagers);
                                                 })
                                     .collect(Collectors.toSet());
+
+        this.minimumOpenTime = crossroads.stream()
+                .flatMap(crossroad -> crossroad.getRealTrafficLights().stream())
+                .mapToInt(CityTrafficLight::getMinimumOpenTime)
+                .max()
+                .getAsInt() + 1; // may throw - need to catch
         return this;
     }
 

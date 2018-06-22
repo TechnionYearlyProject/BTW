@@ -16,9 +16,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchor" minHeight="700" minWidth="1200" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.ac.technion.cs.yp.btw.app.HomeController">
+<AnchorPane fx:id="anchor" minHeight="700" minWidth="1200" style="-fx-background-color: white;"
+            xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="il.ac.technion.cs.yp.btw.app.HomeController">
     <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="179.0" layoutX="-13.0" layoutY="-10.0" stroke="#949494" strokeType="INSIDE" width="2000.0" />
+        <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" onAction="#BackClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
 
         <HBox fx:id="titleHBox" alignment="CENTER_LEFT" layoutX="20.0" layoutY="40.0" spacing="5">
             <children>

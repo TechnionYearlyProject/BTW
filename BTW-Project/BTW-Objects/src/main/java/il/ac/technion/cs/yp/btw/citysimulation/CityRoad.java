@@ -1,6 +1,7 @@
 package il.ac.technion.cs.yp.btw.citysimulation;
 
 import il.ac.technion.cs.yp.btw.classes.BTWWeight;
+import il.ac.technion.cs.yp.btw.classes.Crossroad;
 import il.ac.technion.cs.yp.btw.classes.Road;
 
 import java.util.Set;
@@ -41,4 +42,34 @@ public interface CityRoad extends Road, StatisticsProviding<RoadData> {
      * @return - Set of above mentioned vehicles
      */
     Set<Vehicle> getVehiclesOnRoad();
+
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @return the CrossroadImpl this Road starts in
+     */
+    @Override
+    CityCrossroad getSourceCrossroad();
+
+    /**
+     * @author Adam Elgressy
+     * @Date 20-1-2018
+     * @return the CrossroadImpl this Road ends
+     */
+    @Override
+    CityCrossroad getDestinationCrossroad();
+
+    /**
+    * @Author Sharon Hadar
+    * @Date 2/6/2018
+    * @return the current overload on the road
+    */
+    Double getOverload();
+
+    /**
+    * @Author Sharon Hadar
+    * @Date 2/6/2018
+    * @return the current speed on the road
+    */
+    double getSpeed();
 }

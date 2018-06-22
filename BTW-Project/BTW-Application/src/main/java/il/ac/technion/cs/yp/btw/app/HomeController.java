@@ -26,6 +26,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -33,6 +34,7 @@ import org.apache.log4j.Logger;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
@@ -56,7 +58,7 @@ public class HomeController extends SwitchToMapController implements Initializab
 
     @FXML private JFXSpinner loadSpinner;
 
-    @FXML private JFXButton load_button, generate_button, load_file_button, attachButton, learningSimulation;
+    @FXML private JFXButton load_button, generate_button, load_file_button, attachButton, back_button,learningSimulation;
 
     @FXML private HBox titleHBox, centerContent;
 
@@ -124,6 +126,8 @@ public class HomeController extends SwitchToMapController implements Initializab
                 });
             }
         });
+        AnchorPane.setRightAnchor(back_button, 20.0);
+        AnchorPane.setTopAnchor(back_button, 60.0);
     }
 
 
@@ -161,7 +165,7 @@ public class HomeController extends SwitchToMapController implements Initializab
         logger.debug("Attaching file");
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(anchor.getScene().getWindow());
-        mapFromFileTextBox.setText(selectedFile.getAbsolutePath());
+        if(selectedFile != null) mapFromFileTextBox.setText(selectedFile.getAbsolutePath());
     }
 
     public void loadFileButtonClicked(ActionEvent actionEvent) {
@@ -232,6 +236,9 @@ public class HomeController extends SwitchToMapController implements Initializab
         loadSpinner.setVisible(false);
     }
 
+    public void BackClicked(ActionEvent actionEvent) {
+        switchScreens(actionEvent, "/fxml/choose_running_config.fxml");
+    }
     @FXML
     protected void learningSimulationButtonClicked(ActionEvent event) {
         String switchTo;

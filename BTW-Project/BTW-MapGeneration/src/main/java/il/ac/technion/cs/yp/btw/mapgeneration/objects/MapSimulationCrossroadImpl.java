@@ -68,9 +68,4 @@ public class MapSimulationCrossroadImpl extends PointAbstract implements Crossro
     public String getName(){
     return this.name;
     }
-
-    @Override
-    public Double getOverload(){
-        return 0.0;
-    }
 }

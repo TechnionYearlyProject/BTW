@@ -40,13 +40,24 @@ public abstract class SwitchToMapController extends ShowErrorController {
     }
 
     protected void switchScreensToMap(ActionEvent event, CitySimulator citySimulator, BTWDataBase db) {
-        switchScreensToMap(event, citySimulator, db, true);
+        switchScreensToMap(event, citySimulator, db, true, DrawMapController.AcceptAction.ChooseSimulation);
     }
 
-    protected void switchScreensToMap(ActionEvent event, CitySimulator citySimulator, BTWDataBase db, boolean isVerify) {
+    protected void switchScreensToMap(ActionEvent event, CitySimulator citySimulator, BTWDataBase db,
+                                      boolean isVerify) {
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
         try {
-            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, citySimulator, db, isVerify);
+            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, citySimulator, db, isVerify, DrawMapController.AcceptAction.ChooseSimulation);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void switchScreensToMap(ActionEvent event, CitySimulator citySimulator, BTWDataBase db,
+                                      boolean isVerify, DrawMapController.AcceptAction acceptAction) {
+        Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        try {
+            transitionAndSwitchToMap(stageTheEventSourceNodeBelongs, citySimulator, db, isVerify, acceptAction);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,13 +89,15 @@ public abstract class SwitchToMapController extends ShowErrorController {
     }
 
     public void transitionAndSwitchToMap(Stage stageTheEventSourceNodeBelongs,
-                                         CitySimulator citySimulator, BTWDataBase db, boolean isVerify) throws IOException {
+                                         CitySimulator citySimulator, BTWDataBase db, boolean isVerify,
+                                         DrawMapController.AcceptAction acceptAction) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stageForDrawMap.fxml"));
         DrawMapController drawMapController = new DrawMapController();
         drawMapController.initCitySimulator(citySimulator);
         drawMapController.initStage(stageTheEventSourceNodeBelongs);
         drawMapController.initMapDatabase(db);
         drawMapController.initIsVerifyMap(isVerify);
+        drawMapController.initAcceptAction(acceptAction);
         loader.setController(drawMapController);
         try {
             loader.load();
