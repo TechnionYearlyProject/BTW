@@ -27,6 +27,7 @@ import sun.rmi.runtime.Log;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -42,6 +43,7 @@ public abstract class GenerateCityController extends SwitchToMapController {
     @FXML protected JFXSpinner progress_spinner;
     protected String mapName;
     final static Logger logger = Logger.getLogger("GenerateCityController");
+    protected Set<String> tablesNames;
 
     public static DrawMapController.AcceptAction acceptAction; //what to do after generating
 
@@ -147,6 +149,10 @@ public abstract class GenerateCityController extends SwitchToMapController {
             errorMessage += "Map name must be alphanumeric\n" + "and without spaces";
         }
         //TODO: check here if map is alrady in the database
+        if(errorMessage.equals("")) {
+            if(tablesNames == null) errorMessage = "No connection to Database yet";
+            else if(tablesNames.contains(text)) errorMessage = "Map name already in Database";
+        }
         return errorMessage;
     }
 

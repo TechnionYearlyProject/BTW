@@ -3,8 +3,11 @@ package il.ac.technion.cs.yp.btw.app;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
+import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
+import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
 import il.ac.technion.cs.yp.btw.mapgeneration.GridCityMapSimulator;
 import il.ac.technion.cs.yp.btw.mapgeneration.MapSimulator;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,10 +19,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**@author: Orel
  * @date: 20/1/18
@@ -56,6 +61,15 @@ public class GenerateGridController extends GenerateCityController implements In
         if(acceptAction == DrawMapController.AcceptAction.SaveMap) {
             mapNameToggle.setSelected(true);
             mapNameTextField.setDisable(false);
+            new Thread(() -> {
+                BTWDataBase dbForTables = new BTWDataBaseImpl("dbForTables");
+                tablesNames = dbForTables.getTablesNames();
+                Platform.runLater(() -> {
+                    if (tablesNames != null) {
+                        logger.debug("Tables names are loaded");
+                    }
+                });
+            }).start();
         } else {
             mapNameToggle.setSelected(false);
             mapNameTextField.setVisible(false);
