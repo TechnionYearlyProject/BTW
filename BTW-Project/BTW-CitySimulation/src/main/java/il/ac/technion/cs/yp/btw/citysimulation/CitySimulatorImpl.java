@@ -39,9 +39,12 @@ public class CitySimulatorImpl implements CitySimulator {
     private Optional<StatisticsCalculator> calculator;
     private Optional<Evaluator> evaluator;
 
+
+
     private class CityRoadImpl implements CityRoad {
         private static final double DEFAULT_CAPACITY_PER_METER = 0.4;
         private static final int DEFAULT_SPEED_LIMIT = 50;
+        private final int DEFAULT_MINIMUM_SPEED = 1;
         private final String name;
         private final int length;
         private final Street street;
@@ -54,6 +57,7 @@ public class CitySimulatorImpl implements CitySimulator {
         private Set<Vehicle> vehicles;
         private BTWWeight minWeight;
         private Road wrappedRoad;
+        private Set<Vehicle> currentRemovedVehicles;
 
 
         private CityRoadImpl(Road road) {
@@ -69,6 +73,13 @@ public class CitySimulatorImpl implements CitySimulator {
             this.vehicles = new HashSet<>();
             this.minWeight = road.getMinimumWeight();
             this.wrappedRoad = road;
+            this.currentRemovedVehicles = new HashSet<>();
+        }
+
+        private CityRoad removeAllVehicles() {
+            this.vehicles.removeAll(this.currentRemovedVehicles);
+            this.currentRemovedVehicles = new HashSet<>();
+            return this;
         }
 
         @Override
@@ -136,7 +147,8 @@ public class CitySimulatorImpl implements CitySimulator {
          */
         @Override
         public CityRoad removeVehicle(Vehicle vehicle) {
-            this.vehicles.remove(vehicle);
+            this.currentRemovedVehicles.add(vehicle);
+//            this.vehicles.remove(vehicle);
             return this;
         }
 
@@ -147,7 +159,8 @@ public class CitySimulatorImpl implements CitySimulator {
          */
         @Override
         public CityRoad tick() {
-            vehicles.forEach(Vehicle::progressOnRoad);
+            this.vehicles.forEach(Vehicle::progressOnRoad);
+            this.removeAllVehicles();
             return this;
         }
 
@@ -185,7 +198,11 @@ public class CitySimulatorImpl implements CitySimulator {
          * number of vehicles on road - discrete
          */
         public double getSpeed() {
-            return (this.speedLimit * (1.0 - (((double) this.vehicles.size()) / ((double) this.capacity)))) / 3.6;
+            double speed = (this.speedLimit * (1.0 - (((double) this.vehicles.size()) / ((double) this.capacity))));
+            if (speed <= 0) {
+                speed = this.DEFAULT_MINIMUM_SPEED;
+            }
+            return speed;
         }
 
         /**
@@ -603,6 +620,7 @@ public class CitySimulatorImpl implements CitySimulator {
         this.trafficLightManager = trafficLightManager;
         this.clock = 0;
         this.timeWindow = timeWindow;
+
     }
 
     /**
