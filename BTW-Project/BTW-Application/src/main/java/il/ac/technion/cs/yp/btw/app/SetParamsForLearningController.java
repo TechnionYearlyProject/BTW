@@ -31,6 +31,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
@@ -53,6 +55,8 @@ public class SetParamsForLearningController extends SwitchToMapController implem
 
     private StatisticsCalculator calculator;
 
+    private int numberOfVehicles = 0;
+
     @FXML
     protected JFXRadioButton days_radio = new JFXRadioButton("days_radio");
     @FXML
@@ -66,11 +70,13 @@ public class SetParamsForLearningController extends SwitchToMapController implem
     @FXML
     protected JFXButton run_simulation = new JFXButton("run_simulation");
     @FXML
-    protected JFXButton load_button = new JFXButton("load_button");
+    protected JFXButton load_vehicles_button = new JFXButton("load_vehicles_button");
     @FXML
-    protected JFXTextField chooseVFileTextField = new JFXTextField("chooseVFileTextField");
+    protected JFXTextField chooseNumOfVehiclesField = new JFXTextField("chooseNumOfVehiclesField");
     @FXML
     protected JFXButton back_button = new JFXButton("back_button");
+    @FXML
+    protected HBox titleHBox;
 
     public SetParamsForLearningController(){
         this.unitType = new ToggleGroup();
@@ -84,9 +90,10 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         weeks_radio.setToggleGroup(unitType);
         months_radio.setToggleGroup(unitType);
         run_simulation.setOnAction(this::runLearningSimulation);
-        load_button.setOnAction(this::loadButtonClicked);
+        load_vehicles_button.setOnAction(this::loadVehiclesButtonClicked);
         back_button.setOnAction(this::BackClicked);
         calculator = new SmartStatisticsCalculator(db);
+        initCenterPanes();
     }
 
     @FXML
@@ -139,7 +146,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         //TODO: change the naive traffic light manager to smart one, and insert valid parameters to the evaluator,
         // TODO: (CONTINUE) then run it and check that the statistics are saved to in the DB.
         while(numberOfDays!=0){
-            List<VehicleEntry> vehicleEntries = new VehiclesGenerator(db.getAllRoads(),10,
+            List<VehicleEntry> vehicleEntries = new VehiclesGenerator(db.getAllRoads(),numberOfVehicles,
                     BTWTime.of("09:00:00"),BTWTime.of("17:00:00")).generateList();
             CitySimulator citySimulator = new CitySimulatorImpl(db, new StatisticalNavigationManager(db),
                     new NaiveTrafficLightManager(), calculator);
@@ -153,46 +160,23 @@ public class SetParamsForLearningController extends SwitchToMapController implem
 
     /*@Author:Anat Tetroasvili
     * @Date:20/6/18
-    * This function loads an existing map from the db,according to the name that have inserted,
-     * or announce that there no such map.*/
-    public void loadButtonClicked(ActionEvent actionEvent) {
-        disableAllButtons();
-        new Thread(() -> {
-            db = new BTWDataBaseImpl(chooseVFileTextField.getText());
-            logger.debug("Trying to load map: " + chooseVFileTextField.getText());
-            boolean result = db.loadMap();
-            Platform.runLater(() -> {
-                if(!result) {
-                    enableAllButtons();
-                    showErrorDialog("Failed to load: Map name is not in the Database");
-                } else {
-                    logger.debug("Loading map from Database");
-                    new Thread(() -> {
-                        //TODO: CHANGE TO SMART
-                        NavigationManager navigationManager = new NaiveNavigationManager(db);
-                        TrafficLightManager trafficLightManager = new NaiveTrafficLightManager();
-                        calculator = new NaiveStatisticsCalculator(db);
-                        CitySimulator citySimulator = new CitySimulatorImpl(db, navigationManager, trafficLightManager, calculator);
-                        trafficLightManager.insertCrossroads(db.getAllCrossroads()
-                                .stream()
-                                .map(citySimulator::getRealCrossroad)
-                                .collect(Collectors.toSet()));
-                        //Platform.runLater(() -> switchScreensToMap(actionEvent, citySimulator, db));
-                        Platform.runLater(this::enableAllButtons);
-                    }).start();
-                }});
-        }).start();
+    * This function loads the number of vehicles to run the simulation with.*/
+    public void loadVehiclesButtonClicked(ActionEvent actionEvent) {
+        if(chooseNumOfVehiclesField.getText().compareTo("")!=0) {
+            if((chooseNumOfVehiclesField.getText().compareTo("0")>0) &&chooseNumOfVehiclesField.getText().compareTo("200")<0 )
+            numberOfVehicles = Integer.valueOf(chooseNumOfVehiclesField.getText());
+        }
     }
 
     private void disableAllButtons() {
-        load_button.setDisable(true);
+        load_vehicles_button.setDisable(true);
         days_radio.setDisable(true);
         weeks_radio.setDisable(true);
         months_radio.setDisable(true);
         run_simulation.setDisable(true);
     }
     private void enableAllButtons() {
-        load_button.setDisable(false);
+        load_vehicles_button.setDisable(false);
         days_radio.setDisable(false);
         weeks_radio.setDisable(false);
         months_radio.setDisable(false);
@@ -201,6 +185,15 @@ public class SetParamsForLearningController extends SwitchToMapController implem
 
     public void initMapDatabase(BTWDataBase mapDatabase) {
         this.db = mapDatabase;
+    }
+
+    public void initCenterPanes() {
+        titleHBox.translateXProperty()
+                .bind(BTW.stage.widthProperty().subtract(titleHBox.widthProperty())
+                        .divide(2));
+        AnchorPane.setTopAnchor(titleHBox, 40.0);
+        AnchorPane.setRightAnchor(back_button, 20.0);
+        AnchorPane.setTopAnchor(back_button, 60.0);
     }
 
 }

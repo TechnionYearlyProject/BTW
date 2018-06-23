@@ -49,22 +49,22 @@
 
     <HBox alignment="TOP_CENTER" spacing="15.0" layoutY="250.0" layoutX="300.0">
         <children>
-            <Text text="Choose Units For Learning Mode:" layoutX="320.0" layoutY="300.0">
+            <Text text="Choose Units For Learning Mode:">
                 <font>
                     <Font size="15.0"/>
                 </font>
             </Text>
-            <JFXRadioButton fx:id="days_radio" prefHeight="36.0" prefWidth="131.0" text="Days" layoutY="400.0" layoutX="300.0">
+            <JFXRadioButton fx:id="days_radio" prefHeight="36.0" prefWidth="131.0" text="Days">
                 <font>
                     <Font size="15.0" />
                 </font>
             </JFXRadioButton>
-            <JFXRadioButton fx:id="weeks_radio" prefHeight="36.0" prefWidth="131.0" text="Weeks" layoutY="400.0" layoutX="350.0">
+            <JFXRadioButton fx:id="weeks_radio" prefHeight="36.0" prefWidth="131.0" text="Weeks">
                 <font>
                     <Font size="15.0" />
                 </font>
             </JFXRadioButton>
-            <JFXRadioButton fx:id="months_radio" prefHeight="36.0" prefWidth="161.0" text="Months" layoutY="400.0" layoutX="400.0">
+            <JFXRadioButton fx:id="months_radio" prefHeight="36.0" prefWidth="161.0" text="Months">
                 <font>
                     <Font size="15.0" />
                 </font>
@@ -80,24 +80,28 @@
     <JFXButton fx:id="run_simulation" buttonType="RAISED" layoutX="500.0" layoutY="600.0" prefHeight="49.0"
                prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Run Simualtion" />
 
-    <Text fx:id="duration_text" text="Insert Duration:" layoutX="400" layoutY="320">
+<HBox alignment="TOP_CENTER" spacing="15.0" layoutY="320.0" layoutX="300.0">
+    <Text fx:id="duration_text" text="Insert Duration:">
         <font>
             <Font size="15.0"/>
         </font>
     </Text>
-    <JFXTextField fx:id="duration" layoutX="500" layoutY="330"/>
+    <JFXTextField fx:id="duration"/>
+</HBox>
 
 
-    <Text fx:id="choose_vfile_text" text="Choose Vehicles File To Load:">
+    <HBox alignment="TOP_CENTER" spacing="15.0" layoutY="400.0" layoutX="300.0">
+    <Text fx:id="choose_number_vehicles_text" text="Choose Number Of Vehicles To Simulate:">
         <font>
             <Font size="15.0"/>
         </font>
     </Text>
-    <JFXTextField fx:id="chooseVFileTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                  prefHeight="25.0" prefWidth="246.0" promptText="Insert File Name" />
-    <JFXButton fx:id="load_button" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+    <JFXTextField fx:id="chooseNumOfVehiclesField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                  prefHeight="25.0" prefWidth="246.0" promptText="Insert Num Of Vehicles"/>
+    <JFXButton fx:id="load_vehicles_button" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                            minWidth="-Infinity" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK"
-               style="-fx-background-color: #ffffff;" text="Load"/>
+               style="-fx-background-color: #ffffff;" text="Add"/>
+    </HBox>
 
 </children>
 </AnchorPane>
