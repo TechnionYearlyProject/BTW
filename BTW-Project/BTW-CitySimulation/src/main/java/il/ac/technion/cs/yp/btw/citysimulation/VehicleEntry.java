@@ -130,11 +130,6 @@ public class VehicleEntry {
     }
 }
 
-class IntegerData extends NumericalData {
-    IntegerData(int value) {
-        super(value);
-    }
-}
 class NumericalData {
     private static final double DEFAULT_NUMERICAL_UPPER_BOUND = 1000000.0;
     private static final double DEFAULT_NUMERICAL_LOWER_BOUND = 0.0;
