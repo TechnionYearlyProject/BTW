@@ -45,9 +45,16 @@ public class GenerateFreeFormController extends GenerateCityController implement
                 textToggleAction(NumberOfBlocks));
         radiusToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
                 textToggleAction(Radius));
-        mapNameToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
-                textToggleAction(mapNameTextField));
-
+//        mapNameToggle.selectedProperty().addListener((observable, oldValue, newValue) ->
+//                textToggleAction(mapNameTextField));
+        mapNameToggle.setVisible(false);
+        if(acceptAction == DrawMapController.AcceptAction.SaveMap) {
+            mapNameToggle.setSelected(true);
+            mapNameTextField.setDisable(false);
+        } else {
+            mapNameToggle.setSelected(false);
+            mapNameTextField.setVisible(false);
+        }
 
         stage = BTW.stage;
         titleHBox.translateXProperty()

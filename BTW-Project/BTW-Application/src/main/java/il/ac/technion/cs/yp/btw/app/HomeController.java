@@ -78,6 +78,7 @@ public class HomeController extends SwitchToMapController implements Initializab
         }else{
             return;
         }
+        GenerateCityController.acceptAction = DrawMapController.AcceptAction.ChooseSimulation;
         switchScreens(event, switchTo);
     }
 

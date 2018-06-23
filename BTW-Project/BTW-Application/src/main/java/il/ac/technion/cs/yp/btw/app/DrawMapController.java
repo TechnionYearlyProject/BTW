@@ -1,6 +1,7 @@
 package il.ac.technion.cs.yp.btw.app;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import il.ac.technion.cs.yp.btw.citysimulation.*;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
@@ -15,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -81,7 +83,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
     int currentTicks;
     boolean isVerifyMap = true;
     private AcceptAction acceptAction = AcceptAction.ChooseSimulation;
-
+    private Thread randomVehiclesThread;
     double startDragX,startDragY, endDragX, endDragY;
 
     //the interval of ticks for the action of each button
@@ -199,42 +201,75 @@ public class DrawMapController extends ShowErrorController implements Initializa
         acceptButton.setPrefSize(250, 50);
         acceptButton.setOnAction(event -> {
             logger.debug("Accept button clicked: User verified the map");
-            FXMLLoader loader = new FXMLLoader();
-            Object controller = new Object();
-            switch (acceptAction) {
-                case ChooseSimulation:
-                    loader = new FXMLLoader(getClass().getResource("/fxml/choose_simulation.fxml"));
-                    ChooseSimulationController choose_controller = new ChooseSimulationController();
-                    choose_controller.initMapDatabase(mapDatabase);
-                    choose_controller.initStage(stage);
-                    controller = choose_controller;
-                    break;
-                case ChooseMultiSimulation:
-                    loader = new FXMLLoader(getClass().getResource("/fxml/choose_multi_simulation.fxml"));
-                    ChooseMultiSimulationController choose_multi_controller = new ChooseMultiSimulationController();
-                    choose_multi_controller.initMapDatabase(mapDatabase);
-                    controller = choose_multi_controller;
-                    break;
-                case LearningMode:
-                    //TODO: change this to REAL learning mode controller
-                    loader = new FXMLLoader(getClass().getResource("/fxml/set_params_for_learning.fxml"));
-                    SetParamsForLearningController learning_controller = new SetParamsForLearningController();
-                    learning_controller.initMapDB(mapDatabase);
-                    controller = learning_controller;
-                    break;
+
+            if(acceptAction.equals(AcceptAction.SaveMap)) {
+                acceptButton.setDisable(true);
+                backButton.setDisable(true);
+                VBox savingBox = new VBox();
+                JFXSpinner spinner = new JFXSpinner();
+                Text text = new Text("Saving...");
+                text.setFont(Font.font(18.0));
+                savingBox.getChildren().addAll(spinner, text);
+                savingBox.setStyle("-fx-background-color: white;");
+                savingBox.setAlignment(Pos.CENTER);
+                savingBox.setPrefWidth(200.0);
+                savingBox.setPrefHeight(200.0);
+                savingBox.setSpacing(20.0);
+                anchor.getChildren().add(savingBox);
+                savingBox.translateXProperty()
+                        .bind(stage.widthProperty().subtract(savingBox.widthProperty())
+                                .divide(2));
+                savingBox.translateYProperty()
+                        .bind(stage.heightProperty().subtract(savingBox.heightProperty())
+                                .divide(2));
+                new Thread(() -> {
+                    mapDatabase.saveMap();
+                    Platform.runLater(() -> { //switch to preapre screen when done
+                        URL resource = getClass().getResource("/fxml/prepare_configs.fxml");
+                        Parent parent = null;
+                        try {
+                            parent = FXMLLoader.load(resource);
+                            Scene scene = new Scene(parent);
+                            BTW.stage.setScene(scene);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }).start();
+            } else {
+                FXMLLoader loader = new FXMLLoader();
+                Object controller = new Object();
+                switch (acceptAction) {
+                    case ChooseSimulation:
+                        loader = new FXMLLoader(getClass().getResource("/fxml/choose_simulation.fxml"));
+                        ChooseSimulationController choose_controller = new ChooseSimulationController();
+                        choose_controller.initMapDatabase(mapDatabase);
+                        choose_controller.initStage(stage);
+                        controller = choose_controller;
+                        break;
+                    case ChooseMultiSimulation:
+                        loader = new FXMLLoader(getClass().getResource("/fxml/choose_multi_simulation.fxml"));
+                        ChooseMultiSimulationController choose_multi_controller = new ChooseMultiSimulationController();
+                        choose_multi_controller.initMapDatabase(mapDatabase);
+                        controller = choose_multi_controller;
+                        break;
+                    case LearningMode:
+                        //TODO: change this to REAL learning mode controller
+                        loader = new FXMLLoader(getClass().getResource("/fxml/set_params_for_learning.fxml"));
+                        SetParamsForLearningController learning_controller = new SetParamsForLearningController();
+                        learning_controller.initMapDB(mapDatabase);
+                        controller = learning_controller;
+                        break;
+                }
+                loader.setController(controller);
+                try {
+                    loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
-//            stage.setResizable(false);
-//            stage.setMaximized(false);
-//            stage.setWidth(1200);
-//            stage.setHeight(700);
-            loader.setController(controller);
-            try {
-                loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-//            switchScreens(event, "/fxml/choose_simulation.fxml");
+
         });
         verifyMapText.setVisible(true);
         mapImage.setVisible(true);
@@ -288,6 +323,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
     private void backButtonClicked(ActionEvent event) {
         logger.debug("Back clicked - going back to home screen");
         playCityTimeline.stop();
+        if(randomVehiclesThread != null) randomVehiclesThread.stop();
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
 //        URL resource = getClass().getResource("/fxml/home_layout.fxml");
         URL resource = getClass().getResource("/fxml/choose_running_config.fxml");
@@ -499,7 +535,8 @@ public class DrawMapController extends ShowErrorController implements Initializa
         String previousText = addVehiclesButton.getText();
         addVehiclesButton.setText("Adding...");
         addVehiclesButton.setDisable(true);
-        Thread thread = new Thread(() -> {
+
+        randomVehiclesThread = new Thread(() -> {
             try {
                 citySimulator.addRandomVehicles(numOfVehicles);
             } catch (PathNotFoundException e) {
@@ -510,9 +547,10 @@ public class DrawMapController extends ShowErrorController implements Initializa
                     redrawMap();
                     addVehiclesButton.setDisable(false);
                     addVehiclesButton.setText(previousText);
+                    randomVehiclesThread = null;
             });
         });
-        thread.start();
+        randomVehiclesThread.start();
     }
 
     /**@author: Orel
@@ -686,7 +724,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
     }
 
     public enum AcceptAction {
-            ChooseSimulation, ChooseMultiSimulation, LearningMode;
+            ChooseSimulation, ChooseMultiSimulation, LearningMode, SaveMap;
     }
 
 }

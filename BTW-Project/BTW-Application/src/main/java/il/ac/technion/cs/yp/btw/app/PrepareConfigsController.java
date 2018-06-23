@@ -87,6 +87,18 @@ public class PrepareConfigsController extends SwitchToMapController implements I
     }
 
     public void generateButtonClick(ActionEvent actionEvent) {
+        RadioButton selectedRadioButton = (RadioButton) generate_city_toggle.getSelectedToggle();
+        if(selectedRadioButton == null) return;
+        String switchTo;
+        if (selectedRadioButton.equals(grid_radio)) {
+            switchTo = "/fxml/generate_grid.fxml";
+        } else if(selectedRadioButton.equals(free_form_radio)) {
+            switchTo = "/fxml/generate_free_form.fxml";
+        }else{
+            return;
+        }
+        GenerateCityController.acceptAction = DrawMapController.AcceptAction.SaveMap;
+        switchScreens(actionEvent, switchTo);
     }
 
     public void loadFileButtonClicked(ActionEvent actionEvent) {

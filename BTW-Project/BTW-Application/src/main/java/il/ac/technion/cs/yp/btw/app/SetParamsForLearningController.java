@@ -5,7 +5,10 @@ import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
+import il.ac.technion.cs.yp.btw.citysimulation.VehicleEntry;
+import il.ac.technion.cs.yp.btw.citysimulation.VehiclesGenerator;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
+import il.ac.technion.cs.yp.btw.classes.BTWTime;
 import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
 import il.ac.technion.cs.yp.btw.evaluation.Evaluator;
 import il.ac.technion.cs.yp.btw.evaluation.EvaluatorImpl;
@@ -33,6 +36,7 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -131,15 +135,18 @@ public class SetParamsForLearningController extends SwitchToMapController implem
             }
             numberOfDays = dur*28;
         }
-//TODO: change the naive traffic light manager to smart one, and insert valid parameters to the evaluator,
-// TODO: (CONTINUE) then run it and check that the statistics are saved to in the DB.
-        /*while(numberOfDays!=0){
+        //TODO: change the naive traffic light manager to smart one, and insert valid parameters to the evaluator,
+        // TODO: (CONTINUE) then run it and check that the statistics are saved to in the DB.
+        while(numberOfDays!=0){
+            List<VehicleEntry> vehicleEntries = new VehiclesGenerator(db.getAllRoads(),1000,
+                    BTWTime.of("09:00:00"),BTWTime.of("17:00:00")).generateList();
             CitySimulator citySimulator = new CitySimulatorImpl(db, new StatisticalNavigationManager(db),
-                    new NaiveTrafficLightManager(), calculator, new EvaluatorImpl(db, db.));
+                    new NaiveTrafficLightManager(), calculator, new EvaluatorImpl(vehicleEntries,db));
+            citySimulator.addVehiclesFromVehicleEntriesList(vehicleEntries);
             citySimulator.runWholeDay();
             db.updateStatisticsTables(calculator.getStatistics());
             numberOfDays--;
-        }*/
+        }
 
     }
 

@@ -72,6 +72,14 @@ public interface BTWDataBase {
     BTWDataBase saveMap(String geoJson);
 
     /**
+     * @author: orel
+     * @date: 23/6/18
+     * Save map to DataBase from geoJson previously saved from parseMap. can only call this if parseMap was called first
+     * @return this object
+     */
+    BTWDataBase saveMap();
+
+    /**
      * @Author: Shay
      * Date: 25/4/18
      * update the heuristics in DB
@@ -126,6 +134,8 @@ public interface BTWDataBase {
      * get the statistics period in DB
      */
     public long getStatisticsPeriod();
+
+    boolean isSaving();
 }
 
 

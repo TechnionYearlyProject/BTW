@@ -68,7 +68,7 @@
                                         <Image url="/icons8-reset-filled-50.png" />
                                     </image>
                                 </ImageView>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save Map From File">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save Map File to DB">
                                     <font>
                                         <Font size="20.0" />
                                     </font>
@@ -106,7 +106,7 @@
                                         <Image url="/icons8-shuffle-50.png" />
                                     </image>
                                 </ImageView>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Generate New Map">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Generate New Map for DB">
                                     <font>
                                         <Font size="20.0" />
                                     </font>

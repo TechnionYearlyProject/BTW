@@ -34,6 +34,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
     private boolean updatedHeuristics;  // tell if the heuristics were updated in this run
     private boolean savedHeuristics;    // tell if the heuristics were saveed in this run
     private boolean savingProgress;
+    private String geoJson;
 
     /**
      * @author Sharon Hadar
@@ -216,7 +217,7 @@ public class BTWDataBaseImpl implements BTWDataBase {
     **/
     @Override
     public BTWDataBase parseMap(String geoJson){
-
+        this.geoJson = geoJson;
         GeoJasonToJavaParser parser = new GeoJasonToJavaParser(mapName, geoJson);
         this.trafficLights = parser.getTrafficLights();
         this.trafficLightsLoaded = true;
@@ -229,17 +230,28 @@ public class BTWDataBaseImpl implements BTWDataBase {
         insertStreetsToRoads();
         /*the trafficlights are inserted to the crossroads in the parser constructor*/
 
-        new Thread("DB save") {
-            public void run() {
-                logger.debug("BTWDataBase New Thread Saving Map Information...");
-                savingProgress = true;
-                saveMap(geoJson);
-                createStatisticsTables(roads,trafficLights);
-                savingProgress = false;
-                logger.debug("BTWDataBase New Thread Completed saving Map Information...");
-            }
-        }.start();
+//        new Thread("DB save") {
+//            public void run() {
+//                logger.debug("BTWDataBase New Thread Saving Map Information...");
+//                savingProgress = true;
+//                saveMap(geoJson);
+//                createStatisticsTables(roads,trafficLights);
+//                savingProgress = false;
+//                logger.debug("BTWDataBase New Thread Completed saving Map Information...");
+//            }
+//        }.start();
         return this;
+    }
+
+    /**
+     * @author: orel
+     * @date: 23/6/18
+     * Save map to DataBase from geoJson previously saved from parseMap. can only call this if parseMap was called first
+     * @return this object
+     */
+    public BTWDataBase saveMap() {
+        if(geoJson == null) return this;
+        return saveMap(geoJson);
     }
 
 
@@ -252,6 +264,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
      */
     @Override
     public BTWDataBase saveMap(String geoJson) {
+        savingProgress = true;
+        logger.debug("BTWDataBase Saving Map Information...");
         String addMapName = "INSERT INTO dbo.AdminTables(mapName) VALUES('"+ mapName +"');\n";
         String createTraffic = "DROP TABLE IF EXISTS "+ mapName + "TrafficLight;\n"+
                 "CREATE TABLE " + mapName + "TrafficLight"
@@ -331,6 +345,8 @@ public class BTWDataBaseImpl implements BTWDataBase {
         MainDataBase.saveDataFromQuery(sqlQuery);
         logger.debug("BTWDataBase Complete Saving Map Information ");
         saveHeuristics();
+        createStatisticsTables(roads,trafficLights);
+        savingProgress = false;
         return this;
     }
 

@@ -42,7 +42,7 @@
     </StackPane>
 
     <JFXButton fx:id="start_button" buttonType="RAISED" layoutX="867.0" layoutY="576.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Start!" />
-    <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Home" />
+    <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
 
 
       <HBox fx:id="centerHBox" layoutY="199.0" prefHeight="147.0" prefWidth="1028.0" spacing="80.0">

@@ -43,16 +43,19 @@ public abstract class GenerateCityController extends SwitchToMapController {
     protected String mapName;
     final static Logger logger = Logger.getLogger("GenerateCityController");
 
+    public static DrawMapController.AcceptAction acceptAction; //what to do after generating
+
     @FXML
     protected void BackClicked(ActionEvent event) {
-        logger.debug("Going back to home screen");
-        Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        try {
-            String fxmlLocation = "/fxml/home_layout.fxml";
-            URL resource = getClass().getResource(fxmlLocation);
-            transitionAnimationAndSwitch(fxmlLocation, stageTheEventSourceNodeBelongs, resource, anchor);
-        } catch (IOException e) {
-            e.printStackTrace();
+        switch (acceptAction) {
+            case SaveMap:
+                logger.debug("Going back to prepare screen");
+                switchScreens(event, "/fxml/prepare_configs.fxml");
+                break;
+            case ChooseSimulation:
+                logger.debug("Going back to choose map screen");
+                switchScreens(event, "/fxml/home_layout.fxml");
+                break;
         }
     }
 
@@ -91,7 +94,7 @@ public abstract class GenerateCityController extends SwitchToMapController {
                     .map(citySimulator::getRealCrossroad)
                     .collect(Collectors.toSet()));
             logger.debug("Switching to draw map screen");
-            Platform.runLater(() -> switchScreensToMap(event, citySimulator, dataBase));
+            Platform.runLater(() -> switchScreensToMap(event, citySimulator, dataBase, true, acceptAction));
         }).start();
 
 
@@ -143,6 +146,7 @@ public abstract class GenerateCityController extends SwitchToMapController {
         } if(!mapName.matches("[a-zA-Z0-9_]+")) {
             errorMessage += "Map name must be alphanumeric\n" + "and without spaces";
         }
+        //TODO: check here if map is alrady in the database
         return errorMessage;
     }
 
