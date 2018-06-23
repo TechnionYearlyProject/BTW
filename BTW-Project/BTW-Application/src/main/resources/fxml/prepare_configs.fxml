@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchor" minHeight="700" minWidth="1200" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.ac.technion.cs.yp.btw.app.PrepareConfigsController">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="179.0" layoutX="-13.0" layoutY="-10.0" stroke="#949494" strokeType="INSIDE" width="2000.0" />
+        <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" onAction="#BackClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
+
+
+        <ImageView fx:id="logo" fitHeight="252.0" fitWidth="214.0" layoutX="-7.0" layoutY="-36.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="/BTWLogo.png" />
+            </image>
+        </ImageView>
+
+        <JFXSpinner fx:id="loadSpinner" layoutX="570.0" layoutY="590.0" visible="false" />
+
+        <HBox fx:id="centerContent" alignment="CENTER_LEFT" layoutX="70.0" layoutY="188.0" prefHeight="452.0" prefWidth="1134.0" spacing="100.0">
+            <children>
+                <VBox alignment="TOP_CENTER" spacing="20.0">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="216.0" spacing="10.0">
+                            <children>
+                                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="/icons8-clouds-50.png" />
+                                    </image>
+                                </ImageView>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Create Vehicles File">
+                                    <font>
+                                        <Font size="20.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </HBox>
+                        <JFXTextField fx:id="chooseMapTextBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="246.0" promptText="Insert Map Name" />
+                        <JFXButton fx:id="load_button" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#generateVehiclesButtonClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Generate Vehicles">
+                            <VBox.margin>
+                                <Insets top="110.0" />
+                            </VBox.margin>
+                        </JFXButton>
+                    </children>
+                </VBox>
+
+
+
+                <VBox alignment="TOP_CENTER" spacing="15.0">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="216.0" spacing="10.0">
+                            <children>
+                                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="/icons8-reset-filled-50.png" />
+                                    </image>
+                                </ImageView>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save Map From File">
+                                    <font>
+                                        <Font size="20.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </HBox>
+                        <JFXTextField fx:id="nameInDBFromFileTextBox" maxWidth="-Infinity" prefHeight="25.0" prefWidth="246.0" promptText="Name in Database" StackPane.alignment="CENTER_LEFT">
+                     <VBox.margin>
+                        <Insets right="27.0" />
+                     </VBox.margin></JFXTextField>
+                        <StackPane alignment="CENTER_RIGHT" layoutX="257.0" layoutY="275.0" maxWidth="-Infinity" prefHeight="41.0" prefWidth="274.0">
+                            <children>
+                                <JFXTextField fx:id="mapFromFileTextBox" maxWidth="-Infinity" prefHeight="25.0" prefWidth="246.0" promptText="Insert Map URL" StackPane.alignment="CENTER_LEFT" />
+                                <JFXButton fx:id="attachButton" layoutX="668.0" layoutY="259.0" mnemonicParsing="false" onAction="#attachButtonClicked" text="">
+                                    <StackPane.margin>
+                                        <Insets bottom="5.0" right="15.0" />
+                                    </StackPane.margin>
+                                </JFXButton>
+                            </children>
+                        </StackPane>
+                        <JFXButton fx:id="load_file_button" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#loadFileButtonClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Load File">
+                            <VBox.margin>
+                                <Insets top="100.0" />
+                            </VBox.margin>
+                        </JFXButton>
+                    </children>
+                </VBox>
+
+                <VBox>
+                    <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="324.0" spacing="15.0">
+                            <children>
+                                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="831.0" layoutY="198.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="/icons8-shuffle-50.png" />
+                                    </image>
+                                </ImageView>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Generate New Map">
+                                    <font>
+                                        <Font size="20.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </HBox>
+                        <VBox>
+                            <children>
+                                <JFXRadioButton fx:id="grid_radio" prefHeight="36.0" prefWidth="131.0" text="Grid Road">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font></JFXRadioButton>
+                                <JFXRadioButton fx:id="free_form_radio" prefHeight="36.0" prefWidth="161.0" text="Free Form">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                    <toggleGroup>
+                                        <ToggleGroup fx:id="generate_city_toggle" />
+                                    </toggleGroup></JFXRadioButton>
+                            </children>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                        </VBox>
+                        <JFXButton fx:id="generate_button" buttonType="RAISED" layoutX="849.0" layoutY="431.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#generateButtonClick" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Generate Map">
+                            <VBox.margin>
+                                <Insets top="105.0" />
+                            </VBox.margin></JFXButton>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <HBox fx:id="titleHBox" alignment="CENTER_LEFT" layoutX="0.0" layoutY="20.0" spacing="10">
+            <children>
+                <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="373.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="/icons8-car-filled-50.png" />
+                    </image>
+                </ImageView>
+                <Text text="Prepare Map and Vehicles Config" wrappingWidth="461.0">
+                    <font>
+                        <Font size="52.0" />
+                    </font></Text>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

@@ -1,10 +1,7 @@
 package il.ac.technion.cs.yp.btw.app;
 
 import com.jfoenix.controls.*;
-import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
-import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
-import il.ac.technion.cs.yp.btw.citysimulation.JsonVehiclesParser;
-import il.ac.technion.cs.yp.btw.citysimulation.VehicleEntry;
+import il.ac.technion.cs.yp.btw.citysimulation.*;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import il.ac.technion.cs.yp.btw.evaluation.DumbEvaluator;
@@ -37,6 +34,7 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -65,26 +63,44 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
     @FXML
     JFXTextField chooseVehicleFileTextField;
 
+    private String simType1, simType2;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Scene scene = new Scene((Parent)anchor, BTW.stage.getWidth(), BTW.stage.getHeight());
         BTW.stage.setScene(scene);
         back_button.setOnAction(this::BackClicked);
-//        start_button.setOnAction(this::StartClicked);
-        start_button.setOnAction(this::switchToStatisticsCompare);
+        start_button.setOnAction(this::StartClicked);
+//        start_button.setOnAction(this::switchToStatisticsCompare);
         initCenterPanes();
         initRadioButtons();
         Image buttonImage = new Image(getClass().getResourceAsStream("/icons8-attach-30.png"));
         attachButton.setGraphic(new ImageView(buttonImage));
         attachButton.setOnAction(this::attachButtonClicked);
+        logger.debug("Initialized ChooseMultiSimulationController");
     }
 
+    //FOR TESTING
     private void switchToStatisticsCompare(ActionEvent actionEvent) {
         FXMLLoader loader;
         loader = new FXMLLoader(getClass().getResource("/fxml/statistics_comparison.fxml"));
         StatisticsComparisonController controller = new StatisticsComparisonController();
-//        controller.initMapDatabase(mapDatabase);
+        controller.initParams(new DumbEvaluator(), new DumbEvaluator(), new ArrayList<>(),
+                "Naive TL + Naive Nav.", "Smart TL + Statistics Nav.");
+        loader.setController(controller);
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void switchToStatisticsCompare(ActionEvent actionEvent, Evaluator eval1, Evaluator eval2,
+                                           List<VehicleDescriptor> list, String simulationType1, String simulationType2) {
+        FXMLLoader loader;
+        loader = new FXMLLoader(getClass().getResource("/fxml/statistics_comparison.fxml"));
+        StatisticsComparisonController controller = new StatisticsComparisonController();
+        controller.initParams(eval1, eval2, list, simulationType1, simulationType2);
         loader.setController(controller);
         try {
             loader.load();
@@ -96,32 +112,37 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
 
     private TrafficLightManager getTrafficLightManager(ToggleGroup trafficLight_toggle,
                                     JFXRadioButton naiveTrafficLight_radio, JFXRadioButton simpleTrafficLight_radio,
-                                                                           JFXRadioButton smartTrafficLight_radio) {
+                                                                           JFXRadioButton smartTrafficLight_radio, StringBuilder simType) {
         TrafficLightManager trafficManager = null;
         JFXRadioButton selectedTrafficManagerRadio = (JFXRadioButton) trafficLight_toggle.getSelectedToggle();
         if (selectedTrafficManagerRadio.equals(naiveTrafficLight_radio)) {
             logger.debug("Setting up NaiveTrafficLightManager");
             trafficManager = new NaiveTrafficLightManager();
+            simType.append("Naive TL + ");
         } else if (selectedTrafficManagerRadio.equals(simpleTrafficLight_radio)) {
             logger.debug("Setting up SimpleTrafficLightManager");
             trafficManager = new SimpleTrafficLightManager();
+            simType.append("Simple TL + ");
         } else if (selectedTrafficManagerRadio.equals(smartTrafficLight_radio)) {
             logger.debug("Setting up SmartTrafficLightManager");
             trafficManager = new SmartTrafficLightManager();
+            simType.append("Smart TL + ");
         }
         return trafficManager;
     }
 
     private NavigationManager getNavigationManager(ToggleGroup navigation_toggle, JFXRadioButton naiveNavigation_radio,
-                                                  JFXRadioButton statisticsNavigation_radio) {
+                                                  JFXRadioButton statisticsNavigation_radio, StringBuilder simType) {
         NavigationManager navigationManager = null;
         JFXRadioButton selectedNavigationManagerRadio = (JFXRadioButton) navigation_toggle.getSelectedToggle();
         if (selectedNavigationManagerRadio.equals(naiveNavigation_radio)) {
             logger.debug("Setting up NaiveNavigationManager");
             navigationManager = new NaiveNavigationManager(mapDatabase);
+            simType.append("Naive Nav.");
         } else if(selectedNavigationManagerRadio.equals(statisticsNavigation_radio)) {
             logger.debug("Setting up StatisticalNavigationManager");
             navigationManager = new StatisticalNavigationManager(mapDatabase);
+            simType.append("Statistics Nav.");
         }
         return navigationManager;
     }
@@ -133,18 +154,24 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
         new Thread(() -> {
             TrafficLightManager trafficManager1, trafficManager2;
             NavigationManager navigationManager1, navigationManager2;
+            logger.debug("Getting the correct traffic light managers and navigation managers");
+            StringBuilder builder1 = new StringBuilder(), builder2 = new StringBuilder();
             trafficManager1 = getTrafficLightManager(trafficLight_toggle1, naiveTrafficLight_radio1,
-                    simpleTrafficLight_radio1, smartTrafficLight_radio1);
+                    simpleTrafficLight_radio1, smartTrafficLight_radio1, builder1);
             trafficManager2 = getTrafficLightManager(trafficLight_toggle2, naiveTrafficLight_radio2,
-                    simpleTrafficLight_radio2, smartTrafficLight_radio2);
+                    simpleTrafficLight_radio2, smartTrafficLight_radio2, builder2);
             navigationManager1 = getNavigationManager(navigation_toggle1, naiveNavigation_radio1,
-                    statisticsNavigation_radio1);
+                    statisticsNavigation_radio1, builder1);
             navigationManager2 = getNavigationManager(navigation_toggle2, naiveNavigation_radio2,
-                    statisticsNavigation_radio2);
-
-
+                    statisticsNavigation_radio2, builder2);
+            simType1 = builder1.toString();
+            simType2 = builder2.toString();
+            //TODO: change to real evaluators when possible
+            List<VehicleDescriptor> vehicleDescriptors = new ArrayList<VehicleDescriptor>();
+            Evaluator eval1 = new EvaluatorImpl(mapDatabase, vehicleDescriptors);
+            Evaluator eval2 = new EvaluatorImpl(mapDatabase, vehicleDescriptors);
             StatisticsCalculator calculator1 = new NaiveStatisticsCalculator(mapDatabase);
-            CitySimulator citySimulator1 = new CitySimulatorImpl(mapDatabase, navigationManager1, trafficManager1, calculator1, new DumbEvaluator());
+            CitySimulator citySimulator1 = new CitySimulatorImpl(mapDatabase, navigationManager1, trafficManager1, calculator1,eval1);
             if(!chooseVehicleFileTextField.getText().isEmpty()) {
                 URL url;
                 JsonVehiclesParser parser = new JsonVehiclesParser();
@@ -169,8 +196,20 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
                     .stream()
                     .map(citySimulator1::getRealCrossroad)
                     .collect(Collectors.toSet()));
-            logger.debug("Done making the simulation - moving to map screen");
-//            Platform.runLater(() -> switchScreensToMap(actionEvent, citySimulator, mapDatabase, false));
+            StatisticsCalculator calculator2 = new NaiveStatisticsCalculator(mapDatabase);
+            CitySimulator citySimulator2 = new CitySimulatorImpl(mapDatabase, navigationManager2, trafficManager2, calculator2, eval2);
+            trafficManager2.insertCrossroads(mapDatabase.getAllCrossroads()
+                    .stream()
+                    .map(citySimulator2::getRealCrossroad)
+                    .collect(Collectors.toSet()));
+            logger.debug("Attempting to run whole day for both simulations");
+            citySimulator1.runWholeDay();
+            citySimulator2.runWholeDay();
+            logger.debug("Ran whole day for both simulations");
+            Platform.runLater(() -> {
+                logger.debug("Moving to show statistics screen");
+                switchToStatisticsCompare(actionEvent, eval1, eval2, vehicleDescriptors, simType1, simType2);
+            });
         }).start();
     }
 
@@ -228,12 +267,42 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
         start_button.setDisable(true);
         back_button.setDisable(true);
         loadSpinner.setVisible(true);
+
+        naiveNavigation_radio1.setDisable(true);
+        statisticsNavigation_radio1.setDisable(true);
+        naiveTrafficLight_radio1.setDisable(true);
+        simpleTrafficLight_radio1.setDisable(true);
+        smartTrafficLight_radio1.setDisable(true);
+
+        naiveNavigation_radio2.setDisable(true);
+        statisticsNavigation_radio2.setDisable(true);
+        naiveTrafficLight_radio2.setDisable(true);
+        simpleTrafficLight_radio2.setDisable(true);
+        smartTrafficLight_radio2.setDisable(true);
+
+        attachButton.setDisable(true);
+        chooseVehicleFileTextField.setDisable(true);
     }
 
     private void enableButtons() {
         start_button.setDisable(false);
         back_button.setDisable(false);
         loadSpinner.setVisible(false);
+
+        naiveNavigation_radio1.setDisable(false);
+        statisticsNavigation_radio1.setDisable(false);
+        naiveTrafficLight_radio1.setDisable(false);
+        simpleTrafficLight_radio1.setDisable(false);
+        smartTrafficLight_radio1.setDisable(false);
+
+        naiveNavigation_radio2.setDisable(false);
+        statisticsNavigation_radio2.setDisable(false);
+        naiveTrafficLight_radio2.setDisable(false);
+        simpleTrafficLight_radio2.setDisable(false);
+        smartTrafficLight_radio2.setDisable(false);
+
+        attachButton.setDisable(false);
+        chooseVehicleFileTextField.setDisable(false);
     }
 
 }

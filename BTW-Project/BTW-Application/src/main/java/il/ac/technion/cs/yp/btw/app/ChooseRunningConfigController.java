@@ -152,6 +152,6 @@ public class ChooseRunningConfigController extends SwitchToMapController impleme
     }
 
     public void prepareButtonClicked(ActionEvent actionEvent) {
-        //TODO: add switch to prepare screen
+        switchScreens(actionEvent, "/fxml/prepare_configs.fxml");
     }
 }

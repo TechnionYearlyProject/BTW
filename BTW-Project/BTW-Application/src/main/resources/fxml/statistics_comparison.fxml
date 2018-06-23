@@ -64,7 +64,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="454.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
+            <Text fx:id="avgDrivingTime1" fill="#434343" layoutX="454.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
                <font>
                   <Font size="22.0" />
                </font>
@@ -74,7 +74,7 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="454.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
+            <Text fx:id="avgWaitingTime1" fill="#434343" layoutX="454.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
                <font>
                   <Font size="22.0" />
                </font>
@@ -84,7 +84,7 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="454.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
+            <Text fx:id="avgRoadDriving1" fill="#434343" layoutX="454.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
                <font>
                   <Font size="22.0" />
                </font>
@@ -94,7 +94,7 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="710.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
+            <Text fx:id="avgDrivingTime2" fill="#434343" layoutX="710.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
                <font>
                   <Font size="22.0" />
                </font>
@@ -104,7 +104,7 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="710.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
+            <Text fx:id="avgWaitingTime2" fill="#434343" layoutX="710.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
                <font>
                   <Font size="22.0" />
                </font>
@@ -114,7 +114,7 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="710.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
+            <Text fx:id="avgRoadDriving2" fill="#434343" layoutX="710.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
                <font>
                   <Font size="22.0" />
                </font>
@@ -154,7 +154,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="895.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="82.86597394943237">
+            <Text fx:id="avgDrivingTimeDiff" fill="#434343" layoutX="895.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="82.86597394943237">
                <font>
                   <Font size="18.0" />
                </font>
@@ -164,7 +164,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="895.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="82.86597394943237">
+            <Text fx:id="avgWaitingTimeDiff" fill="#434343" layoutX="895.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="82.86597394943237">
                <font>
                   <Font size="18.0" />
                </font>
@@ -174,7 +174,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="895.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="82.86597394943237">
+            <Text fx:id="avgRoadDrivingDiff" fill="#434343" layoutX="895.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="82.86597394943237">
                <font>
                   <Font size="18.0" />
                </font>
@@ -184,7 +184,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="997.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00%" wrappingWidth="82.86597394943237">
+            <Text fx:id="avgDrivingTimePercent" fill="#434343" layoutX="997.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00%" wrappingWidth="82.86597394943237">
                <font>
                   <Font size="18.0" />
                </font>
@@ -194,7 +194,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="997.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00%" wrappingWidth="82.86597394943237">
+            <Text fx:id="avgWaitingTimePercent" fill="#434343" layoutX="997.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00%" wrappingWidth="82.86597394943237">
                <font>
                   <Font size="18.0" />
                </font>
@@ -204,7 +204,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="997.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00%" wrappingWidth="82.86597394943237">
+            <Text fx:id="avgRoadDrivingPercent" fill="#434343" layoutX="997.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00%" wrappingWidth="82.86597394943237">
                <font>
                   <Font size="18.0" />
                </font>
@@ -214,12 +214,12 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="393.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Naive TL + Naive Nav." wrappingWidth="257.00002908706665">
+            <Text fx:id="simulation1Text" fill="#434343" layoutX="376.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Naive TL + Naive Nav." textAlignment="CENTER" wrappingWidth="257.00000086426735">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="641.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Smart TL + Statistics Nav." wrappingWidth="257.00002908706665">
+            <Text fx:id="simulation2Text" fill="#434343" layoutX="635.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Smart TL + Statistics Nav." textAlignment="CENTER" wrappingWidth="257.00000086426735">
                <font>
                   <Font size="18.0" />
                </font>
