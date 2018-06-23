@@ -14,6 +14,7 @@ public class VehicleEntry {
     private Optional<RoadName> destinationRoadName;
     private Optional<Ratio> destinationRoadRatio;
     private Optional<BTWTime> timeOfDrivingStart;
+    private Optional<VehicleDescriptor> descriptor;
 
     /**
      * All fields will contain Optional.empty, use setters to change them
@@ -102,6 +103,30 @@ public class VehicleEntry {
             throw new IllegalTimeException(e.getMessage());
         }
         return this;
+    }
+
+    public VehicleEntry setTimeOfDrivingStart(BTWTime timeOfDrivingStart){
+        this.timeOfDrivingStart = Optional.of(timeOfDrivingStart);
+        return this;
+    }
+
+    public Optional<VehicleDescriptor> getDescriptor() {
+        return descriptor;
+    }
+
+    public VehicleEntry setDescriptor(VehicleDescriptor descriptor) {
+        this.descriptor = Optional.of(descriptor);
+        return this;
+    }
+
+    public String jsonString(){
+        return "{"+
+                "\"sourceRoad\": \""+this.sourceRoadName.get().getId()+"\",\n" +
+                "\"sourceRatio\": "+this.sourceRoadRatio.get().getValue()+",\n" +
+                "\"destinationRoad\": \""+this.destinationRoadName.get().getId()+"\",\n" +
+                "\"destinationRatio\": "+this.destinationRoadRatio.get().getValue()+",\n" +
+                "\"timeOfDrivingStart\": \""+this.timeOfDrivingStart.get().toString()+"\""
+                +"}";
     }
 }
 

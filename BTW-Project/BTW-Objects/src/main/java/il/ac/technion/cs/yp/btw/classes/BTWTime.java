@@ -91,4 +91,11 @@ public class BTWTime extends BTWTimeUnit{
         BTWTime t = (BTWTime)o;
         return this.seconds().equals(t.seconds());
     }
+
+    @Override
+    public String toString() {
+        return String.format("%2s", this.getHoursOnly()).replace(' ', '0')
+                + ":" + String.format("%2s", this.getMinutesOnly()).replace(' ', '0')
+                + ":" + String.format("%2s", this.getSecondsOnly()).replace(' ', '0');
+    }
 }

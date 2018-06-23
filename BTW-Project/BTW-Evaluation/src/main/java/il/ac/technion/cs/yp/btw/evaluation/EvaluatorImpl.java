@@ -1,6 +1,8 @@
 package il.ac.technion.cs.yp.btw.evaluation;
 
+import il.ac.technion.cs.yp.btw.citysimulation.Vehicle;
 import il.ac.technion.cs.yp.btw.citysimulation.VehicleDescriptor;
+import il.ac.technion.cs.yp.btw.citysimulation.VehicleEntry;
 import il.ac.technion.cs.yp.btw.classes.*;
 import il.ac.technion.cs.yp.btw.classes.StatisticalReport;
 import javafx.util.Pair;
@@ -20,6 +22,10 @@ public class EvaluatorImpl implements Evaluator {
     private Map<VehicleDescriptor, BTWWeight> timeForVehicle;
     private Map<TrafficLight, Pair<BTWWeight, Integer> > waitingTimeOnTrafficLight;
     private Map<Road, Pair<BTWWeight, Integer> > drivingTimeOnRoad;
+
+    public EvaluatorImpl(List<VehicleEntry> vehicles, BTWDataBase db){
+        this(db, vehicles.stream().map(VehicleEntry::getDescriptor).map(Optional::get).collect(Collectors.toList()));
+    }
 
     public EvaluatorImpl(BTWDataBase db, List<VehicleDescriptor> descriptors) {
         this.timeForVehicle = descriptors

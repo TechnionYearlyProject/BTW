@@ -694,7 +694,7 @@ public class CitySimulatorImpl implements CitySimulator {
         for (VehicleEntry vehicleEntry : entriesList) {
             logger.debug("Adding a vehicle from the entry list");
             try {
-                addVehicleOnTime(null
+                addVehicleOnTime(vehicleEntry.getDescriptor().orElse(new VehicleDescriptorFactory().get())
                         , this.roads.get(vehicleEntry.getSourceRoadName().get().getId())
                         , (vehicleEntry.getSourceRoadRatio().get().getValue())
                         , this.roads.get(vehicleEntry.getDestinationRoadName().get().getId())
