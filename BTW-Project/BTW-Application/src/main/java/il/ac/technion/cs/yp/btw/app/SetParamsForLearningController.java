@@ -51,7 +51,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
 
     private BTWDataBase db;
 
-    private StatisticsCalculator calculator = new SmartStatisticsCalculator(db);
+    private StatisticsCalculator calculator;
 
     @FXML
     protected JFXRadioButton days_radio = new JFXRadioButton("days_radio");
@@ -86,6 +86,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         run_simulation.setOnAction(this::runLearningSimulation);
         load_button.setOnAction(this::loadButtonClicked);
         back_button.setOnAction(this::BackClicked);
+        calculator = new SmartStatisticsCalculator(db);
     }
 
     @FXML
@@ -138,7 +139,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         //TODO: change the naive traffic light manager to smart one, and insert valid parameters to the evaluator,
         // TODO: (CONTINUE) then run it and check that the statistics are saved to in the DB.
         while(numberOfDays!=0){
-            List<VehicleEntry> vehicleEntries = new VehiclesGenerator(db.getAllRoads(),1000,
+            List<VehicleEntry> vehicleEntries = new VehiclesGenerator(db.getAllRoads(),10,
                     BTWTime.of("09:00:00"),BTWTime.of("17:00:00")).generateList();
             CitySimulator citySimulator = new CitySimulatorImpl(db, new StatisticalNavigationManager(db),
                     new NaiveTrafficLightManager(), calculator);
@@ -198,7 +199,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         run_simulation.setDisable(false);
     }
 
-    public void initMapDB(BTWDataBase mapDatabase) {
+    public void initMapDatabase(BTWDataBase mapDatabase) {
         this.db = mapDatabase;
     }
 

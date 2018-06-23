@@ -87,22 +87,17 @@
     </Text>
     <JFXTextField fx:id="duration" layoutX="500" layoutY="330"/>
 
-    <VBox>
-        <children>
-            <HBox alignment="BOTTOM_CENTER" prefHeight="500" prefWidth="324.0" spacing="15.0">
-                <Text fx:id="choose_vfile_text" text="Choose Vehicles File To Load:">
-                    <font>
-                        <Font size="15.0"/>
-                    </font>
-                </Text>
-                <JFXTextField fx:id="chooseVFileTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                              prefHeight="25.0" prefWidth="246.0" promptText="Insert File Name" />
-                <JFXButton fx:id="load_button" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+
+    <Text fx:id="choose_vfile_text" text="Choose Vehicles File To Load:">
+        <font>
+            <Font size="15.0"/>
+        </font>
+    </Text>
+    <JFXTextField fx:id="chooseVFileTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                  prefHeight="25.0" prefWidth="246.0" promptText="Insert File Name" />
+    <JFXButton fx:id="load_button" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                            minWidth="-Infinity" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK"
-                           style="-fx-background-color: #ffffff;" text="Load"/>
-            </HBox>
-        </children>
-    </VBox>
+               style="-fx-background-color: #ffffff;" text="Load"/>
 
 </children>
 </AnchorPane>
