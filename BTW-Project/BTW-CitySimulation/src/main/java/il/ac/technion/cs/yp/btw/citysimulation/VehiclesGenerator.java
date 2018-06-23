@@ -38,7 +38,7 @@ public class VehiclesGenerator {
         for (int i = 0; i < this.totalNumOfCars / 2 + this.totalNumOfCars % 2; i++) {
             addRandomEntryToList(pd2, vdf, vehicleList, randomGenerator);
         }
-        return null;
+        return vehicleList;
     }
 
     private void addRandomEntryToList(PoissonDistribution pd, VehicleDescriptorFactory vehicleDescriptorsFactory, List<VehicleEntry> vehicleEntriesList, Random randomGenerator) {
