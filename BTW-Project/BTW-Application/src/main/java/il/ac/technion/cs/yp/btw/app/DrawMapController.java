@@ -484,7 +484,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
                 numOfVehiclesTextField.setText("");
                 AnchorPane.setTopAnchor(addVehiclesHbox, addVechilesBoxSpacing);
                 addVehiclesButton.setText("Choose Vehicles To Add");
-                addRandomVehiclesToSimulation(numOfVehicles);
+                addRandomVehiclesToSimulation(numOfVehicles, addVehiclesButton);
             }
         });
     }
@@ -492,10 +492,13 @@ public class DrawMapController extends ShowErrorController implements Initializa
     /**@author: Orel
      * @date: 20/1/18
      */
-    private void addRandomVehiclesToSimulation(int numOfVehicles) {
+    private void addRandomVehiclesToSimulation(int numOfVehicles, JFXButton addVehiclesButton) {
         //TODO: if we want to truly fix the concurent exception bug:
         // i need to disable all buttons (including current play action) until
         // adding vehicle action is complete. This may stall the user experience
+        String previousText = addVehiclesButton.getText();
+        addVehiclesButton.setText("Adding...");
+        addVehiclesButton.setDisable(true);
         Thread thread = new Thread(() -> {
             try {
                 citySimulator.addRandomVehicles(numOfVehicles);
@@ -503,7 +506,11 @@ public class DrawMapController extends ShowErrorController implements Initializa
                 e.printStackTrace();
             }
             cityMap = citySimulator.saveMap();
-            Platform.runLater(this::redrawMap);
+            Platform.runLater(() -> {
+                    redrawMap();
+                    addVehiclesButton.setDisable(false);
+                    addVehiclesButton.setText(previousText);
+            });
         });
         thread.start();
     }
