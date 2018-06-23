@@ -16,3 +16,4 @@ ignore:
   - "BTW-Project/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/queries/QueryStreet.java" #ignore unused DB
   - "BTW-Project/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/queries/QueryTrafficLight.java" #ignore unused DB
   - "BTW-Project/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/queries/UpdateOverloadOfRoad.java" #ignore unused DB
+  - "BTW-Project/BTW-GeoJson/src/main/java/il/ac/technion/cs/yp/btw/geojson/*" #ignore code which uses files for tests
