@@ -304,7 +304,7 @@
         </HBox>
 
 
-        <JFXSpinner fx:id="loadSpinner" layoutX="170.0" layoutY="446.0" visible="false" />
+        <JFXSpinner fx:id="loadSpinner" layoutX="-400.0" layoutY="446.0" visible="false" />
         <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Home" />
 
         <JFXButton fx:id="start_button" buttonType="RAISED" layoutX="867.0" layoutY="576.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Start!" />
