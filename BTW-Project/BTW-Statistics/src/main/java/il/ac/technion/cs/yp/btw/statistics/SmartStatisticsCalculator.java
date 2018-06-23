@@ -49,7 +49,7 @@ public class SmartStatisticsCalculator extends AbstractStatisticCalculator {
                 this.weightsOfRoadAtTime.put(keyTime, new HashMap<>());
             }
             Map<Road, BTWWeight> weightsOfRoad = this.weightsOfRoadAtTime.get(keyTime);
-            if (weightsOfRoad.containsKey(rd)) {
+            if (! weightsOfRoad.containsKey(rd)) {
                 BTWWeight prev = this.previousStatistics.expectedTimeOnRoadAt(keyTime, rd);
                 BTWWeight curr = this.currentStatistics.expectedTimeOnRoadAt(keyTime, rd);
                 BTWWeight val = BTWWeight.weightedAverage(prev, curr, this.alpha);
@@ -67,7 +67,7 @@ public class SmartStatisticsCalculator extends AbstractStatisticCalculator {
                 this.weightsOfTrafficLightAtTime.put(keyTime, new HashMap<>());
             }
             Map<TrafficLight, BTWWeight> weightsOfTrafficLight = this.weightsOfTrafficLightAtTime.get(keyTime);
-            if (weightsOfTrafficLight.containsKey(tl)) {
+            if (! weightsOfTrafficLight.containsKey(tl)) {
                 BTWWeight prev = this.previousStatistics.expectedTimeOnTrafficLightAt(keyTime, tl);
                 BTWWeight curr = this.currentStatistics.expectedTimeOnTrafficLightAt(keyTime, tl);
                 BTWWeight val = BTWWeight.weightedAverage(prev, curr, this.alpha);
@@ -92,7 +92,7 @@ public class SmartStatisticsCalculator extends AbstractStatisticCalculator {
     }
 
     private void stepDecay() {
-        this.bias = this.initialBias * Math.pow(this.dropRate, Math.floor(this.iterationNum / this.numIterationsToDrop));
+        this.bias = this.initialBias / Math.pow(this.dropRate, Math.floor(this.iterationNum / this.numIterationsToDrop));
     }
 
     private StatisticsCalculator update() {
@@ -100,6 +100,7 @@ public class SmartStatisticsCalculator extends AbstractStatisticCalculator {
         this.stepDecay();
         this.roadExpectedWeightOfTime = new HashMap<>();
         this.trafficLightExpectedWeightOfTime = new HashMap<>();
+        this.fresh = true;
         return this;
     }
 
@@ -107,6 +108,7 @@ public class SmartStatisticsCalculator extends AbstractStatisticCalculator {
     public StatisticsCalculator addRoadReport(Road rd, StatisticalReport report) {
         super.addRoadReport(rd, report);
         this.fresh = false;
+        logger.debug("Calculator is no longer fresh");
         return this;
     }
 

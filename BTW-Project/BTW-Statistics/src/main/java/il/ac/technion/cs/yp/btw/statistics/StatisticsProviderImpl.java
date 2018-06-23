@@ -1,6 +1,5 @@
 package il.ac.technion.cs.yp.btw.statistics;
 
-//import com.google.common.base.Optional;
 import il.ac.technion.cs.yp.btw.classes.*;
 
 import java.util.HashMap;
