@@ -95,7 +95,7 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
     }
 
     private void switchToStatisticsCompare(ActionEvent actionEvent, Evaluator eval1, Evaluator eval2,
-                                           List<VehicleDescriptor> list, String simulationType1, String simulationType2) {
+                                           List<VehicleEntry> list, String simulationType1, String simulationType2) {
         FXMLLoader loader;
         loader = new FXMLLoader(getClass().getResource("/fxml/statistics_comparison.fxml"));
         StatisticsComparisonController controller = new StatisticsComparisonController();
@@ -149,6 +149,10 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
     private void StartClicked(ActionEvent actionEvent) {
         //TODO: finish this function when i can make evaluators
         logger.debug("Start button clicked");
+        if(chooseVehicleFileTextField.getText().isEmpty()) {
+            showErrorDialog("You must select a vehicle file");
+            return;
+        }
         disableButtons();
         new Thread(() -> {
             TrafficLightManager trafficManager1, trafficManager2;
@@ -165,50 +169,47 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
                     statisticsNavigation_radio2, builder2);
             simType1 = builder1.toString();
             simType2 = builder2.toString();
-            //TODO: change to real evaluators when possible
-            List<VehicleDescriptor> vehicleDescriptors = new ArrayList<VehicleDescriptor>();
-            Evaluator eval1 = new EvaluatorImpl(mapDatabase, vehicleDescriptors);
-            Evaluator eval2 = new EvaluatorImpl(mapDatabase, vehicleDescriptors);
-//            StatisticsCalculator calculator1 = new NaiveStatisticsCalculator(mapDatabase);
-            CitySimulator citySimulator1 = new CitySimulatorImpl(mapDatabase, navigationManager1, trafficManager1 ,eval1);
-            if(!chooseVehicleFileTextField.getText().isEmpty()) {
-                URL url;
-                JsonVehiclesParser parser = new JsonVehiclesParser();
-                List<VehicleEntry> entries;
-                try {
-                    File file = new File(chooseVehicleFileTextField.getText());
-                    url = file.toURI().toURL();
-                    entries = parser.parseVehiclesFromFile(url);
-                    citySimulator1.addVehiclesFromVehicleEntriesList(entries);
-                } catch (Exception e) {
+
+            URL url;
+            JsonVehiclesParser parser = new JsonVehiclesParser();
+            List<VehicleEntry> entries;
+            try {
+                File file = new File(chooseVehicleFileTextField.getText());
+                url = file.toURI().toURL();
+                entries = parser.parseVehiclesFromFile(url);
+                Evaluator eval1 = new EvaluatorImpl(entries, mapDatabase);
+                Evaluator eval2 = new EvaluatorImpl(entries, mapDatabase);
+                CitySimulator citySimulator1 = new CitySimulatorImpl(mapDatabase, navigationManager1, trafficManager1 ,eval1);
+                citySimulator1.addVehiclesFromVehicleEntriesList(entries);
+                trafficManager1.insertCrossroads(mapDatabase.getAllCrossroads()
+                        .stream()
+                        .map(citySimulator1::getRealCrossroad)
+                        .collect(Collectors.toSet()));
+                CitySimulator citySimulator2 = new CitySimulatorImpl(mapDatabase, navigationManager2, trafficManager2, eval2);
+                trafficManager2.insertCrossroads(mapDatabase.getAllCrossroads()
+                        .stream()
+                        .map(citySimulator2::getRealCrossroad)
+                        .collect(Collectors.toSet()));
+                logger.debug("Attempting to run whole day for both simulations");
+                logger.debug("Running whole day for simulation 1:");
+                citySimulator1.runWholeDay();
+                logger.debug("Done with simulation 1. Running whole day for simulation 2:");
+                citySimulator2.runWholeDay();
+                logger.debug("Done. Ran whole day for both simulations");
+                Platform.runLater(() -> {
+                    logger.debug("Moving to show statistics screen");
+                    switchToStatisticsCompare(actionEvent, eval1, eval2, entries, simType1, simType2);
+                });
+            } catch (Exception e) {
+                Platform.runLater(() -> {
                     e.printStackTrace();
-                    Platform.runLater(() -> {
-//                        e.printStackTrace();
-                        showErrorDialog(e.getMessage());
-                        enableButtons();
-                        logger.debug("When trying to parse the string we got an exception of type " + e.getClass().toString());
-                    });
-                    return;
-                }
+                    logger.debug("When trying to parse the string we got an exception of type " + e.getClass().toString());
+                    showErrorDialog(e.getMessage());
+                    enableButtons();
+                });
             }
-            trafficManager1.insertCrossroads(mapDatabase.getAllCrossroads()
-                    .stream()
-                    .map(citySimulator1::getRealCrossroad)
-                    .collect(Collectors.toSet()));
-//            StatisticsCalculator calculator2 = new NaiveStatisticsCalculator(mapDatabase);
-            CitySimulator citySimulator2 = new CitySimulatorImpl(mapDatabase, navigationManager2, trafficManager2, eval2);
-            trafficManager2.insertCrossroads(mapDatabase.getAllCrossroads()
-                    .stream()
-                    .map(citySimulator2::getRealCrossroad)
-                    .collect(Collectors.toSet()));
-            logger.debug("Attempting to run whole day for both simulations");
-            citySimulator1.runWholeDay();
-            citySimulator2.runWholeDay();
-            logger.debug("Ran whole day for both simulations");
-            Platform.runLater(() -> {
-                logger.debug("Moving to show statistics screen");
-                switchToStatisticsCompare(actionEvent, eval1, eval2, vehicleDescriptors, simType1, simType2);
-            });
+
+
         }).start();
     }
 
@@ -245,6 +246,9 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
     public void initCenterPanes() {
         titleHBox.translateXProperty()
                 .bind(BTW.stage.widthProperty().subtract(titleHBox.widthProperty())
+                        .divide(2));
+        loadSpinner.translateXProperty()
+                .bind(BTW.stage.widthProperty().subtract(loadSpinner.widthProperty())
                         .divide(2));
         AnchorPane.setTopAnchor(titleHBox, 40.0);
         AnchorPane.setRightAnchor(back_button, 20.0);

@@ -2,6 +2,7 @@ package il.ac.technion.cs.yp.btw.app;
 
 import com.jfoenix.controls.JFXButton;
 import il.ac.technion.cs.yp.btw.citysimulation.VehicleDescriptor;
+import il.ac.technion.cs.yp.btw.citysimulation.VehicleEntry;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.evaluation.EvaluationComparator;
 import il.ac.technion.cs.yp.btw.evaluation.Evaluator;
@@ -30,7 +31,7 @@ public class StatisticsComparisonController extends SwitchToMapController implem
     @FXML private JFXButton back_button;
 
     private Evaluator eval1, eval2;
-    private List<VehicleDescriptor> vehicleDescriptorList;
+    private List<VehicleEntry> vehiclesList;
     private String simulationType1, simulationType2;
     @FXML private Text simulation1Text, simulation2Text, avgWaitingTime1, avgWaitingTime2, avgDrivingTime1, avgDrivingTime2,
             avgRoadDriving1, avgRoadDriving2, avgDrivingTimeDiff, avgDrivingTimePercent, avgWaitingTimeDiff, avgWaitingTimePercent,
@@ -75,11 +76,11 @@ public class StatisticsComparisonController extends SwitchToMapController implem
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
-    public void initParams(Evaluator eval1, Evaluator eval2, List<VehicleDescriptor> list,
+    public void initParams(Evaluator eval1, Evaluator eval2, List<VehicleEntry> list,
                            String simulationType1, String simulationType2, BTWDataBase mapDatabase) {
         this.eval1 = eval1;
         this.eval2 = eval2;
-        this.vehicleDescriptorList = list;
+        this.vehiclesList = list;
         this.simulationType1 = simulationType1;
         this.simulationType2 = simulationType2;
         this.mapDatabase = mapDatabase;
