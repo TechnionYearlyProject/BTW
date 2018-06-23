@@ -47,6 +47,8 @@ public class JsonVehiclesParser implements FileParser {
         if (readFromJson != null)
             readFromJson
                     .forEach(entryAsMap -> this.vehicleEntryList.add(convertMapToEntry((Map<String, Object>) entryAsMap)));
+        VehicleDescriptorFactory vdf = new VehicleDescriptorFactory();
+        this.vehicleEntryList.forEach(vehicleEntry -> vehicleEntry.setDescriptor(vdf.get()));
         return this.vehicleEntryList;
     }
     private VehicleEntry convertMapToEntry(Map<String, Object> entryAsMap) {
