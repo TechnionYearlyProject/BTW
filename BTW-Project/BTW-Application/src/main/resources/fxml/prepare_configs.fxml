@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTimePicker?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
@@ -28,17 +29,17 @@
             </image>
         </ImageView>
 
-        <JFXSpinner fx:id="loadSpinner" layoutX="570.0" layoutY="590.0" visible="false" />
+        <JFXSpinner fx:id="loadSpinner" layoutX="0.0" layoutY="590.0" visible="false" />
 
-        <HBox fx:id="centerContent" alignment="CENTER_LEFT" layoutX="70.0" layoutY="188.0" prefHeight="452.0" prefWidth="1134.0" spacing="100.0">
+        <HBox fx:id="centerContent" alignment="CENTER_LEFT" layoutX="8.0" layoutY="188.0" prefHeight="452.0" prefWidth="1134.0" spacing="80.0">
             <children>
-                <VBox alignment="TOP_CENTER" spacing="20.0">
+                <VBox alignment="TOP_CENTER" maxHeight="452.0" minWidth="-Infinity" prefHeight="452.0" prefWidth="365.0" spacing="10.0">
                     <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="216.0" spacing="10.0">
                             <children>
                                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="/icons8-clouds-50.png" />
+                                        <Image url="/icons8-car-filled-50.png" />
                                     </image>
                                 </ImageView>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Create Vehicles File">
@@ -48,10 +49,51 @@
                                 </Text>
                             </children>
                         </HBox>
-                        <JFXTextField fx:id="chooseMapTextBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="246.0" promptText="Insert Map Name" />
+                  <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="188.0" prefWidth="302.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="44.0" prefWidth="354.0" spacing="5.0">
+                           <children>
+                              <Text fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="Heavy Traffic Hours:" wrappingWidth="144.0" />
+                              <JFXTimePicker prefHeight="200.0" prefWidth="200.0" />
+                              <JFXTimePicker layoutX="158.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="44.0" prefWidth="354.0" spacing="10.0">
+                           <children>
+                              <Text fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Vehicles:" wrappingWidth="138.0" />
+                              <JFXTextField fx:id="numberOfVehiclesTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="354.0" spacing="10.0">
+                           <children>
+                              <Text fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="DB Map Name:" wrappingWidth="138.0" />
+                                    <JFXTextField fx:id="chooseMapTextBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="44.0" prefWidth="354.0" spacing="10.0">
+                           <children>
+                              <Text fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of File:" wrappingWidth="138.0" />
+                              <JFXTextField fx:id="nameOfVehicleFileTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+                           </children>
+                        </HBox>
+                        <StackPane alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="41.0" prefWidth="358.0">
+                           <children>
+                              <JFXTextField fx:id="vehicleFileURL" maxWidth="-Infinity" prefHeight="25.0" prefWidth="246.0" promptText="Insert Vechile File URL" StackPane.alignment="CENTER_LEFT" />
+                              <JFXButton fx:id="attachVehicleButton" layoutX="668.0" layoutY="259.0" mnemonicParsing="false" onAction="#attachVehicleButtonClicked" text="">
+                                 <StackPane.margin>
+                                    <Insets bottom="5.0" right="45.0" />
+                                 </StackPane.margin>
+                              </JFXButton>
+                           </children>
+                           <padding>
+                              <Insets left="50.0" />
+                           </padding>
+                        </StackPane>
+                     </children>
+                  </VBox>
                         <JFXButton fx:id="load_button" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#generateVehiclesButtonClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Generate Vehicles">
                             <VBox.margin>
-                                <Insets top="110.0" />
+                                <Insets top="20.0" />
                             </VBox.margin>
                         </JFXButton>
                     </children>
@@ -81,7 +123,7 @@
                      </VBox.margin></JFXTextField>
                         <StackPane alignment="CENTER_RIGHT" layoutX="257.0" layoutY="275.0" maxWidth="-Infinity" prefHeight="41.0" prefWidth="274.0">
                             <children>
-                                <JFXTextField fx:id="mapFromFileTextBox" maxWidth="-Infinity" prefHeight="25.0" prefWidth="246.0" promptText="Insert Map URL" StackPane.alignment="CENTER_LEFT" />
+                                <JFXTextField fx:id="mapFromFileTextBox" maxWidth="-Infinity" prefHeight="25.0" prefWidth="246.0" promptText="Insert Map File URL" StackPane.alignment="CENTER_LEFT" />
                                 <JFXButton fx:id="attachButton" layoutX="668.0" layoutY="259.0" mnemonicParsing="false" onAction="#attachButtonClicked" text="">
                                     <StackPane.margin>
                                         <Insets bottom="5.0" right="15.0" />
@@ -91,13 +133,13 @@
                         </StackPane>
                         <JFXButton fx:id="load_file_button" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#loadFileButtonClicked" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Load File">
                             <VBox.margin>
-                                <Insets top="100.0" />
+                                <Insets top="117.0" />
                             </VBox.margin>
                         </JFXButton>
                     </children>
                 </VBox>
 
-                <VBox>
+                <VBox spacing="10.0">
                     <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="324.0" spacing="15.0">
                             <children>
@@ -133,7 +175,7 @@
                         </VBox>
                         <JFXButton fx:id="generate_button" buttonType="RAISED" layoutX="849.0" layoutY="431.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#generateButtonClick" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Generate Map">
                             <VBox.margin>
-                                <Insets top="105.0" />
+                                <Insets top="143.0" />
                             </VBox.margin></JFXButton>
                     </children>
                 </VBox>

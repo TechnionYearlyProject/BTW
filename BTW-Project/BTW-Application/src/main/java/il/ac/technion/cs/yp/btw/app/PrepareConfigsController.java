@@ -52,7 +52,7 @@ public class PrepareConfigsController extends SwitchToMapController implements I
 
     @FXML private JFXSpinner loadSpinner;
 
-    @FXML private JFXButton load_button, generate_button, load_file_button, attachButton, back_button;
+    @FXML private JFXButton load_button, generate_button, load_file_button, attachButton, attachVehicleButton, back_button;
 
     @FXML private HBox titleHBox, centerContent;
 
@@ -67,6 +67,7 @@ public class PrepareConfigsController extends SwitchToMapController implements I
         grid_radio.setSelected(true);
         Image buttonImage = new Image(getClass().getResourceAsStream("/icons8-attach-30.png"));
         attachButton.setGraphic(new ImageView(buttonImage));
+        attachVehicleButton.setGraphic(new ImageView(buttonImage));
 
         initDynamicPosition();
 
@@ -91,6 +92,9 @@ public class PrepareConfigsController extends SwitchToMapController implements I
         centerContent.translateXProperty()
                 .bind(BTW.stage.widthProperty().subtract(centerContent.widthProperty())
                         .divide(2));
+        loadSpinner.translateXProperty()
+                .bind(BTW.stage.widthProperty().subtract(loadSpinner.widthProperty())
+                        .divide(2));
         AnchorPane.setRightAnchor(back_button, 20.0);
         AnchorPane.setTopAnchor(back_button, 60.0);
     }
@@ -105,6 +109,17 @@ public class PrepareConfigsController extends SwitchToMapController implements I
         File selectedFile = fileChooser.showOpenDialog(anchor.getScene().getWindow());
         if(selectedFile != null) mapFromFileTextBox.setText(selectedFile.getAbsolutePath());
     }
+
+
+    public void attachVehicleButtonClicked(ActionEvent actionEvent) {
+        //TODO finish this method
+        logger.debug("Attaching file");
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(anchor.getScene().getWindow());
+        if(selectedFile != null) mapFromFileTextBox.setText(selectedFile.getAbsolutePath());
+    }
+
+
 
     public void generateButtonClick(ActionEvent actionEvent) {
         RadioButton selectedRadioButton = (RadioButton) generate_city_toggle.getSelectedToggle();
@@ -191,6 +206,7 @@ public class PrepareConfigsController extends SwitchToMapController implements I
         load_file_button.setDisable(true);
         attachButton.setDisable(true);
         back_button.setDisable(true);
+        loadSpinner.setVisible(true);
     }
 
     private void enableAllButtons() {
@@ -199,6 +215,7 @@ public class PrepareConfigsController extends SwitchToMapController implements I
         load_file_button.setDisable(false);
         attachButton.setDisable(false);
         back_button.setDisable(false);
+        loadSpinner.setVisible(false);
     }
 
     public void generateVehiclesButtonClicked(ActionEvent actionEvent) {
