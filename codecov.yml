@@ -18,3 +18,4 @@ ignore:
   - "BTW-Project/BTW-DataBase/src/main/java/il/ac/technion/cs/yp/btw/db/queries/UpdateOverloadOfRoad.java" #ignore unused DB
   - "BTW-Project/BTW-GeoJson/src/main/java/il/ac/technion/cs/yp/btw/geojson/*" #ignore code which uses files for tests
   - "BTW-Project/BTW-CitySimulation/src/main/java/il/ac/technion/cs/yp/btw/citysimulation/JsonVehiclesParser.java" #ignore code which uses files for tests
+  - "BTW-Project/BTW-CitySimulation/src/main/java/il/ac/technion/cs/yp/btw/citysimulation/VehicleParsingException.java" #ignore exception code, tested with external files
