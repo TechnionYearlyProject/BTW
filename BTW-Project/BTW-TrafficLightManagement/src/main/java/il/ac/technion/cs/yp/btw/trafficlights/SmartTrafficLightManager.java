@@ -10,6 +10,7 @@ import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import org.apache.log4j.Logger;
 
 /*
 * @Author: Sharon Hadar
@@ -97,6 +98,8 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
          * @Date: 4/06/2018
          * */
         void turnAllTrafficLightsGreen(){
+
+            logger.debug("Turning traffic-lights to green light in road: " + road.getName());
             turnAllTrafficLights(CityTrafficLight.TrafficLightState.GREEN);
         }
 
@@ -105,6 +108,8 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
          * @Date: 4/06/2018
          * */
         void turnAllTrafficLightsRed(){
+
+            logger.debug("Turning traffic-lights to red light in road: " + road.getName());
             turnAllTrafficLights(CityTrafficLight.TrafficLightState.RED);
         }
 
@@ -115,7 +120,6 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
          * return the time the road will be open in the new period.
          * */
         double newPeriod(int roadSerialNumberInCrossroad,  double crossroadOverload, int numOfRoadsInCrossroad, int currentPeriod, double averagePeriodTime){
-
             Double timeForRoad = crossroadOverload == 0.0 ? 0.0 : (this.road.getOverload() / crossroadOverload) * averagePeriodTime;
             timeForRoad = (timeForRoad < SmartTrafficLightManager.this.minimumOpenTime) ? SmartTrafficLightManager.this.minimumOpenTime : timeForRoad;
             double maxTimeForRoad = averagePeriodTime - (SmartTrafficLightManager.this.minimumOpenTime * (numOfRoadsInCrossroad-1));
@@ -131,6 +135,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
             }
             this.roadOpenTime = timeForRoad;
             this.timeCounter = this.roadOpenTime;
+            logger.debug("Start new Period in road: " + road.getName() + ", open time: " + this.roadOpenTime );
             return this.roadOpenTime;
         }
 
@@ -244,6 +249,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
             this.currentPeriodTimeCounter = this.currentPeriodTime;
             this.currentPeriod = (this.currentPeriod + 1) % SmartTrafficLightManager.this.periodsNum;
             createNewRoadManagersIterator();
+            logger.debug("Start new period in crossroad: " + crossroad.getName() + ", period time: " + this.currentPeriodTime);
             this.currentRoadManager.turnAllTrafficLightsGreen();
         }
 
@@ -258,9 +264,11 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
             }
             this.currentRoadManager.tick();
             if(this.currentRoadManager.isClose()){
+                logger.debug("Turning traffic-lights to next green light in crossroad: " + crossroad.getName());
                 this.currentRoadManager.turnAllTrafficLightsRed();
                 iterateNextRoad();
                 this.currentRoadManager.turnAllTrafficLightsGreen();
+                logger.debug("Traffic-lights switched successfully");
             }
             this.currentPeriodTimeCounter--;
         }
@@ -290,7 +298,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
     }
 
 
-
+    final static Logger logger = Logger.getLogger(SmartTrafficLightManager.class);
     private int periodsNum; // number of periods in a compensation cycle.
     private double averageOpenTimeForRoad; // in seconds
     private double compensationFactor;// every compensation factor we will mutiply the aggregated compensation time in this factor
@@ -376,6 +384,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
     * - divide the period time among  the trafficlights in proportion to their overload
     * */
     public SmartTrafficLightManager tick(){
+        logger.debug("Tick...");
         this.crossroadsManagers.stream().forEach(CrossroadManager::tick);
         return this;
     }
