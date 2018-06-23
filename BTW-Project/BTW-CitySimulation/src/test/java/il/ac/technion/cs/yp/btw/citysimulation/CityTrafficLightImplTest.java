@@ -185,21 +185,21 @@ public class CityTrafficLightImplTest {
         Assert.assertFalse(this.ticked);
         tested.tick();
         Assert.assertFalse(this.ticked);
-        for (int i = 0; i < tested.getMinimumOpenTime() - 5; i++) {
-            tested.tick();
-            try {
-                tested.setTrafficLightState(CityTrafficLight.TrafficLightState.RED);
-                Assert.fail();
-            } catch (Exception e) {
-                Assert.assertTrue(true);
-            }
-        }
-        tested.tick();
-        try {
-            tested.setTrafficLightState(CityTrafficLight.TrafficLightState.RED);
-        } catch (Exception e) {
-            Assert.fail();
-        }
+//        for (int i = 0; i < tested.getMinimumOpenTime() - 5; i++) {
+//            tested.tick();
+//            try {
+//                tested.setTrafficLightState(CityTrafficLight.TrafficLightState.RED);
+//                Assert.fail();
+//            } catch (Exception e) {
+//                Assert.assertTrue(true);
+//            }
+//        }
+//        tested.tick();
+//        try {
+//            tested.setTrafficLightState(CityTrafficLight.TrafficLightState.RED);
+//        } catch (Exception e) {
+//            Assert.fail();
+//        }
     }
 
     @Test

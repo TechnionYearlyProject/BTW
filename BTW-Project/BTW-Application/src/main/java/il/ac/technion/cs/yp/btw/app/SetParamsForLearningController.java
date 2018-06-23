@@ -7,7 +7,6 @@ import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
-import il.ac.technion.cs.yp.btw.evaluation.DumbEvaluator;
 import il.ac.technion.cs.yp.btw.evaluation.Evaluator;
 import il.ac.technion.cs.yp.btw.evaluation.EvaluatorImpl;
 import il.ac.technion.cs.yp.btw.navigation.NaiveNavigationManager;
@@ -165,7 +164,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
                         NavigationManager navigationManager = new NaiveNavigationManager(db);
                         TrafficLightManager trafficLightManager = new NaiveTrafficLightManager();
                         calculator = new NaiveStatisticsCalculator(db);
-                        CitySimulator citySimulator = new CitySimulatorImpl(db, navigationManager, trafficLightManager, calculator, new DumbEvaluator());
+                        CitySimulator citySimulator = new CitySimulatorImpl(db, navigationManager, trafficLightManager, calculator);
                         trafficLightManager.insertCrossroads(db.getAllCrossroads()
                                 .stream()
                                 .map(citySimulator::getRealCrossroad)

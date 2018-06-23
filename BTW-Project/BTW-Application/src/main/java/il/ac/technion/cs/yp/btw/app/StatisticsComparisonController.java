@@ -56,7 +56,7 @@ public class StatisticsComparisonController extends SwitchToMapController implem
         setTimeText(avgWaitingTime2, eval2.averageWaitingTimeOnAllTrafficLights().seconds());
         setTimeText(avgDrivingTimeDiff, comparator.compareAverageDrivingTimeOfVehicles());
         setTimeText(avgRoadDrivingDiff, comparator.compareAverageDrivingTimeOnRoads());
-        setTimeText(avgWaitingTimeDiff, comparator.compareAverageWaintingTimeOnTarfficLights());
+        setTimeText(avgWaitingTimeDiff, comparator.compareAverageWaitingTimeOnTrafficLights());
         //TODO: add percentages when guy adds them
 
     }

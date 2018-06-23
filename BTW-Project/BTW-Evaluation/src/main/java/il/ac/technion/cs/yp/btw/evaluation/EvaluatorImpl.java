@@ -54,8 +54,11 @@ public class EvaluatorImpl implements Evaluator {
                 .map(p -> new Pair<>(p.getKey().seconds() * p.getValue(), p.getValue()))
                 .reduce(new Pair<>(0L, 0),
                         (p1, p2) -> new Pair<>(p1.getKey() + p2.getKey(), p1.getValue() + p2.getValue()));
-        if(total.getValue() != 0) return BTWWeight.of(total.getKey() / total.getValue());
-        else return BTWWeight.of(0);
+        if (total.getValue() != 0) {
+            return BTWWeight.of(total.getKey() / total.getValue());
+        } else {
+            return BTWWeight.of(0);
+        }
     }
 
     private static <T extends TrafficObject> Pair<BTWWeight, Integer> pairFromReport(T element, Map<T, StatisticalReport> reportMap) {

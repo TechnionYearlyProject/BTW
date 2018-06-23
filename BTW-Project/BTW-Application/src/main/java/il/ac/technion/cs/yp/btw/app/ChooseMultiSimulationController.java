@@ -4,7 +4,6 @@ import com.jfoenix.controls.*;
 import il.ac.technion.cs.yp.btw.citysimulation.*;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
-import il.ac.technion.cs.yp.btw.evaluation.DumbEvaluator;
 import il.ac.technion.cs.yp.btw.evaluation.Evaluator;
 import il.ac.technion.cs.yp.btw.evaluation.EvaluatorImpl;
 import il.ac.technion.cs.yp.btw.navigation.NaiveNavigationManager;
@@ -85,8 +84,8 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
         FXMLLoader loader;
         loader = new FXMLLoader(getClass().getResource("/fxml/statistics_comparison.fxml"));
         StatisticsComparisonController controller = new StatisticsComparisonController();
-        controller.initParams(new DumbEvaluator(), new DumbEvaluator(), new ArrayList<>(),
-                "Naive TL + Naive Nav.", "Smart TL + Statistics Nav.");
+//        controller.initParams(new DumbEvaluator(), new DumbEvaluator(), new ArrayList<>(),
+//                "Naive TL + Naive Nav.", "Smart TL + Statistics Nav.");
         loader.setController(controller);
         try {
             loader.load();

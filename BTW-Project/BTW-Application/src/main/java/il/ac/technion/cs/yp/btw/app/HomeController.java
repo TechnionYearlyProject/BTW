@@ -7,7 +7,6 @@ import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
 import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
-import il.ac.technion.cs.yp.btw.evaluation.DumbEvaluator;
 import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.geojson.MapParsingException;
 import il.ac.technion.cs.yp.btw.navigation.NaiveNavigationManager;
@@ -148,7 +147,7 @@ public class HomeController extends SwitchToMapController implements Initializab
                         NavigationManager navigationManager = new NaiveNavigationManager(dataBase);
                         TrafficLightManager trafficLightManager = new NaiveTrafficLightManager();
                         StatisticsCalculator calculator = new NaiveStatisticsCalculator(dataBase);
-                        CitySimulator citySimulator = new CitySimulatorImpl(dataBase, navigationManager, trafficLightManager, calculator, new DumbEvaluator());
+                        CitySimulator citySimulator = new CitySimulatorImpl(dataBase, navigationManager, trafficLightManager, calculator);
                         trafficLightManager.insertCrossroads(dataBase.getAllCrossroads()
                                 .stream()
                                 .map(citySimulator::getRealCrossroad)
@@ -210,7 +209,7 @@ public class HomeController extends SwitchToMapController implements Initializab
             NavigationManager navigationManager = new NaiveNavigationManager(dataBase);
             TrafficLightManager trafficLightManager = new NaiveTrafficLightManager();
             StatisticsCalculator calculator = new NaiveStatisticsCalculator(dataBase);
-            CitySimulator citySimulator = new CitySimulatorImpl(dataBase, navigationManager, trafficLightManager, calculator, new DumbEvaluator());
+            CitySimulator citySimulator = new CitySimulatorImpl(dataBase, navigationManager, trafficLightManager, calculator);
             trafficLightManager.insertCrossroads(dataBase.getAllCrossroads()
                     .stream()
                     .map(citySimulator::getRealCrossroad)

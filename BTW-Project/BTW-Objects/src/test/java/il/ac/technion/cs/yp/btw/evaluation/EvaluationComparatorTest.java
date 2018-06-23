@@ -68,8 +68,17 @@ public class EvaluationComparatorTest {
         Assert.assertEquals(-3, tested.compareAverageDrivingTimeOfVehicles().intValue());
         Assert.assertEquals(-1, tested.compareDrivingTimeOnRoad(this.road).intValue());
         Assert.assertEquals(-1, tested.compareAverageDrivingTimeOnRoads().intValue());
-        Assert.assertEquals(-1, tested.compareWaintingTimeOnTarfficLight(this.trafficLight).intValue());
-        Assert.assertEquals(-1, tested.compareAverageWaintingTimeOnTarfficLights().intValue());
+        Assert.assertEquals(-1, tested.compareWaitingTimeOnTrafficLight(this.trafficLight).intValue());
+        Assert.assertEquals(-1, tested.compareAverageWaitingTimeOnTrafficLights().intValue());
         Assert.assertEquals(-2, tested.compareUnaccomplishedDrives().intValue());
+
+        Assert.assertTrue(-100.0 == tested.compareDrivingTimeOfVehiclePercent(this.descriptor));
+        Assert.assertTrue(-100.0 == tested.compareAverageDrivingTimeOfVehiclesPercent());
+        Assert.assertTrue(-100.0 == tested.compareDrivingTimeOnRoadPercent(this.road));
+        Assert.assertTrue(-100.0 == tested.compareAverageDrivingTimeOnRoadsPercent());
+        Assert.assertTrue(-100.0 == tested.compareWaitingTimeOnTrafficLightPercent(this.trafficLight));
+        Assert.assertTrue(-100.0 == tested.compareAverageWaitingTimeOnTrafficLightsPercent());
+        Assert.assertTrue(-100.0 == tested.compareUnaccomplishedDrivesPercent());
+
     }
 }
