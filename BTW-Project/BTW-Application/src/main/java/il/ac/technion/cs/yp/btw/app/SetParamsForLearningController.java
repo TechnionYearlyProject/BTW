@@ -141,7 +141,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
             List<VehicleEntry> vehicleEntries = new VehiclesGenerator(db.getAllRoads(),1000,
                     BTWTime.of("09:00:00"),BTWTime.of("17:00:00")).generateList();
             CitySimulator citySimulator = new CitySimulatorImpl(db, new StatisticalNavigationManager(db),
-                    new NaiveTrafficLightManager(), calculator, new EvaluatorImpl(vehicleEntries,db));
+                    new NaiveTrafficLightManager(), calculator);
             citySimulator.addVehiclesFromVehicleEntriesList(vehicleEntries);
             citySimulator.runWholeDay();
             db.updateStatisticsTables(calculator.getStatistics());

@@ -132,8 +132,8 @@ public class ChooseSimulationController extends SwitchToMapController implements
                 return;
             }
 
-            StatisticsCalculator calculator = new NaiveStatisticsCalculator(mapDatabase);
-            CitySimulator citySimulator = new CitySimulatorImpl(mapDatabase, navigationManager, trafficManager, calculator);
+//            StatisticsCalculator calculator = new NaiveStatisticsCalculator(mapDatabase);
+            CitySimulator citySimulator = new CitySimulatorImpl(mapDatabase, navigationManager, trafficManager);
             if(!chooseVehicleFileTextField.getText().isEmpty()) {
                 URL url;
                 JsonVehiclesParser parser = new JsonVehiclesParser();

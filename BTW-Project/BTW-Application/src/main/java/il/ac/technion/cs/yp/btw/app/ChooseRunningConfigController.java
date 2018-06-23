@@ -119,8 +119,8 @@ public class ChooseRunningConfigController extends SwitchToMapController impleme
             dataBase.loadMap();
             NavigationManager navigationManager = new NaiveNavigationManager(dataBase);
             TrafficLightManager trafficLightManager = new NaiveTrafficLightManager();
-            StatisticsCalculator calculator = new NaiveStatisticsCalculator(dataBase);
-            CitySimulator citySimulator = new CitySimulatorImpl(dataBase, navigationManager, trafficLightManager, calculator);
+//            StatisticsCalculator calculator = new NaiveStatisticsCalculator(dataBase);
+            CitySimulator citySimulator = new CitySimulatorImpl(dataBase, navigationManager, trafficLightManager);
             trafficLightManager.insertCrossroads(dataBase.getAllCrossroads()
                     .stream()
                     .map(citySimulator::getRealCrossroad)

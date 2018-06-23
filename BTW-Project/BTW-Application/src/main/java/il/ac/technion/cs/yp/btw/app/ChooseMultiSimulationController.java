@@ -99,7 +99,7 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
         FXMLLoader loader;
         loader = new FXMLLoader(getClass().getResource("/fxml/statistics_comparison.fxml"));
         StatisticsComparisonController controller = new StatisticsComparisonController();
-        controller.initParams(eval1, eval2, list, simulationType1, simulationType2);
+        controller.initParams(eval1, eval2, list, simulationType1, simulationType2, mapDatabase);
         loader.setController(controller);
         try {
             loader.load();
@@ -169,8 +169,8 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
             List<VehicleDescriptor> vehicleDescriptors = new ArrayList<VehicleDescriptor>();
             Evaluator eval1 = new EvaluatorImpl(mapDatabase, vehicleDescriptors);
             Evaluator eval2 = new EvaluatorImpl(mapDatabase, vehicleDescriptors);
-            StatisticsCalculator calculator1 = new NaiveStatisticsCalculator(mapDatabase);
-            CitySimulator citySimulator1 = new CitySimulatorImpl(mapDatabase, navigationManager1, trafficManager1, calculator1,eval1);
+//            StatisticsCalculator calculator1 = new NaiveStatisticsCalculator(mapDatabase);
+            CitySimulator citySimulator1 = new CitySimulatorImpl(mapDatabase, navigationManager1, trafficManager1 ,eval1);
             if(!chooseVehicleFileTextField.getText().isEmpty()) {
                 URL url;
                 JsonVehiclesParser parser = new JsonVehiclesParser();
@@ -195,8 +195,8 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
                     .stream()
                     .map(citySimulator1::getRealCrossroad)
                     .collect(Collectors.toSet()));
-            StatisticsCalculator calculator2 = new NaiveStatisticsCalculator(mapDatabase);
-            CitySimulator citySimulator2 = new CitySimulatorImpl(mapDatabase, navigationManager2, trafficManager2, calculator2, eval2);
+//            StatisticsCalculator calculator2 = new NaiveStatisticsCalculator(mapDatabase);
+            CitySimulator citySimulator2 = new CitySimulatorImpl(mapDatabase, navigationManager2, trafficManager2, eval2);
             trafficManager2.insertCrossroads(mapDatabase.getAllCrossroads()
                     .stream()
                     .map(citySimulator2::getRealCrossroad)
