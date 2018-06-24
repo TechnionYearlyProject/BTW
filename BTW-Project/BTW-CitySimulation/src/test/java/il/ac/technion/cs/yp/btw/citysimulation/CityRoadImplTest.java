@@ -42,6 +42,9 @@ public class CityRoadImplTest {
                     return trafficLights;
                 });
 
+        Mockito.when(crossroad1.getName())
+                .thenReturn("cr1");
+
         //crossroad2
         Mockito.when(crossroad2.getTrafficLightsFromRoad(road))
                 .thenAnswer( invocation -> {
@@ -50,12 +53,16 @@ public class CityRoadImplTest {
                     return trafficLights;
                 });
 
+        Mockito.when(crossroad2.getName())
+                .thenReturn("cr2");
+
         Mockito.when(crossroad2.getTrafficLights())
                 .thenAnswer( invocation -> {
                     Set<TrafficLight> trafficLights = new HashSet<>();
                     trafficLights.add(trafficLight2);
                     return trafficLights;
                 });
+
 
         // trafficlight1
         Mockito.when(trafficLight1.getSourceRoad())
@@ -64,12 +71,18 @@ public class CityRoadImplTest {
         Mockito.when(trafficLight1.getDestinationRoad())
                 .thenReturn(road);
 
+        Mockito.when(trafficLight1.getName())
+                .thenReturn("tl1");
+
         // trafficlight2
         Mockito.when(trafficLight2.getSourceRoad())
                 .thenReturn(road);
 
         Mockito.when(trafficLight1.getDestinationRoad())
                 .thenReturn(null);
+
+        Mockito.when(trafficLight1.getName())
+                .thenReturn("tl2");
 
         // road
         Mockito.when(road.getName())
@@ -134,6 +147,19 @@ public class CityRoadImplTest {
 
     @Before
     public void setUp() {
+        Set<Road> roads = new HashSet<>();
+        roads.add(this.road);
+        Set<TrafficLight> trafficLights = new HashSet<>();
+        trafficLights.add(this.trafficLight1);
+        trafficLights.add(this.trafficLight2);
+        Set<Crossroad> crossroads = new HashSet<>();
+        crossroads.add(this.crossroad1);
+        crossroads.add(this.crossroad2);
+        NavigationManager navigationManager = Mockito.mock(NavigationManager.class);
+        TrafficLightManager trafficLightManager= Mockito.mock(TrafficLightManager.class);
+        StatisticsCalculator calculator = Mockito.mock(StatisticsCalculator.class);
+        Evaluator evaluator = Mockito.mock(Evaluator.class);
+        this.simulator = new CitySimulatorImpl(roads, trafficLights, crossroads, navigationManager, trafficLightManager, calculator, this.timeWindow, evaluator);
         this.ticked = false;
     }
 
@@ -182,6 +208,7 @@ public class CityRoadImplTest {
         tested.tick();
         Assert.assertTrue(ticked);
         tested.removeVehicle(this.vehicle);
+        ((CitySimulatorImpl.CityRoadImpl)tested).removeAllVehicles();
         this.ticked = false;
         tested.tick();
         Assert.assertFalse(ticked);

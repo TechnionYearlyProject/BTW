@@ -41,7 +41,7 @@ public class CitySimulatorImpl implements CitySimulator {
 
 
 
-    private class CityRoadImpl implements CityRoad {
+    class CityRoadImpl implements CityRoad {
         private static final double DEFAULT_CAPACITY_PER_METER = 0.4;
         private static final int DEFAULT_SPEED_LIMIT = 50;
         private final int DEFAULT_MINIMUM_SPEED = 1;
@@ -76,7 +76,7 @@ public class CitySimulatorImpl implements CitySimulator {
             this.currentRemovedVehicles = new HashSet<>();
         }
 
-        private CityRoad removeAllVehicles() {
+        CityRoad removeAllVehicles() {
             this.vehicles.removeAll(this.currentRemovedVehicles);
             this.currentRemovedVehicles = new HashSet<>();
             return this;
@@ -160,8 +160,7 @@ public class CitySimulatorImpl implements CitySimulator {
         @Override
         public CityRoad tick() {
             this.vehicles.forEach(Vehicle::progressOnRoad);
-            this.removeAllVehicles();
-            return this;
+            return this.removeAllVehicles();
         }
 
         /**
@@ -202,7 +201,7 @@ public class CitySimulatorImpl implements CitySimulator {
             if (speed <= 0) {
                 speed = this.DEFAULT_MINIMUM_SPEED;
             }
-            return speed;
+            return (speed / 3.6);
         }
 
         /**
@@ -222,11 +221,6 @@ public class CitySimulatorImpl implements CitySimulator {
             }
             Road r = (Road)o;
             return this.getName().equals(r.getName());
-        }
-
-        @Override
-        public int hashCode(){
-            return this.getName().hashCode();
         }
 
         /**
@@ -421,20 +415,6 @@ public class CitySimulatorImpl implements CitySimulator {
             // TODO
             return null;
         }
-
-        @Override
-        public boolean equals(Object o) {
-            if (! (o instanceof TrafficLight)) {
-                return false;
-            }
-            TrafficLight tl = (TrafficLight)o;
-            return this.getName().equals(tl.getName());
-        }
-
-        @Override
-        public int hashCode() {
-            return this.getName().hashCode();
-        }
     }
 
     private class CityCrossroadImpl implements CityCrossroad {
@@ -602,20 +582,6 @@ public class CitySimulatorImpl implements CitySimulator {
         @Override
         public Set<CityTrafficLight> getRealTrafficLightsFromRoad(CityRoad rd) {
             return this.getTrafficLightFromRoadR(rd, this.realTrafficLights);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (! (o instanceof Crossroad)) {
-                return false;
-            }
-            Crossroad tl = (Crossroad)o;
-            return this.getName().equals(tl.getName());
-        }
-
-        @Override
-        public int hashCode() {
-            return this.getName().hashCode();
         }
     }
 

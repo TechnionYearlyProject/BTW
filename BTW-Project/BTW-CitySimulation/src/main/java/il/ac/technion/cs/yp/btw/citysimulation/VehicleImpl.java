@@ -67,7 +67,7 @@ public class VehicleImpl implements Vehicle {
         this.simulator = simulator;
         this.startTime = startTime;
         this.currentTrafficLightStartingTime = 0L;
-        this.currentRoadStartingTime = 0L;
+        this.currentRoadStartingTime = startTime;
         this.terminated = false;
     }
 
@@ -308,6 +308,7 @@ public class VehicleImpl implements Vehicle {
         if (this.startTime > now) {
             return false;
         }
+
         driveOnFirstRoad();
         return true;
     }

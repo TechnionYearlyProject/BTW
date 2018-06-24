@@ -37,10 +37,4 @@ public interface Crossroad extends Point {
      * @param tl - the TrafficLightImpl being added
      */
     Crossroad addTrafficLight(TrafficLight tl);
-
-    @Override
-    boolean equals(Object o);
-
-    @Override
-    int hashCode();
 }

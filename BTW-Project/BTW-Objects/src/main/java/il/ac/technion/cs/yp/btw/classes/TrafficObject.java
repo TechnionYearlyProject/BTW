@@ -30,10 +30,4 @@ public interface TrafficObject {
      * @return minimum possible Weight of object
      */
     BTWWeight getMinimumWeight();
-
-    @Override
-    boolean equals(Object o);
-
-    @Override
-    int hashCode();
 }

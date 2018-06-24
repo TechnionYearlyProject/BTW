@@ -66,6 +66,22 @@ public class EvaluatorImplTest {
     }
 
     private void configMock() {
+        // roads
+        Mockito.when(this.rd1.getName())
+                .thenReturn("rd1");
+        Mockito.when(this.rd2.getName())
+                .thenReturn("rd2");
+        Mockito.when(this.rd3.getName())
+                .thenReturn("rd3");
+
+        // roads
+        Mockito.when(this.tl1.getName())
+                .thenReturn("tl1");
+        Mockito.when(this.tl2.getName())
+                .thenReturn("tl2");
+        Mockito.when(this.tl3.getName())
+                .thenReturn("tl3");
+
         Set<Road> roads = new HashSet<>();
         roads.add(this.rd1);
         roads.add(this.rd2);
