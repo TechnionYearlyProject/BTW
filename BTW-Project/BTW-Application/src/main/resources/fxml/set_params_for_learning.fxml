@@ -42,10 +42,9 @@
         </image>
     </ImageView>
 
-    <JFXSpinner fx:id="loadSpinner" layoutX="570.0" layoutY="590.0" visible="false" />
 
     <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
-    <JFXSpinner fx:id="progress_spinner" layoutX="900.0" layoutY="500.0" progress="0.0" visible="false" />
+    <JFXSpinner fx:id="progress_spinner" layoutX="400.0" layoutY="317.0" progress="0.0" visible="false" />
       <VBox fx:id="centerContent" alignment="TOP_LEFT" layoutX="20.0" layoutY="233.0" prefHeight="392.0" prefWidth="481.0" spacing="30">
          <children>
       

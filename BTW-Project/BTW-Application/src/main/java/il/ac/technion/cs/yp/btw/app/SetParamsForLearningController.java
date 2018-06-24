@@ -41,6 +41,7 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -83,6 +84,8 @@ public class SetParamsForLearningController extends SwitchToMapController implem
     @FXML
     protected JFXSpinner progress_spinner;
     @FXML private VBox centerContent;
+    private long durationValue;
+
 
     public SetParamsForLearningController(){
         this.unitType = new ToggleGroup();
@@ -95,6 +98,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         days_radio.setToggleGroup(unitType);
         weeks_radio.setToggleGroup(unitType);
         months_radio.setToggleGroup(unitType);
+        days_radio.setSelected(true);
         run_simulation.setOnAction(this::runLearningSimulation);
 //        load_vehicles_button.setOnAction(this::loadVehiclesButtonClicked);
         back_button.setOnAction(this::BackClicked);
@@ -129,42 +133,21 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         }
 
         disableAllButtons();
-        long dur = 0;
-        JFXRadioButton units = null;
-        long numberOfDays = 0;
-        units = (JFXRadioButton) unitType.getSelectedToggle();
+        new Thread(() -> {
+            long numberOfDays = durationValue;
+            while(numberOfDays!=0){
+                List<VehicleEntry> vehicleEntries = new VehiclesGenerator(db.getAllRoads(),numberOfVehicles,
+                        BTWTime.of("09:00:00"),BTWTime.of("17:00:00")).generateList();
+                CitySimulator citySimulator = new CitySimulatorImpl(db, new StatisticalNavigationManager(db),
+                        new NaiveTrafficLightManager(), calculator);
+                citySimulator.addVehiclesFromVehicleEntriesList(vehicleEntries);
+                citySimulator.runWholeDay();
+                db.updateStatisticsTables(calculator.getStatistics());
+                numberOfDays--;
+            }
+            enableAllButtons();
+        }).start();
 
-        dur = Long.valueOf(duration.getText());
-        if(units.equals(days_radio)){
-            if((dur<1)||(dur>6)){
-                return;
-            }
-            numberOfDays = dur;
-        }
-        else if(units.equals(weeks_radio)){
-            if((dur<1)||(dur>8)){
-                return;
-            }
-            numberOfDays = dur*7;
-        }
-        else if(units.equals(months_radio)){
-            if((dur<1)||(dur>12)){
-                return;
-            }
-            numberOfDays = dur*28;
-        }
-        //TODO: show the spinner
-        while(numberOfDays!=0){
-            List<VehicleEntry> vehicleEntries = new VehiclesGenerator(db.getAllRoads(),numberOfVehicles,
-                    BTWTime.of("09:00:00"),BTWTime.of("17:00:00")).generateList();
-            CitySimulator citySimulator = new CitySimulatorImpl(db, new StatisticalNavigationManager(db),
-                    new NaiveTrafficLightManager(), calculator);
-            citySimulator.addVehiclesFromVehicleEntriesList(vehicleEntries);
-            citySimulator.runWholeDay();
-            db.updateStatisticsTables(calculator.getStatistics());
-            numberOfDays--;
-        }
-        enableAllButtons();
 
     }
 
@@ -175,6 +158,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         months_radio.setDisable(true);
         run_simulation.setDisable(true);
         progress_spinner.setVisible(true);
+        back_button.setDisable(true);
     }
     private void enableAllButtons() {
 //        load_vehicles_button.setDisable(false);
@@ -183,6 +167,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         months_radio.setDisable(false);
         run_simulation.setDisable(false);
         progress_spinner.setVisible(false);
+        back_button.setDisable(false);
     }
 
     public void initMapDatabase(BTWDataBase mapDatabase) {
@@ -195,6 +180,9 @@ public class SetParamsForLearningController extends SwitchToMapController implem
                         .divide(2));
         centerContent.translateXProperty()
                 .bind(BTW.stage.widthProperty().subtract(centerContent.widthProperty())
+                        .divide(2));
+        progress_spinner.translateXProperty()
+                .bind(BTW.stage.widthProperty().subtract(progress_spinner.widthProperty())
                         .divide(2));
         AnchorPane.setTopAnchor(titleHBox, 30.0);
         AnchorPane.setRightAnchor(back_button, 20.0);
@@ -232,46 +220,30 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         } catch(NumberFormatException e) {
             errorMessage += "Number of Vehicles input is invalid\n";
         }
-        try {
-            if(duration.getText().equals("")){
-                throw new NumberFormatException();
-            }
-        }catch (NumberFormatException e){
+        if(duration.getText().equals("")){
             errorMessage += "Insert Duration To Run\n";
-        }
-        JFXRadioButton units = null;
-        units = (JFXRadioButton) unitType.getSelectedToggle();
-        long dur = 0;
-        if(!duration.getText().equals("")) {
-            //TODO:CHECK THAT THIS IS NUMBER AND NOT LETTER
-            dur = Long.valueOf(duration.getText());
-        }
+        } else {
+            try {
+                durationValue = Long.parseLong(duration.getText());
+                JFXRadioButton units = (JFXRadioButton) unitType.getSelectedToggle();
+                long dur = durationValue;
+                if(units.equals(days_radio)){
+                    if((dur<1)||(dur>6))
+                        errorMessage += "Number Of Days Invalid\n";
+                }
+                if(units.equals(weeks_radio)){
+                    if((dur<1)||(dur>8))
+                        errorMessage += "Number Of Weeks Invalid\n";
+                    else durationValue *= 7;
+                }
+                if(units.equals(months_radio)){
+                    if((dur<1)||(dur>12))
+                        errorMessage += "Number Of Months Invalid\n";
+                    else durationValue *= 30;
+                }
 
-        if(units.equals(days_radio)){
-            try{
-                if((dur<1)||(dur>6)){
-                    throw new NumberFormatException();
-                }
-            }catch (NumberFormatException e){
-                errorMessage += "Number Of Days Invalid\n";
-            }
-        }
-        if(units.equals(weeks_radio)){
-            try{
-                if((dur<1)||(dur>8)){
-                    throw new NumberFormatException();
-                }
-            }catch (NumberFormatException e){
-                errorMessage += "Number Of Weeks Invalid\n";
-            }
-        }
-        if(units.equals(months_radio)){
-            try{
-                if((dur<1)||(dur>12)){
-                    throw new NumberFormatException();
-                }
-            }catch (NumberFormatException e){
-                errorMessage += "Number Of Months Invalid\n";
+            } catch (NumberFormatException e){
+                errorMessage += "Duration input invalid: isn't a number\n";
             }
         }
         if(!errorMessage.equals("")) {
