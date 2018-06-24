@@ -179,7 +179,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
 
     /**@author: Anat
      * @date: 23/6/2018
-     */
+     * Modified the view of the panes on the canvas.*/
     public void initCenterPanes() {
         titleHBox.translateXProperty()
                 .bind(BTW.stage.widthProperty().subtract(titleHBox.widthProperty())
@@ -196,7 +196,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
     }
 
     /**@author: Anat
-     * @date: 27/4/2018
+     * @date: 23/6/2018
      */
     @FXML
     public void showHelpDialogForDuration(ActionEvent actionEvent) {

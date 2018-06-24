@@ -48,7 +48,7 @@
 //     * creating the array of circles, each circle for a traffic light.
 //     * @param trafficLights - trafficlights in the map
 //     */
-//    //TODO: change the color according to real time loads.
+//    
 //    private void createCircles(Set<CityTrafficLight> trafficLights) {
 //        int x=0;
 //        for (CityTrafficLight currTrafficLight: trafficLights) {
