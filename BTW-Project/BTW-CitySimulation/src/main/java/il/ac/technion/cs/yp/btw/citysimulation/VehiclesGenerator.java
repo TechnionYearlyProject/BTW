@@ -58,21 +58,9 @@ public class VehiclesGenerator {
                 .setDescriptor(vehicleDescriptorsFactory.get()));
     }
 
-    public File generateToFile(URL pathToDirectory, String fileName) {
-        File f = new File(pathToDirectory.getPath().concat("\\" + fileName));
-        if (f.exists()) {
-            //File already exists
-        }
-        boolean wasCreatedSuccesfuly = false;
-        try {
-            if (f.createNewFile())
-                wasCreatedSuccesfuly = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (wasCreatedSuccesfuly == false) {
-            //file couldn't be open
-        }
+    public File generateToFile(File f) throws IOException {
+
+        f.createNewFile();
         //print to file
         try {
             FileOutputStream fileWriter = new FileOutputStream(f);

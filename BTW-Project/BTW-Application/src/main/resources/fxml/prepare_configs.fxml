@@ -54,26 +54,20 @@
                         <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="44.0" prefWidth="354.0" spacing="5.0">
                            <children>
                               <Text fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="Heavy Traffic Hours:" wrappingWidth="144.0" />
-                              <JFXTimePicker prefHeight="200.0" prefWidth="200.0" />
-                              <JFXTimePicker layoutX="158.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+                              <JFXTimePicker fx:id="timePicker1" prefHeight="200.0" prefWidth="200.0" />
+                              <JFXTimePicker fx:id="timePicker2" layoutX="158.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="44.0" prefWidth="354.0" spacing="10.0">
                            <children>
                               <Text fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Vehicles:" wrappingWidth="138.0" />
-                              <JFXTextField fx:id="numberOfVehiclesTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+                              <JFXTextField fx:id="numberOfVehiclesTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" promptText="(2-10000)" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="354.0" spacing="10.0">
                            <children>
                               <Text fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="DB Map Name:" wrappingWidth="138.0" />
                                     <JFXTextField fx:id="chooseMapTextBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="44.0" prefWidth="354.0" spacing="10.0">
-                           <children>
-                              <Text fill="#464646" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of File:" wrappingWidth="138.0" />
-                              <JFXTextField fx:id="nameOfVehicleFileTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
                            </children>
                         </HBox>
                         <StackPane alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="41.0" prefWidth="358.0">

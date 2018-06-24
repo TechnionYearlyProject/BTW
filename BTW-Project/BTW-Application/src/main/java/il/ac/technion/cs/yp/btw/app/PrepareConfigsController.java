@@ -1,12 +1,12 @@
 package il.ac.technion.cs.yp.btw.app;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXSpinner;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
+import il.ac.technion.cs.yp.btw.citysimulation.VehicleEntry;
+import il.ac.technion.cs.yp.btw.citysimulation.VehiclesGenerator;
 import il.ac.technion.cs.yp.btw.classes.BTWDataBase;
+import il.ac.technion.cs.yp.btw.classes.BTWTime;
 import il.ac.technion.cs.yp.btw.db.BTWDataBaseImpl;
 import il.ac.technion.cs.yp.btw.geojson.GeoJsonParserImpl;
 import il.ac.technion.cs.yp.btw.geojson.MapParsingException;
@@ -32,8 +32,11 @@ import org.apache.log4j.Logger;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,7 +51,7 @@ public class PrepareConfigsController extends SwitchToMapController implements I
     @FXML
     private JFXRadioButton grid_radio, free_form_radio;
 
-    @FXML private JFXTextField chooseMapTextBox, mapFromFileTextBox, nameInDBFromFileTextBox;
+    @FXML private JFXTextField chooseMapTextBox, mapFromFileTextBox, nameInDBFromFileTextBox, vehicleFileURL, numberOfVehiclesTextField;
 
     @FXML private JFXSpinner loadSpinner;
 
@@ -56,9 +59,13 @@ public class PrepareConfigsController extends SwitchToMapController implements I
 
     @FXML private HBox titleHBox, centerContent;
 
+    @FXML private JFXTimePicker timePicker1, timePicker2;
+
     private Set<String> tablesNames;
 
     final static Logger logger = Logger.getLogger("PrepareConfigsController");
+
+    private int numOfVehicles;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,7 +75,8 @@ public class PrepareConfigsController extends SwitchToMapController implements I
         Image buttonImage = new Image(getClass().getResourceAsStream("/icons8-attach-30.png"));
         attachButton.setGraphic(new ImageView(buttonImage));
         attachVehicleButton.setGraphic(new ImageView(buttonImage));
-
+        timePicker1.setIs24HourView(true);
+        timePicker2.setIs24HourView(true);
         initDynamicPosition();
 
         new Thread(() -> {
@@ -115,8 +123,10 @@ public class PrepareConfigsController extends SwitchToMapController implements I
         //TODO finish this method
         logger.debug("Attaching file");
         FileChooser fileChooser = new FileChooser();
-        File selectedFile = fileChooser.showOpenDialog(anchor.getScene().getWindow());
-        if(selectedFile != null) mapFromFileTextBox.setText(selectedFile.getAbsolutePath());
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Json files (*.json)", "*.json");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File selectedFile = fileChooser.showSaveDialog(anchor.getScene().getWindow());
+        if(selectedFile != null) vehicleFileURL.setText(selectedFile.getAbsolutePath());
     }
 
 
@@ -218,6 +228,71 @@ public class PrepareConfigsController extends SwitchToMapController implements I
         loadSpinner.setVisible(false);
     }
 
+
+    private boolean getAndValidateUserInput() {
+        if(!mapNameIsInDatabase()) return false;
+        String errorMessage = "";
+        if(timePicker1.getValue() == null || timePicker2.getValue() == null) {
+            errorMessage += "You must choose both heavy traffic hours\n";
+        }
+        if(chooseMapTextBox.getText().equals("")) {
+            errorMessage +="You must choose a valid map from the Database\n";
+        }
+        if(vehicleFileURL.getText().equals("")) {
+            errorMessage += "You must choose Vehicle file save location\n";
+        }
+
+        if(!vehicleFileURL.getText().endsWith(".json")) {
+            errorMessage += "File must have .json extension\n";
+        }
+
+        try{
+            numOfVehicles = Integer.parseInt(numberOfVehiclesTextField.getText());
+            //checking boundaries
+            if(numOfVehicles < 2 || numOfVehicles > 10000) throw new NumberFormatException();
+        } catch(NumberFormatException e) {
+            errorMessage += "Number of vehicles input is invalid\n";
+        }
+
+        if(errorMessage.equals("")) return true;
+        else {
+            showErrorDialog(errorMessage);
+            return false;
+        }
+    }
+
     public void generateVehiclesButtonClicked(ActionEvent actionEvent) {
+        if(!getAndValidateUserInput()) return;
+        disableAllButtons();
+        LocalTime time1 = timePicker1.getValue();
+        LocalTime time2 = timePicker2.getValue();
+        new Thread(() -> {
+            BTWDataBase db = new BTWDataBaseImpl(chooseMapTextBox.getText());
+            db.loadMap();
+            File file = new File(vehicleFileURL.getText());
+            VehiclesGenerator gen = new VehiclesGenerator(db.getAllRoads(),10,
+                    BTWTime.of(time1.getHour(), time1.getMinute(), time1.getSecond()),
+                    BTWTime.of(time2.getHour(), time2.getMinute(), time2.getSecond()));
+            try {
+                gen.generateToFile(file);
+            } catch (IOException e) {
+                Platform.runLater(() -> showErrorDialog("Invalid file path. Failed to save"));
+            }
+            Platform.runLater(this::enableAllButtons);
+        }).start();
+
+    }
+
+    private boolean mapNameIsInDatabase() {
+        String mapName = chooseMapTextBox.getText();
+        if(tablesNames == null) {
+            showErrorDialog("No connection to Database yet");
+            return false;
+        }
+        if(tablesNames.contains(mapName)) return true;
+        else {
+            showErrorDialog("Map name isn't in Database");
+            return false;
+        }
     }
 }
