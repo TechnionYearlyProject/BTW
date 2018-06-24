@@ -70,7 +70,7 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="454.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
+            <Text fx:id="drivingTime1" fill="#434343" layoutX="454.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
                <font>
                   <Font size="22.0" />
                </font>
@@ -80,7 +80,7 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="454.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
+            <Text fx:id="waitingTime1" fill="#434343" layoutX="454.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
                <font>
                   <Font size="22.0" />
                </font>
@@ -90,7 +90,7 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="454.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
+            <Text fx:id="roadDriving1" fill="#434343" layoutX="454.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
                <font>
                   <Font size="22.0" />
                </font>
@@ -100,7 +100,7 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="710.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
+            <Text fx:id="drivingTime2" fill="#434343" layoutX="710.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
                <font>
                   <Font size="22.0" />
                </font>
@@ -110,7 +110,7 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="710.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
+            <Text fx:id="waitingTime2" fill="#434343" layoutX="710.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
                <font>
                   <Font size="22.0" />
                </font>
@@ -120,7 +120,7 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="710.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
+            <Text fx:id="roadDriving2" fill="#434343" layoutX="710.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="110.86597394943237">
                <font>
                   <Font size="22.0" />
                </font>
@@ -155,32 +155,32 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fx:id="avgDrivingTimeDiff" fill="#434343" layoutX="895.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="82.86597394943237">
+            <Text fx:id="avgDrivingTimeDiff" fill="#434343" layoutX="888.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" textAlignment="CENTER" wrappingWidth="97.00000485777855">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="895.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="82.86597394943237">
+            <Text fx:id="drivingTimeDiff" fill="#434343" layoutX="888.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" textAlignment="CENTER" wrappingWidth="97.00000859051943">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fx:id="avgWaitingTimeDiff" fill="#434343" layoutX="895.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="82.86597394943237">
+            <Text fx:id="avgWaitingTimeDiff" fill="#434343" layoutX="888.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" textAlignment="CENTER" wrappingWidth="97.00001232326031">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="895.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="82.86597394943237">
+            <Text fx:id="waitingTimeDiff" fill="#434343" layoutX="888.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" textAlignment="CENTER" wrappingWidth="97.00001605600119">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fx:id="avgRoadDrivingDiff" fill="#434343" layoutX="895.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="82.86597394943237">
+            <Text fx:id="avgRoadDrivingDiff" fill="#434343" layoutX="888.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" textAlignment="CENTER" wrappingWidth="97.00000112503767">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="895.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="82.86597394943237">
+            <Text fx:id="roadDrivingDiff" fill="#434343" layoutX="888.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" textAlignment="CENTER" wrappingWidth="97.00001978874207">
                <font>
                   <Font size="18.0" />
                </font>
@@ -190,7 +190,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="983.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00%" textAlignment="CENTER" wrappingWidth="97.00000485777855">
+            <Text fx:id="drivingTimePercent" fill="#434343" layoutX="983.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00%" textAlignment="CENTER" wrappingWidth="97.00000485777855">
                <font>
                   <Font size="18.0" />
                </font>
@@ -200,7 +200,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="983.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00%" textAlignment="CENTER" wrappingWidth="97.00000485777855">
+            <Text fx:id="waitingTimePercent" fill="#434343" layoutX="983.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00%" textAlignment="CENTER" wrappingWidth="97.00000485777855">
                <font>
                   <Font size="18.0" />
                </font>
@@ -210,7 +210,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fill="#434343" layoutX="983.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00%" textAlignment="CENTER" wrappingWidth="97.00000112503767">
+            <Text fx:id="roadDrivingPercent" fill="#434343" layoutX="983.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00.00%" textAlignment="CENTER" wrappingWidth="97.00000112503767">
                <font>
                   <Font size="18.0" />
                </font>
@@ -225,7 +225,9 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <JFXComboBox layoutX="246.0" layoutY="157.0" prefHeight="26.0" prefWidth="129.0" visible="false"/>
+            <JFXComboBox fx:id="vehicleComboBox" layoutX="246.0" layoutY="157.0" maxWidth="129.0" prefHeight="26.0" prefWidth="129.0" />
+            <JFXComboBox fx:id="trafficLightComboBox" layoutX="246.0" layoutY="269.0" maxWidth="129.0" prefHeight="26.0" prefWidth="129.0" />
+            <JFXComboBox fx:id="roadComboBox" layoutX="246.0" layoutY="381.0" maxWidth="129.0" prefHeight="26.0" prefWidth="129.0" />
          </children>
       </AnchorPane>
 
