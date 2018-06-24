@@ -139,7 +139,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
                 List<VehicleEntry> vehicleEntries = new VehiclesGenerator(db.getAllRoads(),numberOfVehicles,
                         BTWTime.of("09:00:00"),BTWTime.of("17:00:00")).generateList();
                 CitySimulator citySimulator = new CitySimulatorImpl(db, new StatisticalNavigationManager(db),
-                        new NaiveTrafficLightManager(), calculator);
+                        new SmartTrafficLightManager(), calculator);
                 citySimulator.addVehiclesFromVehicleEntriesList(vehicleEntries);
                 citySimulator.runWholeDay();
                 db.updateStatisticsTables(calculator.getStatistics());
@@ -174,6 +174,9 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         this.db = mapDatabase;
     }
 
+    /**@author: Anat
+     * @date: 23/6/2018
+     */
     public void initCenterPanes() {
         titleHBox.translateXProperty()
                 .bind(BTW.stage.widthProperty().subtract(titleHBox.widthProperty())

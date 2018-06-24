@@ -235,10 +235,10 @@ public class MapGraphics {
      * @author: shay & Anat
      * Need to determine colors by weight
      */
-    private static final long GREEN_THRESHOLD = 50;
-    private static final long YELLOW_THRESHOLD = 48;
-    private static final long ORANGE_THRESHOLD = 45;
-    private static final long RED_THRESHOLD = 42;
+    private static final long GREEN_THRESHOLD = 180;
+    private static final long YELLOW_THRESHOLD = 178;
+    private static final long ORANGE_THRESHOLD = 176;
+    private static final long RED_THRESHOLD = 174;
 
     /**
      * @author: shay
@@ -250,7 +250,7 @@ public class MapGraphics {
     private void chooseRoadColor(Line roadLine, double avgSpeed) {
         roadLine.setStroke(Color.BLACK);
         if(avgSpeed < GREEN_THRESHOLD)
-            roadLine.setStroke(Color.GREEN);
+            roadLine.setStroke(Color.DARKGREEN);
         if (avgSpeed < YELLOW_THRESHOLD)
             roadLine.setStroke(Color.YELLOW);
         if (avgSpeed < ORANGE_THRESHOLD)
