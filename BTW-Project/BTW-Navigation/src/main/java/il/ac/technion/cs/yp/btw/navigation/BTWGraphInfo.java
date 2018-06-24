@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
+ * @author Guy Rephaeli
+ *
  * Graph Calculations
  */
 public class BTWGraphInfo {
@@ -38,6 +40,14 @@ public class BTWGraphInfo {
         return minimunGraph;
     }
 
+    /**
+     * @author Guy Rephaeli
+     *
+     * A method to calculate the heurictics when creating a new Map
+     *
+     * @param db the db from which the data is queried
+     * @return
+     */
     public static Map<String, Map<String, Long>> calculateHeuristics(BTWDataBase db) {
         logger.debug("Started calculating heuristics");
         Graph<Road, DefaultWeightedEdge> heuristicGraph = calculateMinimumGraph(db);

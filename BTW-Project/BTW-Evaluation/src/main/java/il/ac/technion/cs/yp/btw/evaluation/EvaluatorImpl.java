@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 /**
  * @author Guy Rephaeli
  * @date 05-Jun-18.
+ *
+ * Implementation of the Evaluator interface
  */
 public class EvaluatorImpl implements Evaluator {
     final static Logger logger = Logger.getLogger(EvaluatorImpl.class);

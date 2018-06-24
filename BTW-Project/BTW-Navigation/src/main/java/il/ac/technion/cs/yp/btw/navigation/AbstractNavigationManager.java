@@ -22,6 +22,20 @@ abstract class AbstractNavigationManager implements NavigationManager {
         this.database = db.updateHeuristics();
     }
 
+
+    /**
+     * @author Guy Rephaeli
+     * @date 26-May-18.
+     *
+     * A method to perform A* route computation from road 'src' to road 'dst' at time 'time'
+     *
+     * @param src - the road from which to navigate
+     * @param dst -the road to navigate to
+     * @param sourceRoadRatio - starting point in the source road
+     * @param time - the time to start navigation
+     * @return self
+     * @throws PathNotFoundException - if a path from src to dst is not found
+     */
     protected List<Road> staticAStar(Road src, Road dst, double sourceRoadRatio, BTWTime time) throws PathNotFoundException {
         logger.debug("Start A* computation from " + src.getName() + " to " + dst.getName() + " at time "
                 + time.getHoursOnly().toString() + ":"

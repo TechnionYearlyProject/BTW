@@ -10,6 +10,8 @@ import java.util.List;
 /**
  * @author Guy Rephaeli
  * @date 24-May-18.
+ *
+ * Smart Implementation of navigation
  */
 public class StatisticalNavigationManager extends AbstractNavigationManager {
     final static Logger logger = Logger.getLogger(StatisticalNavigationManager.class);

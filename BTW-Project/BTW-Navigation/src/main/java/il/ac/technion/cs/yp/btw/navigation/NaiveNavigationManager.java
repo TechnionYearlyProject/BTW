@@ -14,7 +14,9 @@ import java.util.stream.Collectors;
 
 
 /**
- * Implementation of the navigation manager
+ * @author Guy Rephaeli
+ *
+ * Naive implementation of the navigation manager
  */
 public class NaiveNavigationManager extends AbstractNavigationManager {
     final static Logger logger = Logger.getLogger(NaiveNavigationManager.class);

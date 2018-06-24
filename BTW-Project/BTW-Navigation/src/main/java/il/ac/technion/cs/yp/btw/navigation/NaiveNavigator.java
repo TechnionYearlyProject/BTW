@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Guy Rephaeli
  *
- * a static Naive approach to the Navigation, as mostly
+ * A static Naive approach to the Navigation, as mostly
  * used today by drivers
  */
 public class NaiveNavigator implements Navigator {

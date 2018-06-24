@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * @author Guy Rephaeli
  * @date 16-Jun-18.
+ *
+ * A class for smart statistics calculation
  */
 public class SmartStatisticsCalculator extends AbstractStatisticCalculator {
     final static Logger logger = Logger.getLogger(SmartStatisticsCalculator.class);
