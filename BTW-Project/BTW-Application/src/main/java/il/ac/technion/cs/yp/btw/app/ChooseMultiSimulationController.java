@@ -39,8 +39,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-/**
- * Created by orel on 22/06/18.
+/**@author: Orel
+ * @date: 20/6/18
+ * all methods are by Orel
  */
 public class ChooseMultiSimulationController extends SwitchToMapController implements Initializable {
 
@@ -72,28 +73,12 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
         BTW.stage.setScene(scene);
         back_button.setOnAction(this::BackClicked);
         start_button.setOnAction(this::StartClicked);
-//        start_button.setOnAction(this::switchToStatisticsCompare);
         initCenterPanes();
         initRadioButtons();
         Image buttonImage = new Image(getClass().getResourceAsStream("/icons8-attach-30.png"));
         attachButton.setGraphic(new ImageView(buttonImage));
         attachButton.setOnAction(this::attachButtonClicked);
         logger.debug("Initialized ChooseMultiSimulationController");
-    }
-
-    //FOR TESTING
-    private void switchToStatisticsCompare(ActionEvent actionEvent) {
-        FXMLLoader loader;
-        loader = new FXMLLoader(getClass().getResource("/fxml/statistics_comparison.fxml"));
-        StatisticsComparisonController controller = new StatisticsComparisonController();
-//        controller.initParams(new DumbEvaluator(), new DumbEvaluator(), new ArrayList<>(),
-//                "Naive TL + Naive Nav.", "Smart TL + Statistics Nav.");
-        loader.setController(controller);
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void switchToStatisticsCompare(ActionEvent actionEvent, Evaluator eval1, Evaluator eval2,

@@ -22,7 +22,7 @@ import java.net.URL;
  */
 /**@author: Orel
  * @date: 20/1/18
- * all methods that don't specify an other author are by Orel
+ * all methods are by Orel
  */
 public abstract class SwitchToMapController extends ShowErrorController {
 

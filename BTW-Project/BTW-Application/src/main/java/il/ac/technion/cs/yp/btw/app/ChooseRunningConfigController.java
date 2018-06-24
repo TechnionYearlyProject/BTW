@@ -30,6 +30,10 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**@author: Orel
+ * @date: 20/6/18
+ * all methods are by Orel
+ */
 public class ChooseRunningConfigController extends SwitchToMapController implements Initializable {
 
     final static Logger logger = Logger.getLogger("ChooseRunningConfigController");
@@ -83,8 +87,6 @@ public class ChooseRunningConfigController extends SwitchToMapController impleme
                 });
             }
         });
-//        AnchorPane.setBottomAnchor(learningText, 40.0);
-//        AnchorPane.setLeftAnchor(learningText, 80.0);
     }
 
     private boolean mapNameIsInDatabase() {
@@ -119,7 +121,6 @@ public class ChooseRunningConfigController extends SwitchToMapController impleme
             dataBase.loadMap();
             NavigationManager navigationManager = new NaiveNavigationManager(dataBase);
             TrafficLightManager trafficLightManager = new NaiveTrafficLightManager();
-//            StatisticsCalculator calculator = new NaiveStatisticsCalculator(dataBase);
             CitySimulator citySimulator = new CitySimulatorImpl(dataBase, navigationManager, trafficLightManager);
             trafficLightManager.insertCrossroads(dataBase.getAllCrossroads()
                     .stream()

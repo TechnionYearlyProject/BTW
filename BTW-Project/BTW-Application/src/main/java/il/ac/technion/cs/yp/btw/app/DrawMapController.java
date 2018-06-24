@@ -142,12 +142,10 @@ public class DrawMapController extends ShowErrorController implements Initializa
         ImageView img = new ImageView("/icons8-time-50.png");
         HBox timeBox = new HBox();
         timeBox.getChildren().addAll(img,timeText);
-//        playAndTickHbox.getChildren().addAll(timeBox , tickButton, playButton, backButton);
         playAndTickHbox.getChildren().addAll(tickButton, playButton, backButton);
 
         initPlayActionTimeline();
 
-//        HBox addVehiclesHbox = new HBox();
         addVehiclesHbox = new VBox();
         addVehiclesHbox.setPadding(new Insets(15, 12, 15, 12));
         addVehiclesHbox.setSpacing(30);
@@ -174,14 +172,6 @@ public class DrawMapController extends ShowErrorController implements Initializa
             AnchorPane.setLeftAnchor(addVehiclesHbox, 200.0);
         }
 
-        //for now it's in the top right
-//        AnchorPane.setTopAnchor(timeText, 5.0);
-//        AnchorPane.setRightAnchor(timeText, 5.0);
-
-        //back button alignment
-//        AnchorPane.setTopAnchor(backButton, 5.0);
-//        AnchorPane.setLeftAnchor(backButton, 5.0);
-
         Scene scene = new Scene(root, stage.getWidth(), stage.getHeight(), Color.GREY);
 
         drawNow(cityMap);
@@ -195,6 +185,9 @@ public class DrawMapController extends ShowErrorController implements Initializa
         logger.debug("Done initializing");
     }
 
+    /**@author: Orel
+     * @date: 20/6/18
+     */
     private void setupVerifyScreen(AnchorPane root) {
         logger.debug("This is a verify map screen: setting it up");
         JFXButton acceptButton = createRaisedJFXButtonWithText("Accept Map");
@@ -285,7 +278,6 @@ public class DrawMapController extends ShowErrorController implements Initializa
 
     private void initTimeText() {
         timeText = new Text("00:00:00");
-//        timeText.setFill(Color.WHITE);
         timeText.setStyle("-fx-font: 52 arial;");
     }
 
@@ -308,7 +300,6 @@ public class DrawMapController extends ShowErrorController implements Initializa
      * @date: 3/4/18
      */
     private void initBackButton() {
-//        backButton = createRaisedJFXButtonWithIcon("/icons8-back-filled-50.png");
         backButton = createRaisedJFXButtonWithIcon("/icons8-home-50.png");
         backButton.setOnAction(this::backButtonClicked);
         backButton.setMaxWidth(60);
@@ -324,13 +315,8 @@ public class DrawMapController extends ShowErrorController implements Initializa
         playCityTimeline.stop();
         if(randomVehiclesThread != null) randomVehiclesThread.stop();
         Stage stageTheEventSourceNodeBelongs = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        URL resource = getClass().getResource("/fxml/home_layout.fxml");
         URL resource = getClass().getResource("/fxml/choose_running_config.fxml");
         try {
-//            stageTheEventSourceNodeBelongs.setHeight(700);
-//            stageTheEventSourceNodeBelongs.setWidth(1200);
-//            stageTheEventSourceNodeBelongs.setMaximized(false);
-//            stageTheEventSourceNodeBelongs.setResizable(false);
             Parent root = FXMLLoader.load(resource);
             Scene scene = new Scene(root);
             stageTheEventSourceNodeBelongs.setScene(scene);
@@ -371,8 +357,6 @@ public class DrawMapController extends ShowErrorController implements Initializa
      * @date: 20/1/18
      */
     private AnchorPane initScenePanesAndGetRoot() {
-//        AnchorPane root = new AnchorPane();
-//        borderPane = new BorderPane();
         AnchorPane root = anchor;
 
         borderPane.setStyle("-fx-background-color: transparent;");
@@ -388,17 +372,7 @@ public class DrawMapController extends ShowErrorController implements Initializa
                     ,event.getX(), event.getY());
         });
 
-       //borderPane.setOnMouseDragOver(event -> {
-           // borderPane.setLayoutY(event.getY()+200);
-            //borderPane.setTranslateX(event.getX()+200);
-//            Node node = (Node) event.getSource();
-//            node.setTranslateX(event.getSceneX()/4);
-//            node.setTranslateY(event.getSceneY()/4);
-//            event.consume();
 
-            //event.consume();
-
-        //});
 
         /**@author: Anat
          * @date: 6/5/18

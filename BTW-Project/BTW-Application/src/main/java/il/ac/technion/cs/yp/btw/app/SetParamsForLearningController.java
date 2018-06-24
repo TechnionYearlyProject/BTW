@@ -47,7 +47,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 /**
- * @author: Anat Tetroashvili
+ * @author: Anat Tetroashvili and Orel
  * @date: 2/6/18
  * A class for setting parameters for learning simulation mode.
  */
@@ -102,7 +102,6 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         months_radio.setToggleGroup(unitType);
         days_radio.setSelected(true);
         run_simulation.setOnAction(this::runLearningSimulation);
-//        load_vehicles_button.setOnAction(this::loadVehiclesButtonClicked);
         back_button.setOnAction(this::BackClicked);
         calculator = new SmartStatisticsCalculator(db);
         initCenterPanes();
@@ -177,7 +176,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         this.db = mapDatabase;
     }
 
-    /**@author: Anat
+    /**@author: Anat and Orel
      * @date: 23/6/2018
      * Modified the view of the panes on the canvas.*/
     public void initCenterPanes() {
@@ -212,7 +211,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
     }
 
 
-    /*@Author: Anat Tetroashvili
+    /*@Author: Anat Tetroashvili and Orel
     * @Date: 23/6/18
     * Checking input validity.*/
     protected boolean getAndValidateUserInput() {

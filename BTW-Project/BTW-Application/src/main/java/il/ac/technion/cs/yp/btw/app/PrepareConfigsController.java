@@ -41,8 +41,9 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * Created by orel on 23/06/18.
+/**@author: Orel
+ * @date: 20/6/18
+ * all methods are by Orel
  */
 public class PrepareConfigsController extends SwitchToMapController implements Initializable {
 
@@ -120,7 +121,6 @@ public class PrepareConfigsController extends SwitchToMapController implements I
 
 
     public void attachVehicleButtonClicked(ActionEvent actionEvent) {
-        //TODO finish this method
         logger.debug("Attaching file");
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Json files (*.json)", "*.json");

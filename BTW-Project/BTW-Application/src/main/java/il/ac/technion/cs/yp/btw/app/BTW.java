@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
  * @date: 20/1/18
  */
 public class BTW extends Application {
-//    final static Logger logger = Logger.getLogger(BTW.class);
     private final static Logger logger = Logger.getLogger("BTW");
     public static void main(String[] args) {
         launch(args);
@@ -21,14 +20,12 @@ public class BTW extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-//        Parent root = FXMLLoader.load(getClass().getResource("/fxml/home_layout.fxml"));
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/choose_running_config.fxml"));
         logger.debug("BTW Begins Here");
         Scene scene = new Scene(root);
         BTW.stage = stage;
         stage.setTitle("By The Way");
         stage.setScene(scene);
-//        stage.setResizable(false);
         stage.setHeight(700);
         stage.setWidth(1200);
         stage.setMinHeight(700);

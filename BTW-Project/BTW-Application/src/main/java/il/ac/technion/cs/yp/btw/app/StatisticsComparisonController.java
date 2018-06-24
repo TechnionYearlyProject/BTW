@@ -26,8 +26,9 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.*;
 
-/**
- * Created by orel on 22/06/18.
+/**@author: Orel
+ * @date: 20/6/18
+ * all methods are by Orel
  */
 public class StatisticsComparisonController extends SwitchToMapController implements Initializable {
 
@@ -58,7 +59,10 @@ public class StatisticsComparisonController extends SwitchToMapController implem
         back_button.setOnAction(this::BackClicked);
         initTextFields();
     }
-
+    /**@author: Orel
+     * @date: 20/6/18
+     * Initializing all the data in the table
+     */
     private void initTextFields() {
         defaultFill = avgDrivingTime1.getFill();
         simulation1Text.setText(simulationType1);

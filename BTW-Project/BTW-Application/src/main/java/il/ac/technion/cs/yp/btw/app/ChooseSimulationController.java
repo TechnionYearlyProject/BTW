@@ -39,8 +39,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-/**
- * Created by orel on 26/05/18.
+/**@author: Orel
+ * @date: 20/6/18
+ * all methods are by Orel
  */
 public class ChooseSimulationController extends SwitchToMapController implements Initializable {
 
@@ -125,14 +126,12 @@ public class ChooseSimulationController extends SwitchToMapController implements
                 logger.debug("Setting up NaiveNavigationManager");
                 navigationManager = new NaiveNavigationManager(mapDatabase);
             } else if(selectedNavigationManagerRadio.equals(statisticsNavigation_radio)) {
-//                navigationManager = new NaiveNavigationManager(mapDatabase);
                 logger.debug("Setting up StatisticalNavigationManager");
                 navigationManager = new StatisticalNavigationManager(mapDatabase);
             }else{ //can't happen, radio only has these two buttons
                 return;
             }
 
-//            StatisticsCalculator calculator = new NaiveStatisticsCalculator(mapDatabase);
             CitySimulator citySimulator = new CitySimulatorImpl(mapDatabase, navigationManager, trafficManager);
             if(!chooseVehicleFileTextField.getText().isEmpty()) {
                 URL url;
@@ -146,7 +145,6 @@ public class ChooseSimulationController extends SwitchToMapController implements
                 } catch (Exception e) {
                     e.printStackTrace();
                     Platform.runLater(() -> {
-//                        e.printStackTrace();
                         showErrorDialog(e.getMessage());
                         start_button.setDisable(false);
                         loadSpinner.setVisible(false);
