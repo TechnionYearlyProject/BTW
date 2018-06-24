@@ -270,6 +270,7 @@ public class SmartTrafficLightManager extends AbstractTrafficLightManager{
                 this.currentRoadManager.turnAllTrafficLightsGreen();
                 logger.debug("Traffic-lights switched successfully");
             }
+            this.crossroad.tick();
             this.currentPeriodTimeCounter--;
         }
 
