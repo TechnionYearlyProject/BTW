@@ -666,5 +666,12 @@ public class BTWDataBaseImpl implements BTWDataBase {
         return false;
     }
 
+    public Road getRoad(String roadName){
+        return RoadsDataBase.getRoad(roadName, this.mapName);
+    }
+
+    public TrafficLight getTrafficLight(String trafficLightName){
+        return TrafficLightsDataBase.getTrafficLight(trafficLightName, this.mapName);
+    }
 
 }

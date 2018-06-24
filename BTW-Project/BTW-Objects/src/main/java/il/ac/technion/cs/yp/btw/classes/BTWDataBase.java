@@ -136,6 +136,10 @@ public interface BTWDataBase {
     public long getStatisticsPeriod();
 
     boolean isSaving();
+
+    public Road getRoad(String roadName);
+
+    public TrafficLight getTrafficLight(String trafficLightName);
 }
 
 
