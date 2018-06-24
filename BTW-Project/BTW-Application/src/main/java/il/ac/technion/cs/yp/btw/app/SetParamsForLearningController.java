@@ -55,10 +55,12 @@ public class SetParamsForLearningController extends SwitchToMapController implem
 
     final static Logger logger = Logger.getLogger("setParamsForLearningController");
 
+    /*db that contains the map to run the learning mode on it.*/
     private BTWDataBase db;
 
     private StatisticsCalculator calculator;
 
+    /*nimber of vehicles to generate during the run*/
     private int numberOfVehicles = 0;
 
     @FXML
@@ -107,6 +109,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         duration_helper.setOnAction(this::showHelpDialogForDuration);
     }
 
+    /*Returns to the main page of the system.*/
     @FXML
     protected void BackClicked(ActionEvent event) {
         logger.debug("Going back to home screen");
@@ -211,7 +214,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
 
     /*@Author: Anat Tetroashvili
     * @Date: 23/6/18
-    * Checking correction of input.*/
+    * Checking input validity.*/
     protected boolean getAndValidateUserInput() {
         String errorMessage = "";
         try{

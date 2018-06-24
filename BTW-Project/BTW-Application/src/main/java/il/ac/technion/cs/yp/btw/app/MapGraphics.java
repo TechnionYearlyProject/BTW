@@ -241,7 +241,7 @@ public class MapGraphics {
     private static final long RED_THRESHOLD = 174;
 
     /**
-     * @author: shay
+     * @author: shay & Anat
      * @date: 09/04/2018
      * determines color to the road by its load
      * @param roadLine the line we need to color
