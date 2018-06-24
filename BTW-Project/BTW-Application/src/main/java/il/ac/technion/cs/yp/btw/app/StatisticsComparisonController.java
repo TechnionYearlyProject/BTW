@@ -10,6 +10,7 @@ import il.ac.technion.cs.yp.btw.classes.Road;
 import il.ac.technion.cs.yp.btw.classes.TrafficLight;
 import il.ac.technion.cs.yp.btw.evaluation.EvaluationComparator;
 import il.ac.technion.cs.yp.btw.evaluation.Evaluator;
+import il.ac.technion.cs.yp.btw.evaluation.UnfinishedVehicleException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -98,10 +99,17 @@ public class StatisticsComparisonController extends SwitchToMapController implem
             if(newValue != null) {
                 Integer id = Integer.parseInt(newValue.getText());
                 VehicleDescriptor vec = vehiclesMap.get(id);
-                setTimeText(drivingTime1, eval1.totalDrivingTime(vec).seconds());
-                setTimeText(drivingTime2, eval2.totalDrivingTime(vec).seconds());
-                setColoredTimeText(drivingTimeDiff, comparator.compareDrivingTimeOfVehicle(vec));
-                setColoredTimePercent(drivingTimePercent, comparator.compareDrivingTimeOfVehiclePercent(vec));
+                try {
+                    setTimeText(drivingTime1, eval1.totalDrivingTime(vec).seconds());
+                    setTimeText(drivingTime2, eval2.totalDrivingTime(vec).seconds());
+                    setColoredTimeText(drivingTimeDiff, comparator.compareDrivingTimeOfVehicle(vec));
+                    setColoredTimePercent(drivingTimePercent, comparator.compareDrivingTimeOfVehiclePercent(vec));
+                } catch (UnfinishedVehicleException e) {
+                    setTimeText(drivingTime1, (long) 0);
+                    setTimeText(drivingTime2, (long) 0);
+                    setColoredTimeText(drivingTimeDiff, (long) 0);
+                    setColoredTimePercent(drivingTimePercent, (double) 0);
+                }
             }
         });
         trafficLightComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
