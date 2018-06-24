@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -43,6 +44,7 @@ public class StatisticsComparisonController extends SwitchToMapController implem
             avgRoadDrivingDiff, avgRoadDrivingPercent,waitingTime1, waitingTime2, waitingTimeDiff, waitingTimePercent,
             drivingTime1, drivingTime2,drivingTimeDiff, drivingTimePercent, roadDriving1, roadDriving2, roadDrivingDiff, roadDrivingPercent;
     @FXML private JFXComboBox<Label> vehicleComboBox, trafficLightComboBox, roadComboBox;
+    private Paint defaultFill;
     private BTWDataBase mapDatabase;
 
     private Map<Integer, VehicleDescriptor> vehiclesMap = new HashMap<>();
@@ -57,6 +59,7 @@ public class StatisticsComparisonController extends SwitchToMapController implem
     }
 
     private void initTextFields() {
+        defaultFill = avgDrivingTime1.getFill();
         simulation1Text.setText(simulationType1);
         simulation2Text.setText(simulationType2);
         EvaluationComparator comparator = new EvaluationComparator(eval1, eval2);
@@ -133,6 +136,8 @@ public class StatisticsComparisonController extends SwitchToMapController implem
         else if(seconds < 0){
             seconds = -seconds;
             text.setFill(Color.RED);
+        } else {
+            text.setFill(defaultFill);
         }
         String timeString = getTimeString(seconds);
         text.setText(timeString);
@@ -143,6 +148,8 @@ public class StatisticsComparisonController extends SwitchToMapController implem
         else if(percent < 0) {
             percent = -percent;
             text.setFill(Color.RED);
+        } else {
+            text.setFill(defaultFill);
         }
         String timeString = String.format ("%.2f", percent);
         timeString += "%";
