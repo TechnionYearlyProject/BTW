@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -57,15 +58,37 @@ public class StatisticsComparisonController extends SwitchToMapController implem
         setTimeText(avgRoadDriving2, eval2.averageDrivingTimeOnAllRoads().seconds());
         setTimeText(avgWaitingTime1, eval1.averageWaitingTimeOnAllTrafficLights().seconds());
         setTimeText(avgWaitingTime2, eval2.averageWaitingTimeOnAllTrafficLights().seconds());
-        setTimeText(avgDrivingTimeDiff, comparator.compareAverageDrivingTimeOfVehicles());
-        setTimeText(avgRoadDrivingDiff, comparator.compareAverageDrivingTimeOnRoads());
-        setTimeText(avgWaitingTimeDiff, comparator.compareAverageWaitingTimeOnTrafficLights());
-        //TODO: add percentages when guy adds them
-
+        setColoredTimeText(avgDrivingTimeDiff, comparator.compareAverageDrivingTimeOfVehicles());
+        setColoredTimeText(avgRoadDrivingDiff, comparator.compareAverageDrivingTimeOnRoads());
+        setColoredTimeText(avgWaitingTimeDiff, comparator.compareAverageWaitingTimeOnTrafficLights());
+        setColoredTimePercent(avgDrivingTimePercent, comparator.compareAverageDrivingTimeOfVehiclesPercent());
+        setColoredTimePercent(avgRoadDrivingPercent, comparator.compareAverageDrivingTimeOnRoadsPercent());
+        setColoredTimePercent(avgWaitingTimePercent, comparator.compareAverageWaitingTimeOnTrafficLightsPercent());
     }
 
     private void setTimeText(Text text, Long seconds) {
         String timeString = getTimeString(seconds);
+        text.setText(timeString);
+    }
+
+    private void setColoredTimeText(Text text, Long seconds) {
+        if(seconds > 0) text.setFill(Color.GREEN);
+        else {
+            seconds = -seconds;
+            text.setFill(Color.RED);
+        }
+        String timeString = getTimeString(seconds);
+        text.setText(timeString);
+    }
+
+    private void setColoredTimePercent(Text text, Double percent) {
+        if(percent > 0) text.setFill(Color.GREEN);
+        else {
+            percent = -percent;
+            text.setFill(Color.RED);
+        }
+        String timeString = String.format ("%.2f", percent);
+        timeString += "%";
         text.setText(timeString);
     }
 
