@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-
-<?import com.jfoenix.controls.JFXRadioButton?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Text?>
-<?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.control.TextField?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<AnchorPane fx:id="anchor" maxHeight="700" maxWidth="1200" minHeight="700" minWidth="1200" prefHeight="700.0"
-            prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.121"
-            xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchor" maxHeight="700" maxWidth="1200" minHeight="700" minWidth="1200" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
 <children>
 
     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="179.0" layoutX="-13.0" layoutY="-10.0" stroke="#949494" strokeType="INSIDE" width="2000.0" />
 
-    <HBox fx:id="titleHBox" alignment="CENTER_LEFT" layoutY="40.0" layoutX="20.0" spacing="5">
+    <HBox fx:id="titleHBox" alignment="CENTER_LEFT" layoutX="20.0" layoutY="40.0" spacing="10">
         <children>
             <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="373.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
                 <image>
-                    <Image url="/icons8-learning-50.png" />
+                    <Image url="/icons8-mortarboard-80.png" />
                 </image>
             </ImageView>
             <Text text="Choose Parameters For Learning Mode" wrappingWidth="422.0">
@@ -46,64 +44,72 @@
 
     <JFXSpinner fx:id="loadSpinner" layoutX="570.0" layoutY="590.0" visible="false" />
 
-
-    <HBox alignment="TOP_CENTER" spacing="15.0" layoutY="250.0" layoutX="300.0">
-        <children>
-            <Text text="Choose Units For Learning Mode:">
-                <font>
-                    <Font size="15.0"/>
-                </font>
-            </Text>
-            <JFXRadioButton fx:id="days_radio" prefHeight="36.0" prefWidth="131.0" text="Days">
-                <font>
-                    <Font size="15.0" />
-                </font>
-            </JFXRadioButton>
-            <JFXRadioButton fx:id="weeks_radio" prefHeight="36.0" prefWidth="131.0" text="Weeks">
-                <font>
-                    <Font size="15.0" />
-                </font>
-            </JFXRadioButton>
-            <JFXRadioButton fx:id="months_radio" prefHeight="36.0" prefWidth="161.0" text="Months">
-                <font>
-                    <Font size="15.0" />
-                </font>
-                <toggleGroup>
-                    <ToggleGroup fx:id="unitType" />
-                </toggleGroup>
-            </JFXRadioButton>
-        </children>
-    </HBox>
-
-    <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" prefHeight="49.0"
-               prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
-    <JFXButton fx:id="run_simulation" buttonType="RAISED" layoutX="500.0" layoutY="600.0" prefHeight="49.0"
-               prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Start Learning" />
-
-<HBox alignment="TOP_CENTER" spacing="15.0" layoutY="320.0" layoutX="300.0">
-    <JFXButton fx:id="duration_helper"  ripplerFill="BLACK" style="-fx-background-color: #B6B6B4;" text="?" />
-    <Text fx:id="duration_text" text="Insert Duration:">
-        <font>
-            <Font size="15.0"/>
-        </font>
-    </Text>
-    <JFXTextField fx:id="duration"/>
-</HBox>
-
-
-    <HBox alignment="TOP_CENTER" spacing="15.0" layoutY="400.0" layoutX="300.0">
-    <Text fx:id="choose_number_vehicles_text" text="Choose Number Of Vehicles To Simulate:">
-        <font>
-            <Font size="15.0"/>
-        </font>
-    </Text>
-    <JFXTextField fx:id="chooseNumOfVehiclesField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                  prefHeight="25.0" prefWidth="246.0" promptText="Insert Num Of Vehicles (up to 200)"/>
-    <JFXButton fx:id="load_vehicles_button" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                           minWidth="-Infinity" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK"
-               style="-fx-background-color: #ffffff;" text="Add"/>
-    </HBox>
+    <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
     <JFXSpinner fx:id="progress_spinner" layoutX="900.0" layoutY="500.0" progress="0.0" visible="false" />
+      <VBox fx:id="centerContent" alignment="TOP_LEFT" layoutX="20.0" layoutY="233.0" prefHeight="392.0" prefWidth="481.0" spacing="30">
+         <children>
+      
+      
+          <HBox alignment="CENTER_LEFT" spacing="15.0">
+              <children>
+                  <Text text="Choose Units For Learning Mode:" wrappingWidth="154.34228515625">
+                      <font>
+                          <Font size="15.0" />
+                      </font>
+                  </Text>
+                  <JFXRadioButton fx:id="days_radio" prefHeight="36.0" prefWidth="131.0" text="Days">
+                      <font>
+                          <Font size="15.0" />
+                      </font>
+                  </JFXRadioButton>
+                  <JFXRadioButton fx:id="weeks_radio" prefHeight="36.0" prefWidth="131.0" text="Weeks">
+                      <font>
+                          <Font size="15.0" />
+                      </font>
+                  </JFXRadioButton>
+                  <JFXRadioButton fx:id="months_radio" prefHeight="36.0" prefWidth="161.0" text="Months">
+                      <font>
+                          <Font size="15.0" />
+                      </font>
+                      <toggleGroup>
+                          <ToggleGroup fx:id="unitType" />
+                      </toggleGroup>
+                  </JFXRadioButton>
+              </children>
+          </HBox>
+      
+      <HBox alignment="CENTER_LEFT" prefWidth="706.0" spacing="15.0">
+          <JFXButton fx:id="duration_helper" ripplerFill="BLACK" style="-fx-background-color: #B6B6B4;" text="?" />
+          <Text fx:id="duration_text" text="Insert Duration:" wrappingWidth="133.9931640625">
+              <font>
+                  <Font size="15.0" />
+              </font>
+          </Text>
+          <JFXTextField fx:id="duration" prefHeight="26.0" prefWidth="245.0" />
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+      </HBox>
+      
+      
+          <HBox alignment="CENTER_LEFT" spacing="15.0">
+          <Text fx:id="choose_number_vehicles_text" text="Choose Number Of Vehicles To Simulate:" wrappingWidth="174.85498046875">
+              <font>
+                  <Font size="15.0" />
+              </font>
+          </Text>
+          <JFXTextField fx:id="chooseNumOfVehiclesField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="246.0" promptText="Insert Num Of Vehicles (up to 200)" />
+          </HBox>
+            <StackPane prefHeight="81.0" prefWidth="873.0">
+               <children>
+                <JFXButton fx:id="run_simulation" buttonType="RAISED" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Start Learning" />
+               </children>
+               <VBox.margin>
+                  <Insets top="70.0" />
+               </VBox.margin>
+            </StackPane>
+         </children>
+      </VBox>
 
 </children>
 </AnchorPane>

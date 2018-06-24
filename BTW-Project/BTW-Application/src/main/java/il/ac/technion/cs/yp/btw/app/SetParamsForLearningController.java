@@ -35,6 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
@@ -72,8 +73,6 @@ public class SetParamsForLearningController extends SwitchToMapController implem
     @FXML
     protected JFXButton run_simulation = new JFXButton("run_simulation");
     @FXML
-    protected JFXButton load_vehicles_button = new JFXButton("load_vehicles_button");
-    @FXML
     protected JFXTextField chooseNumOfVehiclesField = new JFXTextField("chooseNumOfVehiclesField");
     @FXML
     protected JFXButton back_button = new JFXButton("back_button");
@@ -83,6 +82,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
     protected JFXButton duration_helper = new JFXButton("duration_helper");
     @FXML
     protected JFXSpinner progress_spinner;
+    @FXML private VBox centerContent;
 
     public SetParamsForLearningController(){
         this.unitType = new ToggleGroup();
@@ -96,7 +96,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         weeks_radio.setToggleGroup(unitType);
         months_radio.setToggleGroup(unitType);
         run_simulation.setOnAction(this::runLearningSimulation);
-        load_vehicles_button.setOnAction(this::loadVehiclesButtonClicked);
+//        load_vehicles_button.setOnAction(this::loadVehiclesButtonClicked);
         back_button.setOnAction(this::BackClicked);
         calculator = new SmartStatisticsCalculator(db);
         initCenterPanes();
@@ -124,15 +124,15 @@ public class SetParamsForLearningController extends SwitchToMapController implem
     * The maximum duration for a run is 1 year(12 months).*/
     @FXML
     protected void runLearningSimulation(ActionEvent actionEvent){
+        if(!getAndValidateUserInput()){
+            return;
+        }
+
         disableAllButtons();
         long dur = 0;
         JFXRadioButton units = null;
         long numberOfDays = 0;
         units = (JFXRadioButton) unitType.getSelectedToggle();
-
-        if(!getAndValidateUserInput()){
-            return;
-        }
 
         dur = Long.valueOf(duration.getText());
         if(units.equals(days_radio)){
@@ -168,18 +168,8 @@ public class SetParamsForLearningController extends SwitchToMapController implem
 
     }
 
-    /*@Author:Anat Tetroasvili
-    * @Date:20/6/18
-    * This function loads the number of vehicles to run the simulation with.*/
-    public void loadVehiclesButtonClicked(ActionEvent actionEvent) {
-        if(chooseNumOfVehiclesField.getText().compareTo("")!=0) {
-            if((chooseNumOfVehiclesField.getText().compareTo("0")>0) &&chooseNumOfVehiclesField.getText().compareTo("200")<0 )
-            numberOfVehicles = Integer.valueOf(chooseNumOfVehiclesField.getText());
-        }
-    }
-
     private void disableAllButtons() {
-        load_vehicles_button.setDisable(true);
+//        load_vehicles_button.setDisable(true);
         days_radio.setDisable(true);
         weeks_radio.setDisable(true);
         months_radio.setDisable(true);
@@ -187,7 +177,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         progress_spinner.setVisible(true);
     }
     private void enableAllButtons() {
-        load_vehicles_button.setDisable(false);
+//        load_vehicles_button.setDisable(false);
         days_radio.setDisable(false);
         weeks_radio.setDisable(false);
         months_radio.setDisable(false);
@@ -203,7 +193,10 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         titleHBox.translateXProperty()
                 .bind(BTW.stage.widthProperty().subtract(titleHBox.widthProperty())
                         .divide(2));
-        AnchorPane.setTopAnchor(titleHBox, 40.0);
+        centerContent.translateXProperty()
+                .bind(BTW.stage.widthProperty().subtract(centerContent.widthProperty())
+                        .divide(2));
+        AnchorPane.setTopAnchor(titleHBox, 30.0);
         AnchorPane.setRightAnchor(back_button, 20.0);
         AnchorPane.setTopAnchor(back_button, 60.0);
     }
@@ -232,6 +225,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         String errorMessage = "";
         try{
             //checking number of vehicles
+            numberOfVehicles = Integer.parseInt(chooseNumOfVehiclesField.getText());
             if(numberOfVehicles < 1 || numberOfVehicles > 200) {
                 throw new NumberFormatException();
             }
