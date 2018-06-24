@@ -27,9 +27,9 @@
             </image>
         </ImageView>
 
-        <HBox fx:id="centerContent" alignment="CENTER_LEFT" layoutX="40.0" layoutY="168.0" prefHeight="2020.0" prefWidth="1149.0" spacing="80.0">
+        <HBox fx:id="centerContent" alignment="CENTER_LEFT" layoutX="28.0" layoutY="168.0" prefHeight="2020.0" prefWidth="1149.0" spacing="80.0">
             <children>
-                <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="114.0" prefWidth="253.0">
+                <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="2020.0" prefWidth="273.0" spacing="10">
                     <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="256.0" spacing="10.0">
                             <children>
@@ -38,28 +38,43 @@
                                         <Image url="/icons8-reset-filled-50.png" />
                                     </image>
                                 </ImageView>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Vehicles File">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Vehicles Config">
                                     <font>
                                         <Font size="20.0" />
                                     </font>
                                 </Text>
                             </children>
                         </HBox>
-                        <StackPane alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="246.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="253.0">
+                     <children>
+                        <JFXRadioButton fx:id="vehicleFileRadio" mnemonicParsing="false" selected="true" text=" ">
+                         <toggleGroup>
+                             <ToggleGroup fx:id="vehiclesToggle" />
+                         </toggleGroup>
+                        </JFXRadioButton>
+                              <StackPane alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="246.0">
+                                  <children>
+                                      <JFXTextField fx:id="chooseVehicleFileTextField" prefHeight="25.0" prefWidth="236.0" promptText="Insert file URL" />
+                                      <JFXButton fx:id="attachButton" alignment="CENTER_RIGHT" mnemonicParsing="false" StackPane.alignment="CENTER_RIGHT">
+                                          <StackPane.margin>
+                                              <Insets />
+                                          </StackPane.margin>
+                                          <padding>
+                                              <Insets bottom="10.0" top="10.0" />
+                                          </padding>
+                              </JFXButton>
+                                  </children>
+                              </StackPane>
+                     </children>
+
+                  </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="253.0">
                             <children>
-                                <JFXTextField fx:id="chooseVehicleFileTextField" prefHeight="25.0" prefWidth="236.0" promptText="Insert file URL" />
-                                <JFXButton fx:id="attachButton" alignment="CENTER_RIGHT" mnemonicParsing="false" StackPane.alignment="CENTER_RIGHT">
-                                    <StackPane.margin>
-                                        <Insets />
-                                    </StackPane.margin>
-                                    <padding>
-                                        <Insets bottom="10.0" top="10.0" />
-                                    </padding></JFXButton>
+                                <JFXRadioButton fx:id="generateVehiclesRadio" mnemonicParsing="false" text=" " />
+                                <JFXTextField fx:id="numOfVehiclesTextField" prefHeight="25.0" prefWidth="236.0" promptText="Generate Vehicles (2-10000)" />
+
                             </children>
-                            <padding>
-                                <Insets left="20.0" />
-                            </padding>
-                        </StackPane>
+                        </HBox>
                     </children>
                <padding>
                   <Insets top="10.0" />
