@@ -101,6 +101,26 @@ public class StatisticsComparisonController extends SwitchToMapController implem
                 setColoredTimePercent(drivingTimePercent, comparator.compareDrivingTimeOfVehiclePercent(vec));
             }
         });
+        trafficLightComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null) {
+                String id = newValue.getText();
+                TrafficLight tl = mapDatabase.getTrafficLight(id);
+                setTimeText(waitingTime1, eval1.averageWaitingTimeOnTrafficLight(tl).seconds());
+                setTimeText(waitingTime2, eval2.averageWaitingTimeOnTrafficLight(tl).seconds());
+                setColoredTimeText(waitingTimeDiff, comparator.compareWaitingTimeOnTrafficLight(tl));
+                setColoredTimePercent(waitingTimePercent, comparator.compareWaitingTimeOnTrafficLightPercent(tl));
+            }
+        });
+        roadComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null) {
+                String id = newValue.getText();
+                Road r = mapDatabase.getRoad(id);
+                setTimeText(roadDriving1, eval1.averageDrivingTimeOnRoad(r).seconds());
+                setTimeText(roadDriving2, eval2.averageDrivingTimeOnRoad(r).seconds());
+                setColoredTimeText(roadDrivingDiff, comparator.compareDrivingTimeOnRoad(r));
+                setColoredTimePercent(roadDrivingPercent, comparator.compareDrivingTimeOnRoadPercent(r));
+            }
+        });
     }
 
     private void setTimeText(Text text, Long seconds) {
