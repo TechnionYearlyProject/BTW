@@ -27,12 +27,12 @@
         <children>
             <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="373.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
                 <image>
-                    <Image url="/icons8-map-50.png" />
+                    <Image url="/icons8-learning-50.png" />
                 </image>
             </ImageView>
-            <Text text="Choose Map" wrappingWidth="422.0">
+            <Text text="Choose Parameters For Learning Mode" wrappingWidth="422.0">
                 <font>
-                    <Font size="52.0" />
+                    <Font size="40.0" />
                 </font></Text>
         </children>
     </HBox>
@@ -78,9 +78,10 @@
     <JFXButton fx:id="back_button" buttonType="RAISED" layoutX="922.0" layoutY="65.0" prefHeight="49.0"
                prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Back" />
     <JFXButton fx:id="run_simulation" buttonType="RAISED" layoutX="500.0" layoutY="600.0" prefHeight="49.0"
-               prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Run Simualtion" />
+               prefWidth="257.0" ripplerFill="BLACK" style="-fx-background-color: #ffffff;" text="Start Learning" />
 
 <HBox alignment="TOP_CENTER" spacing="15.0" layoutY="320.0" layoutX="300.0">
+    <JFXButton fx:id="duration_helper"  ripplerFill="BLACK" style="-fx-background-color: #B6B6B4;" text="?" />
     <Text fx:id="duration_text" text="Insert Duration:">
         <font>
             <Font size="15.0"/>
@@ -97,11 +98,12 @@
         </font>
     </Text>
     <JFXTextField fx:id="chooseNumOfVehiclesField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                  prefHeight="25.0" prefWidth="246.0" promptText="Insert Num Of Vehicles"/>
+                  prefHeight="25.0" prefWidth="246.0" promptText="Insert Num Of Vehicles (up to 200)"/>
     <JFXButton fx:id="load_vehicles_button" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                            minWidth="-Infinity" prefHeight="49.0" prefWidth="257.0" ripplerFill="BLACK"
                style="-fx-background-color: #ffffff;" text="Add"/>
     </HBox>
+    <JFXSpinner fx:id="progress_spinner" layoutX="900.0" layoutY="500.0" progress="0.0" visible="false" />
 
 </children>
 </AnchorPane>

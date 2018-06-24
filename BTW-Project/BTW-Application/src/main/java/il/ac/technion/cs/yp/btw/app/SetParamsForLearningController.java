@@ -2,6 +2,7 @@ package il.ac.technion.cs.yp.btw.app;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulator;
 import il.ac.technion.cs.yp.btw.citysimulation.CitySimulatorImpl;
@@ -28,6 +29,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -77,6 +79,10 @@ public class SetParamsForLearningController extends SwitchToMapController implem
     protected JFXButton back_button = new JFXButton("back_button");
     @FXML
     protected HBox titleHBox;
+    @FXML
+    protected JFXButton duration_helper = new JFXButton("duration_helper");
+    @FXML
+    protected JFXSpinner progress_spinner;
 
     public SetParamsForLearningController(){
         this.unitType = new ToggleGroup();
@@ -94,6 +100,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         back_button.setOnAction(this::BackClicked);
         calculator = new SmartStatisticsCalculator(db);
         initCenterPanes();
+        duration_helper.setOnAction(this::showHelpDialogForDuration);
     }
 
     @FXML
@@ -117,13 +124,16 @@ public class SetParamsForLearningController extends SwitchToMapController implem
     * The maximum duration for a run is 1 year(12 months).*/
     @FXML
     protected void runLearningSimulation(ActionEvent actionEvent){
+        disableAllButtons();
         long dur = 0;
         JFXRadioButton units = null;
         long numberOfDays = 0;
         units = (JFXRadioButton) unitType.getSelectedToggle();
-        if(duration.getText().equals("")){
+
+        if(!getAndValidateUserInput()){
             return;
         }
+
         dur = Long.valueOf(duration.getText());
         if(units.equals(days_radio)){
             if((dur<1)||(dur>6)){
@@ -143,8 +153,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
             }
             numberOfDays = dur*28;
         }
-        //TODO: change the naive traffic light manager to smart one, and insert valid parameters to the evaluator,
-        // TODO: (CONTINUE) then run it and check that the statistics are saved to in the DB.
+        //TODO: show the spinner
         while(numberOfDays!=0){
             List<VehicleEntry> vehicleEntries = new VehiclesGenerator(db.getAllRoads(),numberOfVehicles,
                     BTWTime.of("09:00:00"),BTWTime.of("17:00:00")).generateList();
@@ -155,6 +164,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
             db.updateStatisticsTables(calculator.getStatistics());
             numberOfDays--;
         }
+        enableAllButtons();
 
     }
 
@@ -174,6 +184,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         weeks_radio.setDisable(true);
         months_radio.setDisable(true);
         run_simulation.setDisable(true);
+        progress_spinner.setVisible(true);
     }
     private void enableAllButtons() {
         load_vehicles_button.setDisable(false);
@@ -181,6 +192,7 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         weeks_radio.setDisable(false);
         months_radio.setDisable(false);
         run_simulation.setDisable(false);
+        progress_spinner.setVisible(false);
     }
 
     public void initMapDatabase(BTWDataBase mapDatabase) {
@@ -194,6 +206,85 @@ public class SetParamsForLearningController extends SwitchToMapController implem
         AnchorPane.setTopAnchor(titleHBox, 40.0);
         AnchorPane.setRightAnchor(back_button, 20.0);
         AnchorPane.setTopAnchor(back_button, 60.0);
+    }
+
+    /**@author: Anat
+     * @date: 27/4/2018
+     */
+    @FXML
+    public void showHelpDialogForDuration(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help");
+        alert.setHeaderText(null);
+        alert.setContentText("Enter the amount of days/weeks/months you \n"+
+                "want to run the learning mode.\n" +
+                "Days - up to 6\n"+
+                "Weeks - up to 8\n"+
+                "Months - up to 12");
+        alert.showAndWait();
+    }
+
+
+    /*@Author: Anat Tetroashvili
+    * @Date: 23/6/18
+    * Checking correction of input.*/
+    protected boolean getAndValidateUserInput() {
+        String errorMessage = "";
+        try{
+            //checking number of vehicles
+            if(numberOfVehicles < 1 || numberOfVehicles > 200) {
+                throw new NumberFormatException();
+            }
+        } catch(NumberFormatException e) {
+            errorMessage += "Number of Vehicles input is invalid\n";
+        }
+        try {
+            if(duration.getText().equals("")){
+                throw new NumberFormatException();
+            }
+        }catch (NumberFormatException e){
+            errorMessage += "Insert Duration To Run\n";
+        }
+        JFXRadioButton units = null;
+        units = (JFXRadioButton) unitType.getSelectedToggle();
+        long dur = 0;
+        if(!duration.getText().equals("")) {
+            //TODO:CHECK THAT THIS IS NUMBER AND NOT LETTER
+            dur = Long.valueOf(duration.getText());
+        }
+
+        if(units.equals(days_radio)){
+            try{
+                if((dur<1)||(dur>6)){
+                    throw new NumberFormatException();
+                }
+            }catch (NumberFormatException e){
+                errorMessage += "Number Of Days Invalid\n";
+            }
+        }
+        if(units.equals(weeks_radio)){
+            try{
+                if((dur<1)||(dur>8)){
+                    throw new NumberFormatException();
+                }
+            }catch (NumberFormatException e){
+                errorMessage += "Number Of Weeks Invalid\n";
+            }
+        }
+        if(units.equals(months_radio)){
+            try{
+                if((dur<1)||(dur>12)){
+                    throw new NumberFormatException();
+                }
+            }catch (NumberFormatException e){
+                errorMessage += "Number Of Months Invalid\n";
+            }
+        }
+        if(!errorMessage.equals("")) {
+            showErrorDialog(errorMessage);
+            return false;
+        }
+        return true;
     }
 
 }
