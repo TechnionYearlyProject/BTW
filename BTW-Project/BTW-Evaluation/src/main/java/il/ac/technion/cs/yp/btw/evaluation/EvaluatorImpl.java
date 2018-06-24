@@ -20,8 +20,10 @@ public class EvaluatorImpl implements Evaluator {
     final static Logger logger = Logger.getLogger(EvaluatorImpl.class);
 
     private Map<VehicleDescriptor, BTWWeight> timeForVehicle;
-    private Map<TrafficLight, Pair<BTWWeight, Integer> > waitingTimeOnTrafficLight;
-    private Map<Road, Pair<BTWWeight, Integer> > drivingTimeOnRoad;
+    private Map<String, Pair<BTWWeight, Integer> > waitingTimeOnTrafficLight;
+//    private Map<TrafficLight, Pair<BTWWeight, Integer> > waitingTimeOnTrafficLight;
+    private Map<String, Pair<BTWWeight, Integer> > drivingTimeOnRoad;
+//    private Map<Road, Pair<BTWWeight, Integer> > drivingTimeOnRoad;
 
     public EvaluatorImpl(List<VehicleEntry> vehicles, BTWDataBase db){
         this(db, vehicles.stream().map(VehicleEntry::getDescriptor).map(Optional::get).collect(Collectors.toList()));
@@ -37,17 +39,17 @@ public class EvaluatorImpl implements Evaluator {
                 .getAllTrafficLights()
                 .stream()
                 .collect(Collectors
-                        .toMap(tl -> tl,
+                        .toMap(TrafficObject::getName,
                                 tl -> new Pair<>(tl.getMinimumWeight(), 0)));
         this.drivingTimeOnRoad = db
                 .getAllRoads()
                 .stream()
                 .collect(Collectors
-                        .toMap(rd -> rd,
+                        .toMap(TrafficObject::getName,
                                 rd -> new Pair<>(rd.getMinimumWeight(), 0)));
     }
 
-    private static <T extends TrafficObject> BTWWeight averageCounts(Map<T, Pair<BTWWeight, Integer> > weightMap) {
+    private static BTWWeight averageCounts(Map<String, Pair<BTWWeight, Integer> > weightMap) {
         Pair<Long, Integer> total = weightMap
                 .values()
                 .stream()
@@ -61,12 +63,33 @@ public class EvaluatorImpl implements Evaluator {
         }
     }
 
+//    private static <T extends TrafficObject> BTWWeight averageCounts(Map<T, Pair<BTWWeight, Integer> > weightMap) {
+//        Pair<Long, Integer> total = weightMap
+//                .values()
+//                .stream()
+//                .map(p -> new Pair<>(p.getKey().seconds() * p.getValue(), p.getValue()))
+//                .reduce(new Pair<>(0L, 0),
+//                        (p1, p2) -> new Pair<>(p1.getKey() + p2.getKey(), p1.getValue() + p2.getValue()));
+//        if (total.getValue() != 0) {
+//            return BTWWeight.of(total.getKey() / total.getValue());
+//        } else {
+//            return BTWWeight.of(0);
+//        }
+//    }
+
     private static <T extends TrafficObject> Pair<BTWWeight, Integer> pairFromReport(T element, Map<T, StatisticalReport> reportMap) {
         StatisticalReport report = reportMap.get(element);
         BTWWeight weight = report.timeTaken();
         Integer numReporters = report.getNumOfReporters();
         return new Pair<>(weight, numReporters);
     }
+
+//    private static Pair<BTWWeight, Integer> pairFromReport(String elementName, Map<String, StatisticalReport> reportMap) {
+//        StatisticalReport report = reportMap.get(elementName);
+//        BTWWeight weight = report.timeTaken();
+//        Integer numReporters = report.getNumOfReporters();
+//        return new Pair<>(weight, numReporters);
+//    }
 
     @Override
     public BTWWeight totalDrivingTime(VehicleDescriptor desc) {
@@ -96,10 +119,10 @@ public class EvaluatorImpl implements Evaluator {
 
     @Override
     public BTWWeight averageWaitingTimeOnTrafficLight(TrafficLight tl) {
-        if (! this.waitingTimeOnTrafficLight.containsKey(tl)) {
+        if (! this.waitingTimeOnTrafficLight.containsKey(tl.getName())) {
             throw new NoSuchTrafficLightException(tl.getName());
         }
-        return this.waitingTimeOnTrafficLight.get(tl).getKey();
+        return this.waitingTimeOnTrafficLight.get(tl.getName()).getKey();
     }
 
     @Override
@@ -109,10 +132,10 @@ public class EvaluatorImpl implements Evaluator {
 
     @Override
     public BTWWeight averageDrivingTimeOnRoad(Road rd) {
-        if (! this.drivingTimeOnRoad.containsKey(rd)) {
+        if (! this.drivingTimeOnRoad.containsKey(rd.getName())) {
             throw new NoSuchRoadException(rd.getName());
         }
-        return this.drivingTimeOnRoad.get(rd).getKey();
+        return this.drivingTimeOnRoad.get(rd.getName()).getKey();
     }
 
     @Override
@@ -149,14 +172,19 @@ public class EvaluatorImpl implements Evaluator {
     @Override
     public Evaluator addRoadReports(Map<Road, StatisticalReport> reportOfRoad) {
         logger.debug("Adding road reports");
-        if (! this.drivingTimeOnRoad.keySet().containsAll(reportOfRoad.keySet())) {
+        Set<String> reportedRoadNames = reportOfRoad
+                .keySet()
+                .stream()
+                .map(Road::getName)
+                .collect(Collectors.toSet());
+        if (! this.drivingTimeOnRoad.keySet().containsAll(reportedRoadNames)) {
             logger.error("Roads not recognized");
             throw new NoSuchRoadException("Some roads");
         }
         reportOfRoad
                 .keySet()
                 .forEach(rd ->
-                        this.drivingTimeOnRoad.put(rd, pairFromReport(rd, reportOfRoad)));
+                        this.drivingTimeOnRoad.put(rd.getName(), pairFromReport(rd, reportOfRoad)));
         logger.debug("Road reports added successfully");
         return this;
     }
@@ -164,14 +192,19 @@ public class EvaluatorImpl implements Evaluator {
     @Override
     public Evaluator addTrafficLightReports(Map<TrafficLight, StatisticalReport> reportOfTrafficLight) {
         logger.debug("Adding traffic-light reports");
-        if (! this.waitingTimeOnTrafficLight.keySet().containsAll(reportOfTrafficLight.keySet())) {
+        Set<String> reportedTrafficLightNames = reportOfTrafficLight
+                .keySet()
+                .stream()
+                .map(TrafficLight::getName)
+                .collect(Collectors.toSet());
+        if (! this.waitingTimeOnTrafficLight.keySet().containsAll(reportedTrafficLightNames)) {
             logger.error("Traffic-lights not recognized");
             throw new NoSuchTrafficLightException("Some traffic-lights");
         }
         reportOfTrafficLight
                 .keySet()
                 .forEach(tl ->
-                        this.waitingTimeOnTrafficLight.put(tl, pairFromReport(tl, reportOfTrafficLight)));
+                        this.waitingTimeOnTrafficLight.put(tl.getName(), pairFromReport(tl, reportOfTrafficLight)));
         logger.debug("Traffic-lights reports added successfully");
         return this;
     }

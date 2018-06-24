@@ -224,6 +224,11 @@ public class CitySimulatorImpl implements CitySimulator {
             return this.getName().equals(r.getName());
         }
 
+        @Override
+        public int hashCode(){
+            return this.getName().hashCode();
+        }
+
         /**
          * @author Sharon Hadar
          * @date 2/6/2018
@@ -416,6 +421,20 @@ public class CitySimulatorImpl implements CitySimulator {
             // TODO
             return null;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (! (o instanceof TrafficLight)) {
+                return false;
+            }
+            TrafficLight tl = (TrafficLight)o;
+            return this.getName().equals(tl.getName());
+        }
+
+        @Override
+        public int hashCode() {
+            return this.getName().hashCode();
+        }
     }
 
     private class CityCrossroadImpl implements CityCrossroad {
@@ -583,6 +602,20 @@ public class CitySimulatorImpl implements CitySimulator {
         @Override
         public Set<CityTrafficLight> getRealTrafficLightsFromRoad(CityRoad rd) {
             return this.getTrafficLightFromRoadR(rd, this.realTrafficLights);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (! (o instanceof Crossroad)) {
+                return false;
+            }
+            Crossroad tl = (Crossroad)o;
+            return this.getName().equals(tl.getName());
+        }
+
+        @Override
+        public int hashCode() {
+            return this.getName().hashCode();
         }
     }
 

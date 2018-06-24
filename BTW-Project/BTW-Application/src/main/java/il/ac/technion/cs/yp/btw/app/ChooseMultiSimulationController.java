@@ -186,6 +186,7 @@ public class ChooseMultiSimulationController extends SwitchToMapController imple
                         .map(citySimulator1::getRealCrossroad)
                         .collect(Collectors.toSet()));
                 CitySimulator citySimulator2 = new CitySimulatorImpl(mapDatabase, navigationManager2, trafficManager2, eval2);
+                citySimulator2.addVehiclesFromVehicleEntriesList(entries);
                 trafficManager2.insertCrossroads(mapDatabase.getAllCrossroads()
                         .stream()
                         .map(citySimulator2::getRealCrossroad)

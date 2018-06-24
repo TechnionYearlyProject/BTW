@@ -32,6 +32,7 @@ public class VehicleImpl implements Vehicle {
     private long startTime;
     private long currentTrafficLightStartingTime;
     private long currentRoadStartingTime;
+    private boolean terminated;
 
     /**
      * @author Guy Rephaeli
@@ -67,6 +68,7 @@ public class VehicleImpl implements Vehicle {
         this.startTime = startTime;
         this.currentTrafficLightStartingTime = 0L;
         this.currentRoadStartingTime = 0L;
+        this.terminated = false;
     }
 
     /**
@@ -279,9 +281,10 @@ public class VehicleImpl implements Vehicle {
             }
         }
         if (this.remainingTimeOnRoad <= 0) {
-            if (this.currentRoad.equals(this.destination)) {
+            if (this.currentRoad.equals(this.destination) && ! this.terminated) {
                 this.leaveRoad(this.destination);
                 this.simulator.terminateVehicle(this);
+                this.terminated = true;
                 logger.debug("finished navigation");
                 return this;
             }
